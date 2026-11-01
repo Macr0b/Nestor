@@ -1,3 +1,4 @@
+/* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
 /* Géométrie : lecture DXF/SVG, regroupement des pièces, placement (rectangles et imbrication), export DXF. */
 var Geo=(function(){
   "use strict";

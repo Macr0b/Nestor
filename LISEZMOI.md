@@ -65,3 +65,9 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `manifest.webmanifest` | Nom, icônes, installation |
 | `icons/`, `fonts/` | Icônes et polices (Barlow, IBM Plex Mono — licence OFL) |
 | `vendor/pdfjs/` | Lecteur PDF/AI de Mozilla (licence Apache 2.0) |
+
+## Licence
+
+Nestor est un logiciel libre sous licence **AGPL-3.0-or-later** (fichier `LICENSE`).
+Tout le monde peut l'utiliser librement, y compris au travail. Quiconque reprend le code et le modifie doit publier sa version sous la même licence, avec son code source, y compris s'il l'héberge en ligne.
+PDF.js reste sous licence Apache 2.0 et les polices sous licence OFL 1.1.
