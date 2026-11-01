@@ -1,0 +1,31 @@
+{
+  "id": "./",
+  "name": "Nestor",
+  "short_name": "Nestor",
+  "description": "Nestor : imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#eef0ec",
+  "theme_color": "#0d6b73",
+  "lang": "fr",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "application/dxf": [".dxf"],
+        "image/svg+xml": [".svg"],
+        "application/postscript": [".ai"],
+        "application/pdf": [".pdf"]
+      }
+    }
+  ],
+  "launch_handler": { "client_mode": "focus-existing" },
+  "categories": ["productivity", "utilities"]
+}

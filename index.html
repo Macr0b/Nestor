@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nestor</title>
+<meta name="description" content="Imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.">
+<meta name="theme-color" content="#0d6b73" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121615" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nestor">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:"Barlow";font-weight:400;font-display:swap;src:url(fonts/barlow-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow";font-weight:500;font-display:swap;src:url(fonts/barlow-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow";font-weight:600;font-display:swap;src:url(fonts/barlow-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow";font-weight:400;font-display:swap;src:url(fonts/barlow-latin-ext-400-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow";font-weight:500;font-display:swap;src:url(fonts/barlow-latin-ext-500-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow";font-weight:600;font-display:swap;src:url(fonts/barlow-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-weight:500;font-display:swap;src:url(fonts/barlow-condensed-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-700-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-display:swap;src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2")}
+
+/* Layout : établi — colonne de réglages (projet, fichier, panneau, pièces) à gauche, panneaux imbriqués à droite ; une colonne sur téléphone */
+:root{
+  --bg:#eef0ec; --surface:#fbfbf8; --ink:#1c2220; --muted:#5f6a66; --line:#cdd3cd;
+  --accent:#0d6b73; --accent-ink:#ffffff; --wood:#e4c48e; --wood-2:#d6b073; --wood-edge:#7d5c2c;
+  --scrap:#dfe3de; --hatch:#c3cac4; --danger:#b4361f; --ok:#2f7a3a; --open:#0d6b73; --shade:rgba(20,26,25,.45);
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI","Noto Sans",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#121615; --surface:#1b201f; --ink:#e7ebe8; --muted:#97a39e; --line:#313938;
+  --accent:#4fb3bb; --accent-ink:#0c1514; --wood:#b48f57; --wood-2:#9f7b45; --wood-edge:#f0d6a6;
+  --scrap:#232a29; --hatch:#36403f; --danger:#ef7a62; --ok:#7cc487; --open:#7fd3da; --shade:rgba(0,0,0,.6); color-scheme:dark}}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:calc(12px + env(safe-area-inset-top,0px));padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+html[lang=ar] body,html[lang=hi] body,html[lang=bn] body,html[lang=zh] body,html[lang=zh-Hant] body,html[lang=ja] body,html[lang=ko] body,html[lang=th] body{--f-display:system-ui,"Noto Sans",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:20px}
+header.top{display:grid;grid-template-columns:40px minmax(0,1fr) 40px;align-items:center;gap:12px}
+header.top h1{grid-column:2;text-align:center}
+header.top .topr{grid-column:3;justify-self:end}
+h1{font-family:var(--f-display);font-weight:700;font-size:30px;letter-spacing:.01em;margin:0;text-wrap:balance}
+h1 span{color:var(--accent)}
+.topr{display:flex;align-items:center;gap:10px}
+.sync{font-size:13px;color:var(--muted)}
+.cols{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.cols{grid-template-columns:minmax(0,420px) minmax(0,1fr);align-items:start}}
+.side{display:grid;gap:16px;min-width:0}
+section.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:12px;min-width:0}
+h2{font-family:var(--f-display);font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.08em;margin:0;color:var(--muted)}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;min-width:0}
+input,select,button{font:inherit;color:inherit}
+input[type=text],input[type=number],select{width:100%;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 9px;font-size:16px}
+input[type=number]{font-family:var(--f-mono);font-size:15px;font-variant-numeric:tabular-nums}
+input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.row > label.f{flex:1 1 140px}
+.g4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.danger{color:var(--danger)}
+.btn.armed{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;width:40px;height:40px;display:grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.8}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.status{font-size:13px;color:var(--muted)}
+.status.dirty,.warn{color:var(--danger)}
+.status.saved{color:var(--ok)}
+.tag{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:99px;background:var(--wood);color:#2a1e0b}
+.drop{position:relative;border:1.5px dashed var(--line);border-radius:8px;padding:16px;text-align:center;display:grid;gap:4px;cursor:pointer;background:var(--bg)}
+.drop.over{border-color:var(--accent)}
+.drop strong{font-family:var(--f-display);font-size:19px;font-weight:600}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.fileinfo{font-size:13px;display:grid;gap:2px}
+.fileinfo .fn{font-family:var(--f-mono);word-break:break-all}
+.types{display:grid;gap:0}
+.trow{display:grid;grid-template-columns:28px 52px minmax(0,1fr);gap:4px 10px;padding-block:10px;border-top:1px solid var(--line);align-items:center}
+.trow:first-child{border-top:0;padding-top:0}
+.pick{grid-row:span 2;display:grid;place-items:center;cursor:pointer;height:100%}
+.pick input{width:22px;height:22px;accent-color:var(--accent);margin:0;cursor:pointer}
+.trow.off .thumb,.trow.off .tline{opacity:.4}
+.phead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.thumb{grid-row:span 2;width:52px;height:52px;border:1px solid var(--line);border-radius:6px;background:var(--bg);display:grid;place-items:center;position:relative}
+.thumb svg{width:44px;height:44px}
+.thumb .n{position:absolute;top:-7px;inset-inline-start:-7px;min-width:20px;height:20px;padding:0 4px;border-radius:5px;background:var(--wood);border:1px solid var(--wood-edge);color:#2a1e0b;font-family:var(--f-mono);font-size:11px;display:grid;place-items:center}
+.tline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0}
+.tline .nm{flex:1 1 120px}
+.dim{font-family:var(--f-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+.qty{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.qty input{width:64px}
+.rot{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
+.rot input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.result{display:grid;gap:16px;min-width:0}
+.result.busy{opacity:.5;pointer-events:none}
+.summary{display:flex;flex-wrap:wrap;gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:1 1 120px}
+.stat .v{font-family:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;font-weight:700;font-size:30px;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.alert{border:1px solid var(--danger);color:var(--danger);border-radius:8px;padding:10px 12px;font-size:14px}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:10px;min-width:0}
+.sheet h3{font-family:var(--f-display);font-weight:600;font-size:20px;margin:0;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.sheet h3 small{font-family:var(--f-body);font-size:13px;color:var(--muted);font-weight:400}
+.svgbox{overflow-x:auto;direction:ltr}
+.svgbox svg{display:block;width:100%;height:auto;min-width:300px}
+.svg-panel{fill:var(--scrap);stroke:var(--ink)}
+.svg-margin{fill:none;stroke:var(--muted)}
+.svg-piece{fill:var(--wood);stroke:var(--wood-edge);fill-rule:evenodd}
+.svg-piece.alt{fill:var(--wood-2)}
+.svg-open{fill:none;stroke:var(--open)}
+.svg-num{fill:var(--ink);font-family:var(--f-mono);font-weight:500;paint-order:stroke;stroke:var(--surface)}
+.thumb .svg-piece{stroke-width:1.2px;vector-effect:non-scaling-stroke}
+.thumb .svg-open{stroke-width:1px;vector-effect:non-scaling-stroke}
+.dl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pnls{display:grid;gap:6px}
+.pnl{display:grid;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr) 64px 34px 34px;gap:6px;align-items:center}
+.pnl.phd span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pnl .x{text-align:center;color:var(--muted)}
+.mini{border:1px solid var(--line);background:var(--surface);border-radius:6px;height:38px;cursor:pointer;font-size:17px;line-height:1;padding:0}
+.mini:disabled{opacity:.35;cursor:default}
+.mini:hover:not(:disabled){border-color:var(--accent)}
+.stat .bd{font-size:12px;color:var(--muted);font-family:var(--f-mono);margin-top:2px;direction:ltr;unicode-bidi:isolate}
+.dl .hint{flex:1 1 200px}
+
+/* réglages et bannière */
+.overlay{position:fixed;inset:0;background:var(--shade);display:grid;place-items:center;z-index:30;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;width:min(460px,100%);max-height:100%;overflow:auto;display:grid;gap:16px}
+.panel header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.panel h2{font-size:18px;color:var(--ink)}
+.panel .grp{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.panel .grp:first-of-type{border-top:0;padding-top:0}
+.ver{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.banner{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--accent);color:var(--accent-ink);display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;
+  padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));font-weight:600}
+.banner .btn{background:var(--accent-ink);color:var(--accent);border-color:var(--accent-ink)}
+@media (prefers-reduced-motion:no-preference){.btn,.drop{transition:border-color .15s,background .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1><span data-i18n="app.title">Nestor</span></h1>
+    <div class="topr">
+      <button class="icon-btn" id="btnSettings" type="button" data-i18n-aria="set.title" aria-label="Réglages">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="cols">
+    <div class="side">
+      <section class="box" aria-labelledby="h-proj">
+        <h2 id="h-proj" data-i18n="proj.title">Projet</h2>
+        <label class="f"><span data-i18n="proj.name">Nom du projet</span>
+          <input type="text" id="projName" data-i18n-ph="proj.namePh">
+        </label>
+      </section>
+
+      <section class="box" aria-labelledby="h-file">
+        <h2 id="h-file" data-i18n="file.title">Fichier des pièces</h2>
+        <label class="drop" id="drop">
+          <strong data-i18n="file.drop">Importer un DXF, SVG ou AI</strong>
+          <span class="hint" data-i18n="file.dropHint">Touche pour choisir, ou glisse le fichier ici</span>
+          <input type="file" id="fileIn">
+        </label>
+        <div class="fileinfo" id="fileInfo"></div>
+        <label class="f"><span data-i18n="file.units">Unités du fichier</span>
+          <select id="unitSel">
+            <option value="auto" data-i18n="unit.auto">Automatique</option>
+            <option value="1" data-i18n="unit.mm">1 unité = 1 mm</option>
+            <option value="10" data-i18n="unit.cm">1 unité = 1 cm</option>
+            <option value="25.4" data-i18n="unit.in">1 unité = 1 pouce</option>
+            <option value="0.352778" data-i18n="unit.pt">1 unité = 1 pt (Illustrator)</option>
+            <option value="0.264583" data-i18n="unit.px">1 unité = 1 px (96 dpi)</option>
+          </select>
+        </label>
+        <p class="hint" data-i18n="file.unitsHint">Vérifie la taille détectée ci-dessus. Si elle est fausse, change les unités.</p>
+      </section>
+
+      <section class="box" aria-labelledby="h-panel">
+        <h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2>
+        <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (X)</span><span></span><span data-i18n="panel.W">Largeur (Y)</span><span data-i18n="panel.qty">Stock</span><span></span><span></span></div>
+        <div class="pnls" id="panels"></div>
+        <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button></div>
+        <p class="hint" data-i18n="panel.hint">Les panneaux sont utilisés dans l’ordre de la liste. Stock vide = illimité.</p>
+        <div class="g4">
+          <label class="f"><span data-i18n="panel.gap">Espace entre pièces</span><input type="number" id="sG" inputmode="decimal" min="0" step="0.5"></label>
+          <label class="f"><span data-i18n="panel.margin">Marge au bord</span><input type="number" id="sM" inputmode="decimal" min="0" step="0.5"></label>
+        </div>
+        <label class="f"><span data-i18n="panel.method">Méthode</span>
+          <select id="sMode">
+            <option value="nest" data-i18n="method.nest">Imbrication selon la forme (laser, CNC)</option>
+            <option value="rect" data-i18n="method.rect">Rectangles (coupes droites à la scie)</option>
+          </select>
+        </label>
+        <p class="hint" id="calcMsg"></p>
+      </section>
+
+      <section class="box" aria-labelledby="h-pieces">
+        <div class="phead"><h2 id="h-pieces"><span data-i18n="pieces.title">Pièces détectées</span> <span id="pcount"></span></h2><button class="btn sm" id="btnAll" type="button"></button></div>
+        <div class="types" id="types"></div>
+        <p class="hint" data-i18n="pieces.hint">Les trous et gravures restent attachés à leur pièce. Mets la quantité à 0 pour ignorer une pièce.</p>
+        <p class="hint" data-i18n="pieces.keepHint">Coche « Garder le sens » pour le fil du bois, un placage ou une gravure orientée : la pièce ne sera pas tournée d’un quart de tour.</p>
+      </section>
+    </div>
+
+    <div class="result" id="result" aria-live="polite"></div>
+  </div>
+</div>
+
+<div class="overlay" id="settings" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="set-h">
+    <header><h2 id="set-h" data-i18n="set.title">Réglages</h2><button class="btn sm" id="btnCloseSet" type="button" data-i18n="set.close">Fermer</button></header>
+    <div class="grp">
+      <label class="f"><span data-i18n="set.lang">Langue</span><select id="langSel"></select></label>
+    </div>
+    <div class="grp" id="updGrp">
+      <h2 data-i18n="set.updates">Mises à jour</h2>
+      <span class="ver" id="verLbl"></span>
+      <div class="row" style="align-items:center"><button class="btn" id="btnCheck" type="button" data-i18n="set.check">Vérifier les mises à jour</button><span class="hint" id="checkMsg"></span></div>
+    </div>
+    <div class="grp" id="installGrp" hidden>
+      <h2 data-i18n="set.install">Installer l’application</h2>
+      <button class="btn primary" id="btnInstall" type="button" data-i18n="set.installBtn" hidden>Installer</button>
+      <p class="hint" id="installHint"></p>
+    </div>
+  </div>
+</div>
+
+<div class="banner" id="updBanner" hidden role="status">
+  <span data-i18n="upd.available">Nouvelle version disponible</span>
+  <button class="btn sm" id="btnUpdate" type="button" data-i18n="upd.btn">Mettre à jour</button>
+</div>
+<div id="svgScratch" aria-hidden="true" style="position:fixed;left:0;top:0;width:1px;height:1px;overflow:hidden;visibility:hidden;pointer-events:none;z-index:-1"></div>
+
+<script src="i18n.js"></script>
+<script src="geo.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
