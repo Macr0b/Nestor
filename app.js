@@ -1,7 +1,7 @@
 /* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
 /* Nestor — application installable.
    À chaque nouvelle version, changer APP_VERSION ici ET VERSION dans sw.js. */
-var APP_VERSION = "1.0.4";
+var APP_VERSION = "1.0.5";
 
 (function(){
   "use strict";
@@ -444,4 +444,5 @@ var APP_VERSION = "1.0.4";
   /* ---------- démarrage ---------- */
   var lang0=pickLang();langSel.value=lang0;applyLang(lang0);
   loadPrefs();renderAll();refreshInstall();
+  var cv=document.getElementById("cartVer");if(cv)cv.textContent=APP_VERSION;
 })();
