@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.0.2
+Version : 1.0.3
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
