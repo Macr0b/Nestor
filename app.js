@@ -1,7 +1,7 @@
 /* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
 /* Nestor — application installable.
    À chaque nouvelle version, changer APP_VERSION ici ET VERSION dans sw.js. */
-var APP_VERSION = "1.0.7";
+var APP_VERSION = "1.0.8";
 
 (function(){
   "use strict";
@@ -56,9 +56,11 @@ var APP_VERSION = "1.0.7";
     return t;
   }
   function exampleState(){return {id:null,name:"",example:true,source:"",sheet:{panels:[{L:600,W:400,qty:""}],gap:2,margin:5,mode:"nest"},types:exampleTypes()}}
+  function rotVal(k){return k==="free"?"free":k!=="fix"}
+  function rotKey(t){return t.rot==="free"?"free":(t.rot?"quarter":"fix")}
   function typeName(t,i){return t.name||(t.nameKey?T(t.nameKey):T("piece.default",{n:i+1}))}
 
-  var state=exampleState(),lastSrc=null;
+  var state=exampleState(),lastSrc=null;state.rotAll="quarter";
 
   /* ---------- import SVG ---------- */
   function unitToMM(v){var m=/^\s*([+-]?[\d.]+(?:e[+-]?\d+)?)\s*([a-z%]*)\s*$/i.exec(v||"");if(!m)return null;var x=parseFloat(m[1]),u=m[2].toLowerCase();
@@ -187,7 +189,7 @@ var APP_VERSION = "1.0.7";
     }
     if(!res.paths.length)throw new Error(T("err.noPaths"));
     var g=Geo.groupPieces(res.paths),types=Geo.toTypes(g.pieces),b=Geo.bbox(res.paths);
-    types.forEach(function(t){t.name=""});
+    types.forEach(function(t){t.name="";t.rot=rotVal(state.rotAll)});
     state.types=types;state.source=name;state.example=false;
     state.info={kind:kind,how:res.how,size:[b[2]-b[0],b[3]-b[1]],n:g.pieces.length,frame:g.frame,warn:res.warn||{}};
     if(!state.name)state.name=name.replace(/\.(dxf|svg|ai|pdf)$/i,"");
@@ -278,7 +280,7 @@ var APP_VERSION = "1.0.7";
     if(!A.length)return t.w*t.h;var s=A[0];for(var i=1;i<A.length;i++)s-=A[i];return Math.max(s,0)}
   function panelList(){return (state.sheet.panels||[]).map(function(p){return {L:num(p.L,0),W:num(p.W,0),qty:p.qty===""||p.qty==null?-1:Math.max(0,Math.floor(num(p.qty,0)))}})}
   function nestInput(){return {panels:panelList(),gap:num(state.sheet.gap,0),margin:num(state.sheet.margin,0),
-    types:state.types.map(function(t){return {w:t.w,h:t.h,rot:!!t.rot,qty:Math.floor(num(t.qty,0)),on:t.on!==false,polys:t.paths.filter(function(p){return p.closed&&p.pts.length>=3}).map(function(p){return p.pts}),lines:t.paths.filter(function(p){return !(p.closed&&p.pts.length>=3)}).map(function(p){return p.pts})}})}}
+    types:state.types.map(function(t){return {w:t.w,h:t.h,rot:t.rot==="free"?2:(t.rot?1:0),qty:Math.floor(num(t.qty,0)),on:t.on!==false,polys:t.paths.filter(function(p){return p.closed&&p.pts.length>=3}).map(function(p){return p.pts}),lines:t.paths.filter(function(p){return !(p.closed&&p.pts.length>=3)}).map(function(p){return p.pts})}})}}
   function runNest(input){return new Promise(function(ok,ko){
     function inline(){setTimeout(function(){try{ok(nest(input))}catch(x){ko(x)}},0)}
     try{
@@ -339,22 +341,33 @@ var APP_VERSION = "1.0.7";
       return '<div class="trow'+(t.on===false?" off":"")+'" data-i="'+i+'"><label class="pick"><input type="checkbox" id="t'+i+'-on" data-k="on"'+(t.on!==false?" checked":"")+' aria-label="'+esc(T("piece.include",{n:i+1}))+'"></label><div class="thumb"><span class="n">'+(i+1)+'</span>'+thumb(t)+'</div>'+
         '<div class="tline"><input class="nm" type="text" id="t'+i+'-n" data-k="name" value="'+esc(t.name)+'" placeholder="'+esc(typeName({nameKey:t.nameKey},i))+'" aria-label="'+esc(T("piece.nameLbl",{n:i+1}))+'"><span class="dim">'+fmt(t.w)+' × '+fmt(t.h)+'</span></div>'+
         '<div class="tline"><label class="qty">'+esc(T("piece.qty"))+'<input type="number" id="t'+i+'-q" data-k="qty" inputmode="numeric" min="0" step="1" value="'+esc(t.qty)+'"></label>'+
-        '<label class="rot" title="'+esc(T("pieces.keepHint"))+'"><input type="checkbox" id="t'+i+'-r" data-k="rot"'+(t.rot?"":" checked")+'>'+esc(T("piece.keep"))+'</label></div></div>'}).join("")
+        '<label class="rot" title="'+esc(T("pieces.keepHint"))+'"><select id="t'+i+'-r" data-k="rot" aria-label="'+esc(T("piece.rotLbl",{n:i+1}))+'">'+
+          ROTS.map(function(o){var cur=rotKey(t);
+            return '<option value="'+o[0]+'"'+(o[0]===cur?" selected":"")+'>'+esc(T(o[1]))+'</option>'}).join("")+'</select></label></div></div>'}).join("")
       :'<p class="hint">'+esc(T("pieces.empty"))+'</p>';
     updatePick();
   }
+  var ROTS=[["fix","piece.rotFix"],["quarter","piece.rotQuarter"],["free","piece.rotFree"]];
+  function renderRotAll(){var sel=$("rotAll");if(!sel)return;
+    var keys={};state.types.forEach(function(t){keys[rotKey(t)]=1});var ks=Object.keys(keys),mixed=ks.length>1;
+    var cur=mixed?"mixed":(ks[0]||state.rotAll);
+    sel.innerHTML=ROTS.map(function(o){return '<option value="'+o[0]+'">'+esc(T(o[1]))+'</option>'}).join("")+(mixed?'<option value="mixed" disabled>'+esc(T("pieces.rotMixed"))+'</option>':"");
+    sel.value=cur;$("rotAllWrap").hidden=!state.types.length}
   function updatePick(){
     var n=state.types.length,on=state.types.filter(function(t){return t.on!==false}).length;
     $("pcount").textContent=n?"("+on+"/"+n+")":"";
     var b=$("btnAll");b.hidden=!n;b.textContent=on===n?T("pieces.none"):T("pieces.all");
+    renderRotAll();
   }
   var rt=null;function scheduleCalc(){clearTimeout(rt);rt=setTimeout(renderResult,250)}
   $("types").addEventListener("input",function(e){var row=e.target.closest(".trow");if(!row)return;var t=state.types[+row.dataset.i],k=e.target.dataset.k;if(!t||!k||k==="on"||k==="rot")return;
     if(k==="name")t.name=e.target.value;else t.qty=e.target.value===""?0:Math.max(0,Math.floor(num(e.target.value,0)));
     markDirty();if(k!=="name")scheduleCalc()});
   $("types").addEventListener("change",function(e){var k=e.target.dataset.k,row=e.target.closest(".trow");if(!row)return;var t=state.types[+row.dataset.i];
-    if(k==="rot"){t.rot=!e.target.checked;markDirty();scheduleCalc()}
+    if(k==="rot"){t.rot=rotVal(e.target.value);renderRotAll();markDirty();scheduleCalc()}
     else if(k==="on"){t.on=e.target.checked;row.classList.toggle("off",!t.on);updatePick();markDirty();scheduleCalc()}});
+  $("rotAll").addEventListener("change",function(e){var v=e.target.value;if(v==="mixed")return;state.rotAll=v;
+    state.types.forEach(function(t){t.rot=rotVal(v)});renderTypes();markDirty();scheduleCalc()});
   $("btnAll").addEventListener("click",function(){var all=state.types.every(function(t){return t.on!==false});state.types.forEach(function(t){t.on=!all});renderTypes();markDirty();scheduleCalc()});
   function renderPanels(){
     var ps=state.sheet.panels;
@@ -385,10 +398,11 @@ var APP_VERSION = "1.0.7";
   /* ---------- derniers réglages (mémorisés sur l'appareil) ---------- */
   var PREFS="plancoupe.reglages.v1",prefT=null;
   function markDirty(){clearTimeout(prefT);prefT=setTimeout(savePrefs,400)}
-  function savePrefs(){try{localStorage.setItem(PREFS,JSON.stringify({panels:state.sheet.panels,gap:state.sheet.gap,margin:state.sheet.margin,mode:state.sheet.mode}))}catch(e){}}
+  function savePrefs(){try{localStorage.setItem(PREFS,JSON.stringify({panels:state.sheet.panels,gap:state.sheet.gap,margin:state.sheet.margin,mode:state.sheet.mode,rot:state.rotAll}))}catch(e){}}
   function loadPrefs(){try{var p=JSON.parse(localStorage.getItem(PREFS)||"null");if(!p)return;
     if(Array.isArray(p.panels)&&p.panels.length)state.sheet.panels=p.panels.map(function(x){return {L:num(x.L,600),W:num(x.W,400),qty:x.qty===""||x.qty==null?"":Math.max(0,Math.floor(num(x.qty,0)))}});
-    if(p.gap!=null)state.sheet.gap=num(p.gap,2);if(p.margin!=null)state.sheet.margin=num(p.margin,5);state.sheet.mode=p.mode==="rect"?"rect":"nest"}catch(e){}}
+    if(p.gap!=null)state.sheet.gap=num(p.gap,2);if(p.margin!=null)state.sheet.margin=num(p.margin,5);state.sheet.mode=p.mode==="rect"?"rect":"nest";
+    if(p.rot==="fix"||p.rot==="quarter"||p.rot==="free"){state.rotAll=p.rot;if(state.example)state.types.forEach(function(t){t.rot=rotVal(p.rot)})}}catch(e){}}
 
   /* ---------- réglages ---------- */
   function openSettings(){$("settings").hidden=false;$("btnCloseSet").focus()}

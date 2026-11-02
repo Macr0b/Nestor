@@ -261,6 +261,9 @@ var Geo=(function(){
     return {sheets:sheets,unplaced:unplaced,used:used,count:count,total:items.length};
   }
   function placedPaths(type,part){
+    if(part.a!=null){var c=Math.cos(part.a*Math.PI/180),sn=Math.sin(part.a*Math.PI/180);
+      return type.paths.map(function(p){return {closed:p.closed,layer:p.layer,color:p.color,pts:p.pts.map(function(q){
+        return [part.x+q[0]*c-q[1]*sn-part.mx,part.y+q[0]*sn+q[1]*c-part.my]})}})}
     return type.paths.map(function(p){return {closed:p.closed,layer:p.layer,color:p.color,pts:p.pts.map(function(q){
       var u=q[0],v=q[1],k=part.k!=null?part.k:(part.turned?3:0),w=type.w,h=type.h;
       var a=k===0?[u,v]:k===1?[h-v,u]:k===2?[w-u,h-v]:[v,w-u];return [part.x+a[0],part.y+a[1]]})}});
@@ -270,6 +273,15 @@ var Geo=(function(){
 })();
 function nest(input){
   "use strict";
+  // rotation libre : on calcule aussi la version « quart de tour » et on garde la meilleure, pour ne jamais faire pire
+  if(!input._inner&&(input.types||[]).some(function(t){return t.rot===2&&t.on&&t.qty>0})){
+    var A=nest(Object.assign({},input,{_inner:1}));
+    var B=nest(Object.assign({},input,{_inner:1,types:input.types.map(function(t){return t.rot===2?Object.assign({},t,{rot:1}):t})}));
+    function ext(r){var s=r.sheets[r.sheets.length-1],m=0;if(s)s.parts.forEach(function(p){m=Math.max(m,p.x+p.w)});return m}
+    if(A.count!==B.count)return A.count>B.count?A:B;
+    if(A.sheets.length!==B.sheets.length)return A.sheets.length<B.sheets.length?A:B;
+    return ext(A)<ext(B)-1?A:B;
+  }
   var gap=Math.max(0,input.gap||0),margin=Math.max(0,input.margin||0),types=input.types;
   var panels=(input.panels||[]).map(function(p,pi){return {pi:pi,L:p.L,W:p.W,left:p.qty<0?Infinity:p.qty}}).filter(function(p){return p.L>0&&p.W>0});
   var maxA=0;panels.forEach(function(p){maxA=Math.max(maxA,p.L*p.W)});
@@ -302,11 +314,25 @@ function nest(input){
   }
   var orient=types.map(function(t){
     if(!t.on||!(t.qty>0))return null;
-    var ks=t.rot?[0,1,2,3]:[0,2],seen={},list=[];
-    ks.forEach(function(k){var w=k%2?t.h:t.w,h=k%2?t.w:t.h;
-      var o=raster(t.polys.map(function(P){return rotPts(P,t.w,t.h,k)}),w,h,(t.lines||[]).map(function(P){return rotPts(P,t.w,t.h,k)}));
-      var sig=o.wc+"x"+o.hc+":"+o.rows.map(function(x){return x.join(",")}).join("|");if(seen[sig])return;seen[sig]=1;
-      o.k=k;o.w=w;o.h=h;list.push(o)});
+    var seen={},list=[];
+    function add(o){var sig=o.wc+"x"+o.hc+":"+o.rows.map(function(x){return x.join(",")}).join("|");if(seen[sig])return;seen[sig]=1;list.push(o)}
+    if(t.rot===2){
+      // rotation libre par pas de 5° : pièce tournée autour de l'origine puis recalée en (0,0)
+      var all=t.polys.concat(t.lines||[]);
+      for(var a=0;a<360;a+=5){var c=Math.cos(a*Math.PI/180),sn=Math.sin(a*Math.PI/180);
+        function rp(P){return P.map(function(q){return [q[0]*c-q[1]*sn,q[0]*sn+q[1]*c]})}
+        var mx=Infinity,my=Infinity,Mx=-Infinity,My=-Infinity;
+        all.forEach(function(P){rp(P).forEach(function(q){if(q[0]<mx)mx=q[0];if(q[1]<my)my=q[1];if(q[0]>Mx)Mx=q[0];if(q[1]>My)My=q[1]})});
+        if(!isFinite(mx)){mx=0;my=0;Mx=t.w;My=t.h}
+        function sh(P){return rp(P).map(function(q){return [q[0]-mx,q[1]-my]})}
+        var o=raster(t.polys.map(sh),Mx-mx,My-my,(t.lines||[]).map(sh));
+        o.a=a;o.mx=mx;o.my=my;o.w=Mx-mx;o.h=My-my;add(o)}
+    }else{
+      var ks=t.rot?[0,1,2,3]:[0,2];
+      ks.forEach(function(k){var w=k%2?t.h:t.w,h=k%2?t.w:t.h;
+        var o=raster(t.polys.map(function(P){return rotPts(P,t.w,t.h,k)}),w,h,(t.lines||[]).map(function(P){return rotPts(P,t.w,t.h,k)}));
+        o.k=k;o.w=w;o.h=h;add(o)});
+    }
     return list;
   });
   var items=[];
@@ -325,7 +351,8 @@ function nest(input){
     if(o.wc>s.cols||o.hc>s.rows)return null;
     var best=null,maxX=s.cols-o.wc,rows=s.rows;
     for(var y=0;y<=rows-o.hc;y++){var x=0;
-      while(x<=maxX){if(x*rows+y>=bestScore)break;var c=conflict(s,o,x,y);if(c<0){bestScore=x*rows+y;best={x:x,y:y,score:bestScore};break}x=c}}
+      // rotation libre : on juge sur le bord droit de la pièce (évite les angles qui gaspillent) ; sinon sur le bord gauche
+      while(x<=maxX){var sc=(o.a!=null?x+o.wc:x)*rows+y;if(sc>=bestScore)break;var c=conflict(s,o,x,y);if(c<0){bestScore=sc;best={x:x,y:y,score:sc};break}x=c}}
     return best}
   function place(s,o,x,y){
     o.dil.forEach(function(d){var yy=y+d.dy;if(yy<0||yy>=s.rows)return;var b=yy*s.cols;
@@ -339,7 +366,7 @@ function nest(input){
       for(var q=0;q<panels.length&&!done;q++){var P=panels[q];if(P.left<=0)continue;var s=newSheet(P),t2=tryOn(s,os);
         if(t2){P.left--;sheets.push(s);done={s:s,t:t2}}}
     }
-    if(done){place(done.s,done.t.o,done.t.f.x,done.t.f.y);done.s.parts.push({i:it.i,k:done.t.o.k,x:done.t.f.x*r,y:done.t.f.y*r,w:done.t.o.w,h:done.t.o.h})}
+    if(done){place(done.s,done.t.o,done.t.f.x,done.t.f.y);var oo=done.t.o,pp={i:it.i,x:done.t.f.x*r,y:done.t.f.y*r,w:oo.w,h:oo.h};if(oo.a!=null){pp.a=oo.a;pp.mx=oo.mx;pp.my=oo.my}else pp.k=oo.k;done.s.parts.push(pp)}
     else{
       var key=it.i;if(fitCache[key]==null)fitCache[key]=panels.some(function(P){return !!tryOn(newSheet(P),os)});
       unplaced.push({i:it.i,why:fitCache[key]?"stock":"size"});

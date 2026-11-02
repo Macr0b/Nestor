@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.0.7
+Version : 1.0.8
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -40,8 +40,8 @@ Sur ordinateur avec Chrome ou Edge, l'application installée peut ouvrir directe
 
 1. Remplace les fichiers modifiés dans le dépôt GitHub (Add file › Upload files, puis Commit changes).
 2. Change toujours le numéro de version **à deux endroits**, sinon les appareils ne verront pas la mise à jour :
-   - `sw.js`, ligne `const VERSION = "1.0.7";`
-   - `app.js`, ligne `var APP_VERSION = "1.0.7";`
+   - `sw.js`, ligne `const VERSION = "1.0.8";`
+   - `app.js`, ligne `var APP_VERSION = "1.0.8";`
 3. Sur chaque appareil, au lancement suivant, une bannière « Nouvelle version disponible » apparaît. Un tap sur **Mettre à jour** suffit. Le bouton ⚙ › Vérifier les mises à jour force la vérification.
 
 Tes réglages de panneaux sont conservés pendant les mises à jour.

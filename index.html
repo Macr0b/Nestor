@@ -140,6 +140,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 .qty input{width:64px}
 .rot{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
 .rot input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.rot select{width:auto;max-width:100%;padding:6px 8px}
 .result{display:grid;gap:16px;min-width:0}
 .result.busy{opacity:.5;pointer-events:none}
 .summary{display:flex;flex-wrap:wrap;gap:10px}
@@ -278,6 +279,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 
       <section class="box" aria-labelledby="h-pieces">
         <div class="phead"><h2 id="h-pieces"><span data-i18n="pieces.title">Pièces détectées</span> <span id="pcount"></span></h2><button class="btn sm" id="btnAll" type="button"></button></div>
+        <label class="f rotall" id="rotAllWrap"><span data-i18n="pieces.rotAll">Rotation de toutes les pièces</span><select id="rotAll"></select></label>
         <div class="types" id="types"></div>
         <p class="hint" data-i18n="pieces.hint">Les trous et gravures restent attachés à leur pièce. Mets la quantité à 0 pour ignorer une pièce.</p>
         <p class="hint" data-i18n="pieces.keepHint">Coche « Garder le sens » pour le fil du bois, un placage ou une gravure orientée : la pièce ne sera pas tournée d’un quart de tour.</p>
@@ -390,7 +392,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
   <span data-i18n="upd.available">Nouvelle version disponible</span>
   <button class="btn sm" id="btnUpdate" type="button" data-i18n="upd.btn">Mettre à jour</button>
 </div>
-<div id="svgScratch" aria-hidden="true" style="position:fixed;left:0;top:0;width:1px;height:1px;overflow:hidden;visibility:hidden;pointer-events:none;z-index:-1"></div>
+<div id="svgScratch" aria-hidden="true" style="position:fixed;left:0;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;z-index:-1"></div>
 
 <script src="i18n.js"></script>
 <script src="geo.js"></script>
