@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET dans app.js. */
-const VERSION = "1.0.5";
+const VERSION = "1.0.6";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -9,11 +9,11 @@ const FILES = [
   "geo.js",
   "i18n.js",
   "manifest.webmanifest",
-  "icons/icon-192.png",
-  "icons/icon-512.png",
-  "icons/maskable-512.png",
-  "icons/apple-touch-icon.png",
-  "icons/favicon-32.png",
+  "icons/icon-192-v2.png",
+  "icons/icon-512-v2.png",
+  "icons/maskable-512-v2.png",
+  "icons/apple-touch-icon-v2.png",
+  "icons/favicon-32-v2.png",
   "vendor/pdfjs/pdf.min.js",
   "vendor/pdfjs/pdf.worker.min.js",
   "fonts/barlow-latin-400-normal.woff2",
