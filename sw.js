@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET dans app.js. */
-const VERSION = "1.0.6";
+const VERSION = "1.0.7";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -54,7 +54,15 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
   if (req.mode === "navigate") {
-    e.respondWith(caches.match("index.html").then((r) => r || fetch(req)));
+    // réseau d'abord : la page (et ses liens d'icônes) est toujours à jour en ligne ; cache hors ligne
+    e.respondWith(
+      fetch(req)
+        .then((r) => {
+          if (r && r.ok) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("index.html", copy)); }
+          return r;
+        })
+        .catch(() => caches.match("index.html"))
+    );
     return;
   }
   e.respondWith(caches.match(req, { ignoreSearch: true }).then((r) => r || fetch(req)));
