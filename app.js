@@ -1,7 +1,7 @@
 /* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
 /* Nestor — application installable.
    À chaque nouvelle version, changer APP_VERSION ici ET VERSION dans sw.js. */
-var APP_VERSION = "1.0.8";
+var APP_VERSION = "1.0.9";
 
 (function(){
   "use strict";
