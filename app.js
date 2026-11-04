@@ -1,7 +1,7 @@
 /* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
 /* Nestor — application installable.
    À chaque nouvelle version, changer APP_VERSION ici ET VERSION dans sw.js. */
-var APP_VERSION = "1.1.1";
+var APP_VERSION = "1.1.2";
 
 (function(){
   "use strict";
@@ -40,8 +40,21 @@ var APP_VERSION = "1.1.1";
     renderNews(meta.locale||code);
   }
   /* nouveautés des dernières versions (réglages) */
-  var NEWS=[["1.1.1","2026-11-04","news.111"],["1.1.0","2026-11-04","news.110"],["1.0.9","2026-11-02","news.109"],["1.0.8","2026-11-02","news.108"],
-    ["1.0.7","2026-11-02","news.107"],["1.0.6","2026-11-02","news.106"],["1.0.5","2026-11-02","news.105"]];
+  var NEWS=[["1.1.2","2026-11-04","news.112"],["1.1.1","2026-11-04","news.111"],["1.1.0","2026-11-04","news.110"],["1.0.9","2026-11-02","news.109"],["1.0.8","2026-11-02","news.108"],
+    ["1.0.7","2026-11-02","news.107"],["1.0.6","2026-11-02","news.106"],["1.0.5","2026-11-02","news.105"],
+    ["1.0.4","2026-11-02","news.icon"],["1.0.3","2026-11-02","news.icon"],["1.0.2","2026-11-02","news.icon"],["1.0.1","2026-11-02","news.101"],["1.0.0","2026-11-02","news.100"]];
+  /* signalement de bug : ouvre un nouveau ticket GitHub prérempli (le fichier n'est jamais envoyé) */
+  var lastErr="";
+  function bugURL(){var i=state.info||{},standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+    var info=["- Nestor : "+APP_VERSION+(H&&H.noInstall?" (Claude)":(standalone?" (installée)":" (navigateur)")),
+      "- Langue : "+LANG,
+      "- Appareil : "+navigator.userAgent,
+      "- Écran : "+screen.width+" × "+screen.height+" (×"+(window.devicePixelRatio||1)+")",
+      "- Fichier : "+(state.example?"exemple":(i.kind?i.kind+", "+i.n+" pièce(s), "+Math.round(i.size[0])+" × "+Math.round(i.size[1])+" mm":"aucun")),
+      "- Méthode : "+(state.sheet.mode==="rect"?"rectangles":"imbrication")+", panneaux : "+(state.sheet.panels||[]).map(function(p){return p.L+"×"+p.W}).join(", "),
+      "- Dernière erreur : "+(lastErr||"aucune")].join("\n");
+    var body="### "+T("bug.what")+"\n\n\n### "+T("bug.expected")+"\n\n\n### "+T("bug.steps")+"\n1. \n\n### "+T("bug.info")+"\n"+info+"\n";
+    return "https://github.com/Macr0b/Nestor/issues/new?labels=bug&title="+encodeURIComponent("[Bug] ")+"&body="+encodeURIComponent(body)}
   function renderNews(loc){var el=$("newsList");if(!el)return;var df;
     try{df=new Intl.DateTimeFormat(loc,{day:"numeric",month:"short",year:"numeric"})}catch(e){df=new Intl.DateTimeFormat("en",{day:"numeric",month:"short",year:"numeric"})}
     el.innerHTML=NEWS.map(function(n){var d=new Date(n[1]+"T12:00:00");
@@ -327,7 +340,7 @@ var APP_VERSION = "1.1.1";
     rd.onerror=function(){showFileErr(T("err.read"))};
     rd.readAsArrayBuffer(file);
   }
-  function showFileErr(m){$("fileInfo").innerHTML='<span class="warn">'+esc(m)+'</span><span class="hint">'+esc(T("err.formats"))+'</span>'}
+  function showFileErr(m){lastErr=m;$("fileInfo").innerHTML='<span class="warn">'+esc(m)+'</span><span class="hint">'+esc(T("err.formats"))+'</span>'}
   $("fileIn").addEventListener("change",function(e){handleFile(e.target.files&&e.target.files[0]);e.target.value=""});
   var drop=$("drop");
   ["dragenter","dragover"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add("over")})});
@@ -423,7 +436,7 @@ var APP_VERSION = "1.1.1";
     $("result").classList.add("busy");msg.textContent=T("calc.running");var t0=Date.now();
     runNest(input).then(function(res){if(my!==job)return;
       msg.textContent=T("calc.done",{s:fmt((Date.now()-t0)/1000),p:fmt(res.res)});draw(res)})
-      .catch(function(){if(my!==job)return;$("result").classList.remove("busy");msg.textContent=T("calc.fail")});
+      .catch(function(x){if(my!==job)return;$("result").classList.remove("busy");msg.textContent=T("calc.fail");lastErr=T("calc.fail")+(x&&x.message?" ("+x.message+")":"")});
   }
   function draw(res){
     last=res;$("result").classList.remove("busy");
@@ -576,6 +589,7 @@ var APP_VERSION = "1.1.1";
   function closeSettings(){$("settings").hidden=true}
   $("btnSettings").addEventListener("click",openSettings);
   $("btnCloseSet").addEventListener("click",closeSettings);
+  $("btnBug").addEventListener("click",function(){this.href=bugURL()});
   $("settings").addEventListener("click",function(e){if(e.target===this)closeSettings()});
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("settings").hidden)closeSettings()});
   langSel.addEventListener("change",function(){try{localStorage.setItem("plancoupe.lang",langSel.value)}catch(e){}applyLang(langSel.value);renderAll();refreshInstall()});

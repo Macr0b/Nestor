@@ -103,7 +103,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
 .row > label.f{flex:1 1 140px}
 .g4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn{text-decoration:none;color:inherit;display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;white-space:nowrap}
 .btn:hover{border-color:var(--accent)}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .btn.danger{color:var(--danger)}
@@ -413,6 +413,11 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
       <h2 data-i18n="set.install">Installer l’application</h2>
       <button class="btn primary" id="btnInstall" type="button" data-i18n="set.installBtn" hidden>Installer</button>
       <p class="hint" id="installHint"></p>
+    </div>
+    <div class="grp">
+      <h2 data-i18n="bug.title">Un problème ?</h2>
+      <div class="row" style="align-items:center"><a class="btn" id="btnBug" href="https://github.com/Macr0b/Nestor/issues/new" target="_blank" rel="noopener" data-i18n="bug.btn">Signaler un bug</a></div>
+      <p class="hint" data-i18n="bug.hint">Ouvre un signalement sur GitHub, déjà rempli avec les infos techniques.</p>
     </div>
     <div class="grp">
       <h2 data-i18n="set.news">Nouveautés</h2>
