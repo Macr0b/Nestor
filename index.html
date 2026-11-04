@@ -141,6 +141,25 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 .rot{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
 .rot input{width:18px;height:18px;accent-color:var(--accent);margin:0}
 .rot select{width:auto;max-width:100%;padding:6px 8px}
+.popts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:end}
+.popts .rotall{grid-column:1/-1}
+.pcw{display:flex;align-items:center;gap:6px}
+.pcw .u,.tline .u{font-size:13px;color:var(--muted);text-transform:none;letter-spacing:0}
+.tline .tb{width:34px;height:38px;flex:none}
+.tline.size{gap:6px 14px}
+.tline.size .grp{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tline.size .slbl{font-size:12px;color:var(--muted)}
+.tline.size .sz{width:66px;padding:6px 7px}
+.tline.size .pc{width:64px;padding:6px 7px}
+.tline.size input,#scaleAll{-moz-appearance:textfield;appearance:textfield}
+.tline.size input::-webkit-inner-spin-button,.tline.size input::-webkit-outer-spin-button,#scaleAll::-webkit-inner-spin-button,#scaleAll::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.tline.size .x{color:var(--muted)}
+.trow .size,.trow .lay{grid-column:3}
+.laytag{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lhead{font-family:var(--f-display);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);padding:12px 0 2px;border-top:1px solid var(--line)}
+.lhead:first-child{border-top:0;padding-top:0}
+.lhead+.trow{border-top:0}
+.drop .fmts{font-size:12px;opacity:.85}
 .result{display:grid;gap:16px;min-width:0}
 .result.busy{opacity:.5;pointer-events:none}
 .summary{display:flex;flex-wrap:wrap;gap:10px}
@@ -240,8 +259,9 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
       <section class="box" aria-labelledby="h-file">
         <h2 id="h-file" data-i18n="file.title">Fichier des pièces</h2>
         <label class="drop" id="drop">
-          <strong data-i18n="file.drop">Importer un DXF, SVG ou AI</strong>
+          <strong data-i18n="file.drop">Importer un DXF, SVG, AI ou PDF</strong>
           <span class="hint" data-i18n="file.dropHint">Touche pour choisir, ou glisse le fichier ici</span>
+          <span class="hint fmts"><span data-i18n="file.also">Aussi :</span> LightBurn · VectorCraft · HPGL · SVGZ</span>
           <input type="file" id="fileIn">
         </label>
         <div class="fileinfo" id="fileInfo"></div>
@@ -279,7 +299,11 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 
       <section class="box" aria-labelledby="h-pieces">
         <div class="phead"><h2 id="h-pieces"><span data-i18n="pieces.title">Pièces détectées</span> <span id="pcount"></span></h2><button class="btn sm" id="btnAll" type="button"></button></div>
-        <label class="f rotall" id="rotAllWrap"><span data-i18n="pieces.rotAll">Rotation de toutes les pièces</span><select id="rotAll"></select></label>
+        <div class="popts">
+          <label class="f rotall" id="rotAllWrap"><span data-i18n="pieces.rotAll">Rotation de toutes les pièces</span><select id="rotAll"></select></label>
+          <label class="f" id="scaleAllWrap"><span data-i18n="pieces.scaleAll">Échelle de toutes les pièces</span><span class="pcw"><input type="number" id="scaleAll" inputmode="decimal" min="1" step="any"><span class="u">%</span></span></label>
+          <label class="f" id="sortWrap"><span data-i18n="pieces.sort">Trier par</span><select id="sortSel"></select></label>
+        </div>
         <div class="types" id="types"></div>
         <p class="hint" data-i18n="pieces.hint">Les trous et gravures restent attachés à leur pièce. Mets la quantité à 0 pour ignorer une pièce.</p>
         <p class="hint" data-i18n="pieces.keepHint">Coche « Garder le sens » pour le fil du bois, un placage ou une gravure orientée : la pièce ne sera pas tournée d’un quart de tour.</p>

@@ -1,9 +1,9 @@
 # Nestor — application installable
 
-Imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.
+Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.0.9
+Version : 1.1.0
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -40,8 +40,8 @@ Sur ordinateur avec Chrome ou Edge, l'application installée peut ouvrir directe
 
 1. Remplace les fichiers modifiés dans le dépôt GitHub (Add file › Upload files, puis Commit changes).
 2. Change toujours le numéro de version **à deux endroits**, sinon les appareils ne verront pas la mise à jour :
-   - `sw.js`, ligne `const VERSION = "1.0.9";`
-   - `app.js`, ligne `var APP_VERSION = "1.0.9";`
+   - `sw.js`, ligne `const VERSION = "1.1.0";`
+   - `app.js`, ligne `var APP_VERSION = "1.1.0";`
 3. Sur chaque appareil, au lancement suivant, une bannière « Nouvelle version disponible » apparaît. Un tap sur **Mettre à jour** suffit. Le bouton ⚙ › Vérifier les mises à jour force la vérification.
 
 Tes réglages de panneaux sont conservés pendant les mises à jour.
@@ -50,6 +50,8 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 
 - **Utilisation** : nom, fichier (DXF, SVG ou AI), réglages, export. Rien n'est enregistré à part tes derniers réglages de panneaux (tailles, stock, espacement, marge, méthode), mémorisés sur chaque appareil.
 - **Fichiers AI** : enregistrer depuis Illustrator avec l'option « Créer un fichier compatible PDF » (activée par défaut).
+- **Formats lus** : DXF, SVG et SVGZ (Illustrator, Inkscape…), AI, PDF, LightBurn (.lbrn, .lbrn2), VectorCraft (.vectorcraft), HPGL (.plt, .hpgl). Les noms des tracés deviennent les noms des pièces, les calques sont affichés et conservés à l'export.
+- **Pièces** : échelle en % ou cote en mm pour chaque pièce, duplication pour tester une variante, rotation fixe, par quart de tour ou libre par 5°.
 - **Langues** : 45 langues. L'application démarre dans la langue de l'appareil, changement dans ⚙ › Langue. Les textes sont dans `i18n.js`.
 - **Export** : fichiers en mm, origine en haut à gauche du panneau, sans le contour du panneau.
 
