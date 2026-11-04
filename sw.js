@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET dans app.js. */
-const VERSION = "1.1.0";
+const VERSION = "1.1.1";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",

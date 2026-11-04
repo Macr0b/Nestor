@@ -160,6 +160,11 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 .lhead:first-child{border-top:0;padding-top:0}
 .lhead+.trow{border-top:0}
 .drop .fmts{font-size:12px;opacity:.85}
+.news{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.news li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline}
+.news .nv{font-family:var(--f-mono);font-weight:500;color:var(--accent);font-size:13px}
+.news .nd{font-size:12px;color:var(--muted)}
+.news p{grid-column:1/-1;margin:0;font-size:14px}
 .result{display:grid;gap:16px;min-width:0}
 .result.busy{opacity:.5;pointer-events:none}
 .summary{display:flex;flex-wrap:wrap;gap:10px}
@@ -408,6 +413,10 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
       <h2 data-i18n="set.install">Installer l’application</h2>
       <button class="btn primary" id="btnInstall" type="button" data-i18n="set.installBtn" hidden>Installer</button>
       <p class="hint" id="installHint"></p>
+    </div>
+    <div class="grp">
+      <h2 data-i18n="set.news">Nouveautés</h2>
+      <ol class="news" id="newsList"></ol>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 /* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
 /* Nestor — application installable.
    À chaque nouvelle version, changer APP_VERSION ici ET VERSION dans sw.js. */
-var APP_VERSION = "1.1.0";
+var APP_VERSION = "1.1.1";
 
 (function(){
   "use strict";
@@ -37,7 +37,15 @@ var APP_VERSION = "1.1.0";
     document.querySelectorAll("[data-i18n-ph]").forEach(function(el){el.placeholder=T(el.getAttribute("data-i18n-ph"))});
     document.querySelectorAll("[data-i18n-aria]").forEach(function(el){el.setAttribute("aria-label",T(el.getAttribute("data-i18n-aria")))});
     $("verLbl").textContent=T("set.version",{v:APP_VERSION});
+    renderNews(meta.locale||code);
   }
+  /* nouveautés des dernières versions (réglages) */
+  var NEWS=[["1.1.1","2026-11-04","news.111"],["1.1.0","2026-11-04","news.110"],["1.0.9","2026-11-02","news.109"],["1.0.8","2026-11-02","news.108"],
+    ["1.0.7","2026-11-02","news.107"],["1.0.6","2026-11-02","news.106"],["1.0.5","2026-11-02","news.105"]];
+  function renderNews(loc){var el=$("newsList");if(!el)return;var df;
+    try{df=new Intl.DateTimeFormat(loc,{day:"numeric",month:"short",year:"numeric"})}catch(e){df=new Intl.DateTimeFormat("en",{day:"numeric",month:"short",year:"numeric"})}
+    el.innerHTML=NEWS.map(function(n){var d=new Date(n[1]+"T12:00:00");
+      return '<li><span class="nv">'+esc(n[0])+'</span><span class="nd">'+esc(df.format(d))+'</span><p>'+esc(T(n[2]))+'</p></li>'}).join("")}
   var langSel=$("langSel");
   langSel.innerHTML=I18N.langs.slice().sort(function(a,b){return a.name.localeCompare(b.name,"en")}).map(function(l){return '<option value="'+l.code+'">'+esc(l.name)+'</option>'}).join("");
 
