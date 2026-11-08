@@ -1,4 +1,4 @@
-/* Nestor — Copyright (C) 2026 Macr0b — AGPL-3.0-or-later (voir LICENSE). */
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Géométrie : lecture DXF/SVG, regroupement des pièces, placement (rectangles et imbrication), export DXF. */
 var Geo=(function(){
   "use strict";
@@ -291,12 +291,13 @@ var Geo=(function(){
 
   /* ---- export ---- */
   function layerName(l){return (String(l||"0").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9_\-$]/g,"_").slice(0,31))||"0"}
-  function exportDXF(polys,W){
+  // ox, oy : origine choisie (coordonnées de la page, Y vers le bas) ; le DXF a son Y vers le haut
+  function exportDXF(polys,ox,oy){
     var o=["0","SECTION","2","HEADER","9","$ACADVER","1","AC1009","9","$INSUNITS","70","4","0","ENDSEC","0","SECTION","2","ENTITIES"];
     function r(v){return (Math.round(v*10000)/10000).toString()}
     polys.forEach(function(p){var lay=layerName(p.layer);
       o.push("0","POLYLINE","8",lay,"66","1","70",p.closed?"1":"0","10","0","20","0","30","0");
-      p.pts.forEach(function(q){o.push("0","VERTEX","8",lay,"10",r(q[0]),"20",r(W-q[1]),"30","0")});
+      p.pts.forEach(function(q){o.push("0","VERTEX","8",lay,"10",r(q[0]-ox),"20",r(oy-q[1]),"30","0")});
       o.push("0","SEQEND","8",lay)});
     o.push("0","ENDSEC","0","EOF");return o.join("\r\n")+"\r\n";
   }

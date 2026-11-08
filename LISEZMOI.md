@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.1.2
+Version : 1.2.0
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -40,8 +40,8 @@ Sur ordinateur avec Chrome ou Edge, l'application installée peut ouvrir directe
 
 1. Remplace les fichiers modifiés dans le dépôt GitHub (Add file › Upload files, puis Commit changes).
 2. Change toujours le numéro de version **à deux endroits**, sinon les appareils ne verront pas la mise à jour :
-   - `sw.js`, ligne `const VERSION = "1.1.2";`
-   - `app.js`, ligne `var APP_VERSION = "1.1.2";`
+   - `sw.js`, ligne `const VERSION = "1.2.0";`
+   - `app.js`, ligne `var APP_VERSION = "1.2.0";`
 3. Sur chaque appareil, au lancement suivant, une bannière « Nouvelle version disponible » apparaît. Un tap sur **Mettre à jour** suffit. Le bouton ⚙ › Vérifier les mises à jour force la vérification.
 
 Tes réglages de panneaux sont conservés pendant les mises à jour.
@@ -53,7 +53,10 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Formats lus** : DXF, SVG et SVGZ (Illustrator, Inkscape…), AI, PDF, LightBurn (.lbrn, .lbrn2), VectorCraft (.vectorcraft), HPGL (.plt, .hpgl). Les noms des tracés deviennent les noms des pièces, les calques sont affichés et conservés à l'export.
 - **Pièces** : échelle en % ou cote en mm pour chaque pièce, duplication pour tester une variante, rotation fixe, par quart de tour ou libre par 5°.
 - **Langues** : 45 langues. L'application démarre dans la langue de l'appareil, changement dans ⚙ › Langue. Les textes sont dans `i18n.js`.
-- **Export** : fichiers en mm, origine en haut à gauche du panneau, sans le contour du panneau.
+- **Panneaux** : la longueur est verticale et la largeur horizontale (panneau en portrait).
+- **Origine** : le petit carré à 9 points choisit le zéro machine. Les pièces se regroupent à partir de ce point (coin, bord ou centre) et c'est le zéro des fichiers exportés.
+- **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours.
+- **Export** : fichiers en mm, zéro sur l'origine choisie, sans le contour du panneau.
 
 ## Contenu du dossier
 
@@ -70,6 +73,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 
 ## Licence
 
-Nestor est un logiciel libre sous licence **AGPL-3.0-or-later** (fichier `LICENSE`).
-Tout le monde peut l'utiliser librement, y compris au travail. Quiconque reprend le code et le modifie doit publier sa version sous la même licence, avec son code source, y compris s'il l'héberge en ligne.
+Nestor est distribué sous la licence **PolyForm Perimeter 1.0.1** (fichier `LICENSE`).
+Tout le monde peut l'utiliser gratuitement, y compris au travail, lire le code et le modifier pour son propre usage. Personne ne peut proposer à d'autres un produit qui fait concurrence à Nestor (revente, service payant, copie rebaptisée), même gratuit.
+Le nom « Nestor » et les logos sont réservés (fichier `TRADEMARK.md`).
 PDF.js reste sous licence Apache 2.0 et les polices sous licence OFL 1.1.

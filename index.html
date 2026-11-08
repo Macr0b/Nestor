@@ -64,7 +64,7 @@ body{background-color:var(--bg);
 .bp-layer{top:0;left:0;right:0;height:100vh}
 .bp-num{font:500 8px/1 "IBM Plex Mono",ui-monospace,monospace;fill:var(--bp-ink)}
 .bp-txt{font:500 10px/1 "IBM Plex Mono",ui-monospace,monospace;fill:var(--bp-ink);letter-spacing:.06em}
-.cartouche{position:relative;z-index:1;max-width:1180px;margin:28px auto 0;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1.5fr) minmax(0,1.2fr) repeat(3,minmax(0,.8fr));
+.cartouche{position:relative;z-index:1;max-width:1180px;margin:28px auto 0;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,1.3fr) minmax(0,.6fr) minmax(0,.6fr);
   border:1.5px solid var(--bp-ink);color:var(--muted);font:500 11px/1.3 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.04em;background:var(--bg)}
 .cartouche>div{padding:8px 10px;border-left:1px solid var(--bp-faint);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cartouche>div:first-child{border-left:0;font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-size:18px;font-weight:700;letter-spacing:.12em;color:var(--accent)}
@@ -160,6 +160,25 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 .lhead:first-child{border-top:0;padding-top:0}
 .lhead+.trow{border-top:0}
 .drop .fmts{font-size:12px;opacity:.85}
+.addbtn{position:relative;overflow:hidden}
+.addbtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.fileinfo .fline{display:grid;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
+.fileinfo .fline:first-child{border-top:0;padding-top:0}
+.fileinfo .ftop{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.fileinfo .rmf{width:30px;height:30px;flex:none}
+.trow .lay{display:flex;gap:4px 12px;flex-wrap:wrap}
+.origtxt{display:grid;gap:2px;min-width:0}
+.origtxt .f{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.origtxt .hint{margin:0}
+.origin{flex:none;display:grid;grid-template-columns:repeat(3,26px);grid-template-rows:repeat(3,26px);padding:5px;border:1.5px solid var(--ink);border-radius:4px;background:var(--bg);box-sizing:border-box}
+.origin button{border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer;border-radius:50%}
+.origin button span{width:8px;height:8px;border-radius:50%;background:var(--line);transition:transform .1s}
+.origin button:hover span{background:var(--muted)}
+.origin button[aria-checked="true"] span{width:14px;height:14px;background:var(--danger);box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 25%,transparent)}
+.svg-origin{fill:none;stroke:var(--danger)}
+.origin.sm{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);width:44px;height:44px;padding:2px;border-width:1.2px}
+.origin.sm button span{width:5px;height:5px}
+.origin.sm button[aria-checked="true"] span{width:9px;height:9px;box-shadow:0 0 0 2px color-mix(in srgb,var(--danger) 25%,transparent)}
 .news{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .news li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline}
 .news .nv{font-family:var(--f-mono);font-weight:500;color:var(--accent);font-size:13px}
@@ -187,9 +206,14 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 .thumb .svg-open{stroke-width:1px;vector-effect:non-scaling-stroke}
 .dl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .pnls{display:grid;gap:6px}
-.pnl{display:grid;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr) 64px 34px 34px;gap:6px;align-items:center}
+.pnl{display:grid;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr) 58px 44px 30px 30px;gap:6px;align-items:center}
 .pnl.phd span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pnl .x{text-align:center;color:var(--muted)}
+.pnl input{-moz-appearance:textfield;appearance:textfield}
+.pnl input::-webkit-inner-spin-button,.pnl input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+@media (max-width:520px){.pnl{grid-template-columns:minmax(0,1fr) 10px minmax(0,1fr) 46px 42px 28px 28px;gap:5px}
+  .pnl input{padding:8px 6px}
+  .pnl.phd span{white-space:normal;line-height:1.15;font-size:10px}}
 .mini{border:1px solid var(--line);background:var(--surface);border-radius:6px;height:38px;cursor:pointer;font-size:17px;line-height:1;padding:0}
 .mini:disabled{opacity:.35;cursor:default}
 .mini:hover:not(:disabled){border-color:var(--accent)}
@@ -267,8 +291,9 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
           <strong data-i18n="file.drop">Importer un DXF, SVG, AI ou PDF</strong>
           <span class="hint" data-i18n="file.dropHint">Touche pour choisir, ou glisse le fichier ici</span>
           <span class="hint fmts"><span data-i18n="file.also">Aussi :</span> LightBurn · VectorCraft · HPGL · SVGZ</span>
-          <input type="file" id="fileIn">
+          <input type="file" id="fileIn" multiple>
         </label>
+        <div class="row" id="addWrap" hidden><label class="btn sm addbtn"><span data-i18n="file.add">+ Ajouter des fichiers</span><input type="file" id="fileAdd" multiple></label></div>
         <div class="fileinfo" id="fileInfo"></div>
         <label class="f"><span data-i18n="file.units">Unités du fichier</span>
           <select id="unitSel">
@@ -285,9 +310,10 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
 
       <section class="box" aria-labelledby="h-panel">
         <h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2>
-        <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (X)</span><span></span><span data-i18n="panel.W">Largeur (Y)</span><span data-i18n="panel.qty">Stock</span><span></span><span></span></div>
+        <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Origine</span><span></span><span></span></div>
         <div class="pnls" id="panels"></div>
         <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button></div>
+        <p class="hint"><strong data-i18n="origin.title">Origine (zéro machine)</strong> · <span data-i18n="origin.hint">Les pièces se regroupent à partir de ce point, et c’est le zéro des fichiers exportés.</span></p>
         <p class="hint" data-i18n="panel.hint">Les panneaux sont utilisés dans l’ordre de la liste. Stock vide = illimité.</p>
         <div class="g4">
           <label class="f"><span data-i18n="panel.gap">Espace entre pièces</span><input type="number" id="sG" inputmode="decimal" min="0" step="0.5"></label>
@@ -299,6 +325,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
             <option value="rect" data-i18n="method.rect">Rectangles (coupes droites à la scie)</option>
           </select>
         </label>
+
         <p class="hint" id="calcMsg"></p>
       </section>
 
@@ -323,7 +350,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,.drop:focus-within
   <div>NESTOR</div>
   <div><small data-i18n="cart.by">Créé par</small>Robin PHILIPPE</div>
   <div><small data-i18n="cart.power">Alimenté par</small>Claude</div>
-  <div><small data-i18n="cart.license">Licence</small><a class="cart-link" href="https://github.com/Macr0b/Nestor/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0</a></div>
+  <div><small data-i18n="cart.license">Licence</small><a class="cart-link" href="https://github.com/Macr0b/Nestor/blob/main/LICENSE" target="_blank" rel="noopener">PolyForm Perimeter</a></div>
   <div><small data-i18n="cart.scale">Éch.</small>1:1</div>
   <div><small data-i18n="cart.rev">Rév.</small><span id="cartVer"></span></div>
 </footer>

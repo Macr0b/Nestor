@@ -12,13 +12,17 @@ Installation, mise en ligne et mises à jour : voir [LISEZMOI.md](LISEZMOI.md).
 
 ## Licence / License
 
-Copyright (C) 2026 Macr0b
+Copyright 2026 Macr0b
 
-Nestor est un logiciel libre sous licence **GNU Affero General Public License v3.0 ou ultérieure** (AGPL-3.0-or-later), voir [LICENSE](LICENSE).
-Tout le monde peut l'utiliser, l'étudier, le modifier et le redistribuer. Toute version modifiée, y compris hébergée en ligne, doit être publiée sous la même licence, avec son code source.
+Nestor est distribué sous la licence **PolyForm Perimeter 1.0.1**, voir [LICENSE](LICENSE).
+Tout le monde peut l'utiliser gratuitement, y compris pour un travail professionnel, lire le code et le modifier pour son propre usage. Il est interdit de proposer à d'autres un produit qui fait concurrence à Nestor (revente, service payant, copie rebaptisée…), même gratuit.
+Les versions 1.0.0 à 1.1.2 ont été publiées sous AGPL-3.0-or-later et le restent.
+Le nom « Nestor » et ses logos ne sont pas couverts par la licence : voir [TRADEMARK.md](TRADEMARK.md).
 
-Nestor is free software under the **GNU Affero General Public License v3.0 or later**, see [LICENSE](LICENSE).
-Anyone may use, study, modify and redistribute it. Any modified version, including one hosted online, must be released under the same license with its source code.
+Nestor is distributed under the **PolyForm Perimeter License 1.0.1**, see [LICENSE](LICENSE).
+Anyone may use it for free, including for professional work, read the code and modify it for their own use. Providing to others any product that competes with Nestor (resale, paid service, renamed copy…) is not allowed, even free of charge.
+Versions 1.0.0 to 1.1.2 were released under AGPL-3.0-or-later and remain so.
+The "Nestor" name and logos are not covered by the license: see [TRADEMARK.md](TRADEMARK.md).
 
 Composants tiers / Third-party components:
 - `vendor/pdfjs/` — PDF.js, Mozilla, Apache License 2.0 (`vendor/pdfjs/LICENSE`)
