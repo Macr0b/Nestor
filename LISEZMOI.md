@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.2.1
+Version : 1.2.2
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -63,13 +63,19 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | Fichier | Rôle |
 |---|---|
 | `index.html` | Page et mise en forme |
-| `app.js` | Fonctionnement de l'application |
-| `geo.js` | Lecture des fichiers, imbrication, export DXF |
+| `app.js` | Fonctionnement de l'interface (sommaire en tête de fichier) |
+| `geo.js` | Géométrie : lecture DXF / HPGL / VectorCraft, regroupement, rectangles, export DXF |
+| `nest.js` | Imbrication selon la forme (calculée en arrière-plan) |
+| `formats.js` | Lecture SVG / SVGZ, PDF / AI, LightBurn |
 | `i18n.js` | Traductions (45 langues) |
 | `sw.js` | Hors connexion et mises à jour |
 | `manifest.webmanifest` | Nom, icônes, installation |
 | `icons/`, `fonts/` | Icônes et polices (Barlow, IBM Plex Mono — licence OFL) |
 | `vendor/pdfjs/` | Lecteur PDF/AI de Mozilla (licence Apache 2.0) |
+| `tests/` | Tests automatiques, relancés par GitHub à chaque mise à jour |
+
+Pour lancer les tests sur un ordinateur : `node --test tests/*.test.mjs` (Node 20 ou plus). Les tests d'interface
+demandent en plus Playwright (`npm install --no-save playwright && npx playwright install chromium`), sinon ils sont sautés.
 
 ## Licence
 

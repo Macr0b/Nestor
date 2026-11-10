@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: Adobe Illustrator 28.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400mm" height="300mm" viewBox="0 0 1133.86 850.39">
+  <g id="Calque_x5F_Découpe" data-name="Calque_Découpe">
+    <rect id="Plateau_x5F_haut" data-name="Plateau_haut" x="20" y="20" width="400" height="250" fill="none" stroke="#000"/>
+    <g id="Pied_avant">
+      <rect x="500" y="20" width="100" height="400" fill="none" stroke="#000"/>
+    </g>
+    <g id="Pied_avant_1_">
+      <rect x="650" y="20" width="100" height="400" fill="none" stroke="#000"/>
+    </g>
+  </g>
+  <g id="Repères">
+    <circle cx="900" cy="100" r="40" fill="none" stroke="#f00"/>
+  </g>
+</svg>

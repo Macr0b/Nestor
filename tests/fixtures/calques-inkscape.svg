@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="400mm" height="300mm" viewBox="0 0 400 300">
+ <g inkscape:groupmode="layer" id="layer1" inkscape:label="Découpe">
+  <rect id="rect12" inkscape:label="Fond" x="10" y="10" width="150" height="100" fill="none" stroke="#f00"/>
+  <g id="g40" inkscape:label="Côté gauche">
+    <rect id="rect41" x="200" y="10" width="80" height="120" fill="none" stroke="#f00"/>
+    <circle id="trou" inkscape:label="Trou" cx="240" cy="70" r="10" fill="none" stroke="#f00"/>
+  </g>
+  <path id="path99" d="M10 150 H90 V230 H10 Z" fill="none" stroke="#f00"/>
+ </g>
+ <g inkscape:groupmode="layer" id="layer2" inkscape:label="Gravure">
+  <rect id="Etiquette" x="300" y="200" width="60" height="30" fill="none" stroke="#00f"/>
+ </g>
+</svg>

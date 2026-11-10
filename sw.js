@@ -1,12 +1,14 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET dans app.js. */
-const VERSION = "1.2.1";
+const VERSION = "1.2.2";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
   "index.html",
   "app.js",
   "geo.js",
+  "nest.js",
+  "formats.js",
   "i18n.js",
   "manifest.webmanifest",
   "icons/icon-192-v3.png",
@@ -37,8 +39,11 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k.startsWith("nestor-") && k !== CACHE).map((k) => caches.delete(k))))
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(keys.filter((k) => k.startsWith("nestor-") && k !== CACHE).map((k) => caches.delete(k)))
+      )
       .then(() => self.clients.claim())
   );
 });
@@ -58,7 +63,10 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(
       fetch(req)
         .then((r) => {
-          if (r && r.ok) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("index.html", copy)); }
+          if (r && r.ok) {
+            const copy = r.clone();
+            caches.open(CACHE).then((c) => c.put("index.html", copy));
+          }
           return r;
         })
         .catch(() => caches.match("index.html"))

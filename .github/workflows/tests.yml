@@ -1,0 +1,19 @@
+# Lance les tests à chaque envoi sur GitHub (onglet « Actions » du dépôt).
+name: Tests
+on:
+  push:
+  pull_request:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Navigateur pour les tests d'interface
+        run: |
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Tests
+        run: node --test tests/*.test.mjs

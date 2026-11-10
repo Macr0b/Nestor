@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200mm" height="100mm" viewBox="0 0 200 100">
+  <style>body{display:none!important} .cls-1{fill:none;stroke:#e00}</style>
+  <script>window.__piege=1</script>
+  <rect class="cls-1" x="10" y="10" width="80" height="50" onload="window.__piege=2"/>
+  <a href="javascript:window.__piege=3"><rect x="110" y="10" width="40" height="40" fill="none" stroke="#000"/></a>
+  <image href="https://example.com/espion.png" x="0" y="0" width="10" height="10"/>
+</svg>
