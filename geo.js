@@ -307,7 +307,7 @@ var Geo=(function(){
     var k=Math.max(0,num(sheet.gap,0)),t=Math.max(0,num(sheet.margin,0)),items=[],unplaced=[];
     var panels=(sheet.panels||[]).map(function(p,pi){var q=p.qty===""||p.qty==null||num(p.qty,-1)<0?Infinity:Math.floor(num(p.qty,0));
       return {pi:pi,L:num(p.L,0),W:num(p.W,0),left:q}}).filter(function(p){return p.L>0&&p.W>0});
-    types.forEach(function(p,i){if(p.on===false)return;var q=Math.min(500,Math.max(0,Math.floor(num(p.qty,0))));if(p.w<=0&&p.h<=0)return;
+    types.forEach(function(p,i){if(p.on===false)return;var q=Math.max(0,Math.floor(num(p.qty,0)));if(p.w<=0&&p.h<=0)return;
       for(var j=0;j<q;j++)items.push({i:i,L:Math.max(p.w,0.01),W:Math.max(p.h,0.01),rot:!!p.rot})});
     items.sort(function(a,b){return Math.max(b.L,b.W)-Math.max(a.L,a.W)||b.L*b.W-a.L*a.W});
     var sheets=[];
@@ -385,6 +385,8 @@ function nest(input){
       dilRows.push({dy:+k,iv:out})});
     return {wc:wc,hc:hc,rows:rowsI,dil:dilRows,cells:cells};
   }
+  // une orientation ne mérite d'être calculée que si son encombrement rentre dans au moins un panneau
+  function fitsSome(w,h){return panels.some(function(P){return w<=P.L-2*margin+1e-6&&h<=P.W-2*margin+1e-6})}
   var orient=types.map(function(t){
     if(!t.on||!(t.qty>0))return null;
     var seen={},list=[];
@@ -397,19 +399,22 @@ function nest(input){
         var mx=Infinity,my=Infinity,Mx=-Infinity,My=-Infinity;
         all.forEach(function(P){rp(P).forEach(function(q){if(q[0]<mx)mx=q[0];if(q[1]<my)my=q[1];if(q[0]>Mx)Mx=q[0];if(q[1]>My)My=q[1]})});
         if(!isFinite(mx)){mx=0;my=0;Mx=t.w;My=t.h}
+        if(!fitsSome(Mx-mx,My-my))continue;
         function sh(P){return rp(P).map(function(q){return [q[0]-mx,q[1]-my]})}
         var o=raster(t.polys.map(sh),Mx-mx,My-my,(t.lines||[]).map(sh));
         o.a=a;o.mx=mx;o.my=my;o.w=Mx-mx;o.h=My-my;add(o)}
     }else{
       var ks=t.rot?[0,1,2,3]:[0,2];
-      ks.forEach(function(k){var w=k%2?t.h:t.w,h=k%2?t.w:t.h;
+      ks.forEach(function(k){var w=k%2?t.h:t.w,h=k%2?t.w:t.h;if(!fitsSome(w,h))return;
         var o=raster(t.polys.map(function(P){return rotPts(P,t.w,t.h,k)}),w,h,(t.lines||[]).map(function(P){return rotPts(P,t.w,t.h,k)}));
         o.k=k;o.w=w;o.h=h;add(o)});
     }
     return list;
   });
-  var items=[];
-  types.forEach(function(t,i){if(!orient[i])return;var q=Math.min(500,Math.floor(t.qty));for(var j=0;j<q;j++)items.push({i:i,cells:orient[i][0].cells})});
+  var items=[],tooBig=[];
+  types.forEach(function(t,i){if(!orient[i])return;var q=Math.floor(t.qty);
+    if(!orient[i].length){for(var z=0;z<q;z++)tooBig.push({i:i,why:"size"});return}
+    for(var j=0;j<q;j++)items.push({i:i,cells:orient[i][0].cells})});
   items.sort(function(a,b){return b.cells-a.cells||a.i-b.i});
   var sheets=[];
   function newSheet(P){var cols=Math.floor(P.L/r),rows=Math.floor(P.W/r),occ=new Uint8Array(cols*rows),prev=new Int32Array(cols*rows);
@@ -445,5 +450,6 @@ function nest(input){
       unplaced.push({i:it.i,why:fitCache[key]?"stock":"size"});
     }
   });
-  return {sheets:sheets.map(function(s){return {pi:s.P.pi,L:s.P.L,W:s.P.W,parts:s.parts}}),unplaced:unplaced,total:items.length,count:items.length-unplaced.length,res:r};
+  unplaced=unplaced.concat(tooBig);
+  return {sheets:sheets.map(function(s){return {pi:s.P.pi,L:s.P.L,W:s.P.W,parts:s.parts}}),unplaced:unplaced,total:items.length+tooBig.length,count:items.length-(unplaced.length-tooBig.length),res:r};
 }

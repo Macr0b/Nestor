@@ -1,7 +1,7 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Nestor — application installable.
    À chaque nouvelle version, changer APP_VERSION ici ET VERSION dans sw.js. */
-var APP_VERSION = "1.2.0";
+var APP_VERSION = "1.2.1";
 
 (function(){
   "use strict";
@@ -40,7 +40,7 @@ var APP_VERSION = "1.2.0";
     renderNews(meta.locale||code);
   }
   /* nouveautés des dernières versions (réglages) */
-  var NEWS=[["1.2.0","2026-11-08",["news.120","news.113"]],["1.1.2","2026-11-04","news.112"],["1.1.1","2026-11-04","news.111"],["1.1.0","2026-11-04","news.110"],["1.0.9","2026-11-02","news.109"],["1.0.8","2026-11-02","news.108"],
+  var NEWS=[["1.2.1","2026-11-10","news.121"],["1.2.0","2026-11-08",["news.120","news.113"]],["1.1.2","2026-11-04","news.112"],["1.1.1","2026-11-04","news.111"],["1.1.0","2026-11-04","news.110"],["1.0.9","2026-11-02","news.109"],["1.0.8","2026-11-02","news.108"],
     ["1.0.7","2026-11-02","news.107"],["1.0.6","2026-11-02","news.106"],["1.0.5","2026-11-02","news.105"],
     ["1.0.4","2026-11-02","news.icon"],["1.0.3","2026-11-02","news.icon"],["1.0.2","2026-11-02","news.icon"],["1.0.1","2026-11-02","news.101"],["1.0.0","2026-11-02","news.100"]];
   /* signalement de bug : ouvre un nouveau ticket GitHub prérempli (le fichier n'est jamais envoyé) */
@@ -482,7 +482,11 @@ var APP_VERSION = "1.2.0";
   // only : n'utiliser que ce type de panneau ; qtys : quantités restantes par pièce
   function nestInput(f,only,qtys){return {panels:panelList().map(function(p,pi){var q=only==null||only===pi?p.qty:0;return f.tr?{L:p.W,W:p.L,qty:q}:{L:p.L,W:p.W,qty:q}}),gap:num(state.sheet.gap,0),margin:num(state.sheet.margin,0),
     types:state.types.map(eff).map(function(t){return xformT(t,f)}).map(function(t,ti){return {w:t.w,h:t.h,rot:t.rot==="free"?2:(t.rot?1:0),qty:qtys?qtys[ti]:Math.floor(num(t.qty,0)),on:t.on!==false,polys:t.paths.filter(function(p){return p.closed&&p.pts.length>=3}).map(function(p){return p.pts}),lines:t.paths.filter(function(p){return !(p.closed&&p.pts.length>=3)}).map(function(p){return p.pts})}})}}
-  function runNest(input){return new Promise(function(ok,ko){
+  var pendingKo=null;
+  // annulation d'un calcul long : on arrête le travail en arrière-plan
+  function cancelNest(){if(worker){worker.terminate();worker=null}if(pendingKo){var k=pendingKo;pendingKo=null;k(new Error("cancel"))}
+    job++;$("result").classList.remove("busy");$("calcMsg").textContent=T("calc.cancelled")}
+  function runNest(input){return new Promise(function(ok,ko){pendingKo=ko;
     function inline(){setTimeout(function(){try{ok(nest(input))}catch(x){ko(x)}},0)}
     try{
       if(!workerURL)workerURL=URL.createObjectURL(new Blob(["var nest="+nest.toString()+";self.onmessage=function(e){self.postMessage(nest(e.data))};"],{type:"text/javascript"}));
@@ -498,7 +502,11 @@ var APP_VERSION = "1.2.0";
     if(mode==="rect"){draw(applyOrigin(Geo.pack({gap:state.sheet.gap,margin:state.sheet.margin,panels:panelList()},state.types.map(eff)),function(s){var o=originOf(s.pi);return {tr:false,fx:o[1]==="r",fy:o[0]==="b",o:o,geo:false}}));msg.textContent="";return}
     var pl=panelList(),f0=frame(pl[0]?pl[0].L:1,pl[0]?pl[0].W:1,originOf(0)),input=nestInput(f0);
     if(!input.types.some(function(t){return t.on&&t.qty>0})||!input.panels.some(function(p){return p.L>0&&p.W>0})){draw({sheets:[],unplaced:[],count:0,total:0});msg.textContent="";return}
-    $("result").classList.add("busy");msg.textContent=T("calc.running");var t0=Date.now();
+    $("result").classList.add("busy");var t0=Date.now(),nTot=input.types.reduce(function(a,t){return a+(t.on?Math.max(0,t.qty):0)},0);
+    msg.textContent=T("calc.running")+(nTot>2000?" "+T("calc.many",{n:nTot}):"");
+    // bouton Annuler si le calcul dure
+    setTimeout(function(){if(my!==job||!$("result").classList.contains("busy"))return;
+      var b=document.createElement("button");b.type="button";b.className="btn sm cancelbtn";b.textContent=T("calc.cancel");b.addEventListener("click",cancelNest);msg.appendChild(document.createTextNode(" "));msg.appendChild(b)},700);
     var same=pl.every(function(p,pi){return originOf(pi)===originOf(0)});
     (same?runNest(input).then(function(res){return applyOrigin(res,f0)}):nestPerPanel(pl)).then(function(res){if(my!==job)return;
       msg.textContent=T("calc.done",{s:fmt((Date.now()-t0)/1000),p:fmt(res.res)});draw(res)})
