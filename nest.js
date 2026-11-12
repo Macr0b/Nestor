@@ -17,6 +17,8 @@ function nest(input) {
   // plus de pièces ou utilise moins de panneaux ; sinon le groupement autour de l'origine l'emporte.
   if (!input._anch && input.anchor && (input.anchor.ax || input.anchor.ay)) {
     var Anc = nest(Object.assign({}, input, { _anch: 1 }));
+    // tout tient sur un seul panneau : impossible de faire mieux, inutile de calculer depuis le coin
+    if (Anc.count === Anc.total && Anc.sheets.length <= 1) return Anc;
     var Cor = nest(Object.assign({}, input, { _anch: 1, anchor: null }));
     if (Cor.count > Anc.count || (Cor.count === Anc.count && Cor.sheets.length < Anc.sheets.length)) return Cor;
     return Anc;
@@ -387,21 +389,6 @@ function nest(input) {
     // position de départ sur chaque ligne : contre le bord, ou centrée sur le milieu
     var x0 = ax ? Math.max(0, Math.min(maxX, Math.round(s.cx - o.wc / 2))) : 0,
       minPx = o.wc;
-    // dernière position entre from et to (to compris, dans le sens dir) dont la note reste sous la meilleure
-    function limit(from, to, dir) {
-      var ok = from - dir,
-        a = from,
-        b = to;
-      if ((b - a) * dir < 0) return ok;
-      while ((b - a) * dir >= 0) {
-        var m = a + dir * Math.floor(Math.abs(b - a) / 2);
-        if (note(extX(m), py) < bestScore) {
-          ok = m;
-          a = m + dir;
-        } else b = m - dir;
-      }
-      return ok;
-    }
     function consider(x, y) {
       var v = note(extX(x), extY(y));
       if (v < bestScore) {
@@ -420,16 +407,10 @@ function nest(input) {
       // borne basse de la ligne : si même la meilleure position possible ne fait pas mieux, on passe
       var py = extY(y);
       if (note(minPx, py) >= bestScore) continue;
-      // limites utiles de la ligne : au-delà, la note ne peut que dépasser la meilleure trouvée (recherche par dichotomie)
-      var hiX = maxX,
-        loX = 0;
-      if (bestScore < Infinity) {
-        hiX = limit(x0, maxX, 1);
-        if (ax) loX = limit(x0 - 1, 0, -1);
-      }
-      // vers la droite (seul sens utile quand l'accroche est sur le bord gauche)
+      // vers la droite (seul sens utile quand l'accroche est sur le bord gauche) ; on s'arrête dès que la note
+      // ne peut plus faire mieux que la meilleure place trouvée
       var x = x0;
-      while (x <= hiX) {
+      while (x <= maxX && note(extX(x), py) < bestScore) {
         var c = conflict(s, o, x, y);
         if (c < 0) {
           consider(x, y);
@@ -440,7 +421,7 @@ function nest(input) {
       // vers la gauche quand l'accroche est au milieu
       if (ax) {
         x = x0 - 1;
-        while (x >= loX) {
+        while (x >= 0 && note(extX(x), py) < bestScore) {
           var c2 = conflictLeft(s, o, x, y);
           if (c2 === x) {
             consider(x, y);

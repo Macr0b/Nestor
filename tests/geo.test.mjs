@@ -242,6 +242,35 @@ describe("Imbrication (nest)", () => {
     assert.ok(centre.sheets.length <= coin.sheets.length, `${centre.sheets.length} > ${coin.sheets.length}`);
   });
 
+  test("rotation libre groupée autour du centre : calcul raisonnable (garde-fou contre un ralentissement)", () => {
+    const L = [
+      [0, 0],
+      [300, 0],
+      [300, 80],
+      [80, 80],
+      [80, 200],
+      [0, 200]
+    ];
+    const para = [
+      [0, 0],
+      [120, 0],
+      [300, 180],
+      [180, 180]
+    ];
+    const t0 = Date.now();
+    const res = nest({
+      panels: [{ L: 2440, W: 1220, qty: -1 }],
+      gap: 3,
+      margin: 10,
+      types: [type(L, 15, { rot: 2 }), type(para, 10, { rot: 2 })],
+      anchor: { ax: 0.5, ay: 0.5 }
+    });
+    const dt = Date.now() - t0;
+    assert.equal(res.count, 25);
+    // environ 3 s sur une machine ordinaire ; avant l'optimisation 7,5 s
+    assert.ok(dt < 6000, `${dt} ms`);
+  });
+
   test("pièce exactement à la taille utile du panneau : placée", () => {
     const res = nest(input([type(rect(390, 590), 1)], [{ L: 400, W: 600, qty: -1 }], 2, 5));
     assert.equal(res.count, 1, "390 × 590 doit tenir dans 400 × 600 avec 5 mm de marge");

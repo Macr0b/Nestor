@@ -241,6 +241,57 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  // cas signalé : petit panneau, sens fixe, origine en bas au centre → 4 panneaux au lieu de 3 (1.2.4)
+  test("petit panneau, sens fixe : aucune origine ne demande plus de panneaux que le coin haut gauche", async () => {
+    const page = await open();
+    await page.fill('.pnl[data-i="0"] [data-k=L]', "200");
+    await page.fill('.pnl[data-i="0"] [data-k=W]', "300");
+    await page.fill("#sG", "20");
+    await page.fill("#sM", "9");
+    await page.selectOption("#rotAll", "fix");
+    const counts = {};
+    for (const o of ["tl", "tc", "tr", "ml", "mc", "mr", "bl", "bc", "br"]) {
+      await page.click(`.pnl[data-i="0"] [data-o=${o}]`);
+      await idle(page);
+      counts[o] = await page.locator(".sheet").count();
+      // aucune superposition : la matière utilisée par panneau ne peut pas dépasser 100 %
+      const used = await page.$$eval(".sheet h3 small", (v) =>
+        v.map((x) => parseFloat(x.innerText.split(":").pop().replace(",", ".")))
+      );
+      assert.ok(
+        used.every((u) => u <= 100),
+        `${o} : ${used}`
+      );
+    }
+    for (const o in counts)
+      assert.ok(counts[o] <= counts.tl, `origine ${o} : ${counts[o]} panneaux, ${counts.tl} depuis le coin`);
+    await page.context().close();
+  });
+
+  test("repère d'origine entier et discret, même dans un coin", async () => {
+    const page = await open();
+    for (const o of ["tl", "tr", "bl", "br", "mc"]) {
+      await page.click(`.pnl[data-i="0"] [data-o=${o}]`);
+      await idle(page);
+      const r = await page.$eval(".sheet svg", (svg) => {
+        const vb = svg.viewBox.baseVal,
+          b = svg.querySelector(".svg-origin").getBBox(),
+          sw = parseFloat(svg.querySelector(".svg-origin").getAttribute("stroke-width")) / 2;
+        return {
+          inside:
+            b.x - sw >= vb.x &&
+            b.y - sw >= vb.y &&
+            b.x + b.width + sw <= vb.x + vb.width &&
+            b.y + b.height + sw <= vb.y + vb.height,
+          ratio: b.width / Math.max(vb.width, vb.height)
+        };
+      });
+      assert.ok(r.inside, `origine ${o} : repère coupé par le bord du dessin`);
+      assert.ok(r.ratio < 0.04, `origine ${o} : repère trop grand (${(r.ratio * 100).toFixed(1)} % du panneau)`);
+    }
+    await page.context().close();
+  });
+
   test("quantités élevées : 800 pièces toutes placées", async () => {
     const page = await open();
     for (let i = 0; i < 4; i++) await page.fill(`.trow[data-i="${i}"] [data-k=qty]`, i === 3 ? "800" : "0");

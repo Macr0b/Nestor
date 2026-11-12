@@ -20,7 +20,7 @@
      pièces ............. liste des pièces, tri, rotation, échelle, copies
      derniers réglages .. mémorisation dans le navigateur
      réglages / installation / mises à jour / démarrage */
-var APP_VERSION = "1.2.4";
+var APP_VERSION = "1.2.5";
 
 (function () {
   "use strict";
@@ -97,6 +97,7 @@ var APP_VERSION = "1.2.4";
   }
   /* nouveautés des dernières versions (réglages) */
   var NEWS = [
+    ["1.2.5", "2026-11-12", "news.125"],
     ["1.2.4", "2026-11-12", "news.124"],
     ["1.2.3", "2026-11-12", "news.123"],
     ["1.2.2", "2026-11-10", "news.122"],
@@ -675,7 +676,11 @@ var APP_VERSION = "1.2.4";
       W = s.W,
       m = num(state.sheet.margin, 0),
       sw = Math.max(L, W) / 600,
-      pad = Math.max(L, W) * 0.015;
+      // repère d'origine : rayon du cercle et longueur des branches de la croix
+      r0 = Math.max(L, W) * 0.009,
+      arm = r0 * 1.7,
+      // marge autour du panneau : assez grande pour que le repère reste entier quand il est dans un coin
+      pad = Math.max(Math.max(L, W) * 0.015, arm + sw * 1.4);
     var id = "h" + Math.random().toString(36).slice(2, 8),
       hs = Math.max(L, W) / 70;
     var o = [
@@ -774,8 +779,7 @@ var APP_VERSION = "1.2.4";
       );
     });
     // repère d'origine (zéro machine)
-    var op = originPt(s),
-      r0 = Math.max(L, W) * 0.018;
+    var op = originPt(s);
     o.push(
       '<g class="svg-origin" stroke-width="' +
         sw * 1.4 +
@@ -786,17 +790,17 @@ var APP_VERSION = "1.2.4";
         '" r="' +
         r0 +
         '"/><path d="M' +
-        (op[0] - r0 * 1.8) +
+        (op[0] - arm) +
         " " +
         op[1] +
         "H" +
-        (op[0] + r0 * 1.8) +
+        (op[0] + arm) +
         "M" +
         op[0] +
         " " +
-        (op[1] - r0 * 1.8) +
+        (op[1] - arm) +
         "V" +
-        (op[1] + r0 * 1.8) +
+        (op[1] + arm) +
         '"/></g>'
     );
     o.push("</svg>");
@@ -1080,7 +1084,8 @@ var APP_VERSION = "1.2.4";
         p.dx = 0;
         p.dy = 0;
       });
-      if (o[1] === "c" || o[0] === "m") {
+      // le groupe de pièces est calé contre l'origine (ou centré) : utile quand le calcul est parti d'un autre coin
+      if (s.parts.length) {
         var x0 = Infinity,
           y0 = Infinity,
           x1 = -Infinity,
@@ -1091,8 +1096,8 @@ var APP_VERSION = "1.2.4";
           x1 = Math.max(x1, p.x + p.w);
           y1 = Math.max(y1, p.y + p.h);
         });
-        var dx = o[1] === "c" ? m + (s.L - 2 * m - (x1 - x0)) / 2 - x0 : 0,
-          dy = o[0] === "m" ? m + (s.W - 2 * m - (y1 - y0)) / 2 - y0 : 0;
+        var dx = o[1] === "c" ? m + (s.L - 2 * m - (x1 - x0)) / 2 - x0 : o[1] === "r" ? s.L - m - x1 : m - x0,
+          dy = o[0] === "m" ? m + (s.W - 2 * m - (y1 - y0)) / 2 - y0 : o[0] === "b" ? s.W - m - y1 : m - y0;
         s.parts.forEach(function (p) {
           p.x += dx;
           p.y += dy;
@@ -1245,6 +1250,24 @@ var APP_VERSION = "1.2.4";
       }
     });
   }
+  // imbrication pour une origine donnée. Si le résultat demande plus d'un panneau, on essaie aussi le remplissage
+  // classique depuis le coin haut gauche, sans retourner le panneau (retourner le problème donne des pièces vues
+  // en miroir, qui ne s'emboîtent pas pareil), puis le groupe est recalé contre l'origine. On garde le résultat qui
+  // place le plus de pièces sur le moins de panneaux ; à égalité, celui groupé autour de l'origine.
+  function nestBest(L, W, o, only, qtys) {
+    var f = frame(L, W, o);
+    return runNest(nestInput(f, only, qtys)).then(function (a) {
+      if (a.count === a.total && a.sheets.length <= 1) return applyOrigin(a, f);
+      var g = { tr: W > L, fx: false, fy: false, o: o, geo: true };
+      if (g.tr === f.tr && g.fx === f.fx && g.fy === f.fy) return applyOrigin(a, f);
+      var inB = nestInput(g, only, qtys);
+      inB.anchor = null;
+      return runNest(inB).then(function (b) {
+        var useB = b.count > a.count || (b.count === a.count && b.sheets.length < a.sheets.length);
+        return useB ? applyOrigin(b, g) : applyOrigin(a, f);
+      });
+    });
+  }
   function renderResult() {
     var my = ++job,
       mode = state.sheet.mode === "rect" ? "rect" : "nest",
@@ -1297,12 +1320,7 @@ var APP_VERSION = "1.2.4";
     var same = pl.every(function (p, pi) {
       return originOf(pi) === originOf(0);
     });
-    (same
-      ? runNest(input).then(function (res) {
-          return applyOrigin(res, f0);
-        })
-      : nestPerPanel(pl)
-    )
+    (same ? nestBest(pl[0].L, pl[0].W, originOf(0)) : nestPerPanel(pl))
       .then(function (res) {
         if (my !== job) return;
         msg.textContent = T("calc.done", { s: fmt((Date.now() - t0) / 1000), p: fmt(res.res) });
@@ -1344,9 +1362,7 @@ var APP_VERSION = "1.2.4";
       var cur = pi++,
         p = pl[cur];
       if (!(p.L > 0 && p.W > 0) || p.qty === 0) return step();
-      var f = frame(p.L, p.W, originOf(cur));
-      return runNest(nestInput(f, cur, qtys.slice())).then(function (r) {
-        applyOrigin(r, f);
+      return nestBest(p.L, p.W, originOf(cur), cur, qtys.slice()).then(function (r) {
         r.sheets.forEach(function (s) {
           s.pi = cur;
           s.parts.forEach(function (q) {
