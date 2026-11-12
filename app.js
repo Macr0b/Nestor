@@ -20,7 +20,7 @@
      pièces ............. liste des pièces, tri, rotation, échelle, copies
      derniers réglages .. mémorisation dans le navigateur
      réglages / installation / mises à jour / démarrage */
-var APP_VERSION = "1.2.3";
+var APP_VERSION = "1.2.4";
 
 (function () {
   "use strict";
@@ -97,6 +97,7 @@ var APP_VERSION = "1.2.3";
   }
   /* nouveautés des dernières versions (réglages) */
   var NEWS = [
+    ["1.2.4", "2026-11-12", "news.124"],
     ["1.2.3", "2026-11-12", "news.123"],
     ["1.2.2", "2026-11-10", "news.122"],
     ["1.2.1", "2026-11-10", "news.121"],

@@ -12,6 +12,15 @@
    les cases déjà occupées, élargies de l'écart demandé. */
 function nest(input) {
   "use strict";
+  // origine au centre ou au milieu d'un bord : grouper autour de ce point peut gaspiller de la place (une grande pièce
+  // posée au milieu bloque les côtés). On calcule aussi le groupement depuis le coin, et on le garde s'il place
+  // plus de pièces ou utilise moins de panneaux ; sinon le groupement autour de l'origine l'emporte.
+  if (!input._anch && input.anchor && (input.anchor.ax || input.anchor.ay)) {
+    var Anc = nest(Object.assign({}, input, { _anch: 1 }));
+    var Cor = nest(Object.assign({}, input, { _anch: 1, anchor: null }));
+    if (Cor.count > Anc.count || (Cor.count === Anc.count && Cor.sheets.length < Anc.sheets.length)) return Cor;
+    return Anc;
+  }
   // rotation libre : on calcule aussi la version « quart de tour » et on garde la meilleure, pour ne jamais faire pire
   if (
     !input._inner &&
@@ -315,7 +324,8 @@ function nest(input) {
     }
     return -1;
   }
-  // conflit en allant vers la gauche : renvoie la prochaine position x à essayer (plus à gauche), ou -1 si libre
+  // conflit en allant vers la gauche : renvoie x lui-même si la place est libre, sinon la prochaine position à essayer,
+  // toujours plus petite que x (elle peut être négative : la ligne est alors épuisée)
   function conflictLeft(s, o, x, y) {
     for (var j = 0; j < o.hc; j++) {
       var iv = o.rows[j],
@@ -325,7 +335,7 @@ function nest(input) {
         if (n <= x + iv[t + 1]) return n - iv[t + 1] - 1;
       }
     }
-    return -2;
+    return x;
   }
   // étendue d'une pièce depuis le point d'accroche, sur un axe (en cases) : depuis le bord, ou deux fois l'écart au milieu
   function extent(p, size, mid, half) {
@@ -432,7 +442,7 @@ function nest(input) {
         x = x0 - 1;
         while (x >= loX) {
           var c2 = conflictLeft(s, o, x, y);
-          if (c2 === -2) {
+          if (c2 === x) {
             consider(x, y);
             break;
           }

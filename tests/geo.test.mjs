@@ -192,6 +192,56 @@ describe("Imbrication (nest)", () => {
     assert.equal(res.count, 3);
   });
 
+  // cas réel signalé : panneau 300 × 200, écart 20, origine au centre, rotation libre → pièces superposées (1.2.3)
+  test("origine au centre, petit panneau, rotation libre : aucune pièce superposée", () => {
+    const inp = JSON.parse(fixture("centre-petit-panneau.json"));
+    // types repris tels quels (trous compris) ; paths sert à la vérification des écarts
+    const types = inp.types.map((t) => ({
+      ...t,
+      paths: t.polys.map((pts) => ({ pts, closed: true })).concat(t.lines.map((pts) => ({ pts, closed: false })))
+    }));
+    const res = nest(inp);
+    assert.equal(res.count, res.total);
+    for (const s of res.sheets)
+      assert.deepEqual(checkSheet(Geo, s, types, { margin: inp.margin, gap: inp.gap, tol: res.res + 0.05 }), []);
+  });
+
+  test("toutes les origines et rotations : marges et écarts respectés", () => {
+    const L = [
+      [0, 0],
+      [150, 0],
+      [150, 40],
+      [40, 40],
+      [40, 100],
+      [0, 100]
+    ];
+    const anchors = [null, { ax: 0, ay: 0 }, { ax: 0, ay: 0.5 }, { ax: 0.5, ay: 0.5 }];
+    for (const rot of [0, 1, 2])
+      for (const anchor of anchors) {
+        const types = [
+          type(rect(200, 120), 2, { rot }),
+          type(L, 3, { rot }),
+          type(disc(60), 5, { rot }),
+          type(rect(80, 30), 6, { rot })
+        ];
+        const res = nest({ panels: [{ L: 500, W: 350, qty: -1 }], gap: 4, margin: 6, types, anchor });
+        assert.equal(res.count, res.total);
+        for (const s of res.sheets)
+          assert.deepEqual(
+            checkSheet(Geo, s, types, { margin: 6, gap: 4, tol: res.res + 0.05 }),
+            [],
+            `rotation ${rot}, accroche ${JSON.stringify(anchor)}`
+          );
+      }
+  });
+
+  test("grouper autour de l'origine ne coûte jamais de panneau en plus", () => {
+    const inp = JSON.parse(fixture("centre-petit-panneau.json"));
+    const centre = nest(inp);
+    const coin = nest({ ...inp, anchor: null });
+    assert.ok(centre.sheets.length <= coin.sheets.length, `${centre.sheets.length} > ${coin.sheets.length}`);
+  });
+
   test("pièce exactement à la taille utile du panneau : placée", () => {
     const res = nest(input([type(rect(390, 590), 1)], [{ L: 400, W: 600, qty: -1 }], 2, 5));
     assert.equal(res.count, 1, "390 × 590 doit tenir dans 400 × 600 avec 5 mm de marge");

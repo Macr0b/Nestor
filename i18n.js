@@ -56,6 +56,7 @@ var I18N = {
 
 /* Français */
 I18N.dict["fr"] = {
+  "news.124": "Correction : des pièces pouvaient se superposer avec l’origine au centre. Grouper autour de l’origine ne demande jamais plus de panneaux.",
   "news.123": "Option pour exporter le contour du panneau avec les pièces (calque à part). Les pièces se groupent en bloc compact autour de l’origine choisie.",
   "dl.board": "Inclure le contour du panneau dans les exports",
   "dl.boardLayer": "Panneau",
@@ -231,6 +232,7 @@ I18N.dict["fr"] = {
 
 /* English */
 I18N.dict["en"] = {
+  "news.124": "Fix: parts could overlap with the origin in the centre. Grouping around the origin never needs more panels.",
   "news.123": "Option to export the panel outline with the parts (on its own layer). Parts are grouped in a compact block around the chosen origin.",
   "dl.board": "Include the panel outline in exports",
   "dl.boardLayer": "Panel",
@@ -406,6 +408,7 @@ I18N.dict["en"] = {
 
 /* Deutsch */
 I18N.dict["de"] = {
+  "news.124": "Korrektur: Bei Ursprung in der Mitte konnten sich Teile überlappen. Das Gruppieren um den Ursprung braucht nie mehr Platten.",
   "news.123": "Option, den Plattenumriss mit den Teilen zu exportieren (eigene Ebene). Die Teile werden als kompakter Block um den gewählten Ursprung gruppiert.",
   "dl.board": "Plattenumriss in Exporte aufnehmen",
   "dl.boardLayer": "Platte",
@@ -581,6 +584,7 @@ I18N.dict["de"] = {
 
 /* Español */
 I18N.dict["es"] = {
+  "news.124": "Corrección: las piezas podían superponerse con el origen en el centro. Agrupar alrededor del origen nunca requiere más tableros.",
   "news.123": "Opción para exportar el contorno del tablero con las piezas (en su propia capa). Las piezas se agrupan en un bloque compacto alrededor del origen elegido.",
   "dl.board": "Incluir el contorno del tablero en las exportaciones",
   "dl.boardLayer": "Tablero",
@@ -756,6 +760,7 @@ I18N.dict["es"] = {
 
 /* Português */
 I18N.dict["pt"] = {
+  "news.124": "Correção: peças podiam se sobrepor com a origem no centro. Agrupar em torno da origem nunca exige mais chapas.",
   "news.123": "Opção para exportar o contorno da chapa com as peças (em camada própria). As peças se agrupam em um bloco compacto em torno da origem escolhida.",
   "dl.board": "Incluir o contorno da chapa nas exportações",
   "dl.boardLayer": "Chapa",
@@ -931,6 +936,7 @@ I18N.dict["pt"] = {
 
 /* Русский */
 I18N.dict["ru"] = {
+  "news.124": "Исправлено: при начале координат в центре детали могли накладываться. Группировка вокруг начала координат больше не требует лишних листов.",
   "news.123": "Можно экспортировать контур листа вместе с деталями (на отдельном слое). Детали собираются компактным блоком вокруг выбранного начала координат.",
   "dl.board": "Добавлять контур листа в экспорт",
   "dl.boardLayer": "Лист",
@@ -1106,6 +1112,7 @@ I18N.dict["ru"] = {
 
 /* 中文（简体） */
 I18N.dict["zh"] = {
+  "news.124": "修复：原点在中心时零件可能重叠。围绕原点排布不会再多用板材。",
   "news.123": "可选择将板材轮廓与零件一起导出（单独图层）。零件围绕所选原点紧凑地排在一起。",
   "dl.board": "导出时包含板材轮廓",
   "dl.boardLayer": "板材",
@@ -1281,6 +1288,7 @@ I18N.dict["zh"] = {
 
 /* हिन्दी */
 I18N.dict["hi"] = {
+  "news.124": "सुधार: मूल बिंदु बीच में होने पर पुर्ज़े एक-दूसरे पर आ सकते थे। मूल बिंदु के आसपास समूह बनाने में कभी अधिक पैनल नहीं लगते।",
   "news.123": "पुर्ज़ों के साथ पैनल की रूपरेखा निर्यात करने का विकल्प (अलग परत पर)। पुर्ज़े चुने गए मूल बिंदु के आसपास एक सघन समूह में रखे जाते हैं।",
   "dl.board": "निर्यात में पैनल की रूपरेखा शामिल करें",
   "dl.boardLayer": "पैनल",
@@ -1456,6 +1464,7 @@ I18N.dict["hi"] = {
 
 /* বাংলা */
 I18N.dict["bn"] = {
+  "news.124": "সংশোধন: মূলবিন্দু মাঝখানে থাকলে অংশগুলো একটির ওপর আরেকটি পড়তে পারত। মূলবিন্দুর চারপাশে সাজাতে কখনো বেশি প্যানেল লাগে না।",
   "news.123": "অংশগুলোর সাথে প্যানেলের রূপরেখা রপ্তানির বিকল্প (আলাদা স্তরে)। অংশগুলো বেছে নেওয়া মূলবিন্দুর চারপাশে ঘন একটি ব্লকে সাজানো হয়।",
   "dl.board": "রপ্তানিতে প্যানেলের রূপরেখা যোগ করুন",
   "dl.boardLayer": "প্যানেল",
@@ -1631,6 +1640,7 @@ I18N.dict["bn"] = {
 
 /* العربية */
 I18N.dict["ar"] = {
+  "news.124": "إصلاح: كان يمكن أن تتداخل القطع عندما تكون نقطة الأصل في الوسط. التجميع حول نقطة الأصل لا يتطلب ألواحًا إضافية أبدًا.",
   "news.123": "خيار لتصدير حدود اللوح مع القطع (في طبقة مستقلة). تُجمَّع القطع في كتلة متراصة حول نقطة الأصل المختارة.",
   "dl.board": "تضمين حدود اللوح في التصدير",
   "dl.boardLayer": "اللوح",
@@ -1806,6 +1816,7 @@ I18N.dict["ar"] = {
 
 /* Bahasa Indonesia */
 I18N.dict["id"] = {
+  "news.124": "Perbaikan: komponen bisa bertumpuk saat titik asal di tengah. Pengelompokan di sekitar titik asal tidak pernah butuh panel lebih banyak.",
   "news.123": "Opsi untuk mengekspor garis tepi panel bersama komponen (di lapisan tersendiri). Komponen dikelompokkan dalam blok rapat di sekitar titik asal yang dipilih.",
   "dl.board": "Sertakan garis tepi panel saat ekspor",
   "dl.boardLayer": "Panel",
@@ -1981,6 +1992,7 @@ I18N.dict["id"] = {
 
 /* Беларуская */
 I18N.dict["be"] = {
+  "news.124": "Выпраўлена: пры пачатку каардынат у цэнтры дэталі маглі накладвацца. Групоўка вакол пачатку каардынат ніколі не патрабуе больш лістоў.",
   "news.123": "Можна экспартаваць контур ліста разам з дэталямі (на асобным слоі). Дэталі збіраюцца кампактным блокам вакол выбранага пачатку каардынат.",
   "dl.board": "Дадаваць контур ліста ў экспарт",
   "dl.boardLayer": "Ліст",
@@ -2156,6 +2168,7 @@ I18N.dict["be"] = {
 
 /* Български */
 I18N.dict["bg"] = {
+  "news.124": "Поправка: при начало в центъра детайлите можеха да се застъпват. Групирането около началото никога не изисква повече плочи.",
   "news.123": "Опция за експорт на контура на плочата с детайлите (на отделен слой). Детайлите се групират в компактен блок около избраното начало.",
   "dl.board": "Включване на контура на плочата в експорта",
   "dl.boardLayer": "Плоча",
@@ -2331,6 +2344,7 @@ I18N.dict["bg"] = {
 
 /* Bosanski */
 I18N.dict["bs"] = {
+  "news.124": "Ispravka: dijelovi su se mogli preklapati kada je ishodište u sredini. Grupisanje oko ishodišta nikad ne traži više ploča.",
   "news.123": "Opcija za izvoz obrisa ploče zajedno s dijelovima (na zasebnom sloju). Dijelovi se grupišu u zbijen blok oko odabranog ishodišta.",
   "dl.board": "Uključi obris ploče u izvoz",
   "dl.boardLayer": "Ploča",
@@ -2506,6 +2520,7 @@ I18N.dict["bs"] = {
 
 /* Català */
 I18N.dict["ca"] = {
+  "news.124": "Correcció: les peces es podien superposar amb l’origen al centre. Agrupar al voltant de l’origen no demana mai més taulers.",
   "news.123": "Opció per exportar el contorn del tauler amb les peces (en una capa pròpia). Les peces s’agrupen en un bloc compacte al voltant de l’origen triat.",
   "dl.board": "Incloure el contorn del tauler a les exportacions",
   "dl.boardLayer": "Tauler",
@@ -2681,6 +2696,7 @@ I18N.dict["ca"] = {
 
 /* Čeština */
 I18N.dict["cs"] = {
+  "news.124": "Oprava: při počátku uprostřed se díly mohly překrývat. Seskupení kolem počátku nikdy nevyžaduje víc desek.",
   "news.123": "Možnost exportovat obrys desky spolu s díly (ve vlastní vrstvě). Díly se seskupí do kompaktního bloku kolem zvoleného počátku.",
   "dl.board": "Zahrnout obrys desky do exportu",
   "dl.boardLayer": "Deska",
@@ -2856,6 +2872,7 @@ I18N.dict["cs"] = {
 
 /* Dansk */
 I18N.dict["da"] = {
+  "news.124": "Rettelse: emner kunne overlappe med origo i midten. Gruppering omkring origo kræver aldrig flere plader.",
   "news.123": "Mulighed for at eksportere pladens omrids med emnerne (på eget lag). Emnerne samles i en kompakt blok omkring det valgte origo.",
   "dl.board": "Medtag pladens omrids i eksport",
   "dl.boardLayer": "Plade",
@@ -3031,6 +3048,7 @@ I18N.dict["da"] = {
 
 /* Ελληνικά */
 I18N.dict["el"] = {
+  "news.124": "Διόρθωση: τα κομμάτια μπορούσαν να επικαλύπτονται με την αρχή στο κέντρο. Η ομαδοποίηση γύρω από την αρχή δεν απαιτεί ποτέ περισσότερα φύλλα.",
   "news.123": "Επιλογή εξαγωγής του περιγράμματος του φύλλου μαζί με τα κομμάτια (σε δικό του επίπεδο). Τα κομμάτια ομαδοποιούνται σε συμπαγές μπλοκ γύρω από την επιλεγμένη αρχή.",
   "dl.board": "Συμπερίληψη του περιγράμματος του φύλλου στις εξαγωγές",
   "dl.boardLayer": "Φύλλο",
@@ -3206,6 +3224,7 @@ I18N.dict["el"] = {
 
 /* Eesti */
 I18N.dict["et"] = {
+  "news.124": "Parandus: keskel oleva alguspunkti korral võisid detailid kattuda. Alguspunkti ümber koondamine ei nõua kunagi rohkem plaate.",
   "news.123": "Võimalus eksportida plaadi kontuur koos detailidega (eraldi kihil). Detailid koondatakse kompaktseks plokiks valitud alguspunkti ümber.",
   "dl.board": "Lisa ekspordile plaadi kontuur",
   "dl.boardLayer": "Plaat",
@@ -3381,6 +3400,7 @@ I18N.dict["et"] = {
 
 /* Suomi */
 I18N.dict["fi"] = {
+  "news.124": "Korjaus: osat saattoivat mennä päällekkäin, kun origo oli keskellä. Ryhmittely origon ympärille ei koskaan vaadi enempää levyjä.",
   "news.123": "Mahdollisuus viedä levyn ääriviiva osien kanssa (omalla tasollaan). Osat ryhmitellään tiiviiksi lohkoksi valitun origon ympärille.",
   "dl.board": "Sisällytä levyn ääriviiva vientiin",
   "dl.boardLayer": "Levy",
@@ -3556,6 +3576,7 @@ I18N.dict["fi"] = {
 
 /* Gaeilge */
 I18N.dict["ga"] = {
+  "news.124": "Ceartú: d’fhéadfadh páirteanna forluí nuair a bhí an bunphointe sa lár. Ní theastaíonn níos mó painéal riamh chun grúpáil timpeall an bhunphointe.",
   "news.123": "Rogha chun imlíne an phainéil a easpórtáil leis na páirteanna (ar a sraith féin). Grúpáiltear na páirteanna i mbloc dlúth timpeall ar an mbunphointe a roghnaíodh.",
   "dl.board": "Cuir imlíne an phainéil san áireamh sna heaspórtálacha",
   "dl.boardLayer": "Painéal",
@@ -3731,6 +3752,7 @@ I18N.dict["ga"] = {
 
 /* Hrvatski */
 I18N.dict["hr"] = {
+  "news.124": "Ispravak: dijelovi su se mogli preklapati kad je ishodište u sredini. Grupiranje oko ishodišta nikad ne traži više ploča.",
   "news.123": "Mogućnost izvoza obrisa ploče zajedno s dijelovima (na zasebnom sloju). Dijelovi se grupiraju u zbijeni blok oko odabranog ishodišta.",
   "dl.board": "Uključi obris ploče u izvoz",
   "dl.boardLayer": "Ploča",
@@ -3906,6 +3928,7 @@ I18N.dict["hr"] = {
 
 /* Magyar */
 I18N.dict["hu"] = {
+  "news.124": "Javítás: középső origónál az alkatrészek egymásra kerülhettek. Az origó körüli csoportosítás soha nem igényel több táblát.",
   "news.123": "Lehetőség a tábla körvonalának exportálására az alkatrészekkel (külön rétegen). Az alkatrészek tömör blokkba rendeződnek a választott origó körül.",
   "dl.board": "A tábla körvonalának hozzáadása az exporthoz",
   "dl.boardLayer": "Tábla",
@@ -4081,6 +4104,7 @@ I18N.dict["hu"] = {
 
 /* Íslenska */
 I18N.dict["is"] = {
+  "news.124": "Lagfæring: hlutir gátu skarast þegar upphafspunktur var í miðju. Röðun umhverfis upphafspunkt krefst aldrei fleiri platna.",
   "news.123": "Valkostur til að flytja út útlínu plötunnar með hlutunum (á eigin lagi). Hlutunum er raðað í þéttan klasa umhverfis valinn upphafspunkt.",
   "dl.board": "Taka útlínu plötunnar með í útflutning",
   "dl.boardLayer": "Plata",
@@ -4256,6 +4280,7 @@ I18N.dict["is"] = {
 
 /* Italiano */
 I18N.dict["it"] = {
+  "news.124": "Correzione: i pezzi potevano sovrapporsi con l’origine al centro. Raggruppare attorno all’origine non richiede mai più pannelli.",
   "news.123": "Opzione per esportare il contorno del pannello con i pezzi (su un livello a parte). I pezzi si raggruppano in un blocco compatto attorno all’origine scelta.",
   "dl.board": "Includi il contorno del pannello negli export",
   "dl.boardLayer": "Pannello",
@@ -4431,6 +4456,7 @@ I18N.dict["it"] = {
 
 /* 日本語 */
 I18N.dict["ja"] = {
+  "news.124": "修正：原点が中央のとき部品が重なることがありました。原点のまわりにまとめても板材が増えることはありません。",
   "news.123": "部品と一緒に板材の外形を書き出すオプション（専用レイヤー）。部品は選んだ原点のまわりにまとまって配置されます。",
   "dl.board": "書き出しに板材の外形を含める",
   "dl.boardLayer": "板材",
@@ -4606,6 +4632,7 @@ I18N.dict["ja"] = {
 
 /* 한국어 */
 I18N.dict["ko"] = {
+  "news.124": "수정: 원점이 가운데일 때 부품이 겹칠 수 있었습니다. 원점 주위로 모아도 판재가 더 필요하지 않습니다.",
   "news.123": "부품과 함께 판재 외곽선을 내보내는 옵션(별도 레이어). 부품이 선택한 원점 주위에 촘촘한 묶음으로 모입니다.",
   "dl.board": "내보내기에 판재 외곽선 포함",
   "dl.boardLayer": "판재",
@@ -4781,6 +4808,7 @@ I18N.dict["ko"] = {
 
 /* Lëtzebuergesch */
 I18N.dict["lb"] = {
+  "news.124": "Korrektur: Mam Ursprung an der Mëtt konnte Stécker iwwerlappen. D’Gruppéieren ronderëm den Ursprung brauch ni méi Placken.",
   "news.123": "Optioun, fir d’Kontur vun der Plack mat de Stécker ze exportéieren (op enger eegener Schicht). D’Stécker ginn als kompakte Block ronderëm den gewielten Ursprung gruppéiert.",
   "dl.board": "Kontur vun der Plack an d’Exporter ophuelen",
   "dl.boardLayer": "Plack",
@@ -4956,6 +4984,7 @@ I18N.dict["lb"] = {
 
 /* Lietuvių */
 I18N.dict["lt"] = {
+  "news.124": "Pataisa: kai pradžios taškas centre, detalės galėjo persidengti. Grupavimas aplink pradžios tašką niekada nereikalauja daugiau plokščių.",
   "news.123": "Galimybė eksportuoti plokštės kontūrą kartu su detalėmis (atskirame sluoksnyje). Detalės sugrupuojamos į kompaktišką bloką aplink pasirinktą pradžios tašką.",
   "dl.board": "Įtraukti plokštės kontūrą į eksportą",
   "dl.boardLayer": "Plokštė",
@@ -5131,6 +5160,7 @@ I18N.dict["lt"] = {
 
 /* Latviešu */
 I18N.dict["lv"] = {
+  "news.124": "Labojums: ja sākumpunkts bija centrā, detaļas varēja pārklāties. Grupēšana ap sākumpunktu nekad neprasa vairāk plātņu.",
   "news.123": "Iespēja eksportēt plātnes kontūru kopā ar detaļām (atsevišķā slānī). Detaļas tiek sakārtotas kompaktā blokā ap izvēlēto sākumpunktu.",
   "dl.board": "Iekļaut plātnes kontūru eksportā",
   "dl.boardLayer": "Plātne",
@@ -5306,6 +5336,7 @@ I18N.dict["lv"] = {
 
 /* Македонски */
 I18N.dict["mk"] = {
+  "news.124": "Поправка: деловите можеа да се преклопуваат кога потеклото е во средина. Групирањето околу потеклото никогаш не бара повеќе плочи.",
   "news.123": "Опција за извоз на контурот на плочата со деловите (на посебен слој). Деловите се групираат во збиен блок околу избраното потекло.",
   "dl.board": "Вклучи го контурот на плочата во извозот",
   "dl.boardLayer": "Плоча",
@@ -5481,6 +5512,7 @@ I18N.dict["mk"] = {
 
 /* Malti */
 I18N.dict["mt"] = {
+  "news.124": "Korrezzjoni: il-biċċiet setgħu jirkbu fuq xulxin bl-oriġini fiċ-ċentru. Il-ġbir madwar l-oriġini qatt ma jeħtieġ aktar pannelli.",
   "news.123": "Għażla biex tesporta l-kontorn tal-pannell mal-biċċiet (fuq saff għalih). Il-biċċiet jinġabru fi blokk kompatt madwar l-oriġini magħżula.",
   "dl.board": "Inkludi l-kontorn tal-pannell fl-esportazzjonijiet",
   "dl.boardLayer": "Pannell",
@@ -5656,6 +5688,7 @@ I18N.dict["mt"] = {
 
 /* Norsk bokmål */
 I18N.dict["nb"] = {
+  "news.124": "Retting: deler kunne overlappe med origo i midten. Gruppering rundt origo krever aldri flere plater.",
   "news.123": "Mulighet for å eksportere platens omriss med delene (på eget lag). Delene samles i en kompakt blokk rundt valgt origo.",
   "dl.board": "Ta med platens omriss i eksport",
   "dl.boardLayer": "Plate",
@@ -5831,6 +5864,7 @@ I18N.dict["nb"] = {
 
 /* Nederlands */
 I18N.dict["nl"] = {
+  "news.124": "Correctie: onderdelen konden overlappen met de oorsprong in het midden. Groeperen rond de oorsprong kost nooit meer platen.",
   "news.123": "Optie om de plaatomtrek samen met de onderdelen te exporteren (op een eigen laag). Onderdelen worden in een compact blok rond de gekozen oorsprong gegroepeerd.",
   "dl.board": "Plaatomtrek meenemen in export",
   "dl.boardLayer": "Plaat",
@@ -6006,6 +6040,7 @@ I18N.dict["nl"] = {
 
 /* Polski */
 I18N.dict["pl"] = {
+  "news.124": "Poprawka: przy punkcie początkowym w środku elementy mogły na siebie nachodzić. Grupowanie wokół punktu początkowego nigdy nie wymaga więcej płyt.",
   "news.123": "Opcja eksportu obrysu płyty razem z elementami (na osobnej warstwie). Elementy grupują się w zwarty blok wokół wybranego punktu początkowego.",
   "dl.board": "Dołącz obrys płyty do eksportu",
   "dl.boardLayer": "Płyta",
@@ -6181,6 +6216,7 @@ I18N.dict["pl"] = {
 
 /* Română */
 I18N.dict["ro"] = {
+  "news.124": "Corecție: piesele se puteau suprapune cu originea în centru. Gruparea în jurul originii nu cere niciodată mai multe panouri.",
   "news.123": "Opțiune de a exporta conturul panoului împreună cu piesele (pe un strat separat). Piesele se grupează într-un bloc compact în jurul originii alese.",
   "dl.board": "Include conturul panoului în exporturi",
   "dl.boardLayer": "Panou",
@@ -6356,6 +6392,7 @@ I18N.dict["ro"] = {
 
 /* Slovenčina */
 I18N.dict["sk"] = {
+  "news.124": "Oprava: pri počiatku v strede sa diely mohli prekrývať. Zoskupenie okolo počiatku nikdy nevyžaduje viac dosiek.",
   "news.123": "Možnosť exportovať obrys dosky spolu s dielmi (vo vlastnej vrstve). Diely sa zoskupia do kompaktného bloku okolo zvoleného počiatku.",
   "dl.board": "Zahrnúť obrys dosky do exportu",
   "dl.boardLayer": "Doska",
@@ -6531,6 +6568,7 @@ I18N.dict["sk"] = {
 
 /* Slovenščina */
 I18N.dict["sl"] = {
+  "news.124": "Popravek: pri izhodišču na sredini so se kosi lahko prekrivali. Združevanje okoli izhodišča nikoli ne zahteva več plošč.",
   "news.123": "Možnost izvoza obrisa plošče skupaj s kosi (na ločeni plasti). Kosi se združijo v strnjen blok okoli izbranega izhodišča.",
   "dl.board": "Vključi obris plošče v izvoz",
   "dl.boardLayer": "Plošča",
@@ -6706,6 +6744,7 @@ I18N.dict["sl"] = {
 
 /* Shqip */
 I18N.dict["sq"] = {
+  "news.124": "Korrigjim: pjesët mund të mbiviheshin kur origjina ishte në qendër. Grupimi rreth origjinës nuk kërkon kurrë më shumë panele.",
   "news.123": "Mundësi për të eksportuar konturin e panelit me pjesët (në shtresë më vete). Pjesët grupohen në një bllok kompakt rreth origjinës së zgjedhur.",
   "dl.board": "Përfshi konturin e panelit në eksportime",
   "dl.boardLayer": "Paneli",
@@ -6881,6 +6920,7 @@ I18N.dict["sq"] = {
 
 /* Српски */
 I18N.dict["sr"] = {
+  "news.124": "Исправка: делови су могли да се преклапају када је исходиште у средини. Груписање око исходишта никад не тражи више плоча.",
   "news.123": "Могућност извоза обриса плоче заједно са деловима (на засебном слоју). Делови се групишу у збијен блок око изабраног исходишта.",
   "dl.board": "Укључи обрис плоче у извоз",
   "dl.boardLayer": "Плоча",
@@ -7056,6 +7096,7 @@ I18N.dict["sr"] = {
 
 /* Svenska */
 I18N.dict["sv"] = {
+  "news.124": "Rättning: delar kunde överlappa med origo i mitten. Gruppering runt origo kräver aldrig fler skivor.",
   "news.123": "Möjlighet att exportera skivans kontur med delarna (på ett eget lager). Delarna samlas i ett kompakt block runt valt origo.",
   "dl.board": "Ta med skivans kontur i exporten",
   "dl.boardLayer": "Skiva",
@@ -7231,6 +7272,7 @@ I18N.dict["sv"] = {
 
 /* ไทย */
 I18N.dict["th"] = {
+  "news.124": "แก้ไข: ชิ้นงานอาจซ้อนกันเมื่อจุดกำเนิดอยู่ตรงกลาง การจัดรวมรอบจุดกำเนิดจะไม่ใช้แผ่นวัสดุเพิ่มอีก",
   "news.123": "ตัวเลือกส่งออกเส้นขอบแผ่นวัสดุพร้อมชิ้นงาน (แยกเลเยอร์) ชิ้นงานจะถูกจัดรวมกันแน่นรอบจุดกำเนิดที่เลือก",
   "dl.board": "รวมเส้นขอบแผ่นวัสดุในไฟล์ส่งออก",
   "dl.boardLayer": "แผ่นวัสดุ",
@@ -7406,6 +7448,7 @@ I18N.dict["th"] = {
 
 /* Türkçe */
 I18N.dict["tr"] = {
+  "news.124": "Düzeltme: başlangıç noktası ortadayken parçalar üst üste binebiliyordu. Başlangıç çevresinde gruplamak artık asla daha fazla levha gerektirmez.",
   "news.123": "Levha konturunu parçalarla birlikte dışa aktarma seçeneği (ayrı katmanda). Parçalar seçilen başlangıç noktası çevresinde sıkı bir blok halinde toplanır.",
   "dl.board": "Dışa aktarmaya levha konturunu ekle",
   "dl.boardLayer": "Levha",
@@ -7581,6 +7624,7 @@ I18N.dict["tr"] = {
 
 /* Українська */
 I18N.dict["uk"] = {
+  "news.124": "Виправлено: за початку координат у центрі деталі могли накладатися. Групування навколо початку координат ніколи не потребує більше листів.",
   "news.123": "Можна експортувати контур листа разом із деталями (на окремому шарі). Деталі збираються компактним блоком навколо вибраного початку координат.",
   "dl.board": "Додавати контур листа в експорт",
   "dl.boardLayer": "Лист",
@@ -7756,6 +7800,7 @@ I18N.dict["uk"] = {
 
 /* 中文（繁體） */
 I18N.dict["zh-Hant"] = {
+  "news.124": "修正：原點在中心時零件可能重疊。圍繞原點排布不會再多用板材。",
   "news.123": "可選擇將板材輪廓與零件一起匯出（獨立圖層）。零件圍繞所選原點緊密地排在一起。",
   "dl.board": "匯出時包含板材輪廓",
   "dl.boardLayer": "板材",
