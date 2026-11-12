@@ -227,6 +227,11 @@ describe("Export DXF", () => {
     const d = Geo.exportDXF([{ ...polys[0], layer: "Découpe bois" }], 0, 0);
     assert.match(d, /\nDecoupe_bois\r?\n/);
   });
+
+  test("calque au nom non latin : nom lisible au lieu de « ____ »", () => {
+    const d = Geo.exportDXF([{ ...polys[0], layer: "板材" }], 0, 0);
+    assert.match(d, /\nLAYER_\d+\r?\n/);
+  });
 });
 
 describe("Pièces placées (placedPaths)", () => {

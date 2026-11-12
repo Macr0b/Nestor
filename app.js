@@ -20,7 +20,7 @@
      pièces ............. liste des pièces, tri, rotation, échelle, copies
      derniers réglages .. mémorisation dans le navigateur
      réglages / installation / mises à jour / démarrage */
-var APP_VERSION = "1.2.2";
+var APP_VERSION = "1.2.3";
 
 (function () {
   "use strict";
@@ -97,6 +97,7 @@ var APP_VERSION = "1.2.2";
   }
   /* nouveautés des dernières versions (réglages) */
   var NEWS = [
+    ["1.2.3", "2026-11-12", "news.123"],
     ["1.2.2", "2026-11-10", "news.122"],
     ["1.2.1", "2026-11-10", "news.121"],
     ["1.2.0", "2026-11-08", ["news.120", "news.113"]],
@@ -800,6 +801,28 @@ var APP_VERSION = "1.2.2";
     o.push("</svg>");
     return o.join("");
   }
+  // contour du panneau (option d'export) : un rectangle aux dimensions du panneau, sur son propre calque
+  var BOARD_COLOR = "#808080";
+  function boardPath(s) {
+    return {
+      pts: [
+        [0, 0],
+        [s.L, 0],
+        [s.L, s.W],
+        [0, s.W]
+      ],
+      closed: true,
+      layer: T("dl.boardLayer"),
+      color: BOARD_COLOR
+    };
+  }
+  function exportPolys(s) {
+    var polys = exportBoard ? [boardPath(s)] : [];
+    s.parts.forEach(function (p) {
+      polys = polys.concat(partPaths(p, s));
+    });
+    return polys;
+  }
   function exportSVGText(s) {
     // calques d'origine conservés (lisibles par Illustrator, Inkscape, LightBurn), puis regroupement par couleur
     var L = s.L,
@@ -807,19 +830,17 @@ var APP_VERSION = "1.2.2";
       layers = {},
       lorder = [];
     var op = originPt(s);
-    s.parts.forEach(function (p) {
-      partPaths(p, s).forEach(function (q) {
-        q.pts = q.pts.map(function (v) {
-          return [v[0] - op[0], v[1] - op[1]];
-        });
-        var ly = q.layer || "",
-          key = q.color || "#000000";
-        if (!layers[ly]) {
-          layers[ly] = {};
-          lorder.push(ly);
-        }
-        (layers[ly][key] = layers[ly][key] || []).push(q);
+    exportPolys(s).forEach(function (q) {
+      q.pts = q.pts.map(function (v) {
+        return [v[0] - op[0], v[1] - op[1]];
       });
+      var ly = q.layer || "",
+        key = q.color || "#000000";
+      if (!layers[ly]) {
+        layers[ly] = {};
+        lorder.push(ly);
+      }
+      (layers[ly][key] = layers[ly][key] || []).push(q);
     });
     var o = [
       '<?xml version="1.0" encoding="UTF-8"?>',
@@ -978,8 +999,9 @@ var APP_VERSION = "1.2.2";
     var o = s.o || originOf(s.pi || 0);
     return [o[1] === "l" ? 0 : o[1] === "c" ? s.L / 2 : s.L, o[0] === "t" ? 0 : o[0] === "m" ? s.W / 2 : s.W];
   }
-  // repère de calcul : l'imbrication remplit toujours depuis (0,0) en colonnes ; on transpose et/ou retourne
-  // le problème pour qu'elle parte du coin, du bord ou du centre choisi, puis on revient au repère du panneau.
+  // repère de calcul : on transpose et/ou retourne le problème pour que l'origine choisie tombe sur le bord gauche
+  // (coin en haut à gauche, ou milieu du bord gauche, ou centre) ; l'imbrication groupe les pièces autour de ce
+  // point d'accroche (voir anchor dans nestInput), puis on revient au repère du panneau.
   function frame(L, W, o) {
     var r = o[0],
       c = o[1],
@@ -1137,6 +1159,9 @@ var APP_VERSION = "1.2.2";
       }),
       gap: num(state.sheet.gap, 0),
       margin: num(state.sheet.margin, 0),
+      // dans le repère de calcul, l'origine choisie est toujours sur le bord gauche (x = 0) :
+      // coin → accroche en (0, 0) ; milieu d'un bord → (0, milieu) ; centre → (milieu, milieu)
+      anchor: { ax: f.o === "mc" ? 0.5 : 0, ay: f.o[0] === "m" || f.o[1] === "c" ? 0.5 : 0 },
       types: state.types
         .map(eff)
         .map(function (t) {
@@ -1403,6 +1428,14 @@ var APP_VERSION = "1.2.2";
       stock = names("stock");
     if (big.length) h.push('<div class="alert">' + esc(T("res.tooBig", { list: big.join(", ") })) + "</div>");
     if (stock.length) h.push('<div class="alert">' + esc(T("res.noStock", { list: stock.join(", ") })) + "</div>");
+    if (n)
+      h.push(
+        '<label class="dlopt"><input type="checkbox" id="dlBoard"' +
+          (exportBoard ? " checked" : "") +
+          "> " +
+          esc(T("dl.board")) +
+          "</label>"
+      );
     res.sheets.forEach(function (s, si) {
       var fr = s.free && s.free[0];
       var meta =
@@ -1438,6 +1471,11 @@ var APP_VERSION = "1.2.2";
     if (n) h.push('<p class="hint">' + esc(T("res.note")) + "</p>");
     $("result").innerHTML = h.join("");
   }
+  $("result").addEventListener("change", function (e) {
+    if (e.target.id !== "dlBoard") return;
+    exportBoard = e.target.checked;
+    markDirty();
+  });
   $("result").addEventListener("click", function (e) {
     var b = e.target.closest("[data-dl]");
     if (!b || !last) return;
@@ -1451,12 +1489,8 @@ var APP_VERSION = "1.2.2";
       data = exportSVGText(s);
       type = "image/svg+xml";
     } else {
-      var polys = [],
-        op = originPt(s);
-      s.parts.forEach(function (p) {
-        polys = polys.concat(partPaths(p, s));
-      });
-      data = Geo.exportDXF(polys, op[0], op[1]);
+      var op = originPt(s);
+      data = Geo.exportDXF(exportPolys(s), op[0], op[1]);
       type = "application/dxf";
     }
     saveFile(base + "." + kind, new Blob([data], { type: type }))
@@ -2006,6 +2040,7 @@ var APP_VERSION = "1.2.2";
   }
 
   /* ---------- derniers réglages (mémorisés sur l'appareil) ---------- */
+  var exportBoard = false; // option « inclure le contour du panneau » dans les exports
   var PREFS = "plancoupe.reglages.v1",
     prefT = null;
   function markDirty() {
@@ -2022,7 +2057,8 @@ var APP_VERSION = "1.2.2";
           margin: state.sheet.margin,
           mode: state.sheet.mode,
           rot: state.rotAll,
-          sort: state.sort
+          sort: state.sort,
+          board: exportBoard
         })
       );
     } catch (e) {}
@@ -2040,6 +2076,7 @@ var APP_VERSION = "1.2.2";
             origin: okO(x.origin || p.origin)
           };
         });
+      exportBoard = p.board === true;
       if (p.gap != null) state.sheet.gap = num(p.gap, 2);
       if (p.margin != null) state.sheet.margin = num(p.margin, 5);
       state.sheet.mode = p.mode === "rect" ? "rect" : "nest";

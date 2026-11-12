@@ -205,6 +205,42 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("option contour du panneau : rectangle aux dimensions du panneau, calque à part, mémorisée", async () => {
+    const page = await open();
+    const dl = async (kind) => {
+      const [d] = await Promise.all([page.waitForEvent("download"), page.click(`[data-dl=${kind}][data-s="0"]`)]);
+      return readFile(await d.path(), "utf8");
+    };
+    assert.doesNotMatch(await dl("dxf"), /\nPanneau\r?\n/, "sans l'option : pas de contour");
+    await page.check("#dlBoard");
+    await page.click('.pnl[data-i="0"] [data-o=bl]');
+    await idle(page);
+    assert.equal(await page.isChecked("#dlBoard"), true, "la case reste cochée après un recalcul");
+    const dxf = await dl("dxf");
+    const lines = dxf.split(/\r?\n/),
+      xs = [],
+      ys = [];
+    for (let i = 0; i < lines.length - 3; i++)
+      if (lines[i].trim() === "VERTEX" && lines[i + 2].trim() === "Panneau") {
+        xs.push(+lines[i + 4]);
+        ys.push(+lines[i + 6]);
+      }
+    assert.equal(xs.length, 4, "4 sommets sur le calque Panneau");
+    // origine en bas à gauche : le rectangle va de 0,0 à la taille du panneau
+    assert.deepEqual([Math.min(...xs), Math.min(...ys)], [0, 0]);
+    assert.deepEqual(
+      [Math.max(...xs), Math.max(...ys)],
+      [400, 600],
+      "panneau de l'exemple : 400 de large, 600 de haut"
+    );
+    assert.match(await dl("svg"), /inkscape:label="Panneau"/);
+    // l'option reste cochée après rechargement
+    await page.reload();
+    await idle(page);
+    assert.equal(await page.isChecked("#dlBoard"), true);
+    await page.context().close();
+  });
+
   test("quantités élevées : 800 pièces toutes placées", async () => {
     const page = await open();
     for (let i = 0; i < 4; i++) await page.fill(`.trow[data-i="${i}"] [data-k=qty]`, i === 3 ? "800" : "0");
@@ -221,24 +257,21 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
-  test(
-    "SVG piégé : le fichier ne peut ni exécuter de code ni modifier la page",
-    async () => {
-      const page = await open();
-      await load(page, "piege.svg");
-      assert.equal(await page.evaluate(() => window.__piege), undefined, "aucun script exécuté");
-      // les deux rectangles sont lus (celui qui était dans un lien aussi), avec la couleur venue de la classe
-      const src = await readFile(FIX("piege.svg"), "utf8");
-      const r = await page.evaluate((t) => Formats.parseSVG(t, "auto").paths.map((p) => p.color), src);
-      assert.equal(r.length, 2);
-      assert.ok(r.includes("rgb(238, 0, 0)"), `couleurs lues : ${r}`);
-      assert.notEqual(
-        await page.evaluate(() => getComputedStyle(document.body).display),
-        "none",
-        "le style du fichier ne touche pas la page"
-      );
-      assert.equal(await page.locator("#svgScratch image, #svgScratch a, #svgScratch style").count(), 0);
-      await page.context().close();
-    }
-  );
+  test("SVG piégé : le fichier ne peut ni exécuter de code ni modifier la page", async () => {
+    const page = await open();
+    await load(page, "piege.svg");
+    assert.equal(await page.evaluate(() => window.__piege), undefined, "aucun script exécuté");
+    // les deux rectangles sont lus (celui qui était dans un lien aussi), avec la couleur venue de la classe
+    const src = await readFile(FIX("piege.svg"), "utf8");
+    const r = await page.evaluate((t) => Formats.parseSVG(t, "auto").paths.map((p) => p.color), src);
+    assert.equal(r.length, 2);
+    assert.ok(r.includes("rgb(238, 0, 0)"), `couleurs lues : ${r}`);
+    assert.notEqual(
+      await page.evaluate(() => getComputedStyle(document.body).display),
+      "none",
+      "le style du fichier ne touche pas la page"
+    );
+    assert.equal(await page.locator("#svgScratch image, #svgScratch a, #svgScratch style").count(), 0);
+    await page.context().close();
+  });
 });

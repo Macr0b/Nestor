@@ -56,6 +56,9 @@ var I18N = {
 
 /* Français */
 I18N.dict["fr"] = {
+  "news.123": "Option pour exporter le contour du panneau avec les pièces (calque à part). Les pièces se groupent en bloc compact autour de l’origine choisie.",
+  "dl.board": "Inclure le contour du panneau dans les exports",
+  "dl.boardLayer": "Panneau",
   "news.122": "Import SVG plus sûr : seule la géométrie du fichier est gardée. Tests automatiques et code réorganisé.",
   "app.title": "Nestor",
   "proj.title": "Projet",
@@ -135,7 +138,7 @@ I18N.dict["fr"] = {
   "res.waste": "Chute matière",
   "res.tooBig": "Trop grande pour la zone utile du panneau : {list}. Vérifie les unités du fichier, la marge ou autorise la rotation.",
   "res.empty": "Importe un fichier ou coche des pièces pour voir le plan.",
-  "res.note": "Les fichiers sont en mm, avec le zéro sur l’origine choisie, sans le contour du panneau. Les couleurs de traits du SVG d’origine et les calques sont conservés.",
+  "res.note": "Les fichiers sont en mm, avec le zéro sur l’origine choisie. Les couleurs de traits du SVG d’origine et les calques sont conservés.",
   "res.panelAria": "Panneau {w} × {h} mm",
   "sheet.title": "Panneau {i} / {n}",
   "sheet.meta": "Pièces : {n} · matière utilisée : {u} %",
@@ -228,6 +231,9 @@ I18N.dict["fr"] = {
 
 /* English */
 I18N.dict["en"] = {
+  "news.123": "Option to export the panel outline with the parts (on its own layer). Parts are grouped in a compact block around the chosen origin.",
+  "dl.board": "Include the panel outline in exports",
+  "dl.boardLayer": "Panel",
   "news.122": "Safer SVG import: only the file’s geometry is kept. Automated tests and reorganised code.",
   "app.title": "Nestor",
   "proj.title": "Project",
@@ -307,7 +313,7 @@ I18N.dict["en"] = {
   "res.waste": "Material waste",
   "res.tooBig": "Too large for the usable area of the sheet: {list}. Check the file units, the margin, or allow rotation.",
   "res.empty": "Import a file or select parts to see the layout.",
-  "res.note": "Files are in mm, with the zero at the chosen origin, without the sheet outline. Stroke colours from the original SVG and the layers are kept.",
+  "res.note": "Files are in mm, with the zero at the chosen origin. Stroke colours from the original SVG and the layers are kept.",
   "res.panelAria": "Sheet {w} × {h} mm",
   "sheet.title": "Sheet {i} / {n}",
   "sheet.meta": "Parts: {n} · material used: {u} %",
@@ -400,6 +406,9 @@ I18N.dict["en"] = {
 
 /* Deutsch */
 I18N.dict["de"] = {
+  "news.123": "Option, den Plattenumriss mit den Teilen zu exportieren (eigene Ebene). Die Teile werden als kompakter Block um den gewählten Ursprung gruppiert.",
+  "dl.board": "Plattenumriss in Exporte aufnehmen",
+  "dl.boardLayer": "Platte",
   "news.122": "Sichererer SVG-Import: Nur die Geometrie der Datei wird übernommen. Automatische Tests und neu geordneter Code.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -479,7 +488,7 @@ I18N.dict["de"] = {
   "res.waste": "Materialverschnitt",
   "res.tooBig": "Zu groß für die Nutzfläche der Platte: {list}. Prüfe die Einheiten der Datei, den Randabstand oder erlaube die Drehung.",
   "res.empty": "Importiere eine Datei oder wähle Teile aus, um den Plan zu sehen.",
-  "res.note": "Die Dateien sind in mm, mit dem Nullpunkt am gewählten Ursprung, ohne Plattenumriss. Linienfarben aus dem Original-SVG und Ebenen bleiben erhalten.",
+  "res.note": "Die Dateien sind in mm, mit dem Nullpunkt am gewählten Ursprung. Linienfarben aus dem Original-SVG und Ebenen bleiben erhalten.",
   "res.panelAria": "Platte {w} × {h} mm",
   "sheet.title": "Platte {i} / {n}",
   "sheet.meta": "Teile: {n} · Materialnutzung: {u} %",
@@ -572,6 +581,9 @@ I18N.dict["de"] = {
 
 /* Español */
 I18N.dict["es"] = {
+  "news.123": "Opción para exportar el contorno del tablero con las piezas (en su propia capa). Las piezas se agrupan en un bloque compacto alrededor del origen elegido.",
+  "dl.board": "Incluir el contorno del tablero en las exportaciones",
+  "dl.boardLayer": "Tablero",
   "news.122": "Importación SVG más segura: solo se conserva la geometría del archivo. Pruebas automáticas y código reorganizado.",
   "app.title": "Nestor",
   "proj.title": "Proyecto",
@@ -651,7 +663,7 @@ I18N.dict["es"] = {
   "res.waste": "Desperdicio de material",
   "res.tooBig": "Demasiado grande para la zona útil del tablero: {list}. Comprueba las unidades del archivo, el margen o permite el giro.",
   "res.empty": "Importa un archivo o marca piezas para ver el plano.",
-  "res.note": "Los archivos están en mm, con el cero en el origen elegido y sin el contorno del tablero. Se conservan los colores de trazo del SVG original y las capas.",
+  "res.note": "Los archivos están en mm, con el cero en el origen elegido. Se conservan los colores de trazo del SVG original y las capas.",
   "res.panelAria": "Tablero {w} × {h} mm",
   "sheet.title": "Tablero {i} / {n}",
   "sheet.meta": "Piezas: {n} · material aprovechado: {u} %",
@@ -744,6 +756,9 @@ I18N.dict["es"] = {
 
 /* Português */
 I18N.dict["pt"] = {
+  "news.123": "Opção para exportar o contorno da chapa com as peças (em camada própria). As peças se agrupam em um bloco compacto em torno da origem escolhida.",
+  "dl.board": "Incluir o contorno da chapa nas exportações",
+  "dl.boardLayer": "Chapa",
   "news.122": "Importação SVG mais segura: só a geometria do arquivo é mantida. Testes automáticos e código reorganizado.",
   "app.title": "Nestor",
   "proj.title": "Projeto",
@@ -823,7 +838,7 @@ I18N.dict["pt"] = {
   "res.waste": "Sobra de material",
   "res.tooBig": "Grande demais para a área útil da chapa: {list}. Confira as unidades do arquivo, a margem ou permita a rotação.",
   "res.empty": "Importe um arquivo ou marque peças para ver o plano.",
-  "res.note": "Os arquivos estão em mm, com o zero na origem escolhida, sem o contorno da chapa. As cores de traço do SVG original e as camadas são mantidas.",
+  "res.note": "Os arquivos estão em mm, com o zero na origem escolhida. As cores de traço do SVG original e as camadas são mantidas.",
   "res.panelAria": "Chapa {w} × {h} mm",
   "sheet.title": "Chapa {i} / {n}",
   "sheet.meta": "Peças: {n} · material aproveitado: {u} %",
@@ -916,6 +931,9 @@ I18N.dict["pt"] = {
 
 /* Русский */
 I18N.dict["ru"] = {
+  "news.123": "Можно экспортировать контур листа вместе с деталями (на отдельном слое). Детали собираются компактным блоком вокруг выбранного начала координат.",
+  "dl.board": "Добавлять контур листа в экспорт",
+  "dl.boardLayer": "Лист",
   "news.122": "Более безопасный импорт SVG: сохраняется только геометрия файла. Автоматические тесты и переработанный код.",
   "app.title": "Nestor",
   "proj.title": "Проект",
@@ -995,7 +1013,7 @@ I18N.dict["ru"] = {
   "res.waste": "Отход материала",
   "res.tooBig": "Слишком большая для рабочей зоны листа: {list}. Проверьте единицы файла, отступ или разрешите поворот.",
   "res.empty": "Импортируйте файл или выберите детали, чтобы увидеть план.",
-  "res.note": "Файлы в мм, ноль в выбранном начале координат, без контура листа. Цвета линий исходного SVG и слои сохраняются.",
+  "res.note": "Файлы в мм, ноль — в выбранном начале координат. Цвета линий исходного SVG и слои сохраняются.",
   "res.panelAria": "Лист {w} × {h} мм",
   "sheet.title": "Лист {i} / {n}",
   "sheet.meta": "Деталей: {n} · использовано материала: {u} %",
@@ -1088,6 +1106,9 @@ I18N.dict["ru"] = {
 
 /* 中文（简体） */
 I18N.dict["zh"] = {
+  "news.123": "可选择将板材轮廓与零件一起导出（单独图层）。零件围绕所选原点紧凑地排在一起。",
+  "dl.board": "导出时包含板材轮廓",
+  "dl.boardLayer": "板材",
   "news.122": "更安全的 SVG 导入：只保留文件中的几何图形。新增自动测试，代码重新整理。",
   "app.title": "Nestor",
   "proj.title": "项目",
@@ -1167,7 +1188,7 @@ I18N.dict["zh"] = {
   "res.waste": "材料损耗",
   "res.tooBig": "超出板材可用区域：{list}。请检查文件单位、边距，或允许旋转。",
   "res.empty": "导入文件或勾选零件以查看排料图。",
-  "res.note": "文件单位为毫米，零点位于所选原点，不含板材轮廓。保留原始 SVG 的描边颜色和图层。",
+  "res.note": "文件单位为毫米，零点位于所选原点。保留原 SVG 的线条颜色和图层。",
   "res.panelAria": "板材 {w} × {h} 毫米",
   "sheet.title": "板材 {i} / {n}",
   "sheet.meta": "零件：{n} · 材料利用率：{u}%",
@@ -1260,6 +1281,9 @@ I18N.dict["zh"] = {
 
 /* हिन्दी */
 I18N.dict["hi"] = {
+  "news.123": "पुर्ज़ों के साथ पैनल की रूपरेखा निर्यात करने का विकल्प (अलग परत पर)। पुर्ज़े चुने गए मूल बिंदु के आसपास एक सघन समूह में रखे जाते हैं।",
+  "dl.board": "निर्यात में पैनल की रूपरेखा शामिल करें",
+  "dl.boardLayer": "पैनल",
   "news.122": "अधिक सुरक्षित SVG आयात: फ़ाइल की केवल ज्यामिति रखी जाती है। स्वचालित परीक्षण और पुनर्गठित कोड।",
   "app.title": "Nestor",
   "proj.title": "प्रोजेक्ट",
@@ -1339,7 +1363,7 @@ I18N.dict["hi"] = {
   "res.waste": "सामग्री की बर्बादी",
   "res.tooBig": "शीट के उपयोगी हिस्से के लिए बहुत बड़ा: {list}। फ़ाइल की इकाइयाँ, किनारे की दूरी जाँचें या घुमाव की अनुमति दें।",
   "res.empty": "प्लान देखने के लिए फ़ाइल इंपोर्ट करें या पार्ट्स चुनें।",
-  "res.note": "फ़ाइलें mm में हैं, ज़ीरो चुने गए मूल बिंदु पर, पैनल की रूपरेखा के बिना। मूल SVG के रंग और लेयर बने रहते हैं।",
+  "res.note": "फ़ाइलें मिमी में हैं, शून्य चुने गए मूल बिंदु पर है। मूल SVG के रेखा रंग और परतें बनी रहती हैं।",
   "res.panelAria": "शीट {w} × {h} mm",
   "sheet.title": "शीट {i} / {n}",
   "sheet.meta": "पार्ट्स: {n} · इस्तेमाल हुई सामग्री: {u} %",
@@ -1432,6 +1456,9 @@ I18N.dict["hi"] = {
 
 /* বাংলা */
 I18N.dict["bn"] = {
+  "news.123": "অংশগুলোর সাথে প্যানেলের রূপরেখা রপ্তানির বিকল্প (আলাদা স্তরে)। অংশগুলো বেছে নেওয়া মূলবিন্দুর চারপাশে ঘন একটি ব্লকে সাজানো হয়।",
+  "dl.board": "রপ্তানিতে প্যানেলের রূপরেখা যোগ করুন",
+  "dl.boardLayer": "প্যানেল",
   "news.122": "আরও নিরাপদ SVG আমদানি: ফাইলের শুধু জ্যামিতি রাখা হয়। স্বয়ংক্রিয় পরীক্ষা ও পুনর্বিন্যস্ত কোড।",
   "app.title": "Nestor",
   "proj.title": "প্রজেক্ট",
@@ -1511,7 +1538,7 @@ I18N.dict["bn"] = {
   "res.waste": "উপকরণের অপচয়",
   "res.tooBig": "শিটের ব্যবহারযোগ্য অংশের জন্য খুব বড়: {list}। ফাইলের একক, কিনারার দূরত্ব যাচাই করুন বা ঘোরানোর অনুমতি দিন।",
   "res.empty": "প্ল্যান দেখতে একটি ফাইল ইমপোর্ট করুন বা পার্টস বাছুন।",
-  "res.note": "ফাইলগুলো mm-এ, জিরো বেছে নেওয়া মূলবিন্দুতে, প্যানেলের রূপরেখা ছাড়া। মূল SVG-এর রং ও লেয়ার থাকে।",
+  "res.note": "ফাইলগুলো মিমি-তে, শূন্য বেছে নেওয়া মূলবিন্দুতে। মূল SVG-র রেখার রং ও স্তরগুলো রাখা হয়।",
   "res.panelAria": "শিট {w} × {h} mm",
   "sheet.title": "শিট {i} / {n}",
   "sheet.meta": "পার্টস: {n} · ব্যবহৃত উপকরণ: {u} %",
@@ -1604,6 +1631,9 @@ I18N.dict["bn"] = {
 
 /* العربية */
 I18N.dict["ar"] = {
+  "news.123": "خيار لتصدير حدود اللوح مع القطع (في طبقة مستقلة). تُجمَّع القطع في كتلة متراصة حول نقطة الأصل المختارة.",
+  "dl.board": "تضمين حدود اللوح في التصدير",
+  "dl.boardLayer": "اللوح",
   "news.122": "استيراد SVG أكثر أمانًا: يُحتفظ بهندسة الملف فقط. اختبارات تلقائية وشيفرة أُعيد تنظيمها.",
   "app.title": "Nestor",
   "proj.title": "المشروع",
@@ -1683,7 +1713,7 @@ I18N.dict["ar"] = {
   "res.waste": "هدر المادة",
   "res.tooBig": "أكبر من المساحة المفيدة للوح: {list}. تحقّق من وحدات الملف أو الهامش، أو اسمح بالتدوير.",
   "res.empty": "استورد ملفًا أو حدّد قطعًا لرؤية المخطط.",
-  "res.note": "الملفات بالمليمتر، والصفر عند نقطة الأصل المختارة، دون حدود اللوح. تُحفظ ألوان خطوط SVG الأصلي والطبقات.",
+  "res.note": "الملفات بالمليمتر، والصفر عند نقطة الأصل المختارة. تُحفظ ألوان خطوط ملف SVG الأصلي والطبقات.",
   "res.panelAria": "لوح {w} × {h} مم",
   "sheet.title": "اللوح {i} / {n}",
   "sheet.meta": "القطع: {n} · المادة المستخدمة: {u} %",
@@ -1776,6 +1806,9 @@ I18N.dict["ar"] = {
 
 /* Bahasa Indonesia */
 I18N.dict["id"] = {
+  "news.123": "Opsi untuk mengekspor garis tepi panel bersama komponen (di lapisan tersendiri). Komponen dikelompokkan dalam blok rapat di sekitar titik asal yang dipilih.",
+  "dl.board": "Sertakan garis tepi panel saat ekspor",
+  "dl.boardLayer": "Panel",
   "news.122": "Impor SVG lebih aman: hanya geometri berkas yang disimpan. Uji otomatis dan kode yang ditata ulang.",
   "app.title": "Nestor",
   "proj.title": "Proyek",
@@ -1855,7 +1888,7 @@ I18N.dict["id"] = {
   "res.waste": "Sisa bahan",
   "res.tooBig": "Terlalu besar untuk area pakai lembaran: {list}. Periksa satuan file, margin, atau izinkan rotasi.",
   "res.empty": "Impor file atau pilih komponen untuk melihat rencananya.",
-  "res.note": "File dalam mm, dengan titik nol di titik asal yang dipilih, tanpa garis tepi panel. Warna garis SVG asli dan lapisan tetap dipertahankan.",
+  "res.note": "Berkas dalam mm, dengan titik nol di titik asal yang dipilih. Warna garis SVG asli dan lapisan tetap dipertahankan.",
   "res.panelAria": "Lembaran {w} × {h} mm",
   "sheet.title": "Lembaran {i} / {n}",
   "sheet.meta": "Komponen: {n} · bahan terpakai: {u} %",
@@ -1948,6 +1981,9 @@ I18N.dict["id"] = {
 
 /* Беларуская */
 I18N.dict["be"] = {
+  "news.123": "Можна экспартаваць контур ліста разам з дэталямі (на асобным слоі). Дэталі збіраюцца кампактным блокам вакол выбранага пачатку каардынат.",
+  "dl.board": "Дадаваць контур ліста ў экспарт",
+  "dl.boardLayer": "Ліст",
   "news.122": "Больш бяспечны імпарт SVG: захоўваецца толькі геаметрыя файла. Аўтаматычныя тэсты і перапрацаваны код.",
   "app.title": "Nestor",
   "proj.title": "Праект",
@@ -2027,7 +2063,7 @@ I18N.dict["be"] = {
   "res.waste": "Адыход матэрыялу",
   "res.tooBig": "Занадта вялікая для працоўнай зоны ліста: {list}. Праверце адзінкі файла, адступ або дазвольце паварот.",
   "res.empty": "Імпартуйце файл або выберыце дэталі, каб убачыць план.",
-  "res.note": "Файлы ў мм, нуль у выбраным пачатку каардынат, без контуру ліста. Колеры ліній зыходнага SVG і слаі захоўваюцца.",
+  "res.note": "Файлы ў мм, нуль — у выбраным пачатку каардынат. Колеры ліній зыходнага SVG і слаі захоўваюцца.",
   "res.panelAria": "Ліст {w} × {h} мм",
   "sheet.title": "Ліст {i} / {n}",
   "sheet.meta": "Дэталей: {n} · выкарыстана матэрыялу: {u} %",
@@ -2120,6 +2156,9 @@ I18N.dict["be"] = {
 
 /* Български */
 I18N.dict["bg"] = {
+  "news.123": "Опция за експорт на контура на плочата с детайлите (на отделен слой). Детайлите се групират в компактен блок около избраното начало.",
+  "dl.board": "Включване на контура на плочата в експорта",
+  "dl.boardLayer": "Плоча",
   "news.122": "По-безопасен импорт на SVG: запазва се само геометрията на файла. Автоматични тестове и преработен код.",
   "app.title": "Nestor",
   "proj.title": "Проект",
@@ -2199,7 +2238,7 @@ I18N.dict["bg"] = {
   "res.waste": "Отпадък от материал",
   "res.tooBig": "Твърде голям за полезната площ на плоскостта: {list}. Провери единиците на файла, отстъпа или разреши завъртане.",
   "res.empty": "Импортирай файл или избери детайли, за да видиш плана.",
-  "res.note": "Файловете са в мм, с нулата в избраното начало, без контура на плоскостта. Цветовете на линиите от оригиналния SVG и слоевете се запазват.",
+  "res.note": "Файловете са в мм, с нулата в избраното начало. Цветовете на линиите от оригиналния SVG и слоевете се запазват.",
   "res.panelAria": "Плоскост {w} × {h} mm",
   "sheet.title": "Плоскост {i} / {n}",
   "sheet.meta": "Детайли: {n} · използван материал: {u} %",
@@ -2292,6 +2331,9 @@ I18N.dict["bg"] = {
 
 /* Bosanski */
 I18N.dict["bs"] = {
+  "news.123": "Opcija za izvoz obrisa ploče zajedno s dijelovima (na zasebnom sloju). Dijelovi se grupišu u zbijen blok oko odabranog ishodišta.",
+  "dl.board": "Uključi obris ploče u izvoz",
+  "dl.boardLayer": "Ploča",
   "news.122": "Sigurniji uvoz SVG-a: zadržava se samo geometrija datoteke. Automatski testovi i reorganizovan kod.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -2371,7 +2413,7 @@ I18N.dict["bs"] = {
   "res.waste": "Otpad materijala",
   "res.tooBig": "Prevelik za korisnu površinu ploče: {list}. Provjeri jedinice datoteke, rub ili dopusti rotaciju.",
   "res.empty": "Uvezi datoteku ili odaberi dijelove da vidiš plan.",
-  "res.note": "Fajlovi su u mm, s nulom u odabranom ishodištu, bez obrisa ploče. Boje linija iz izvornog SVG-a i slojevi se zadržavaju.",
+  "res.note": "Datoteke su u mm, s nulom u odabranom ishodištu. Boje linija iz izvornog SVG-a i slojevi se zadržavaju.",
   "res.panelAria": "Ploča {w} × {h} mm",
   "sheet.title": "Ploča {i} / {n}",
   "sheet.meta": "Dijelovi: {n} · iskorišten materijal: {u} %",
@@ -2464,6 +2506,9 @@ I18N.dict["bs"] = {
 
 /* Català */
 I18N.dict["ca"] = {
+  "news.123": "Opció per exportar el contorn del tauler amb les peces (en una capa pròpia). Les peces s’agrupen en un bloc compacte al voltant de l’origen triat.",
+  "dl.board": "Incloure el contorn del tauler a les exportacions",
+  "dl.boardLayer": "Tauler",
   "news.122": "Importació SVG més segura: només es conserva la geometria del fitxer. Proves automàtiques i codi reorganitzat.",
   "app.title": "Nestor",
   "proj.title": "Projecte",
@@ -2543,7 +2588,7 @@ I18N.dict["ca"] = {
   "res.waste": "Pèrdua de material",
   "res.tooBig": "Massa gran per a la zona útil del tauler: {list}. Comprova les unitats del fitxer, el marge o permet el gir.",
   "res.empty": "Importa un fitxer o marca peces per veure el pla.",
-  "res.note": "Els fitxers són en mm, amb el zero a l’origen triat i sense el contorn del tauler. Es conserven els colors de traç de l’SVG original i les capes.",
+  "res.note": "Els fitxers són en mm, amb el zero a l’origen triat. Es conserven els colors de traç de l’SVG original i les capes.",
   "res.panelAria": "Tauler {w} × {h} mm",
   "sheet.title": "Tauler {i} / {n}",
   "sheet.meta": "Peces: {n} · material aprofitat: {u} %",
@@ -2636,6 +2681,9 @@ I18N.dict["ca"] = {
 
 /* Čeština */
 I18N.dict["cs"] = {
+  "news.123": "Možnost exportovat obrys desky spolu s díly (ve vlastní vrstvě). Díly se seskupí do kompaktního bloku kolem zvoleného počátku.",
+  "dl.board": "Zahrnout obrys desky do exportu",
+  "dl.boardLayer": "Deska",
   "news.122": "Bezpečnější import SVG: zachová se jen geometrie souboru. Automatické testy a přeuspořádaný kód.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -2715,7 +2763,7 @@ I18N.dict["cs"] = {
   "res.waste": "Odpad materiálu",
   "res.tooBig": "Příliš velký pro užitnou plochu desky: {list}. Zkontroluj jednotky souboru, okraj nebo povol otáčení.",
   "res.empty": "Importuj soubor nebo vyber díly a uvidíš plán.",
-  "res.note": "Soubory jsou v mm, s nulou ve zvoleném počátku, bez obrysu desky. Barvy čar z původního SVG a vrstvy zůstávají.",
+  "res.note": "Soubory jsou v mm, s nulou ve zvoleném počátku. Barvy čar z původního SVG a vrstvy zůstávají zachovány.",
   "res.panelAria": "Deska {w} × {h} mm",
   "sheet.title": "Deska {i} / {n}",
   "sheet.meta": "Díly: {n} · využitý materiál: {u} %",
@@ -2808,6 +2856,9 @@ I18N.dict["cs"] = {
 
 /* Dansk */
 I18N.dict["da"] = {
+  "news.123": "Mulighed for at eksportere pladens omrids med emnerne (på eget lag). Emnerne samles i en kompakt blok omkring det valgte origo.",
+  "dl.board": "Medtag pladens omrids i eksport",
+  "dl.boardLayer": "Plade",
   "news.122": "Mere sikker SVG-import: kun filens geometri bevares. Automatiske tests og omorganiseret kode.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -2887,7 +2938,7 @@ I18N.dict["da"] = {
   "res.waste": "Materialespild",
   "res.tooBig": "For stor til pladens brugbare område: {list}. Kontrollér filens enheder, margenen, eller tillad drejning.",
   "res.empty": "Importér en fil eller vælg emner for at se planen.",
-  "res.note": "Filerne er i mm, med nulpunktet i det valgte origo, uden pladens omrids. Stregfarver fra den originale SVG og lagene bevares.",
+  "res.note": "Filerne er i mm med nulpunktet i det valgte origo. Stregfarver fra den oprindelige SVG og lagene bevares.",
   "res.panelAria": "Plade {w} × {h} mm",
   "sheet.title": "Plade {i} / {n}",
   "sheet.meta": "Emner: {n} · brugt materiale: {u} %",
@@ -2980,6 +3031,9 @@ I18N.dict["da"] = {
 
 /* Ελληνικά */
 I18N.dict["el"] = {
+  "news.123": "Επιλογή εξαγωγής του περιγράμματος του φύλλου μαζί με τα κομμάτια (σε δικό του επίπεδο). Τα κομμάτια ομαδοποιούνται σε συμπαγές μπλοκ γύρω από την επιλεγμένη αρχή.",
+  "dl.board": "Συμπερίληψη του περιγράμματος του φύλλου στις εξαγωγές",
+  "dl.boardLayer": "Φύλλο",
   "news.122": "Ασφαλέστερη εισαγωγή SVG: διατηρείται μόνο η γεωμετρία του αρχείου. Αυτόματοι έλεγχοι και αναδιοργανωμένος κώδικας.",
   "app.title": "Nestor",
   "proj.title": "Έργο",
@@ -3059,7 +3113,7 @@ I18N.dict["el"] = {
   "res.waste": "Απώλεια υλικού",
   "res.tooBig": "Πολύ μεγάλο για την ωφέλιμη επιφάνεια του φύλλου: {list}. Έλεγξε τις μονάδες του αρχείου, το περιθώριο ή επίτρεψε την περιστροφή.",
   "res.empty": "Εισήγαγε ένα αρχείο ή επίλεξε κομμάτια για να δεις το σχέδιο.",
-  "res.note": "Τα αρχεία είναι σε mm, με το μηδέν στην επιλεγμένη αρχή, χωρίς το περίγραμμα του φύλλου. Διατηρούνται τα χρώματα γραμμών του αρχικού SVG και τα επίπεδα.",
+  "res.note": "Τα αρχεία είναι σε mm, με το μηδέν στην επιλεγμένη αρχή. Τα χρώματα γραμμών του αρχικού SVG και τα επίπεδα διατηρούνται.",
   "res.panelAria": "Φύλλο {w} × {h} mm",
   "sheet.title": "Φύλλο {i} / {n}",
   "sheet.meta": "Κομμάτια: {n} · υλικό σε χρήση: {u} %",
@@ -3152,6 +3206,9 @@ I18N.dict["el"] = {
 
 /* Eesti */
 I18N.dict["et"] = {
+  "news.123": "Võimalus eksportida plaadi kontuur koos detailidega (eraldi kihil). Detailid koondatakse kompaktseks plokiks valitud alguspunkti ümber.",
+  "dl.board": "Lisa ekspordile plaadi kontuur",
+  "dl.boardLayer": "Plaat",
   "news.122": "Turvalisem SVG import: failist säilitatakse ainult geomeetria. Automaattestid ja ümberkorraldatud kood.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -3231,7 +3288,7 @@ I18N.dict["et"] = {
   "res.waste": "Materjalikadu",
   "res.tooBig": "Liiga suur plaadi kasutatava ala jaoks: {list}. Kontrolli faili ühikuid, servavaru või luba pööramine.",
   "res.empty": "Plaani nägemiseks impordi fail või vali detailid.",
-  "res.note": "Failid on millimeetrites, nullpunkt valitud alguspunktis, ilma plaadi kontuurita. Algse SVG joonevärvid ja kihid säilivad.",
+  "res.note": "Failid on millimeetrites, null valitud alguspunktis. Algse SVG joonevärvid ja kihid säilivad.",
   "res.panelAria": "Plaat {w} × {h} mm",
   "sheet.title": "Plaat {i} / {n}",
   "sheet.meta": "Detailid: {n} · kasutatud materjal: {u} %",
@@ -3324,6 +3381,9 @@ I18N.dict["et"] = {
 
 /* Suomi */
 I18N.dict["fi"] = {
+  "news.123": "Mahdollisuus viedä levyn ääriviiva osien kanssa (omalla tasollaan). Osat ryhmitellään tiiviiksi lohkoksi valitun origon ympärille.",
+  "dl.board": "Sisällytä levyn ääriviiva vientiin",
+  "dl.boardLayer": "Levy",
   "news.122": "Turvallisempi SVG-tuonti: tiedostosta säilytetään vain geometria. Automaattiset testit ja uudelleen järjestetty koodi.",
   "app.title": "Nestor",
   "proj.title": "Projekti",
@@ -3403,7 +3463,7 @@ I18N.dict["fi"] = {
   "res.waste": "Materiaalihukka",
   "res.tooBig": "Liian suuri levyn käyttöalueelle: {list}. Tarkista tiedoston yksiköt, marginaali tai salli kierto.",
   "res.empty": "Tuo tiedosto tai valitse osia nähdäksesi suunnitelman.",
-  "res.note": "Tiedostot ovat millimetreinä, nollapiste valitussa origossa, ilman levyn ääriviivaa. Alkuperäisen SVG:n viivavärit ja tasot säilyvät.",
+  "res.note": "Tiedostot ovat millimetreinä, nollapiste valitussa origossa. Alkuperäisen SVG:n viivavärit ja tasot säilyvät.",
   "res.panelAria": "Levy {w} × {h} mm",
   "sheet.title": "Levy {i} / {n}",
   "sheet.meta": "Osat: {n} · käytetty materiaali: {u} %",
@@ -3496,6 +3556,9 @@ I18N.dict["fi"] = {
 
 /* Gaeilge */
 I18N.dict["ga"] = {
+  "news.123": "Rogha chun imlíne an phainéil a easpórtáil leis na páirteanna (ar a sraith féin). Grúpáiltear na páirteanna i mbloc dlúth timpeall ar an mbunphointe a roghnaíodh.",
+  "dl.board": "Cuir imlíne an phainéil san áireamh sna heaspórtálacha",
+  "dl.boardLayer": "Painéal",
   "news.122": "Iompórtáil SVG níos sábháilte: ní choimeádtar ach céimseata an chomhaid. Tástálacha uathoibríocha agus cód atheagraithe.",
   "app.title": "Nestor",
   "proj.title": "Tionscadal",
@@ -3575,7 +3638,7 @@ I18N.dict["ga"] = {
   "res.waste": "Dramhaíl ábhair",
   "res.tooBig": "Rómhór do limistéar inúsáidte an chláir: {list}. Seiceáil aonaid an chomhaid, an t-imeall nó ceadaigh rothlú.",
   "res.empty": "Iompórtáil comhad nó roghnaigh píosaí chun an plean a fheiceáil.",
-  "res.note": "Tá na comhaid i mm, leis an nialas ag an mbunphointe roghnaithe, gan imlíne an phainéil. Coinnítear dathanna línte an SVG bunaidh agus na cisil.",
+  "res.note": "Tá na comhaid i mm, leis an nialas ag an mbunphointe a roghnaíodh. Coimeádtar dathanna líne an SVG bunaidh agus na sraitheanna.",
   "res.panelAria": "Clár {w} × {h} mm",
   "sheet.title": "Clár {i} / {n}",
   "sheet.meta": "Píosaí: {n} · ábhar in úsáid: {u} %",
@@ -3668,6 +3731,9 @@ I18N.dict["ga"] = {
 
 /* Hrvatski */
 I18N.dict["hr"] = {
+  "news.123": "Mogućnost izvoza obrisa ploče zajedno s dijelovima (na zasebnom sloju). Dijelovi se grupiraju u zbijeni blok oko odabranog ishodišta.",
+  "dl.board": "Uključi obris ploče u izvoz",
+  "dl.boardLayer": "Ploča",
   "news.122": "Sigurniji uvoz SVG-a: zadržava se samo geometrija datoteke. Automatski testovi i preuređen kôd.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -3747,7 +3813,7 @@ I18N.dict["hr"] = {
   "res.waste": "Otpad materijala",
   "res.tooBig": "Prevelik za korisnu površinu ploče: {list}. Provjeri jedinice datoteke, rub ili dopusti rotaciju.",
   "res.empty": "Uvezi datoteku ili odaberi dijelove da vidiš plan.",
-  "res.note": "Datoteke su u mm, s nulom u odabranom ishodištu, bez obrisa ploče. Boje linija iz izvornog SVG-a i slojevi se zadržavaju.",
+  "res.note": "Datoteke su u mm, s nulom u odabranom ishodištu. Boje linija iz izvornog SVG-a i slojevi se zadržavaju.",
   "res.panelAria": "Ploča {w} × {h} mm",
   "sheet.title": "Ploča {i} / {n}",
   "sheet.meta": "Dijelovi: {n} · iskorišten materijal: {u} %",
@@ -3840,6 +3906,9 @@ I18N.dict["hr"] = {
 
 /* Magyar */
 I18N.dict["hu"] = {
+  "news.123": "Lehetőség a tábla körvonalának exportálására az alkatrészekkel (külön rétegen). Az alkatrészek tömör blokkba rendeződnek a választott origó körül.",
+  "dl.board": "A tábla körvonalának hozzáadása az exporthoz",
+  "dl.boardLayer": "Tábla",
   "news.122": "Biztonságosabb SVG-importálás: csak a fájl geometriája marad meg. Automatikus tesztek és átrendezett kód.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -3919,7 +3988,7 @@ I18N.dict["hu"] = {
   "res.waste": "Anyagveszteség",
   "res.tooBig": "Túl nagy a lap hasznos területéhez: {list}. Ellenőrizd a fájl mértékegységét, a margót, vagy engedélyezd a forgatást.",
   "res.empty": "Importálj egy fájlt vagy jelölj ki alkatrészeket a terv megtekintéséhez.",
-  "res.note": "A fájlok mm-ben vannak, a nullpont a választott origóban, a tábla körvonala nélkül. Az eredeti SVG vonalszínei és a rétegek megmaradnak.",
+  "res.note": "A fájlok mm-ben vannak, a nullpont a választott origóban. Az eredeti SVG vonalszínei és a rétegek megmaradnak.",
   "res.panelAria": "Lap {w} × {h} mm",
   "sheet.title": "{i}. lap / {n}",
   "sheet.meta": "Alkatrészek: {n} · felhasznált anyag: {u} %",
@@ -4012,6 +4081,9 @@ I18N.dict["hu"] = {
 
 /* Íslenska */
 I18N.dict["is"] = {
+  "news.123": "Valkostur til að flytja út útlínu plötunnar með hlutunum (á eigin lagi). Hlutunum er raðað í þéttan klasa umhverfis valinn upphafspunkt.",
+  "dl.board": "Taka útlínu plötunnar með í útflutning",
+  "dl.boardLayer": "Plata",
   "news.122": "Öruggari SVG-innflutningur: aðeins rúmfræði skrárinnar er haldið. Sjálfvirkar prófanir og endurskipulagður kóði.",
   "app.title": "Nestor",
   "proj.title": "Verkefni",
@@ -4091,7 +4163,7 @@ I18N.dict["is"] = {
   "res.waste": "Efnistap",
   "res.tooBig": "Of stór fyrir nothæft svæði plötunnar: {list}. Athugaðu einingar skrárinnar, spássíuna eða leyfðu snúning.",
   "res.empty": "Fluttu inn skrá eða veldu hluti til að sjá planið.",
-  "res.note": "Skrárnar eru í mm, með núllpunkt í völdum upphafspunkti, án útlínu plötunnar. Línulitir úr upprunalegu SVG og lög haldast.",
+  "res.note": "Skrárnar eru í mm, með núllpunkt í völdum upphafspunkti. Línulitir úr upprunalegu SVG-skránni og lög haldast.",
   "res.panelAria": "Plata {w} × {h} mm",
   "sheet.title": "Plata {i} / {n}",
   "sheet.meta": "Hlutir: {n} · efni notað: {u} %",
@@ -4184,6 +4256,9 @@ I18N.dict["is"] = {
 
 /* Italiano */
 I18N.dict["it"] = {
+  "news.123": "Opzione per esportare il contorno del pannello con i pezzi (su un livello a parte). I pezzi si raggruppano in un blocco compatto attorno all’origine scelta.",
+  "dl.board": "Includi il contorno del pannello negli export",
+  "dl.boardLayer": "Pannello",
   "news.122": "Importazione SVG più sicura: si conserva solo la geometria del file. Test automatici e codice riorganizzato.",
   "app.title": "Nestor",
   "proj.title": "Progetto",
@@ -4263,7 +4338,7 @@ I18N.dict["it"] = {
   "res.waste": "Scarto di materiale",
   "res.tooBig": "Troppo grande per l’area utile del pannello: {list}. Controlla le unità del file, il margine o consenti la rotazione.",
   "res.empty": "Importa un file o seleziona dei pezzi per vedere il piano.",
-  "res.note": "I file sono in mm, con lo zero sull’origine scelta, senza il contorno del pannello. I colori dei tracciati dell’SVG originale e i livelli vengono mantenuti.",
+  "res.note": "I file sono in mm, con lo zero sull’origine scelta. I colori dei tratti dell’SVG originale e i livelli sono mantenuti.",
   "res.panelAria": "Pannello {w} × {h} mm",
   "sheet.title": "Pannello {i} / {n}",
   "sheet.meta": "Pezzi: {n} · materiale usato: {u} %",
@@ -4356,6 +4431,9 @@ I18N.dict["it"] = {
 
 /* 日本語 */
 I18N.dict["ja"] = {
+  "news.123": "部品と一緒に板材の外形を書き出すオプション（専用レイヤー）。部品は選んだ原点のまわりにまとまって配置されます。",
+  "dl.board": "書き出しに板材の外形を含める",
+  "dl.boardLayer": "板材",
   "news.122": "より安全な SVG 読み込み：ファイルの形状だけを取り込みます。自動テストを追加し、コードを整理しました。",
   "app.title": "Nestor",
   "proj.title": "プロジェクト",
@@ -4435,7 +4513,7 @@ I18N.dict["ja"] = {
   "res.waste": "材料ロス",
   "res.tooBig": "板材の有効範囲に収まりません：{list}。ファイルの単位や余白を確認するか、回転を許可してください。",
   "res.empty": "ファイルを読み込むか部品を選ぶと、プランが表示されます。",
-  "res.note": "ファイルの単位は mm で、原点は選んだ位置、板材の外形線は含みません。元の SVG の線の色とレイヤーは保持されます。",
+  "res.note": "ファイルは mm 単位で、ゼロは選んだ原点です。元の SVG の線の色とレイヤーは保持されます。",
   "res.panelAria": "板材 {w} × {h} mm",
   "sheet.title": "板材 {i} / {n}",
   "sheet.meta": "部品：{n} · 材料使用率：{u} %",
@@ -4528,6 +4606,9 @@ I18N.dict["ja"] = {
 
 /* 한국어 */
 I18N.dict["ko"] = {
+  "news.123": "부품과 함께 판재 외곽선을 내보내는 옵션(별도 레이어). 부품이 선택한 원점 주위에 촘촘한 묶음으로 모입니다.",
+  "dl.board": "내보내기에 판재 외곽선 포함",
+  "dl.boardLayer": "판재",
   "news.122": "더 안전한 SVG 가져오기: 파일의 도형만 유지합니다. 자동 테스트 추가 및 코드 정리.",
   "app.title": "Nestor",
   "proj.title": "프로젝트",
@@ -4607,7 +4688,7 @@ I18N.dict["ko"] = {
   "res.waste": "자재 손실",
   "res.tooBig": "판재의 사용 가능 영역보다 큽니다: {list}. 파일 단위와 여백을 확인하거나 회전을 허용하세요.",
   "res.empty": "파일을 가져오거나 부품을 선택하면 배치도가 표시됩니다.",
-  "res.note": "파일 단위는 mm이고 원점은 선택한 위치이며, 판재 외곽선은 포함하지 않습니다. 원본 SVG의 선 색상과 레이어는 유지됩니다.",
+  "res.note": "파일은 mm 단위이며 영점은 선택한 원점입니다. 원본 SVG의 선 색상과 레이어는 유지됩니다.",
   "res.panelAria": "판재 {w} × {h} mm",
   "sheet.title": "판재 {i} / {n}",
   "sheet.meta": "부품: {n} · 자재 사용률: {u}%",
@@ -4700,6 +4781,9 @@ I18N.dict["ko"] = {
 
 /* Lëtzebuergesch */
 I18N.dict["lb"] = {
+  "news.123": "Optioun, fir d’Kontur vun der Plack mat de Stécker ze exportéieren (op enger eegener Schicht). D’Stécker ginn als kompakte Block ronderëm den gewielten Ursprung gruppéiert.",
+  "dl.board": "Kontur vun der Plack an d’Exporter ophuelen",
+  "dl.boardLayer": "Plack",
   "news.122": "Méi sécheren SVG-Import: nëmmen d’Geometrie vum Fichier gëtt behalen. Automatesch Tester an nei organiséierte Code.",
   "app.title": "Nestor",
   "proj.title": "Projet",
@@ -4779,7 +4863,7 @@ I18N.dict["lb"] = {
   "res.waste": "Materialverloscht",
   "res.tooBig": "Ze grouss fir déi notzbar Fläch vun der Plack: {list}. Kontrolléier d’Eenheete vum Fichier, de Rand oder erlaab d’Dréinung.",
   "res.empty": "Importéier e Fichier oder wiel Deeler aus, fir de Plang ze gesinn.",
-  "res.note": "D’Fichiere sinn a mm, mam Nullpunkt um gewielten Urspronk, ouni de Plackeramm. D’Linnenfaarwen aus dem originale SVG an d’Ebene bleiwen erhalen.",
+  "res.note": "D’Fichieren sinn a mm, mam Nullpunkt um gewielten Ursprung. D’Linnefaarwen aus dem Original-SVG an d’Schichte bleiwen erhalen.",
   "res.panelAria": "Plack {w} × {h} mm",
   "sheet.title": "Plack {i} / {n}",
   "sheet.meta": "Deeler: {n} · benotzt Material: {u} %",
@@ -4872,6 +4956,9 @@ I18N.dict["lb"] = {
 
 /* Lietuvių */
 I18N.dict["lt"] = {
+  "news.123": "Galimybė eksportuoti plokštės kontūrą kartu su detalėmis (atskirame sluoksnyje). Detalės sugrupuojamos į kompaktišką bloką aplink pasirinktą pradžios tašką.",
+  "dl.board": "Įtraukti plokštės kontūrą į eksportą",
+  "dl.boardLayer": "Plokštė",
   "news.122": "Saugesnis SVG importas: išsaugoma tik failo geometrija. Automatiniai testai ir pertvarkytas kodas.",
   "app.title": "Nestor",
   "proj.title": "Projektas",
@@ -4951,7 +5038,7 @@ I18N.dict["lt"] = {
   "res.waste": "Medžiagos atliekos",
   "res.tooBig": "Per didelė naudingam plokštės plotui: {list}. Patikrink failo vienetus, paraštę arba leisk pasukti.",
   "res.empty": "Importuok failą arba pažymėk detales, kad pamatytum planą.",
-  "res.note": "Failai yra mm, nulis pasirinktame pradžios taške, be plokštės kontūro. Originalaus SVG linijų spalvos ir sluoksniai išsaugomi.",
+  "res.note": "Failai yra mm, nulis pasirinktoje pradžios vietoje. Originalaus SVG linijų spalvos ir sluoksniai išsaugomi.",
   "res.panelAria": "Plokštė {w} × {h} mm",
   "sheet.title": "Plokštė {i} / {n}",
   "sheet.meta": "Detalės: {n} · panaudota medžiagos: {u} %",
@@ -5044,6 +5131,9 @@ I18N.dict["lt"] = {
 
 /* Latviešu */
 I18N.dict["lv"] = {
+  "news.123": "Iespēja eksportēt plātnes kontūru kopā ar detaļām (atsevišķā slānī). Detaļas tiek sakārtotas kompaktā blokā ap izvēlēto sākumpunktu.",
+  "dl.board": "Iekļaut plātnes kontūru eksportā",
+  "dl.boardLayer": "Plātne",
   "news.122": "Drošāka SVG importēšana: tiek saglabāta tikai faila ģeometrija. Automātiskie testi un pārkārtots kods.",
   "app.title": "Nestor",
   "proj.title": "Projekts",
@@ -5123,7 +5213,7 @@ I18N.dict["lv"] = {
   "res.waste": "Materiāla zudumi",
   "res.tooBig": "Pārāk liela plātnes lietderīgajam laukumam: {list}. Pārbaudi faila mērvienības, atkāpi vai atļauj pagriešanu.",
   "res.empty": "Importē failu vai atlasi detaļas, lai redzētu plānu.",
-  "res.note": "Faili ir mm, ar nulli izvēlētajā sākumpunktā, bez plātnes kontūras. Oriģinālā SVG līniju krāsas un slāņi tiek saglabāti.",
+  "res.note": "Faili ir mm, nulle izvēlētajā sākumpunktā. Oriģinālā SVG līniju krāsas un slāņi tiek saglabāti.",
   "res.panelAria": "Plātne {w} × {h} mm",
   "sheet.title": "Plātne {i} / {n}",
   "sheet.meta": "Detaļas: {n} · izmantotais materiāls: {u} %",
@@ -5216,6 +5306,9 @@ I18N.dict["lv"] = {
 
 /* Македонски */
 I18N.dict["mk"] = {
+  "news.123": "Опција за извоз на контурот на плочата со деловите (на посебен слој). Деловите се групираат во збиен блок околу избраното потекло.",
+  "dl.board": "Вклучи го контурот на плочата во извозот",
+  "dl.boardLayer": "Плоча",
   "news.122": "Побезбеден увоз на SVG: се задржува само геометријата на датотеката. Автоматски тестови и преуреден код.",
   "app.title": "Nestor",
   "proj.title": "Проект",
@@ -5295,7 +5388,7 @@ I18N.dict["mk"] = {
   "res.waste": "Отпад од материјал",
   "res.tooBig": "Преголем за корисната површина на плочата: {list}. Провери ги единиците на датотеката, работ или дозволи ротација.",
   "res.empty": "Увези датотека или избери делови за да го видиш планот.",
-  "res.note": "Датотеките се во mm, со нулата во избраниот почеток, без контурата на плочата. Боите на линиите од оригиналниот SVG и слоевите се задржуваат.",
+  "res.note": "Датотеките се во мм, со нулата во избраното потекло. Боите на линиите од оригиналниот SVG и слоевите се задржуваат.",
   "res.panelAria": "Плоча {w} × {h} mm",
   "sheet.title": "Плоча {i} / {n}",
   "sheet.meta": "Делови: {n} · искористен материјал: {u} %",
@@ -5388,6 +5481,9 @@ I18N.dict["mk"] = {
 
 /* Malti */
 I18N.dict["mt"] = {
+  "news.123": "Għażla biex tesporta l-kontorn tal-pannell mal-biċċiet (fuq saff għalih). Il-biċċiet jinġabru fi blokk kompatt madwar l-oriġini magħżula.",
+  "dl.board": "Inkludi l-kontorn tal-pannell fl-esportazzjonijiet",
+  "dl.boardLayer": "Pannell",
   "news.122": "Importazzjoni SVG aktar sigura: tinżamm biss il-ġeometrija tal-fajl. Testijiet awtomatiċi u kodiċi organizzat mill-ġdid.",
   "app.title": "Nestor",
   "proj.title": "Proġett",
@@ -5467,7 +5563,7 @@ I18N.dict["mt"] = {
   "res.waste": "Ħela ta’ materjal",
   "res.tooBig": "Kbira wisq għaż-żona użabbli tal-pannell: {list}. Iċċekkja l-unitajiet tal-fajl, il-marġni jew ippermetti d-dawran.",
   "res.empty": "Importa fajl jew agħżel biċċiet biex tara l-pjan.",
-  "res.note": "Il-fajls huma f’mm, biż-żero fl-oriġini magħżula, mingħajr il-kontorn tal-pannell. Il-kuluri tal-linji tal-SVG oriġinali u s-saffi jinżammu.",
+  "res.note": "Il-fajls huma f’mm, biż-żero fl-oriġini magħżula. Il-kuluri tal-linji tal-SVG oriġinali u s-saffi jinżammu.",
   "res.panelAria": "Pannell {w} × {h} mm",
   "sheet.title": "Pannell {i} / {n}",
   "sheet.meta": "Biċċiet: {n} · materjal użat: {u} %",
@@ -5560,6 +5656,9 @@ I18N.dict["mt"] = {
 
 /* Norsk bokmål */
 I18N.dict["nb"] = {
+  "news.123": "Mulighet for å eksportere platens omriss med delene (på eget lag). Delene samles i en kompakt blokk rundt valgt origo.",
+  "dl.board": "Ta med platens omriss i eksport",
+  "dl.boardLayer": "Plate",
   "news.122": "Tryggere SVG-import: bare filens geometri beholdes. Automatiske tester og omorganisert kode.",
   "app.title": "Nestor",
   "proj.title": "Prosjekt",
@@ -5639,7 +5738,7 @@ I18N.dict["nb"] = {
   "res.waste": "Materialsvinn",
   "res.tooBig": "For stor for platens brukbare område: {list}. Kontroller filens enheter, margen, eller tillat rotering.",
   "res.empty": "Importer en fil eller velg deler for å se planen.",
-  "res.note": "Filene er i mm, med nullpunktet i valgt origo, uten platens omriss. Strekfarger fra original-SVG-en og lagene beholdes.",
+  "res.note": "Filene er i mm, med nullpunktet i valgt origo. Strekfarger fra den opprinnelige SVG-en og lagene beholdes.",
   "res.panelAria": "Plate {w} × {h} mm",
   "sheet.title": "Plate {i} / {n}",
   "sheet.meta": "Deler: {n} · brukt materiale: {u} %",
@@ -5732,6 +5831,9 @@ I18N.dict["nb"] = {
 
 /* Nederlands */
 I18N.dict["nl"] = {
+  "news.123": "Optie om de plaatomtrek samen met de onderdelen te exporteren (op een eigen laag). Onderdelen worden in een compact blok rond de gekozen oorsprong gegroepeerd.",
+  "dl.board": "Plaatomtrek meenemen in export",
+  "dl.boardLayer": "Plaat",
   "news.122": "Veiligere SVG-import: alleen de geometrie van het bestand wordt bewaard. Automatische tests en herschikte code.",
   "app.title": "Nestor",
   "proj.title": "Project",
@@ -5811,7 +5913,7 @@ I18N.dict["nl"] = {
   "res.waste": "Materiaalverlies",
   "res.tooBig": "Te groot voor het bruikbare deel van de plaat: {list}. Controleer de eenheden van het bestand, de marge of sta draaien toe.",
   "res.empty": "Importeer een bestand of selecteer onderdelen om het plan te zien.",
-  "res.note": "De bestanden zijn in mm, met het nulpunt op de gekozen oorsprong, zonder de plaatomtrek. Lijnkleuren uit de originele SVG en lagen blijven behouden.",
+  "res.note": "De bestanden zijn in mm, met het nulpunt op de gekozen oorsprong. Lijnkleuren uit de originele SVG en de lagen blijven behouden.",
   "res.panelAria": "Plaat {w} × {h} mm",
   "sheet.title": "Plaat {i} / {n}",
   "sheet.meta": "Onderdelen: {n} · materiaal gebruikt: {u} %",
@@ -5904,6 +6006,9 @@ I18N.dict["nl"] = {
 
 /* Polski */
 I18N.dict["pl"] = {
+  "news.123": "Opcja eksportu obrysu płyty razem z elementami (na osobnej warstwie). Elementy grupują się w zwarty blok wokół wybranego punktu początkowego.",
+  "dl.board": "Dołącz obrys płyty do eksportu",
+  "dl.boardLayer": "Płyta",
   "news.122": "Bezpieczniejszy import SVG: zachowywana jest tylko geometria pliku. Testy automatyczne i uporządkowany kod.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -5983,7 +6088,7 @@ I18N.dict["pl"] = {
   "res.waste": "Odpad materiału",
   "res.tooBig": "Za duży na użytkową część płyty: {list}. Sprawdź jednostki pliku, margines lub zezwól na obrót.",
   "res.empty": "Zaimportuj plik lub zaznacz elementy, aby zobaczyć plan.",
-  "res.note": "Pliki są w mm, z zerem w wybranym punkcie, bez obrysu płyty. Kolory linii z oryginalnego SVG i warstwy są zachowane.",
+  "res.note": "Pliki są w mm, z zerem w wybranym punkcie początkowym. Kolory linii z oryginalnego SVG i warstwy są zachowane.",
   "res.panelAria": "Płyta {w} × {h} mm",
   "sheet.title": "Płyta {i} / {n}",
   "sheet.meta": "Elementy: {n} · zużyty materiał: {u} %",
@@ -6076,6 +6181,9 @@ I18N.dict["pl"] = {
 
 /* Română */
 I18N.dict["ro"] = {
+  "news.123": "Opțiune de a exporta conturul panoului împreună cu piesele (pe un strat separat). Piesele se grupează într-un bloc compact în jurul originii alese.",
+  "dl.board": "Include conturul panoului în exporturi",
+  "dl.boardLayer": "Panou",
   "news.122": "Import SVG mai sigur: se păstrează doar geometria fișierului. Teste automate și cod reorganizat.",
   "app.title": "Nestor",
   "proj.title": "Proiect",
@@ -6155,7 +6263,7 @@ I18N.dict["ro"] = {
   "res.waste": "Pierdere de material",
   "res.tooBig": "Prea mare pentru zona utilă a plăcii: {list}. Verifică unitățile fișierului, marginea sau permite rotirea.",
   "res.empty": "Importă un fișier sau selectează piese pentru a vedea planul.",
-  "res.note": "Fișierele sunt în mm, cu zeroul în originea aleasă, fără conturul plăcii. Culorile liniilor din SVG-ul original și straturile se păstrează.",
+  "res.note": "Fișierele sunt în mm, cu zero în originea aleasă. Culorile liniilor din SVG-ul original și straturile sunt păstrate.",
   "res.panelAria": "Placă {w} × {h} mm",
   "sheet.title": "Placa {i} / {n}",
   "sheet.meta": "Piese: {n} · material folosit: {u} %",
@@ -6248,6 +6356,9 @@ I18N.dict["ro"] = {
 
 /* Slovenčina */
 I18N.dict["sk"] = {
+  "news.123": "Možnosť exportovať obrys dosky spolu s dielmi (vo vlastnej vrstve). Diely sa zoskupia do kompaktného bloku okolo zvoleného počiatku.",
+  "dl.board": "Zahrnúť obrys dosky do exportu",
+  "dl.boardLayer": "Doska",
   "news.122": "Bezpečnejší import SVG: zachová sa len geometria súboru. Automatické testy a preusporiadaný kód.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -6327,7 +6438,7 @@ I18N.dict["sk"] = {
   "res.waste": "Odpad materiálu",
   "res.tooBig": "Príliš veľký pre úžitkovú plochu dosky: {list}. Skontroluj jednotky súboru, okraj alebo povoľ otáčanie.",
   "res.empty": "Importuj súbor alebo vyber diely a uvidíš plán.",
-  "res.note": "Súbory sú v mm, s nulou vo zvolenom počiatku, bez obrysu dosky. Farby čiar z pôvodného SVG a vrstvy zostávajú.",
+  "res.note": "Súbory sú v mm, s nulou vo zvolenom počiatku. Farby čiar z pôvodného SVG a vrstvy zostávajú zachované.",
   "res.panelAria": "Doska {w} × {h} mm",
   "sheet.title": "Doska {i} / {n}",
   "sheet.meta": "Diely: {n} · využitý materiál: {u} %",
@@ -6420,6 +6531,9 @@ I18N.dict["sk"] = {
 
 /* Slovenščina */
 I18N.dict["sl"] = {
+  "news.123": "Možnost izvoza obrisa plošče skupaj s kosi (na ločeni plasti). Kosi se združijo v strnjen blok okoli izbranega izhodišča.",
+  "dl.board": "Vključi obris plošče v izvoz",
+  "dl.boardLayer": "Plošča",
   "news.122": "Varnejši uvoz SVG: ohrani se samo geometrija datoteke. Samodejni testi in preurejena koda.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -6499,7 +6613,7 @@ I18N.dict["sl"] = {
   "res.waste": "Izguba materiala",
   "res.tooBig": "Prevelik za uporabno površino plošče: {list}. Preveri enote datoteke, rob ali dovoli vrtenje.",
   "res.empty": "Uvozi datoteko ali izberi dele, da vidiš načrt.",
-  "res.note": "Datoteke so v mm, z ničlo v izbranem izhodišču, brez obrisa plošče. Barve črt iz izvirnega SVG in plasti se ohranijo.",
+  "res.note": "Datoteke so v mm, z ničlo v izbranem izhodišču. Barve črt iz izvirnega SVG in plasti se ohranijo.",
   "res.panelAria": "Plošča {w} × {h} mm",
   "sheet.title": "Plošča {i} / {n}",
   "sheet.meta": "Deli: {n} · porabljen material: {u} %",
@@ -6592,6 +6706,9 @@ I18N.dict["sl"] = {
 
 /* Shqip */
 I18N.dict["sq"] = {
+  "news.123": "Mundësi për të eksportuar konturin e panelit me pjesët (në shtresë më vete). Pjesët grupohen në një bllok kompakt rreth origjinës së zgjedhur.",
+  "dl.board": "Përfshi konturin e panelit në eksportime",
+  "dl.boardLayer": "Paneli",
   "news.122": "Importim SVG më i sigurt: ruhet vetëm gjeometria e skedarit. Teste automatike dhe kod i riorganizuar.",
   "app.title": "Nestor",
   "proj.title": "Projekti",
@@ -6671,7 +6788,7 @@ I18N.dict["sq"] = {
   "res.waste": "Humbje materiali",
   "res.tooBig": "Shumë e madhe për sipërfaqen e dobishme të pllakës: {list}. Kontrollo njësitë e skedarit, kufirin ose lejo rrotullimin.",
   "res.empty": "Importo një skedar ose zgjidh pjesë për të parë planin.",
-  "res.note": "Skedarët janë në mm, me zeron në origjinën e zgjedhur, pa konturin e pllakës. Ngjyrat e vijave të SVG-së origjinale dhe shtresat ruhen.",
+  "res.note": "Skedarët janë në mm, me zeron në origjinën e zgjedhur. Ngjyrat e vijave të SVG-së origjinale dhe shtresat ruhen.",
   "res.panelAria": "Pllaka {w} × {h} mm",
   "sheet.title": "Pllaka {i} / {n}",
   "sheet.meta": "Pjesë: {n} · material i përdorur: {u} %",
@@ -6764,6 +6881,9 @@ I18N.dict["sq"] = {
 
 /* Српски */
 I18N.dict["sr"] = {
+  "news.123": "Могућност извоза обриса плоче заједно са деловима (на засебном слоју). Делови се групишу у збијен блок око изабраног исходишта.",
+  "dl.board": "Укључи обрис плоче у извоз",
+  "dl.boardLayer": "Плоча",
   "news.122": "Безбеднији увоз SVG-а: задржава се само геометрија датотеке. Аутоматски тестови и преуређен код.",
   "app.title": "Nestor",
   "proj.title": "Пројекат",
@@ -6843,7 +6963,7 @@ I18N.dict["sr"] = {
   "res.waste": "Отпад материјала",
   "res.tooBig": "Превелик за корисну површину плоче: {list}. Провери јединице датотеке, ивицу или дозволи ротацију.",
   "res.empty": "Увези датотеку или изабери делове да видиш план.",
-  "res.note": "Датотеке су у mm, с нулом у изабраном исходишту, без обриса плоче. Боје линија из изворног SVG-а и слојеви се задржавају.",
+  "res.note": "Датотеке су у мм, са нулом у изабраном исходишту. Боје линија из изворног SVG-а и слојеви се задржавају.",
   "res.panelAria": "Плоча {w} × {h} mm",
   "sheet.title": "Плоча {i} / {n}",
   "sheet.meta": "Делови: {n} · искоришћен материјал: {u} %",
@@ -6936,6 +7056,9 @@ I18N.dict["sr"] = {
 
 /* Svenska */
 I18N.dict["sv"] = {
+  "news.123": "Möjlighet att exportera skivans kontur med delarna (på ett eget lager). Delarna samlas i ett kompakt block runt valt origo.",
+  "dl.board": "Ta med skivans kontur i exporten",
+  "dl.boardLayer": "Skiva",
   "news.122": "Säkrare SVG-import: bara filens geometri behålls. Automatiska tester och omorganiserad kod.",
   "app.title": "Nestor",
   "proj.title": "Projekt",
@@ -7015,7 +7138,7 @@ I18N.dict["sv"] = {
   "res.waste": "Materialspill",
   "res.tooBig": "För stor för skivans användbara yta: {list}. Kontrollera filens enheter, marginalen eller tillåt vridning.",
   "res.empty": "Importera en fil eller markera detaljer för att se schemat.",
-  "res.note": "Filerna är i mm, med nollpunkten i valt origo, utan skivans kontur. Linjefärger från original-SVG:n och lagren behålls.",
+  "res.note": "Filerna är i mm, med nollpunkten i valt origo. Linjefärger från original-SVG:n och lagren behålls.",
   "res.panelAria": "Skiva {w} × {h} mm",
   "sheet.title": "Skiva {i} / {n}",
   "sheet.meta": "Detaljer: {n} · använt material: {u} %",
@@ -7108,6 +7231,9 @@ I18N.dict["sv"] = {
 
 /* ไทย */
 I18N.dict["th"] = {
+  "news.123": "ตัวเลือกส่งออกเส้นขอบแผ่นวัสดุพร้อมชิ้นงาน (แยกเลเยอร์) ชิ้นงานจะถูกจัดรวมกันแน่นรอบจุดกำเนิดที่เลือก",
+  "dl.board": "รวมเส้นขอบแผ่นวัสดุในไฟล์ส่งออก",
+  "dl.boardLayer": "แผ่นวัสดุ",
   "news.122": "นำเข้า SVG ได้ปลอดภัยขึ้น: เก็บเฉพาะรูปทรงในไฟล์ เพิ่มการทดสอบอัตโนมัติและจัดระเบียบโค้ดใหม่",
   "app.title": "Nestor",
   "proj.title": "โปรเจกต์",
@@ -7187,7 +7313,7 @@ I18N.dict["th"] = {
   "res.waste": "เศษวัสดุ",
   "res.tooBig": "ใหญ่เกินพื้นที่ใช้งานของแผ่น: {list} ตรวจสอบหน่วยของไฟล์ ระยะขอบ หรืออนุญาตให้หมุน",
   "res.empty": "นำเข้าไฟล์หรือเลือกชิ้นงานเพื่อดูแผนการตัด",
-  "res.note": "ไฟล์มีหน่วยเป็นมม. จุดศูนย์อยู่ที่จุดอ้างอิงที่เลือก โดยไม่มีเส้นขอบแผ่น สีเส้นจาก SVG ต้นฉบับและเลเยอร์ยังคงอยู่",
+  "res.note": "ไฟล์มีหน่วยเป็นมม. โดยจุดศูนย์อยู่ที่จุดกำเนิดที่เลือก สีเส้นจาก SVG ต้นฉบับและเลเยอร์ยังคงอยู่",
   "res.panelAria": "แผ่น {w} × {h} mm",
   "sheet.title": "แผ่น {i} / {n}",
   "sheet.meta": "ชิ้นงาน: {n} · ใช้วัสดุ: {u} %",
@@ -7280,6 +7406,9 @@ I18N.dict["th"] = {
 
 /* Türkçe */
 I18N.dict["tr"] = {
+  "news.123": "Levha konturunu parçalarla birlikte dışa aktarma seçeneği (ayrı katmanda). Parçalar seçilen başlangıç noktası çevresinde sıkı bir blok halinde toplanır.",
+  "dl.board": "Dışa aktarmaya levha konturunu ekle",
+  "dl.boardLayer": "Levha",
   "news.122": "Daha güvenli SVG içe aktarma: dosyadan yalnızca geometri alınır. Otomatik testler ve yeniden düzenlenmiş kod.",
   "app.title": "Nestor",
   "proj.title": "Proje",
@@ -7359,7 +7488,7 @@ I18N.dict["tr"] = {
   "res.waste": "Malzeme firesi",
   "res.tooBig": "Levhanın kullanılabilir alanı için çok büyük: {list}. Dosya birimlerini, kenar payını kontrol et ya da döndürmeye izin ver.",
   "res.empty": "Planı görmek için bir dosya içe aktar ya da parça seç.",
-  "res.note": "Dosyalar mm cinsindendir, sıfır seçilen başlangıç noktasındadır, levha çevresi yoktur. Orijinal SVG çizgi renkleri ve katmanlar korunur.",
+  "res.note": "Dosyalar mm cinsindendir, sıfır noktası seçilen başlangıçtadır. Orijinal SVG’nin çizgi renkleri ve katmanlar korunur.",
   "res.panelAria": "Levha {w} × {h} mm",
   "sheet.title": "Levha {i} / {n}",
   "sheet.meta": "Parçalar: {n} · kullanılan malzeme: %{u}",
@@ -7452,6 +7581,9 @@ I18N.dict["tr"] = {
 
 /* Українська */
 I18N.dict["uk"] = {
+  "news.123": "Можна експортувати контур листа разом із деталями (на окремому шарі). Деталі збираються компактним блоком навколо вибраного початку координат.",
+  "dl.board": "Додавати контур листа в експорт",
+  "dl.boardLayer": "Лист",
   "news.122": "Безпечніший імпорт SVG: зберігається лише геометрія файлу. Автоматичні тести й перероблений код.",
   "app.title": "Nestor",
   "proj.title": "Проєкт",
@@ -7531,7 +7663,7 @@ I18N.dict["uk"] = {
   "res.waste": "Відхід матеріалу",
   "res.tooBig": "Завелика для робочої зони листа: {list}. Перевірте одиниці файлу, відступ або дозвольте поворот.",
   "res.empty": "Імпортуйте файл або виберіть деталі, щоб побачити план.",
-  "res.note": "Файли в мм, нуль у вибраному початку координат, без контуру листа. Кольори ліній вихідного SVG і шари зберігаються.",
+  "res.note": "Файли в мм, нуль — у вибраному початку координат. Кольори ліній вихідного SVG і шари зберігаються.",
   "res.panelAria": "Лист {w} × {h} мм",
   "sheet.title": "Лист {i} / {n}",
   "sheet.meta": "Деталей: {n} · використано матеріалу: {u} %",
@@ -7624,6 +7756,9 @@ I18N.dict["uk"] = {
 
 /* 中文（繁體） */
 I18N.dict["zh-Hant"] = {
+  "news.123": "可選擇將板材輪廓與零件一起匯出（獨立圖層）。零件圍繞所選原點緊密地排在一起。",
+  "dl.board": "匯出時包含板材輪廓",
+  "dl.boardLayer": "板材",
   "news.122": "更安全的 SVG 匯入：只保留檔案中的幾何圖形。新增自動測試，程式碼重新整理。",
   "app.title": "Nestor",
   "proj.title": "專案",
@@ -7703,7 +7838,7 @@ I18N.dict["zh-Hant"] = {
   "res.waste": "材料損耗",
   "res.tooBig": "超出板材可用範圍：{list}。請檢查檔案單位、邊距，或允許旋轉。",
   "res.empty": "匯入檔案或勾選零件即可查看排版圖。",
-  "res.note": "檔案單位為公釐，零點位於所選原點，不含板材輪廓。保留原始 SVG 的線條顏色與圖層。",
+  "res.note": "檔案單位為毫米，零點位於所選原點。保留原 SVG 的線條顏色與圖層。",
   "res.panelAria": "板材 {w} × {h} 公釐",
   "sheet.title": "板材 {i} / {n}",
   "sheet.meta": "零件：{n} · 材料使用率：{u}%",

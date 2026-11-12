@@ -990,13 +990,19 @@ var Geo = (function () {
 
   /* ---- export ---- */
   function layerName(l) {
-    return (
+    var n =
       String(l || "0")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^A-Za-z0-9_\-$]/g, "_")
-        .slice(0, 31) || "0"
-    );
+        .slice(0, 31) || "0";
+    // nom écrit dans un alphabet non latin : il ne resterait que des « _ », on garde un nom lisible
+    return /[A-Za-z0-9]/.test(n) ? n : "LAYER_" + (Math.abs(hashStr(String(l))) % 1000);
+  }
+  function hashStr(t) {
+    var h = 0;
+    for (var i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) | 0;
+    return h;
   }
   // ox, oy : origine choisie (coordonnées de la page, Y vers le bas) ; le DXF a son Y vers le haut
   function exportDXF(polys, ox, oy) {
