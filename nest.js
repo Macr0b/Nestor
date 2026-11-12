@@ -294,8 +294,22 @@ function nest(input) {
       occ = new Uint8Array(cols * rows),
       prev = new Int32Array(cols * rows),
       next = new Int32Array(cols * rows);
-    // ex, ey : étendue actuelle du groupe de pièces depuis le point d'accroche (en cases)
-    var s = { P: P, uw: uw, uh: uh, cols: cols, rows: rows, occ: occ, prev: prev, next: next, parts: [], ex: 0, ey: 0 };
+    // bx0..by1 : encombrement réel du groupe de pièces déjà posées (en cases) ; vide au départ
+    var s = {
+      P: P,
+      uw: uw,
+      uh: uh,
+      cols: cols,
+      rows: rows,
+      occ: occ,
+      prev: prev,
+      next: next,
+      parts: [],
+      bx0: Infinity,
+      by0: Infinity,
+      bx1: 0,
+      by1: 0
+    };
     s.cx = uw / r / 2;
     s.cy = uh / r / 2;
     for (var yy = 0; yy < rows; yy++) rowPrev(s, yy);
@@ -339,37 +353,49 @@ function nest(input) {
     }
     return x;
   }
-  // étendue d'une pièce depuis le point d'accroche, sur un axe (en cases) : depuis le bord, ou deux fois l'écart au milieu
+  /* Note d'une position (plus petite = meilleure), en trois niveaux :
+       1. le groupe reste le plus compact possible : plus grand côté de son encombrement réel une fois la pièce posée
+          (depuis le bord quand l'accroche est sur un bord, sinon largeur ou hauteur réelle du groupe, recentré à la fin) ;
+       2. puis la plus petite somme largeur + hauteur de cet encombrement ;
+       3. puis la pièce la plus proche du point d'accroche.
+     Le groupe est mesuré par son encombrement réel et pas par sa distance au centre : sinon, quand il dépasse plus
+     d'un côté que de l'autre, l'appli croit « gratuit » de déborder de l'autre côté et laisse des pièces dépasser. */
+  function grade(sx, sy, near) {
+    return (sx > sy ? sx : sy) * 1e9 + (sx + sy) * 1e5 + near;
+  }
+  // distance d'une pièce au point d'accroche sur un axe (en cases) : depuis le bord, ou deux fois l'écart au milieu
   function extent(p, size, mid, half) {
     return half ? 2 * Math.max(mid - p, p + size - mid) : p + size;
   }
-  // note d'une position : on garde le groupe le plus compact autour de l'accroche (le plus petit carré qui l'englobe),
-  // puis la plus petite somme largeur + hauteur, puis la pièce la plus proche de l'accroche
-  // la note ne dépend que des étendues px, py de la pièce et croît avec elles : elle sert aussi de borne pour écarter
-  // d'avance les lignes et les positions qui ne peuvent pas faire mieux
-  function scoreOf(s, px, py) {
-    var Ex = Math.max(s.ex, px),
-      Ey = Math.max(s.ey, py);
-    return Math.max(Ex, Ey) * 1e9 + (Ex + Ey) * 1e5 + px + py;
-  }
-  function scoreAt(s, o, x, y) {
-    var px = extent(x, o.wc, s.cx, ax),
-      py = extent(y, o.hc, s.cy, ay);
-    return { v: scoreOf(s, px, py), Ex: Math.max(s.ex, px), Ey: Math.max(s.ey, py) };
+  // encombrement du groupe sur un axe si on ajoute la pièce [p, p + size] (lo..hi : groupe actuel)
+  function span(lo, hi, p, size, half) {
+    var top = hi > p + size ? hi : p + size;
+    if (!half) return top; // accroche sur le bord : le groupe part toujours du bord
+    return top - (lo < p ? lo : p);
   }
   function fit(s, o, bestScore) {
     if (o.wc > s.cols || o.hc > s.rows || o.w > s.uw + 1e-6 || o.h > s.uh + 1e-6) return null;
     // copies locales : ces calculs sont faits des millions de fois
-    var EX = s.ex,
-      EY = s.ey,
+    var BX0 = s.bx0,
+      BX1 = s.bx1,
+      BY0 = s.by0,
+      BY1 = s.by1,
       CX = s.cx,
       CY = s.cy,
       WC = o.wc,
       HC = o.hc;
-    function note(px, py) {
-      var Ex = EX > px ? EX : px,
-        Ey = EY > py ? EY : py;
-      return (Ex > Ey ? Ex : Ey) * 1e9 + (Ex + Ey) * 1e5 + px + py;
+    function spanX(x) {
+      var top = BX1 > x + WC ? BX1 : x + WC;
+      if (!ax) return top;
+      return top - (BX0 < x ? BX0 : x);
+    }
+    function spanY(y) {
+      var top = BY1 > y + HC ? BY1 : y + HC;
+      if (!ay) return top;
+      return top - (BY0 < y ? BY0 : y);
+    }
+    function note(x, sy, nearY) {
+      return grade(spanX(x), sy, extX(x) + nearY);
     }
     function extX(x) {
       if (!ax) return x + WC;
@@ -388,9 +414,10 @@ function nest(input) {
       maxY = Math.min(s.rows - o.hc, Math.floor((s.uh - o.h) / r + 1e-6));
     // position de départ sur chaque ligne : contre le bord, ou centrée sur le milieu
     var x0 = ax ? Math.max(0, Math.min(maxX, Math.round(s.cx - o.wc / 2))) : 0,
-      minPx = o.wc;
+      // plus petite largeur de groupe possible, quelle que soit la position sur la ligne
+      minSx = ax ? Math.max(isFinite(BX0) ? BX1 - BX0 : 0, WC) : Math.max(BX1, WC);
     function consider(x, y) {
-      var v = note(extX(x), extY(y));
+      var v = note(x, spanY(y), extY(y));
       if (v < bestScore) {
         bestScore = v;
         best = { x: x, y: y, score: v };
@@ -405,12 +432,13 @@ function nest(input) {
         continue;
       }
       // borne basse de la ligne : si même la meilleure position possible ne fait pas mieux, on passe
-      var py = extY(y);
-      if (note(minPx, py) >= bestScore) continue;
+      var sy = spanY(y),
+        ny = extY(y);
+      if (grade(minSx, sy, WC + ny) >= bestScore) continue;
       // vers la droite (seul sens utile quand l'accroche est sur le bord gauche) ; on s'arrête dès que la note
       // ne peut plus faire mieux que la meilleure place trouvée
       var x = x0;
-      while (x <= maxX && note(extX(x), py) < bestScore) {
+      while (x <= maxX && note(x, sy, ny) < bestScore) {
         var c = conflict(s, o, x, y);
         if (c < 0) {
           consider(x, y);
@@ -421,7 +449,7 @@ function nest(input) {
       // vers la gauche quand l'accroche est au milieu
       if (ax) {
         x = x0 - 1;
-        while (x >= 0 && note(extX(x), py) < bestScore) {
+        while (x >= 0 && note(x, sy, ny) < bestScore) {
           var c2 = conflictLeft(s, o, x, y);
           if (c2 === x) {
             consider(x, y);
@@ -483,9 +511,14 @@ function nest(input) {
     }
     if (done) {
       place(done.s, done.t.o, done.t.f.x, done.t.f.y);
-      var sc = scoreAt(done.s, done.t.o, done.t.f.x, done.t.f.y);
-      done.s.ex = sc.Ex;
-      done.s.ey = sc.Ey;
+      // le groupe s'agrandit de la pièce posée
+      var gs = done.s,
+        fx = done.t.f.x,
+        fy = done.t.f.y;
+      gs.bx0 = Math.min(gs.bx0, fx);
+      gs.by0 = Math.min(gs.by0, fy);
+      gs.bx1 = Math.max(gs.bx1, fx + done.t.o.wc);
+      gs.by1 = Math.max(gs.by1, fy + done.t.o.hc);
       var oo = done.t.o,
         pp = { i: it.i, x: margin + done.t.f.x * r, y: margin + done.t.f.y * r, w: oo.w, h: oo.h };
       if (oo.a != null) {

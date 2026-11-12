@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.2.5
+Version : 1.2.6
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -56,7 +56,8 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Panneaux** : la longueur est verticale et la largeur horizontale (panneau en portrait).
 - **Origine** : le petit carré à 9 points choisit le zéro machine. Les pièces se regroupent à partir de ce point (coin, bord ou centre) et c'est le zéro des fichiers exportés.
 - **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours.
-- **Export** : fichiers en mm, zéro sur l'origine choisie, sans le contour du panneau.
+- **Export** : fichiers en mm, zéro sur l'origine choisie. En option (sous « Méthode ») : le contour du panneau sur un calque « Panneau ».
+- **Coupes de chutes** (option sous « Méthode ») : traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l'espace entre pièces. « Simples » : d'un bord à l'autre du panneau. « Détaillées » : la découpe suit à peu près le contour du groupe de pièces. Les traits sont exportés sur un calque « Coupes ».
 
 ## Contenu du dossier
 
@@ -64,7 +65,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 |---|---|
 | `index.html` | Page et mise en forme |
 | `app.js` | Fonctionnement de l'interface (sommaire en tête de fichier) |
-| `geo.js` | Géométrie : lecture DXF / HPGL / VectorCraft, regroupement, rectangles, export DXF |
+| `geo.js` | Géométrie : lecture DXF / HPGL / VectorCraft, regroupement, rectangles, coupes de chutes, export DXF |
 | `nest.js` | Imbrication selon la forme (calculée en arrière-plan) |
 | `formats.js` | Lecture SVG / SVGZ, PDF / AI, LightBurn |
 | `i18n.js` | Traductions (45 langues) |

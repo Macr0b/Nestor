@@ -6,6 +6,7 @@
      regroupement .............. groupPieces : segments chaînés, trous rangés dans leur pièce ; toTypes : pièces identiques fusionnées
      DXF / HPGL / VectorCraft .. lecteurs de fichiers texte, résultat en mm
      export .................... exportDXF (zéro à l'origine choisie du panneau)
+     coupes de chutes .......... offcuts : traits de coupe pour récupérer des chutes rectangulaires
      placement guillotine ...... pack : placement en rectangles ; placedPaths : géométrie finale d'une pièce placée
    L'imbrication selon la forme est dans nest.js. */
 var Geo = (function () {
@@ -1041,6 +1042,165 @@ var Geo = (function () {
     return o.join("\r\n") + "\r\n";
   }
 
+  /* ---- coupes de chutes ----
+     Traits droits qui séparent les pièces placées du reste du panneau, pour récupérer des chutes rectangulaires.
+     Chaque trait va d'un bord à l'autre de la zone qu'il coupe (coupe faisable à la scie) et passe à « gap » mm
+     des pièces les plus proches.
+       mode "simple" : une seule série de traits parallèles, d'un bord à l'autre du panneau ;
+       mode "detail" : on recoupe ensuite les zones restantes pour suivre à peu près le contour du groupe.
+     boxes : encombrement de chaque pièce placée {x0, y0, x1, y1}, repère du panneau (0..L, 0..W).
+     Renvoie { cuts: [[x1, y1, x2, y2], ...], chutes: [{x, y, w, h}, ...] }. */
+  var CHUTE_MIN = 30; // une chute plus fine que 30 mm ne vaut pas un trait de coupe
+  var CUT_DEPTH = 4; // nombre maximal de redécoupes en mode détaillé
+
+  function boxesIn(R, boxes) {
+    return boxes.filter(function (b) {
+      return b.x0 >= R.x0 - 1e-6 && b.x1 <= R.x1 + 1e-6 && b.y0 >= R.y0 - 1e-6 && b.y1 <= R.y1 + 1e-6;
+    });
+  }
+  function boundsOf(boxes) {
+    var r = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+    boxes.forEach(function (b) {
+      r.x0 = Math.min(r.x0, b.x0);
+      r.y0 = Math.min(r.y0, b.y0);
+      r.x1 = Math.max(r.x1, b.x1);
+      r.y1 = Math.max(r.y1, b.y1);
+    });
+    return r;
+  }
+  // chutes possibles sur les 4 côtés de la zone R : épaisseur de chaque bande libre (0 si trop fine)
+  function freeSides(R, boxes, gap) {
+    var b = boundsOf(boxes);
+    function ok(v) {
+      return v >= CHUTE_MIN ? v : 0;
+    }
+    return {
+      top: ok(b.y0 - gap - R.y0),
+      bottom: ok(R.y1 - (b.y1 + gap)),
+      left: ok(b.x0 - gap - R.x0),
+      right: ok(R.x1 - (b.x1 + gap))
+    };
+  }
+  // coupe les bandes libres d'une orientation ("h" : traits horizontaux, "v" : verticaux) ; renvoie la zone restante
+  function trimSides(R, side, dir, out) {
+    var r = { x0: R.x0, y0: R.y0, x1: R.x1, y1: R.y1 };
+    if (r.x1 - r.x0 < CHUTE_MIN || r.y1 - r.y0 < CHUTE_MIN) return r;
+    if (dir === "h") {
+      if (side.top) {
+        var yt = r.y0 + side.top;
+        out.cuts.push([r.x0, yt, r.x1, yt]);
+        out.chutes.push({ x: r.x0, y: r.y0, w: r.x1 - r.x0, h: side.top });
+        r.y0 = yt;
+      }
+      if (side.bottom) {
+        var yb = r.y1 - side.bottom;
+        out.cuts.push([r.x0, yb, r.x1, yb]);
+        out.chutes.push({ x: r.x0, y: yb, w: r.x1 - r.x0, h: side.bottom });
+        r.y1 = yb;
+      }
+    } else {
+      if (side.left) {
+        var xl = r.x0 + side.left;
+        out.cuts.push([xl, r.y0, xl, r.y1]);
+        out.chutes.push({ x: r.x0, y: r.y0, w: side.left, h: r.y1 - r.y0 });
+        r.x0 = xl;
+      }
+      if (side.right) {
+        var xr = r.x1 - side.right;
+        out.cuts.push([xr, r.y0, xr, r.y1]);
+        out.chutes.push({ x: xr, y: r.y0, w: side.right, h: r.y1 - r.y0 });
+        r.x1 = xr;
+      }
+    }
+    return r;
+  }
+  // aire libérée par les bandes d'une orientation
+  function sideArea(R, side, dir) {
+    return dir === "h" ? (side.top + side.bottom) * (R.x1 - R.x0) : (side.left + side.right) * (R.y1 - R.y0);
+  }
+  // détoure une zone : d'abord l'orientation qui libère le plus, puis (si both) la perpendiculaire
+  function trimRegion(R, boxes, gap, both, out) {
+    var s = freeSides(R, boxes, gap),
+      first = sideArea(R, s, "h") >= sideArea(R, s, "v") ? "h" : "v";
+    var r = trimSides(R, s, first, out);
+    if (both) r = trimSides(r, freeSides(r, boxes, gap), first === "h" ? "v" : "h", out);
+    return r;
+  }
+  // traits qui séparent les pièces de la zone en deux groupes, à au moins gap de chaque pièce
+  function splitCandidates(R, boxes, gap) {
+    var found = [];
+    ["v", "h"].forEach(function (dir) {
+      var a0 = dir === "v" ? "x0" : "y0",
+        a1 = dir === "v" ? "x1" : "y1";
+      var sorted = boxes.slice().sort(function (p, q) {
+        return p[a0] - q[a0];
+      });
+      var reach = -Infinity;
+      for (var i = 0; i < sorted.length; i++) {
+        if (i > 0 && sorted[i][a0] - reach >= 2 * gap && sorted[i][a0] - reach > 0) {
+          found.push({ dir: dir, at: (reach + sorted[i][a0]) / 2 });
+        }
+        reach = Math.max(reach, sorted[i][a1]);
+      }
+    });
+    return found;
+  }
+  function halves(R, c) {
+    if (c.dir === "v")
+      return [
+        { x0: R.x0, y0: R.y0, x1: c.at, y1: R.y1 },
+        { x0: c.at, y0: R.y0, x1: R.x1, y1: R.y1 }
+      ];
+    return [
+      { x0: R.x0, y0: R.y0, x1: R.x1, y1: c.at },
+      { x0: R.x0, y0: c.at, x1: R.x1, y1: R.y1 }
+    ];
+  }
+  // aire que libérerait un détourage d'une zone (sans rien enregistrer)
+  function trimGain(R, boxes, gap) {
+    var tmp = { cuts: [], chutes: [] };
+    trimRegion(R, boxes, gap, true, tmp);
+    return tmp.chutes.reduce(function (a, c) {
+      return a + c.w * c.h;
+    }, 0);
+  }
+  // mode détaillé : on cherche le trait qui, en séparant deux groupes de pièces, libère le plus de chutes
+  function splitRegion(R, boxes, gap, depth, out) {
+    if (depth >= CUT_DEPTH || boxes.length < 2) return;
+    var best = null;
+    splitCandidates(R, boxes, gap).forEach(function (c) {
+      var hs = halves(R, c),
+        gain = 0;
+      hs.forEach(function (h) {
+        var inside = boxesIn(h, boxes);
+        if (inside.length) gain += trimGain(h, inside, gap);
+      });
+      if (gain > 0 && (!best || gain > best.gain)) best = { c: c, gain: gain };
+    });
+    if (!best) return;
+    var c = best.c;
+    out.cuts.push(c.dir === "v" ? [c.at, R.y0, c.at, R.y1] : [R.x0, c.at, R.x1, c.at]);
+    halves(R, c).forEach(function (h) {
+      var inside = boxesIn(h, boxes);
+      if (!inside.length) return;
+      var r = trimRegion(h, inside, gap, true, out);
+      splitRegion(r, inside, gap, depth + 1, out);
+    });
+  }
+  function offcuts(L, W, boxes, gap, mode) {
+    var out = { cuts: [], chutes: [] };
+    if (!boxes.length || (mode !== "simple" && mode !== "detail")) return out;
+    gap = Math.max(0, gap || 0);
+    var R = { x0: 0, y0: 0, x1: L, y1: W };
+    if (mode === "simple") {
+      trimRegion(R, boxes, gap, false, out);
+      return out;
+    }
+    var r = trimRegion(R, boxes, gap, true, out);
+    splitRegion(r, boxes, gap, 0, out);
+    return out;
+  }
+
   /* ---- placement guillotine (encombrements) ---- */
   function pack(sheet, types) {
     var k = Math.max(0, num(sheet.gap, 0)),
@@ -1208,6 +1368,7 @@ var Geo = (function () {
     placedPaths: placedPaths,
     simplify: simplify,
     bbox: bbox,
-    rectType: rectType
+    rectType: rectType,
+    offcuts: offcuts
   };
 })();

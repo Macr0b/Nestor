@@ -292,6 +292,27 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("coupes de chutes : options sous « Méthode », traits dessinés, calque « Coupes » exporté, choix mémorisé", async () => {
+    const page = await open();
+    // les options sont dans le même bloc que « Méthode », pas au-dessus des panneaux
+    const sameBox = await page.evaluate(
+      () => document.querySelector("#cutSel").closest("section") === document.querySelector("#sMode").closest("section")
+    );
+    assert.ok(sameBox, "options sous « Méthode »");
+    assert.equal(await page.locator("#result #dlBoard").count(), 0, "plus d'option au-dessus des panneaux");
+    assert.equal(await page.locator(".svg-cut").count(), 0, "aucun trait par défaut");
+    await page.selectOption("#cutSel", "simple");
+    assert.ok((await page.locator(".svg-cut").count()) > 0, "traits dessinés");
+    assert.ok((await page.locator(".svg-chute").count()) > 0, "taille des chutes affichée");
+    const [d] = await Promise.all([page.waitForEvent("download"), page.click('[data-dl=dxf][data-s="0"]')]);
+    assert.match(await readFile(await d.path(), "utf8"), /\nCoupes\r?\n/);
+    await page.reload();
+    await idle(page);
+    assert.equal(await page.inputValue("#cutSel"), "simple");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("quantités élevées : 800 pièces toutes placées", async () => {
     const page = await open();
     for (let i = 0; i < 4; i++) await page.fill(`.trow[data-i="${i}"] [data-k=qty]`, i === 3 ? "800" : "0");

@@ -912,6 +912,14 @@ button:focus-visible,
   fill: none;
   stroke: var(--danger);
 }
+.svg-cut {
+  stroke: #2f8fff;
+}
+.svg-chute {
+  fill: #2f8fff;
+  font-family: var(--f-mono);
+  opacity: 0.85;
+}
 .origin.sm {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -1079,7 +1087,7 @@ button:focus-visible,
   display: flex;
   gap: 8px;
   align-items: center;
-  margin: 0 0 12px;
+  margin: 4px 0 12px;
   cursor: pointer;
 }
 .dlopt input {
@@ -1335,6 +1343,15 @@ button:focus-visible,
             <option value="rect" data-i18n="method.rect">Rectangles (coupes droites à la scie)</option>
           </select>
         </label>
+        <label class="f"><span data-i18n="cuts.label">Coupes de chutes</span>
+          <select id="cutSel">
+            <option value="" data-i18n="cuts.none">Aucune</option>
+            <option value="simple" data-i18n="cuts.simple">Simples (bord à bord)</option>
+            <option value="detail" data-i18n="cuts.detail">Détaillées (autour des pièces)</option>
+          </select>
+        </label>
+        <p class="hint" data-i18n="cuts.hint">Traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l’espace entre pièces.</p>
+        <label class="dlopt"><input type="checkbox" id="dlBoard"> <span data-i18n="dl.board">Inclure le contour du panneau dans les exports</span></label>
 
         <p class="hint" id="calcMsg"></p>
       </section>

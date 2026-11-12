@@ -20,7 +20,7 @@
      pièces ............. liste des pièces, tri, rotation, échelle, copies
      derniers réglages .. mémorisation dans le navigateur
      réglages / installation / mises à jour / démarrage */
-var APP_VERSION = "1.2.5";
+var APP_VERSION = "1.2.6";
 
 (function () {
   "use strict";
@@ -97,6 +97,7 @@ var APP_VERSION = "1.2.5";
   }
   /* nouveautés des dernières versions (réglages) */
   var NEWS = [
+    ["1.2.6", "2026-11-12", "news.126"],
     ["1.2.5", "2026-11-12", "news.125"],
     ["1.2.4", "2026-11-12", "news.124"],
     ["1.2.3", "2026-11-12", "news.123"],
@@ -778,6 +779,51 @@ var APP_VERSION = "1.2.5";
           "</text>"
       );
     });
+    // traits de coupe des chutes, avec la taille de chaque chute
+    var cu = sheetCuts(s);
+    cu.chutes.forEach(function (c) {
+      // texte écrit dans le sens de la plus grande longueur de la chute, et réduit pour tenir dedans
+      var label = T("cuts.chute", { w: fmt(c.w), h: fmt(c.h) }),
+        vertical = c.h > c.w,
+        long = vertical ? c.h : c.w,
+        short = vertical ? c.w : c.h,
+        fsz = Math.min(short * 0.45, (long * 0.85) / (label.length * 0.62), Math.max(L, W) * 0.022);
+      if (fsz < Math.max(L, W) * 0.008) return; // trop petit pour être lisible : on ne l'écrit pas
+      var cx = c.x + c.w / 2,
+        cy = c.y + c.h / 2;
+      o.push(
+        '<text class="svg-chute" x="' +
+          cx +
+          '" y="' +
+          (cy + fsz * 0.35) +
+          '" text-anchor="middle" font-size="' +
+          fsz +
+          '"' +
+          (vertical ? ' transform="rotate(-90 ' + cx + " " + cy + ')"' : "") +
+          ">" +
+          esc(label) +
+          "</text>"
+      );
+    });
+    cu.cuts.forEach(function (c) {
+      o.push(
+        '<line class="svg-cut" x1="' +
+          c[0] +
+          '" y1="' +
+          c[1] +
+          '" x2="' +
+          c[2] +
+          '" y2="' +
+          c[3] +
+          '" stroke-width="' +
+          sw * 1.6 +
+          '" stroke-dasharray="' +
+          sw * 8 +
+          " " +
+          sw * 5 +
+          '"/>'
+      );
+    });
     // repère d'origine (zéro machine)
     var op = originPt(s);
     o.push(
@@ -821,8 +867,37 @@ var APP_VERSION = "1.2.5";
       color: BOARD_COLOR
     };
   }
+  // traits de coupe des chutes (option) : calculés sur l'encombrement réel de chaque pièce placée
+  var CUT_COLOR = "#0080ff";
+  function sheetCuts(s) {
+    if (!cutMode || !s.parts.length) return { cuts: [], chutes: [] };
+    var boxes = s.parts.map(function (p) {
+      var b = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+      partPaths(p, s).forEach(function (q) {
+        q.pts.forEach(function (v) {
+          b.x0 = Math.min(b.x0, v[0]);
+          b.y0 = Math.min(b.y0, v[1]);
+          b.x1 = Math.max(b.x1, v[0]);
+          b.y1 = Math.max(b.y1, v[1]);
+        });
+      });
+      return b;
+    });
+    return Geo.offcuts(s.L, s.W, boxes, num(state.sheet.gap, 0), cutMode);
+  }
   function exportPolys(s) {
     var polys = exportBoard ? [boardPath(s)] : [];
+    sheetCuts(s).cuts.forEach(function (c) {
+      polys.push({
+        pts: [
+          [c[0], c[1]],
+          [c[2], c[3]]
+        ],
+        closed: false,
+        layer: T("cuts.layer"),
+        color: CUT_COLOR
+      });
+    });
     s.parts.forEach(function (p) {
       polys = polys.concat(partPaths(p, s));
     });
@@ -1445,14 +1520,6 @@ var APP_VERSION = "1.2.5";
       stock = names("stock");
     if (big.length) h.push('<div class="alert">' + esc(T("res.tooBig", { list: big.join(", ") })) + "</div>");
     if (stock.length) h.push('<div class="alert">' + esc(T("res.noStock", { list: stock.join(", ") })) + "</div>");
-    if (n)
-      h.push(
-        '<label class="dlopt"><input type="checkbox" id="dlBoard"' +
-          (exportBoard ? " checked" : "") +
-          "> " +
-          esc(T("dl.board")) +
-          "</label>"
-      );
     res.sheets.forEach(function (s, si) {
       var fr = s.free && s.free[0];
       var meta =
@@ -1488,11 +1555,6 @@ var APP_VERSION = "1.2.5";
     if (n) h.push('<p class="hint">' + esc(T("res.note")) + "</p>");
     $("result").innerHTML = h.join("");
   }
-  $("result").addEventListener("change", function (e) {
-    if (e.target.id !== "dlBoard") return;
-    exportBoard = e.target.checked;
-    markDirty();
-  });
   $("result").addEventListener("click", function (e) {
     var b = e.target.closest("[data-dl]");
     if (!b || !last) return;
@@ -2030,6 +2092,16 @@ var APP_VERSION = "1.2.5";
     markDirty();
     renderResult();
   });
+  // options d'export et de coupe (sous « Méthode ») : elles ne changent pas le calcul, seulement le dessin
+  $("dlBoard").addEventListener("change", function (e) {
+    exportBoard = e.target.checked;
+    markDirty();
+  });
+  $("cutSel").addEventListener("change", function (e) {
+    cutMode = e.target.value;
+    markDirty();
+    if (last) draw(last);
+  });
   var ORIG = [
     ["tl", "↖"],
     ["tc", "↑"],
@@ -2048,6 +2120,8 @@ var APP_VERSION = "1.2.5";
     $("sM").value = state.sheet.margin;
     $("projName").value = state.name || "";
     $("sMode").value = state.sheet.mode === "rect" ? "rect" : "nest";
+    $("dlBoard").checked = exportBoard;
+    $("cutSel").value = cutMode;
   }
   function renderAll() {
     renderInputs();
@@ -2058,13 +2132,21 @@ var APP_VERSION = "1.2.5";
 
   /* ---------- derniers réglages (mémorisés sur l'appareil) ---------- */
   var exportBoard = false; // option « inclure le contour du panneau » dans les exports
+  var cutMode = ""; // traits de coupe des chutes : "" (aucun), "simple" (bord à bord) ou "detail" (autour des pièces)
   var PREFS = "plancoupe.reglages.v1",
     prefT = null;
   function markDirty() {
     clearTimeout(prefT);
     prefT = setTimeout(savePrefs, 400);
   }
+  // page fermée ou rechargée juste après un changement : on enregistre tout de suite ce qui était en attente
+  window.addEventListener("pagehide", function () {
+    if (!prefT) return;
+    clearTimeout(prefT);
+    savePrefs();
+  });
   function savePrefs() {
+    prefT = null;
     try {
       localStorage.setItem(
         PREFS,
@@ -2075,7 +2157,8 @@ var APP_VERSION = "1.2.5";
           mode: state.sheet.mode,
           rot: state.rotAll,
           sort: state.sort,
-          board: exportBoard
+          board: exportBoard,
+          cuts: cutMode
         })
       );
     } catch (e) {}
@@ -2094,6 +2177,7 @@ var APP_VERSION = "1.2.5";
           };
         });
       exportBoard = p.board === true;
+      cutMode = p.cuts === "simple" || p.cuts === "detail" ? p.cuts : "";
       if (p.gap != null) state.sheet.gap = num(p.gap, 2);
       if (p.margin != null) state.sheet.margin = num(p.margin, 5);
       state.sheet.mode = p.mode === "rect" ? "rect" : "nest";

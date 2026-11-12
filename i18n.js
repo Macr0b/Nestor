@@ -56,6 +56,14 @@ var I18N = {
 
 /* Français */
 I18N.dict["fr"] = {
+  "cuts.label": "Coupes de chutes",
+  "cuts.none": "Aucune",
+  "cuts.simple": "Simples (bord à bord)",
+  "cuts.detail": "Détaillées (autour des pièces)",
+  "cuts.hint": "Traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l’espace entre pièces.",
+  "cuts.layer": "Coupes",
+  "cuts.chute": "Chute {w} × {h}",
+  "news.126": "Option pour tracer les coupes de chutes (simples ou détaillées), et options regroupées sous « Méthode ». Origine au centre ou au milieu d’un bord : groupe de pièces plus compact.",
   "news.125": "Rotation libre plus rapide, plus de panneau en trop selon l’origine choisie, repère d’origine plus petit et toujours visible en entier.",
   "news.124": "Correction : des pièces pouvaient se superposer avec l’origine au centre. Grouper autour de l’origine ne demande jamais plus de panneaux.",
   "news.123": "Option pour exporter le contour du panneau avec les pièces (calque à part). Les pièces se groupent en bloc compact autour de l’origine choisie.",
@@ -233,6 +241,14 @@ I18N.dict["fr"] = {
 
 /* English */
 I18N.dict["en"] = {
+  "cuts.label": "Offcut cuts",
+  "cuts.none": "None",
+  "cuts.simple": "Simple (edge to edge)",
+  "cuts.detail": "Detailed (around the parts)",
+  "cuts.hint": "Straight lines to recover offcuts with a saw, at the same distance from the parts as the space between parts.",
+  "cuts.layer": "Cuts",
+  "cuts.chute": "Offcut {w} × {h}",
+  "news.126": "Option to draw offcut cuts (simple or detailed), and options grouped under “Method”. Origin in the centre or mid-edge: more compact group of parts.",
   "news.125": "Faster free rotation, no extra panel depending on the chosen origin, smaller origin marker that is always fully visible.",
   "news.124": "Fix: parts could overlap with the origin in the centre. Grouping around the origin never needs more panels.",
   "news.123": "Option to export the panel outline with the parts (on its own layer). Parts are grouped in a compact block around the chosen origin.",
@@ -410,6 +426,14 @@ I18N.dict["en"] = {
 
 /* Deutsch */
 I18N.dict["de"] = {
+  "cuts.label": "Restschnitte",
+  "cuts.none": "Keine",
+  "cuts.simple": "Einfach (von Kante zu Kante)",
+  "cuts.detail": "Detailliert (um die Teile)",
+  "cuts.hint": "Gerade Linien, um Reststücke mit der Säge zu gewinnen, im selben Abstand zu den Teilen wie der Teileabstand.",
+  "cuts.layer": "Schnitte",
+  "cuts.chute": "Rest {w} × {h}",
+  "news.126": "Option für Restschnitte (einfach oder detailliert), Optionen jetzt unter „Methode“. Ursprung in der Mitte oder an einer Kantenmitte: kompaktere Teilegruppe.",
   "news.125": "Schnellere freie Drehung, keine zusätzliche Platte mehr je nach gewähltem Ursprung, kleinere Ursprungsmarke, immer vollständig sichtbar.",
   "news.124": "Korrektur: Bei Ursprung in der Mitte konnten sich Teile überlappen. Das Gruppieren um den Ursprung braucht nie mehr Platten.",
   "news.123": "Option, den Plattenumriss mit den Teilen zu exportieren (eigene Ebene). Die Teile werden als kompakter Block um den gewählten Ursprung gruppiert.",
@@ -587,6 +611,14 @@ I18N.dict["de"] = {
 
 /* Español */
 I18N.dict["es"] = {
+  "cuts.label": "Cortes de retales",
+  "cuts.none": "Ninguno",
+  "cuts.simple": "Simples (de borde a borde)",
+  "cuts.detail": "Detallados (alrededor de las piezas)",
+  "cuts.hint": "Líneas rectas para recuperar retales con la sierra, a la misma distancia de las piezas que el espacio entre piezas.",
+  "cuts.layer": "Cortes",
+  "cuts.chute": "Retal {w} × {h}",
+  "news.126": "Opción para trazar los cortes de retales (simples o detallados), y opciones agrupadas bajo «Método». Origen en el centro o a mitad de un borde: grupo de piezas más compacto.",
   "news.125": "Rotación libre más rápida, ningún tablero de más según el origen elegido, marca de origen más pequeña y siempre visible entera.",
   "news.124": "Corrección: las piezas podían superponerse con el origen en el centro. Agrupar alrededor del origen nunca requiere más tableros.",
   "news.123": "Opción para exportar el contorno del tablero con las piezas (en su propia capa). Las piezas se agrupan en un bloque compacto alrededor del origen elegido.",
@@ -764,6 +796,14 @@ I18N.dict["es"] = {
 
 /* Português */
 I18N.dict["pt"] = {
+  "cuts.label": "Cortes de sobras",
+  "cuts.none": "Nenhum",
+  "cuts.simple": "Simples (de borda a borda)",
+  "cuts.detail": "Detalhados (em volta das peças)",
+  "cuts.hint": "Linhas retas para aproveitar as sobras com a serra, à mesma distância das peças que o espaço entre peças.",
+  "cuts.layer": "Cortes",
+  "cuts.chute": "Sobra {w} × {h}",
+  "news.126": "Opção para traçar os cortes de sobras (simples ou detalhados), e opções agrupadas em «Método». Origem no centro ou no meio de uma borda: grupo de peças mais compacto.",
   "news.125": "Rotação livre mais rápida, nenhuma chapa a mais conforme a origem escolhida, marca de origem menor e sempre visível por inteiro.",
   "news.124": "Correção: peças podiam se sobrepor com a origem no centro. Agrupar em torno da origem nunca exige mais chapas.",
   "news.123": "Opção para exportar o contorno da chapa com as peças (em camada própria). As peças se agrupam em um bloco compacto em torno da origem escolhida.",
@@ -941,6 +981,14 @@ I18N.dict["pt"] = {
 
 /* Русский */
 I18N.dict["ru"] = {
+  "cuts.label": "Резы для обрезков",
+  "cuts.none": "Нет",
+  "cuts.simple": "Простые (от края до края)",
+  "cuts.detail": "Подробные (вокруг деталей)",
+  "cuts.hint": "Прямые линии, чтобы отпилить пригодные обрезки, на том же расстоянии от деталей, что и зазор между деталями.",
+  "cuts.layer": "Резы",
+  "cuts.chute": "Обрезок {w} × {h}",
+  "news.126": "Можно нанести резы для обрезков (простые или подробные); параметры собраны под «Метод». Начало координат в центре или посередине края: детали располагаются компактнее.",
   "news.125": "Свободный поворот работает быстрее, выбор начала координат больше не добавляет лишний лист, метка начала меньше и всегда видна целиком.",
   "news.124": "Исправлено: при начале координат в центре детали могли накладываться. Группировка вокруг начала координат больше не требует лишних листов.",
   "news.123": "Можно экспортировать контур листа вместе с деталями (на отдельном слое). Детали собираются компактным блоком вокруг выбранного начала координат.",
@@ -1118,6 +1166,14 @@ I18N.dict["ru"] = {
 
 /* 中文（简体） */
 I18N.dict["zh"] = {
+  "cuts.label": "余料切割线",
+  "cuts.none": "无",
+  "cuts.simple": "简单（边到边）",
+  "cuts.detail": "详细（沿零件周围）",
+  "cuts.hint": "用于锯下可用余料的直线，与零件的距离等于零件间距。",
+  "cuts.layer": "切割线",
+  "cuts.chute": "余料 {w} × {h}",
+  "news.126": "可绘制余料切割线（简单或详细），选项移至“方法”下方。原点在中心或边的中点时：零件排布更紧凑。",
   "news.125": "自由旋转更快；无论选择哪个原点都不会多用板材；原点标记更小，并始终完整显示。",
   "news.124": "修复：原点在中心时零件可能重叠。围绕原点排布不会再多用板材。",
   "news.123": "可选择将板材轮廓与零件一起导出（单独图层）。零件围绕所选原点紧凑地排在一起。",
@@ -1295,6 +1351,14 @@ I18N.dict["zh"] = {
 
 /* हिन्दी */
 I18N.dict["hi"] = {
+  "cuts.label": "बचे टुकड़ों के कट",
+  "cuts.none": "कोई नहीं",
+  "cuts.simple": "सरल (किनारे से किनारे)",
+  "cuts.detail": "विस्तृत (पुर्ज़ों के आसपास)",
+  "cuts.hint": "आरी से बचे टुकड़े निकालने के लिए सीधी रेखाएँ, पुर्ज़ों से उतनी ही दूरी पर जितनी पुर्ज़ों के बीच जगह है।",
+  "cuts.layer": "कट",
+  "cuts.chute": "बचा टुकड़ा {w} × {h}",
+  "news.126": "बचे टुकड़ों के कट (सरल या विस्तृत) बनाने का विकल्प, और विकल्प अब «विधि» के नीचे। मूल बिंदु बीच में या किनारे के मध्य में: पुर्ज़ों का समूह अधिक सघन।",
   "news.125": "मुक्त घुमाव तेज़, चुने गए मूल बिंदु के कारण अब कोई अतिरिक्त पैनल नहीं, मूल बिंदु का चिह्न छोटा और हमेशा पूरा दिखाई देता है।",
   "news.124": "सुधार: मूल बिंदु बीच में होने पर पुर्ज़े एक-दूसरे पर आ सकते थे। मूल बिंदु के आसपास समूह बनाने में कभी अधिक पैनल नहीं लगते।",
   "news.123": "पुर्ज़ों के साथ पैनल की रूपरेखा निर्यात करने का विकल्प (अलग परत पर)। पुर्ज़े चुने गए मूल बिंदु के आसपास एक सघन समूह में रखे जाते हैं।",
@@ -1472,6 +1536,14 @@ I18N.dict["hi"] = {
 
 /* বাংলা */
 I18N.dict["bn"] = {
+  "cuts.label": "অবশিষ্ট অংশের কাট",
+  "cuts.none": "কোনোটি নয়",
+  "cuts.simple": "সরল (প্রান্ত থেকে প্রান্ত)",
+  "cuts.detail": "বিস্তারিত (অংশগুলোর চারপাশে)",
+  "cuts.hint": "করাত দিয়ে অবশিষ্ট অংশ আলাদা করার সোজা রেখা, অংশগুলো থেকে অংশের মাঝের ফাঁকের সমান দূরত্বে।",
+  "cuts.layer": "কাট",
+  "cuts.chute": "অবশিষ্ট {w} × {h}",
+  "news.126": "অবশিষ্ট অংশের কাট আঁকার বিকল্প (সরল বা বিস্তারিত), বিকল্পগুলো এখন «পদ্ধতি»-র নিচে। মূলবিন্দু মাঝখানে বা প্রান্তের মাঝে: অংশগুলোর দল আরও ঘন।",
   "news.125": "মুক্ত ঘূর্ণন দ্রুততর, বেছে নেওয়া মূলবিন্দুর কারণে আর বাড়তি প্যানেল লাগে না, মূলবিন্দুর চিহ্ন ছোট এবং সবসময় পুরোটা দেখা যায়।",
   "news.124": "সংশোধন: মূলবিন্দু মাঝখানে থাকলে অংশগুলো একটির ওপর আরেকটি পড়তে পারত। মূলবিন্দুর চারপাশে সাজাতে কখনো বেশি প্যানেল লাগে না।",
   "news.123": "অংশগুলোর সাথে প্যানেলের রূপরেখা রপ্তানির বিকল্প (আলাদা স্তরে)। অংশগুলো বেছে নেওয়া মূলবিন্দুর চারপাশে ঘন একটি ব্লকে সাজানো হয়।",
@@ -1649,6 +1721,14 @@ I18N.dict["bn"] = {
 
 /* العربية */
 I18N.dict["ar"] = {
+  "cuts.label": "قطع البقايا",
+  "cuts.none": "بدون",
+  "cuts.simple": "بسيطة (من حافة إلى حافة)",
+  "cuts.detail": "مفصّلة (حول القطع)",
+  "cuts.hint": "خطوط مستقيمة لاستعادة البقايا بالمنشار، على المسافة نفسها من القطع مثل المسافة بين القطع.",
+  "cuts.layer": "القطع",
+  "cuts.chute": "بقية {w} × {h}",
+  "news.126": "خيار لرسم خطوط قطع البقايا (بسيطة أو مفصّلة)، والخيارات مجمّعة تحت «الطريقة». نقطة الأصل في الوسط أو منتصف حافة: تجميع أكثر تراصًا للقطع.",
   "news.125": "تدوير حر أسرع، ولا لوح إضافي بحسب نقطة الأصل المختارة، وعلامة الأصل أصغر وتظهر كاملة دائمًا.",
   "news.124": "إصلاح: كان يمكن أن تتداخل القطع عندما تكون نقطة الأصل في الوسط. التجميع حول نقطة الأصل لا يتطلب ألواحًا إضافية أبدًا.",
   "news.123": "خيار لتصدير حدود اللوح مع القطع (في طبقة مستقلة). تُجمَّع القطع في كتلة متراصة حول نقطة الأصل المختارة.",
@@ -1826,6 +1906,14 @@ I18N.dict["ar"] = {
 
 /* Bahasa Indonesia */
 I18N.dict["id"] = {
+  "cuts.label": "Potongan sisa",
+  "cuts.none": "Tidak ada",
+  "cuts.simple": "Sederhana (tepi ke tepi)",
+  "cuts.detail": "Rinci (di sekitar komponen)",
+  "cuts.hint": "Garis lurus untuk mengambil sisa bahan dengan gergaji, berjarak sama dari komponen seperti jarak antarkomponen.",
+  "cuts.layer": "Potongan",
+  "cuts.chute": "Sisa {w} × {h}",
+  "news.126": "Opsi menggambar potongan sisa (sederhana atau rinci), dan opsi dikumpulkan di bawah «Metode». Titik asal di tengah atau di tengah tepi: kelompok komponen lebih rapat.",
   "news.125": "Rotasi bebas lebih cepat, tidak ada panel tambahan karena titik asal yang dipilih, penanda titik asal lebih kecil dan selalu terlihat utuh.",
   "news.124": "Perbaikan: komponen bisa bertumpuk saat titik asal di tengah. Pengelompokan di sekitar titik asal tidak pernah butuh panel lebih banyak.",
   "news.123": "Opsi untuk mengekspor garis tepi panel bersama komponen (di lapisan tersendiri). Komponen dikelompokkan dalam blok rapat di sekitar titik asal yang dipilih.",
@@ -2003,6 +2091,14 @@ I18N.dict["id"] = {
 
 /* Беларуская */
 I18N.dict["be"] = {
+  "cuts.label": "Рэзы для рэштак",
+  "cuts.none": "Няма",
+  "cuts.simple": "Простыя (ад краю да краю)",
+  "cuts.detail": "Падрабязныя (вакол дэталяў)",
+  "cuts.hint": "Прамыя лініі, каб адпілаваць прыдатныя рэшткі, на той жа адлегласці ад дэталяў, што і зазор паміж дэталямі.",
+  "cuts.layer": "Рэзы",
+  "cuts.chute": "Рэштка {w} × {h}",
+  "news.126": "Можна нанесці рэзы для рэштак (простыя або падрабязныя); параметры сабраны пад «Метад». Пачатак каардынат у цэнтры або пасярэдзіне краю: дэталі размяшчаюцца кампактней.",
   "news.125": "Свабодны паварот хутчэйшы, выбар пачатку каардынат больш не дадае лішні ліст, метка пачатку меншая і заўсёды бачная цалкам.",
   "news.124": "Выпраўлена: пры пачатку каардынат у цэнтры дэталі маглі накладвацца. Групоўка вакол пачатку каардынат ніколі не патрабуе больш лістоў.",
   "news.123": "Можна экспартаваць контур ліста разам з дэталямі (на асобным слоі). Дэталі збіраюцца кампактным блокам вакол выбранага пачатку каардынат.",
@@ -2180,6 +2276,14 @@ I18N.dict["be"] = {
 
 /* Български */
 I18N.dict["bg"] = {
+  "cuts.label": "Разрези за остатъци",
+  "cuts.none": "Без",
+  "cuts.simple": "Прости (от край до край)",
+  "cuts.detail": "Подробни (около детайлите)",
+  "cuts.hint": "Прави линии за изрязване на остатъците с трион, на същото разстояние от детайлите като разстоянието между тях.",
+  "cuts.layer": "Разрези",
+  "cuts.chute": "Остатък {w} × {h}",
+  "news.126": "Опция за разрези за остатъци (прости или подробни), опциите са под „Метод“. Начало в центъра или в средата на ръб: по-компактна група детайли.",
   "news.125": "По-бързо свободно завъртане, без излишна плоча според избраното начало, по-малък знак за началото, винаги видим изцяло.",
   "news.124": "Поправка: при начало в центъра детайлите можеха да се застъпват. Групирането около началото никога не изисква повече плочи.",
   "news.123": "Опция за експорт на контура на плочата с детайлите (на отделен слой). Детайлите се групират в компактен блок около избраното начало.",
@@ -2357,6 +2461,14 @@ I18N.dict["bg"] = {
 
 /* Bosanski */
 I18N.dict["bs"] = {
+  "cuts.label": "Rezovi ostataka",
+  "cuts.none": "Bez",
+  "cuts.simple": "Jednostavni (od ruba do ruba)",
+  "cuts.detail": "Detaljni (oko dijelova)",
+  "cuts.hint": "Prave linije za izrezivanje ostataka pilom, na istoj udaljenosti od dijelova kao razmak između dijelova.",
+  "cuts.layer": "Rezovi",
+  "cuts.chute": "Ostatak {w} × {h}",
+  "news.126": "Opcija za crtanje rezova ostataka (jednostavnih ili detaljnih), opcije su pod „Metoda“. Ishodište u sredini ili na sredini ruba: zbijenija grupa dijelova.",
   "news.125": "Brža slobodna rotacija, nema više viška ploče zbog odabranog ishodišta, manja oznaka ishodišta koja je uvijek cijela vidljiva.",
   "news.124": "Ispravka: dijelovi su se mogli preklapati kada je ishodište u sredini. Grupisanje oko ishodišta nikad ne traži više ploča.",
   "news.123": "Opcija za izvoz obrisa ploče zajedno s dijelovima (na zasebnom sloju). Dijelovi se grupišu u zbijen blok oko odabranog ishodišta.",
@@ -2534,6 +2646,14 @@ I18N.dict["bs"] = {
 
 /* Català */
 I18N.dict["ca"] = {
+  "cuts.label": "Talls de retalls",
+  "cuts.none": "Cap",
+  "cuts.simple": "Simples (de vora a vora)",
+  "cuts.detail": "Detallats (al voltant de les peces)",
+  "cuts.hint": "Línies rectes per recuperar retalls amb la serra, a la mateixa distància de les peces que l’espai entre peces.",
+  "cuts.layer": "Talls",
+  "cuts.chute": "Retall {w} × {h}",
+  "news.126": "Opció per traçar els talls de retalls (simples o detallats), i opcions agrupades sota «Mètode». Origen al centre o al mig d’una vora: grup de peces més compacte.",
   "news.125": "Rotació lliure més ràpida, cap tauler de més segons l’origen triat, marca d’origen més petita i sempre visible sencera.",
   "news.124": "Correcció: les peces es podien superposar amb l’origen al centre. Agrupar al voltant de l’origen no demana mai més taulers.",
   "news.123": "Opció per exportar el contorn del tauler amb les peces (en una capa pròpia). Les peces s’agrupen en un bloc compacte al voltant de l’origen triat.",
@@ -2711,6 +2831,14 @@ I18N.dict["ca"] = {
 
 /* Čeština */
 I18N.dict["cs"] = {
+  "cuts.label": "Řezy zbytků",
+  "cuts.none": "Žádné",
+  "cuts.simple": "Jednoduché (od kraje ke kraji)",
+  "cuts.detail": "Podrobné (kolem dílů)",
+  "cuts.hint": "Rovné čáry pro odříznutí zbytků pilou, ve stejné vzdálenosti od dílů jako mezera mezi díly.",
+  "cuts.layer": "Řezy",
+  "cuts.chute": "Zbytek {w} × {h}",
+  "news.126": "Možnost kreslit řezy zbytků (jednoduché či podrobné), volby jsou nyní pod „Metoda“. Počátek uprostřed nebo uprostřed okraje: kompaktnější skupina dílů.",
   "news.125": "Rychlejší volné otáčení, žádná deska navíc kvůli zvolenému počátku, menší značka počátku vždy celá viditelná.",
   "news.124": "Oprava: při počátku uprostřed se díly mohly překrývat. Seskupení kolem počátku nikdy nevyžaduje víc desek.",
   "news.123": "Možnost exportovat obrys desky spolu s díly (ve vlastní vrstvě). Díly se seskupí do kompaktního bloku kolem zvoleného počátku.",
@@ -2888,6 +3016,14 @@ I18N.dict["cs"] = {
 
 /* Dansk */
 I18N.dict["da"] = {
+  "cuts.label": "Snit til rester",
+  "cuts.none": "Ingen",
+  "cuts.simple": "Enkle (fra kant til kant)",
+  "cuts.detail": "Detaljerede (rundt om emnerne)",
+  "cuts.hint": "Lige linjer til at save rester fri, i samme afstand fra emnerne som afstanden mellem emner.",
+  "cuts.layer": "Snit",
+  "cuts.chute": "Rest {w} × {h}",
+  "news.126": "Mulighed for snit til rester (enkle eller detaljerede), og indstillinger samlet under »Metode«. Origo i midten eller midt på en kant: mere kompakt gruppe af emner.",
   "news.125": "Hurtigere fri rotation, ingen ekstra plade afhængigt af det valgte origo, mindre origomærke der altid ses helt.",
   "news.124": "Rettelse: emner kunne overlappe med origo i midten. Gruppering omkring origo kræver aldrig flere plader.",
   "news.123": "Mulighed for at eksportere pladens omrids med emnerne (på eget lag). Emnerne samles i en kompakt blok omkring det valgte origo.",
@@ -3065,6 +3201,14 @@ I18N.dict["da"] = {
 
 /* Ελληνικά */
 I18N.dict["el"] = {
+  "cuts.label": "Τομές υπολειμμάτων",
+  "cuts.none": "Καμία",
+  "cuts.simple": "Απλές (από άκρη σε άκρη)",
+  "cuts.detail": "Λεπτομερείς (γύρω από τα κομμάτια)",
+  "cuts.hint": "Ευθείες γραμμές για να κόψετε τα υπολείμματα με πριόνι, στην ίδια απόσταση από τα κομμάτια με το κενό μεταξύ τους.",
+  "cuts.layer": "Τομές",
+  "cuts.chute": "Υπόλειμμα {w} × {h}",
+  "news.126": "Επιλογή για τομές υπολειμμάτων (απλές ή λεπτομερείς), οι επιλογές βρίσκονται κάτω από τη «Μέθοδο». Αρχή στο κέντρο ή στη μέση ακμής: πιο συμπαγής ομάδα κομματιών.",
   "news.125": "Ταχύτερη ελεύθερη περιστροφή, κανένα επιπλέον φύλλο ανάλογα με την επιλεγμένη αρχή, μικρότερο σημάδι αρχής πάντα ολόκληρο ορατό.",
   "news.124": "Διόρθωση: τα κομμάτια μπορούσαν να επικαλύπτονται με την αρχή στο κέντρο. Η ομαδοποίηση γύρω από την αρχή δεν απαιτεί ποτέ περισσότερα φύλλα.",
   "news.123": "Επιλογή εξαγωγής του περιγράμματος του φύλλου μαζί με τα κομμάτια (σε δικό του επίπεδο). Τα κομμάτια ομαδοποιούνται σε συμπαγές μπλοκ γύρω από την επιλεγμένη αρχή.",
@@ -3242,6 +3386,14 @@ I18N.dict["el"] = {
 
 /* Eesti */
 I18N.dict["et"] = {
+  "cuts.label": "Jääkide lõiked",
+  "cuts.none": "Puudub",
+  "cuts.simple": "Lihtsad (servast servani)",
+  "cuts.detail": "Üksikasjalikud (detailide ümber)",
+  "cuts.hint": "Sirged jooned jääkide saagimiseks, detailidest sama kaugel kui detailide vahe.",
+  "cuts.layer": "Lõiked",
+  "cuts.chute": "Jääk {w} × {h}",
+  "news.126": "Võimalus joonistada jääkide lõiked (lihtsad või üksikasjalikud), valikud on nüüd „Meetodi“ all. Alguspunkt keskel või serva keskel: kompaktsem detailide rühm.",
   "news.125": "Kiirem vaba pööramine, valitud alguspunkt ei lisa enam plaati, väiksem alguspunkti märk on alati tervikuna nähtav.",
   "news.124": "Parandus: keskel oleva alguspunkti korral võisid detailid kattuda. Alguspunkti ümber koondamine ei nõua kunagi rohkem plaate.",
   "news.123": "Võimalus eksportida plaadi kontuur koos detailidega (eraldi kihil). Detailid koondatakse kompaktseks plokiks valitud alguspunkti ümber.",
@@ -3419,6 +3571,14 @@ I18N.dict["et"] = {
 
 /* Suomi */
 I18N.dict["fi"] = {
+  "cuts.label": "Hukkapalojen leikkaukset",
+  "cuts.none": "Ei mitään",
+  "cuts.simple": "Yksinkertaiset (reunasta reunaan)",
+  "cuts.detail": "Tarkat (osien ympäri)",
+  "cuts.hint": "Suorat viivat hukkapalojen sahaamiseen irti, osista yhtä kaukana kuin osien väli.",
+  "cuts.layer": "Leikkaukset",
+  "cuts.chute": "Hukkapala {w} × {h}",
+  "news.126": "Mahdollisuus piirtää hukkapalojen leikkaukset (yksinkertaiset tai tarkat), asetukset nyt ”Menetelmän” alla. Origo keskellä tai reunan keskellä: tiiviimpi osaryhmä.",
   "news.125": "Nopeampi vapaa kierto, valittu origo ei enää vaadi ylimääräistä levyä, pienempi origomerkki näkyy aina kokonaan.",
   "news.124": "Korjaus: osat saattoivat mennä päällekkäin, kun origo oli keskellä. Ryhmittely origon ympärille ei koskaan vaadi enempää levyjä.",
   "news.123": "Mahdollisuus viedä levyn ääriviiva osien kanssa (omalla tasollaan). Osat ryhmitellään tiiviiksi lohkoksi valitun origon ympärille.",
@@ -3596,6 +3756,14 @@ I18N.dict["fi"] = {
 
 /* Gaeilge */
 I18N.dict["ga"] = {
+  "cuts.label": "Gearrthacha fuíll",
+  "cuts.none": "Dada",
+  "cuts.simple": "Simplí (ó imeall go himeall)",
+  "cuts.detail": "Mionsonraithe (timpeall na bpáirteanna)",
+  "cuts.hint": "Línte díreacha chun fuíll a ghearradh le sábh, an fad céanna ó na páirteanna leis an spás idir páirteanna.",
+  "cuts.layer": "Gearrthacha",
+  "cuts.chute": "Fuíoll {w} × {h}",
+  "news.126": "Rogha chun gearrthacha fuíll a tharraingt (simplí nó mionsonraithe), roghanna faoi «Modh». Bunphointe sa lár nó i lár imill: grúpa páirteanna níos dlúithe.",
   "news.125": "Rothlú saor níos tapúla, gan painéal breise de bharr an bhunphointe a roghnaíodh, marc bunphointe níos lú atá le feiceáil go hiomlán i gcónaí.",
   "news.124": "Ceartú: d’fhéadfadh páirteanna forluí nuair a bhí an bunphointe sa lár. Ní theastaíonn níos mó painéal riamh chun grúpáil timpeall an bhunphointe.",
   "news.123": "Rogha chun imlíne an phainéil a easpórtáil leis na páirteanna (ar a sraith féin). Grúpáiltear na páirteanna i mbloc dlúth timpeall ar an mbunphointe a roghnaíodh.",
@@ -3773,6 +3941,14 @@ I18N.dict["ga"] = {
 
 /* Hrvatski */
 I18N.dict["hr"] = {
+  "cuts.label": "Rezovi ostataka",
+  "cuts.none": "Bez",
+  "cuts.simple": "Jednostavni (od ruba do ruba)",
+  "cuts.detail": "Detaljni (oko dijelova)",
+  "cuts.hint": "Ravne linije za izrezivanje ostataka pilom, na istoj udaljenosti od dijelova kao razmak između dijelova.",
+  "cuts.layer": "Rezovi",
+  "cuts.chute": "Ostatak {w} × {h}",
+  "news.126": "Mogućnost crtanja rezova ostataka (jednostavnih ili detaljnih), opcije su pod „Metoda”. Ishodište u sredini ili na sredini ruba: zbijenija skupina dijelova.",
   "news.125": "Brža slobodna rotacija, nema više viška ploče zbog odabranog ishodišta, manja oznaka ishodišta uvijek cijela vidljiva.",
   "news.124": "Ispravak: dijelovi su se mogli preklapati kad je ishodište u sredini. Grupiranje oko ishodišta nikad ne traži više ploča.",
   "news.123": "Mogućnost izvoza obrisa ploče zajedno s dijelovima (na zasebnom sloju). Dijelovi se grupiraju u zbijeni blok oko odabranog ishodišta.",
@@ -3950,6 +4126,14 @@ I18N.dict["hr"] = {
 
 /* Magyar */
 I18N.dict["hu"] = {
+  "cuts.label": "Maradékvágások",
+  "cuts.none": "Nincs",
+  "cuts.simple": "Egyszerű (széltől szélig)",
+  "cuts.detail": "Részletes (az alkatrészek körül)",
+  "cuts.hint": "Egyenes vonalak a maradékok lefűrészeléséhez, az alkatrészektől ugyanakkora távolságra, mint az alkatrészek közti hely.",
+  "cuts.layer": "Vágások",
+  "cuts.chute": "Maradék {w} × {h}",
+  "news.126": "Lehetőség maradékvágások rajzolására (egyszerű vagy részletes), a beállítások a „Módszer” alatt. Origó középen vagy egy él közepén: tömörebb alkatrészcsoport.",
   "news.125": "Gyorsabb szabad forgatás, a választott origó miatt már nem kell több tábla, kisebb origójel, amely mindig teljesen látszik.",
   "news.124": "Javítás: középső origónál az alkatrészek egymásra kerülhettek. Az origó körüli csoportosítás soha nem igényel több táblát.",
   "news.123": "Lehetőség a tábla körvonalának exportálására az alkatrészekkel (külön rétegen). Az alkatrészek tömör blokkba rendeződnek a választott origó körül.",
@@ -4127,6 +4311,14 @@ I18N.dict["hu"] = {
 
 /* Íslenska */
 I18N.dict["is"] = {
+  "cuts.label": "Afgangaskurðir",
+  "cuts.none": "Engir",
+  "cuts.simple": "Einfaldir (brún í brún)",
+  "cuts.detail": "Nákvæmir (umhverfis hlutina)",
+  "cuts.hint": "Beinar línur til að saga afganga af, í sömu fjarlægð frá hlutunum og bilið milli hluta.",
+  "cuts.layer": "Skurðir",
+  "cuts.chute": "Afgangur {w} × {h}",
+  "news.126": "Valkostur til að teikna afgangaskurði (einfalda eða nákvæma), valkostir nú undir „Aðferð“. Upphafspunktur í miðju eða á miðri brún: þéttari hópur hluta.",
   "news.125": "Hraðari frjáls snúningur, engin aukaplata eftir völdum upphafspunkti, minna upphafsmerki sem sést alltaf allt.",
   "news.124": "Lagfæring: hlutir gátu skarast þegar upphafspunktur var í miðju. Röðun umhverfis upphafspunkt krefst aldrei fleiri platna.",
   "news.123": "Valkostur til að flytja út útlínu plötunnar með hlutunum (á eigin lagi). Hlutunum er raðað í þéttan klasa umhverfis valinn upphafspunkt.",
@@ -4304,6 +4496,14 @@ I18N.dict["is"] = {
 
 /* Italiano */
 I18N.dict["it"] = {
+  "cuts.label": "Tagli degli sfridi",
+  "cuts.none": "Nessuno",
+  "cuts.simple": "Semplici (da bordo a bordo)",
+  "cuts.detail": "Dettagliati (attorno ai pezzi)",
+  "cuts.hint": "Linee dritte per recuperare gli sfridi con la sega, alla stessa distanza dai pezzi dello spazio tra i pezzi.",
+  "cuts.layer": "Tagli",
+  "cuts.chute": "Sfrido {w} × {h}",
+  "news.126": "Opzione per tracciare i tagli degli sfridi (semplici o dettagliati), e opzioni raggruppate sotto «Metodo». Origine al centro o a metà di un bordo: gruppo di pezzi più compatto.",
   "news.125": "Rotazione libera più veloce, nessun pannello in più a seconda dell’origine scelta, segno d’origine più piccolo e sempre visibile per intero.",
   "news.124": "Correzione: i pezzi potevano sovrapporsi con l’origine al centro. Raggruppare attorno all’origine non richiede mai più pannelli.",
   "news.123": "Opzione per esportare il contorno del pannello con i pezzi (su un livello a parte). I pezzi si raggruppano in un blocco compatto attorno all’origine scelta.",
@@ -4481,6 +4681,14 @@ I18N.dict["it"] = {
 
 /* 日本語 */
 I18N.dict["ja"] = {
+  "cuts.label": "端材のカット線",
+  "cuts.none": "なし",
+  "cuts.simple": "シンプル（端から端まで）",
+  "cuts.detail": "詳細（部品のまわり）",
+  "cuts.hint": "のこぎりで端材を切り出すための直線。部品との距離は部品間のすき間と同じです。",
+  "cuts.layer": "カット線",
+  "cuts.chute": "端材 {w} × {h}",
+  "news.126": "端材のカット線（シンプルまたは詳細）を描くオプションを追加し、オプションを「方法」の下にまとめました。原点が中央または辺の中点のとき：部品がよりコンパクトにまとまります。",
   "news.125": "自由回転が高速に。選んだ原点によって板材が増えることはなくなりました。原点マークは小さくなり、常に全体が見えます。",
   "news.124": "修正：原点が中央のとき部品が重なることがありました。原点のまわりにまとめても板材が増えることはありません。",
   "news.123": "部品と一緒に板材の外形を書き出すオプション（専用レイヤー）。部品は選んだ原点のまわりにまとまって配置されます。",
@@ -4658,6 +4866,14 @@ I18N.dict["ja"] = {
 
 /* 한국어 */
 I18N.dict["ko"] = {
+  "cuts.label": "자투리 절단선",
+  "cuts.none": "없음",
+  "cuts.simple": "간단(가장자리에서 가장자리)",
+  "cuts.detail": "상세(부품 주위)",
+  "cuts.hint": "톱으로 자투리를 잘라 내는 직선이며, 부품과의 거리는 부품 간격과 같습니다.",
+  "cuts.layer": "절단선",
+  "cuts.chute": "자투리 {w} × {h}",
+  "news.126": "자투리 절단선(간단 또는 상세) 옵션 추가, 옵션을 «방법» 아래로 모음. 원점이 가운데 또는 가장자리 중앙일 때: 부품이 더 촘촘하게 모입니다.",
   "news.125": "자유 회전이 더 빨라졌고, 선택한 원점 때문에 판재가 더 늘지 않으며, 원점 표시는 더 작고 항상 전체가 보입니다.",
   "news.124": "수정: 원점이 가운데일 때 부품이 겹칠 수 있었습니다. 원점 주위로 모아도 판재가 더 필요하지 않습니다.",
   "news.123": "부품과 함께 판재 외곽선을 내보내는 옵션(별도 레이어). 부품이 선택한 원점 주위에 촘촘한 묶음으로 모입니다.",
@@ -4835,6 +5051,14 @@ I18N.dict["ko"] = {
 
 /* Lëtzebuergesch */
 I18N.dict["lb"] = {
+  "cuts.label": "Schnëtt fir Reschter",
+  "cuts.none": "Keng",
+  "cuts.simple": "Einfach (vu Kant zu Kant)",
+  "cuts.detail": "Detailléiert (ronderëm d’Stécker)",
+  "cuts.hint": "Riicht Linne fir Reschter mat der Seeg ze recuperéieren, am selwechten Ofstand vun de Stécker wéi den Ofstand tëscht de Stécker.",
+  "cuts.layer": "Schnëtt",
+  "cuts.chute": "Rescht {w} × {h}",
+  "news.126": "Optioun fir Schnëtt fir Reschter (einfach oder detailléiert), Optiounen elo ënner „Method“. Ursprung an der Mëtt oder an der Mëtt vun enger Kant: méi kompakt Grupp vu Stécker.",
   "news.125": "Méi séier fräi Rotatioun, keng Plack zevill méi jee no gewielten Ursprung, méi klengt Ursprungszeechen, ëmmer ganz ze gesinn.",
   "news.124": "Korrektur: Mam Ursprung an der Mëtt konnte Stécker iwwerlappen. D’Gruppéieren ronderëm den Ursprung brauch ni méi Placken.",
   "news.123": "Optioun, fir d’Kontur vun der Plack mat de Stécker ze exportéieren (op enger eegener Schicht). D’Stécker ginn als kompakte Block ronderëm den gewielten Ursprung gruppéiert.",
@@ -5012,6 +5236,14 @@ I18N.dict["lb"] = {
 
 /* Lietuvių */
 I18N.dict["lt"] = {
+  "cuts.label": "Atliekų pjūviai",
+  "cuts.none": "Nėra",
+  "cuts.simple": "Paprasti (nuo krašto iki krašto)",
+  "cuts.detail": "Išsamūs (aplink detales)",
+  "cuts.hint": "Tiesios linijos atliekoms nupjauti pjūklu, tokiu pat atstumu nuo detalių kaip tarpas tarp detalių.",
+  "cuts.layer": "Pjūviai",
+  "cuts.chute": "Atlieka {w} × {h}",
+  "news.126": "Galimybė braižyti atliekų pjūvius (paprastus ar išsamius), parinktys dabar po „Metodu“. Pradžios taškas centre ar krašto viduryje: kompaktiškesnė detalių grupė.",
   "news.125": "Greitesnis laisvas sukimas, pasirinktas pradžios taškas nebereikalauja papildomos plokštės, mažesnė pradžios žymė visada matoma visa.",
   "news.124": "Pataisa: kai pradžios taškas centre, detalės galėjo persidengti. Grupavimas aplink pradžios tašką niekada nereikalauja daugiau plokščių.",
   "news.123": "Galimybė eksportuoti plokštės kontūrą kartu su detalėmis (atskirame sluoksnyje). Detalės sugrupuojamos į kompaktišką bloką aplink pasirinktą pradžios tašką.",
@@ -5189,6 +5421,14 @@ I18N.dict["lt"] = {
 
 /* Latviešu */
 I18N.dict["lv"] = {
+  "cuts.label": "Atgriezumu griezumi",
+  "cuts.none": "Nav",
+  "cuts.simple": "Vienkārši (no malas līdz malai)",
+  "cuts.detail": "Detalizēti (ap detaļām)",
+  "cuts.hint": "Taisnas līnijas atgriezumu nozāģēšanai, tādā pašā attālumā no detaļām kā atstarpe starp detaļām.",
+  "cuts.layer": "Griezumi",
+  "cuts.chute": "Atgriezums {w} × {h}",
+  "news.126": "Iespēja zīmēt atgriezumu griezumus (vienkāršus vai detalizētus), opcijas tagad zem “Metode”. Sākumpunkts centrā vai malas vidū: kompaktāka detaļu grupa.",
   "news.125": "Ātrāka brīvā rotācija, izvēlētais sākumpunkts vairs neprasa papildu plātni, mazāka sākumpunkta zīme vienmēr redzama pilnībā.",
   "news.124": "Labojums: ja sākumpunkts bija centrā, detaļas varēja pārklāties. Grupēšana ap sākumpunktu nekad neprasa vairāk plātņu.",
   "news.123": "Iespēja eksportēt plātnes kontūru kopā ar detaļām (atsevišķā slānī). Detaļas tiek sakārtotas kompaktā blokā ap izvēlēto sākumpunktu.",
@@ -5366,6 +5606,14 @@ I18N.dict["lv"] = {
 
 /* Македонски */
 I18N.dict["mk"] = {
+  "cuts.label": "Резови за остатоци",
+  "cuts.none": "Без",
+  "cuts.simple": "Едноставни (од раб до раб)",
+  "cuts.detail": "Детални (околу деловите)",
+  "cuts.hint": "Прави линии за сечење на остатоците со пила, на исто растојание од деловите како растојанието меѓу нив.",
+  "cuts.layer": "Резови",
+  "cuts.chute": "Остаток {w} × {h}",
+  "news.126": "Опција за резови за остатоци (едноставни или детални), опциите се под „Метод“. Потекло во средина или на средина на раб: позбиена група делови.",
   "news.125": "Побрзо слободно вртење, нема повеќе вишок плоча поради избраното потекло, помала ознака за потеклото секогаш целосно видлива.",
   "news.124": "Поправка: деловите можеа да се преклопуваат кога потеклото е во средина. Групирањето околу потеклото никогаш не бара повеќе плочи.",
   "news.123": "Опција за извоз на контурот на плочата со деловите (на посебен слој). Деловите се групираат во збиен блок околу избраното потекло.",
@@ -5543,6 +5791,14 @@ I18N.dict["mk"] = {
 
 /* Malti */
 I18N.dict["mt"] = {
+  "cuts.label": "Qtugħ tal-fdal",
+  "cuts.none": "Xejn",
+  "cuts.simple": "Sempliċi (minn tarf għal tarf)",
+  "cuts.detail": "Dettaljati (madwar il-biċċiet)",
+  "cuts.hint": "Linji dritti biex tirkupra l-fdal bis-serrieq, fl-istess distanza mill-biċċiet bħall-ispazju bejn il-biċċiet.",
+  "cuts.layer": "Qtugħ",
+  "cuts.chute": "Fdal {w} × {h}",
+  "news.126": "Għażla biex tpinġi l-qtugħ tal-fdal (sempliċi jew dettaljat), u l-għażliet taħt «Metodu». Oriġini fiċ-ċentru jew f’nofs tarf: grupp ta’ biċċiet aktar kompatt.",
   "news.125": "Rotazzjoni ħielsa aktar mgħaġġla, l-ebda pannell żejjed skont l-oriġini magħżula, marka tal-oriġini iżgħar u dejjem tidher kollha.",
   "news.124": "Korrezzjoni: il-biċċiet setgħu jirkbu fuq xulxin bl-oriġini fiċ-ċentru. Il-ġbir madwar l-oriġini qatt ma jeħtieġ aktar pannelli.",
   "news.123": "Għażla biex tesporta l-kontorn tal-pannell mal-biċċiet (fuq saff għalih). Il-biċċiet jinġabru fi blokk kompatt madwar l-oriġini magħżula.",
@@ -5720,6 +5976,14 @@ I18N.dict["mt"] = {
 
 /* Norsk bokmål */
 I18N.dict["nb"] = {
+  "cuts.label": "Kutt for rester",
+  "cuts.none": "Ingen",
+  "cuts.simple": "Enkle (kant til kant)",
+  "cuts.detail": "Detaljerte (rundt delene)",
+  "cuts.hint": "Rette linjer for å sage løs rester, like langt fra delene som avstanden mellom deler.",
+  "cuts.layer": "Kutt",
+  "cuts.chute": "Rest {w} × {h}",
+  "news.126": "Mulighet for kutt for rester (enkle eller detaljerte), og innstillinger samlet under «Metode». Origo i midten eller midt på en kant: mer kompakt gruppe deler.",
   "news.125": "Raskere fri rotasjon, ingen ekstra plate avhengig av valgt origo, mindre origomerke som alltid vises helt.",
   "news.124": "Retting: deler kunne overlappe med origo i midten. Gruppering rundt origo krever aldri flere plater.",
   "news.123": "Mulighet for å eksportere platens omriss med delene (på eget lag). Delene samles i en kompakt blokk rundt valgt origo.",
@@ -5897,6 +6161,14 @@ I18N.dict["nb"] = {
 
 /* Nederlands */
 I18N.dict["nl"] = {
+  "cuts.label": "Zaagsneden voor restanten",
+  "cuts.none": "Geen",
+  "cuts.simple": "Eenvoudig (van rand tot rand)",
+  "cuts.detail": "Gedetailleerd (rond de onderdelen)",
+  "cuts.hint": "Rechte lijnen om restanten met de zaag te winnen, op dezelfde afstand van de onderdelen als de ruimte tussen onderdelen.",
+  "cuts.layer": "Zaagsneden",
+  "cuts.chute": "Restant {w} × {h}",
+  "news.126": "Optie om zaagsneden voor restanten te tekenen (eenvoudig of gedetailleerd), opties nu onder ‘Methode’. Oorsprong in het midden of midden op een rand: compactere groep onderdelen.",
   "news.125": "Snellere vrije rotatie, geen extra plaat meer afhankelijk van de gekozen oorsprong, kleinere oorsprongmarkering die altijd volledig zichtbaar is.",
   "news.124": "Correctie: onderdelen konden overlappen met de oorsprong in het midden. Groeperen rond de oorsprong kost nooit meer platen.",
   "news.123": "Optie om de plaatomtrek samen met de onderdelen te exporteren (op een eigen laag). Onderdelen worden in een compact blok rond de gekozen oorsprong gegroepeerd.",
@@ -6074,6 +6346,14 @@ I18N.dict["nl"] = {
 
 /* Polski */
 I18N.dict["pl"] = {
+  "cuts.label": "Cięcia odpadów",
+  "cuts.none": "Brak",
+  "cuts.simple": "Proste (od krawędzi do krawędzi)",
+  "cuts.detail": "Szczegółowe (wokół elementów)",
+  "cuts.hint": "Proste linie do odcięcia odpadów piłą, w tej samej odległości od elementów co odstęp między elementami.",
+  "cuts.layer": "Cięcia",
+  "cuts.chute": "Odpad {w} × {h}",
+  "news.126": "Opcja rysowania cięć odpadów (prostych lub szczegółowych), opcje zebrane pod „Metodą”. Punkt początkowy w środku lub na środku krawędzi: bardziej zwarta grupa elementów.",
   "news.125": "Szybszy obrót swobodny, wybrany punkt początkowy nie wymaga już dodatkowej płyty, mniejszy znacznik punktu początkowego zawsze widoczny w całości.",
   "news.124": "Poprawka: przy punkcie początkowym w środku elementy mogły na siebie nachodzić. Grupowanie wokół punktu początkowego nigdy nie wymaga więcej płyt.",
   "news.123": "Opcja eksportu obrysu płyty razem z elementami (na osobnej warstwie). Elementy grupują się w zwarty blok wokół wybranego punktu początkowego.",
@@ -6251,6 +6531,14 @@ I18N.dict["pl"] = {
 
 /* Română */
 I18N.dict["ro"] = {
+  "cuts.label": "Tăieturi pentru resturi",
+  "cuts.none": "Niciuna",
+  "cuts.simple": "Simple (de la margine la margine)",
+  "cuts.detail": "Detaliate (în jurul pieselor)",
+  "cuts.hint": "Linii drepte pentru a recupera resturile cu fierăstrăul, la aceeași distanță de piese ca spațiul dintre piese.",
+  "cuts.layer": "Tăieturi",
+  "cuts.chute": "Rest {w} × {h}",
+  "news.126": "Opțiune pentru tăieturi de resturi (simple sau detaliate), opțiunile sunt sub „Metodă”. Origine în centru sau la mijlocul unei margini: grup de piese mai compact.",
   "news.125": "Rotație liberă mai rapidă, niciun panou în plus în funcție de originea aleasă, marcaj de origine mai mic și mereu vizibil complet.",
   "news.124": "Corecție: piesele se puteau suprapune cu originea în centru. Gruparea în jurul originii nu cere niciodată mai multe panouri.",
   "news.123": "Opțiune de a exporta conturul panoului împreună cu piesele (pe un strat separat). Piesele se grupează într-un bloc compact în jurul originii alese.",
@@ -6428,6 +6716,14 @@ I18N.dict["ro"] = {
 
 /* Slovenčina */
 I18N.dict["sk"] = {
+  "cuts.label": "Rezy zvyškov",
+  "cuts.none": "Žiadne",
+  "cuts.simple": "Jednoduché (od okraja k okraju)",
+  "cuts.detail": "Podrobné (okolo dielov)",
+  "cuts.hint": "Rovné čiary na odrezanie zvyškov pílou, v rovnakej vzdialenosti od dielov ako medzera medzi dielmi.",
+  "cuts.layer": "Rezy",
+  "cuts.chute": "Zvyšok {w} × {h}",
+  "news.126": "Možnosť kresliť rezy zvyškov (jednoduché alebo podrobné), voľby sú teraz pod „Metóda“. Počiatok v strede alebo uprostred okraja: kompaktnejšia skupina dielov.",
   "news.125": "Rýchlejšie voľné otáčanie, žiadna doska navyše kvôli zvolenému počiatku, menšia značka počiatku vždy celá viditeľná.",
   "news.124": "Oprava: pri počiatku v strede sa diely mohli prekrývať. Zoskupenie okolo počiatku nikdy nevyžaduje viac dosiek.",
   "news.123": "Možnosť exportovať obrys dosky spolu s dielmi (vo vlastnej vrstve). Diely sa zoskupia do kompaktného bloku okolo zvoleného počiatku.",
@@ -6605,6 +6901,14 @@ I18N.dict["sk"] = {
 
 /* Slovenščina */
 I18N.dict["sl"] = {
+  "cuts.label": "Rezi ostankov",
+  "cuts.none": "Brez",
+  "cuts.simple": "Preprosti (od roba do roba)",
+  "cuts.detail": "Podrobni (okoli kosov)",
+  "cuts.hint": "Ravne črte za odrez ostankov z žago, na enaki razdalji od kosov kot razmik med kosi.",
+  "cuts.layer": "Rezi",
+  "cuts.chute": "Ostanek {w} × {h}",
+  "news.126": "Možnost risanja rezov ostankov (preprostih ali podrobnih), možnosti so zdaj pod »Metoda«. Izhodišče na sredini ali sredi roba: strnjena skupina kosov.",
   "news.125": "Hitrejše prosto vrtenje, izbrano izhodišče ne zahteva več dodatne plošče, manjša oznaka izhodišča je vedno vidna v celoti.",
   "news.124": "Popravek: pri izhodišču na sredini so se kosi lahko prekrivali. Združevanje okoli izhodišča nikoli ne zahteva več plošč.",
   "news.123": "Možnost izvoza obrisa plošče skupaj s kosi (na ločeni plasti). Kosi se združijo v strnjen blok okoli izbranega izhodišča.",
@@ -6782,6 +7086,14 @@ I18N.dict["sl"] = {
 
 /* Shqip */
 I18N.dict["sq"] = {
+  "cuts.label": "Prerjet e mbetjeve",
+  "cuts.none": "Asnjë",
+  "cuts.simple": "Të thjeshta (nga buza në buzë)",
+  "cuts.detail": "Të hollësishme (rreth pjesëve)",
+  "cuts.hint": "Vija të drejta për të prerë mbetjet me sharrë, në të njëjtën largësi nga pjesët si hapësira mes pjesëve.",
+  "cuts.layer": "Prerjet",
+  "cuts.chute": "Mbetje {w} × {h}",
+  "news.126": "Mundësi për të vizatuar prerjet e mbetjeve (të thjeshta ose të hollësishme), opsionet nën «Metoda». Origjina në qendër ose në mes të një buze: grup pjesësh më kompakt.",
   "news.125": "Rrotullim i lirë më i shpejtë, asnjë panel tepër sipas origjinës së zgjedhur, shenjë origjine më e vogël dhe gjithmonë e dukshme e plotë.",
   "news.124": "Korrigjim: pjesët mund të mbiviheshin kur origjina ishte në qendër. Grupimi rreth origjinës nuk kërkon kurrë më shumë panele.",
   "news.123": "Mundësi për të eksportuar konturin e panelit me pjesët (në shtresë më vete). Pjesët grupohen në një bllok kompakt rreth origjinës së zgjedhur.",
@@ -6959,6 +7271,14 @@ I18N.dict["sq"] = {
 
 /* Српски */
 I18N.dict["sr"] = {
+  "cuts.label": "Резови остатака",
+  "cuts.none": "Без",
+  "cuts.simple": "Једноставни (од ивице до ивице)",
+  "cuts.detail": "Детаљни (око делова)",
+  "cuts.hint": "Праве линије за сечење остатака тестером, на истом растојању од делова као размак између делова.",
+  "cuts.layer": "Резови",
+  "cuts.chute": "Остатак {w} × {h}",
+  "news.126": "Могућност цртања резова остатака (једноставних или детаљних), опције су под „Метод“. Исходиште у средини или на средини ивице: збијенија група делова.",
   "news.125": "Брже слободно окретање, нема више вишка плоче због изабраног исходишта, мања ознака исходишта увек цела видљива.",
   "news.124": "Исправка: делови су могли да се преклапају када је исходиште у средини. Груписање око исходишта никад не тражи више плоча.",
   "news.123": "Могућност извоза обриса плоче заједно са деловима (на засебном слоју). Делови се групишу у збијен блок око изабраног исходишта.",
@@ -7136,6 +7456,14 @@ I18N.dict["sr"] = {
 
 /* Svenska */
 I18N.dict["sv"] = {
+  "cuts.label": "Snitt för spill",
+  "cuts.none": "Inga",
+  "cuts.simple": "Enkla (kant till kant)",
+  "cuts.detail": "Detaljerade (runt delarna)",
+  "cuts.hint": "Raka linjer för att såga loss spillbitar, på samma avstånd från delarna som avståndet mellan delar.",
+  "cuts.layer": "Snitt",
+  "cuts.chute": "Spill {w} × {h}",
+  "news.126": "Möjlighet att rita snitt för spill (enkla eller detaljerade), och inställningar samlade under ”Metod”. Origo i mitten eller mitt på en kant: mer kompakt grupp av delar.",
   "news.125": "Snabbare fri rotation, ingen extra skiva beroende på valt origo, mindre origomarkering som alltid syns helt.",
   "news.124": "Rättning: delar kunde överlappa med origo i mitten. Gruppering runt origo kräver aldrig fler skivor.",
   "news.123": "Möjlighet att exportera skivans kontur med delarna (på ett eget lager). Delarna samlas i ett kompakt block runt valt origo.",
@@ -7313,6 +7641,14 @@ I18N.dict["sv"] = {
 
 /* ไทย */
 I18N.dict["th"] = {
+  "cuts.label": "เส้นตัดเศษวัสดุ",
+  "cuts.none": "ไม่มี",
+  "cuts.simple": "แบบง่าย (ขอบถึงขอบ)",
+  "cuts.detail": "แบบละเอียด (รอบชิ้นงาน)",
+  "cuts.hint": "เส้นตรงสำหรับเลื่อยแยกเศษวัสดุ ห่างจากชิ้นงานเท่ากับระยะห่างระหว่างชิ้นงาน",
+  "cuts.layer": "เส้นตัด",
+  "cuts.chute": "เศษ {w} × {h}",
+  "news.126": "เพิ่มตัวเลือกวาดเส้นตัดเศษวัสดุ (แบบง่ายหรือละเอียด) และย้ายตัวเลือกไปไว้ใต้ «วิธีการ» จุดกำเนิดอยู่ตรงกลางหรือกลางขอบ: จัดกลุ่มชิ้นงานได้แน่นขึ้น",
   "news.125": "หมุนอิสระได้เร็วขึ้น ไม่ใช้แผ่นวัสดุเกินตามจุดกำเนิดที่เลือกอีก เครื่องหมายจุดกำเนิดเล็กลงและมองเห็นครบเสมอ",
   "news.124": "แก้ไข: ชิ้นงานอาจซ้อนกันเมื่อจุดกำเนิดอยู่ตรงกลาง การจัดรวมรอบจุดกำเนิดจะไม่ใช้แผ่นวัสดุเพิ่มอีก",
   "news.123": "ตัวเลือกส่งออกเส้นขอบแผ่นวัสดุพร้อมชิ้นงาน (แยกเลเยอร์) ชิ้นงานจะถูกจัดรวมกันแน่นรอบจุดกำเนิดที่เลือก",
@@ -7490,6 +7826,14 @@ I18N.dict["th"] = {
 
 /* Türkçe */
 I18N.dict["tr"] = {
+  "cuts.label": "Artık kesimleri",
+  "cuts.none": "Yok",
+  "cuts.simple": "Basit (kenardan kenara)",
+  "cuts.detail": "Ayrıntılı (parçaların çevresinde)",
+  "cuts.hint": "Artıkları testereyle ayırmak için düz çizgiler; parçalara uzaklığı parçalar arası boşlukla aynı.",
+  "cuts.layer": "Kesimler",
+  "cuts.chute": "Artık {w} × {h}",
+  "news.126": "Artık kesimlerini çizme seçeneği (basit veya ayrıntılı), seçenekler artık «Yöntem» altında. Başlangıç ortada veya bir kenarın ortasında: daha sıkı parça grubu.",
   "news.125": "Daha hızlı serbest döndürme, seçilen başlangıç noktasına göre fazladan levha yok, daha küçük ve her zaman tamamen görünen başlangıç işareti.",
   "news.124": "Düzeltme: başlangıç noktası ortadayken parçalar üst üste binebiliyordu. Başlangıç çevresinde gruplamak artık asla daha fazla levha gerektirmez.",
   "news.123": "Levha konturunu parçalarla birlikte dışa aktarma seçeneği (ayrı katmanda). Parçalar seçilen başlangıç noktası çevresinde sıkı bir blok halinde toplanır.",
@@ -7667,6 +8011,14 @@ I18N.dict["tr"] = {
 
 /* Українська */
 I18N.dict["uk"] = {
+  "cuts.label": "Різи для залишків",
+  "cuts.none": "Немає",
+  "cuts.simple": "Прості (від краю до краю)",
+  "cuts.detail": "Докладні (навколо деталей)",
+  "cuts.hint": "Прямі лінії, щоб відпиляти придатні залишки, на тій самій відстані від деталей, що й зазор між деталями.",
+  "cuts.layer": "Різи",
+  "cuts.chute": "Залишок {w} × {h}",
+  "news.126": "Можна нанести різи для залишків (прості або докладні); параметри зібрано під «Метод». Початок координат у центрі або посередині краю: деталі розташовуються компактніше.",
   "news.125": "Швидший вільний поворот, вибір початку координат більше не додає зайвий лист, менша позначка початку завжди видна повністю.",
   "news.124": "Виправлено: за початку координат у центрі деталі могли накладатися. Групування навколо початку координат ніколи не потребує більше листів.",
   "news.123": "Можна експортувати контур листа разом із деталями (на окремому шарі). Деталі збираються компактним блоком навколо вибраного початку координат.",
@@ -7844,6 +8196,14 @@ I18N.dict["uk"] = {
 
 /* 中文（繁體） */
 I18N.dict["zh-Hant"] = {
+  "cuts.label": "餘料切割線",
+  "cuts.none": "無",
+  "cuts.simple": "簡單（邊到邊）",
+  "cuts.detail": "詳細（沿零件周圍）",
+  "cuts.hint": "用於鋸下可用餘料的直線，與零件的距離等於零件間距。",
+  "cuts.layer": "切割線",
+  "cuts.chute": "餘料 {w} × {h}",
+  "news.126": "可繪製餘料切割線（簡單或詳細），選項移至「方法」下方。原點在中心或邊的中點時：零件排布更緊湊。",
   "news.125": "自由旋轉更快；無論選擇哪個原點都不會多用板材；原點標記更小，並始終完整顯示。",
   "news.124": "修正：原點在中心時零件可能重疊。圍繞原點排布不會再多用板材。",
   "news.123": "可選擇將板材輪廓與零件一起匯出（獨立圖層）。零件圍繞所選原點緊密地排在一起。",
