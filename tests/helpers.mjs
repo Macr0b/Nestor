@@ -1,20 +1,11 @@
-// Outils communs aux tests : chargement de geo.js sans navigateur et contrôles géométriques.
+// Outils communs aux tests : fichiers d'essai, formes simples et contrôles géométriques.
 import { readFileSync } from "node:fs";
-import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { placedPartPaths } from "../src/geometry/placed-parts.js";
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const fixture = (name) => readFileSync(join(ROOT, "tests", "fixtures", name), "utf8");
-
-/** Charge geo.js dans un contexte isolé et renvoie { Geo, nest }. */
-export function loadGeo() {
-  const ctx = { console, Math, JSON, Uint8Array, Int32Array, Float64Array, Infinity, NaN };
-  vm.createContext(ctx);
-  for (const f of ["geo.js", "nest.js"]) vm.runInContext(readFileSync(join(ROOT, f), "utf8"), ctx, { filename: f });
-  vm.runInContext("this.Geo = Geo; this.nest = nest;", ctx);
-  return { Geo: ctx.Geo, nest: ctx.nest };
-}
 
 /** Rectangle en polygone (sens horaire, repère Y vers le bas). */
 export const rect = (w, h, x = 0, y = 0) => [
@@ -32,7 +23,7 @@ export function disc(r, n = 48, cx = r, cy = r) {
   return p;
 }
 
-/** Type de pièce prêt pour Geo.pack / nest / placedPaths. */
+/** Type de pièce prêt pour packRectangles / nest / placedPartPaths. */
 export function type(poly, qty = 1, extra = {}) {
   const xs = poly.map((q) => q[0]),
     ys = poly.map((q) => q[1]);
@@ -97,10 +88,10 @@ export function polyDistance(A, B) {
  * Vérifie une feuille : chaque pièce dans la zone utile, et un écart minimal entre pièces.
  * Renvoie la liste des problèmes trouvés (vide si tout va bien).
  */
-export function checkSheet(Geo, sheet, types, { margin, gap, tol = 0.05 }) {
+export function checkSheet(sheet, types, { margin, gap, tol = 0.05 }) {
   const problems = [];
   const outlines = sheet.parts.map((p) => {
-    const paths = Geo.placedPaths(types[p.i], p).filter((q) => q.closed);
+    const paths = placedPartPaths(types[p.i], p).filter((q) => q.closed);
     return paths.reduce((best, q) => (q.pts.length && (!best || area(q.pts) > area(best)) ? q.pts : best), null);
   });
   outlines.forEach((P, k) => {

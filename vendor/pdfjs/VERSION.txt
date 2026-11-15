@@ -1,0 +1,2 @@
+PDF.js 6.5.438 (version « legacy », compatible avec les navigateurs plus anciens), Mozilla, licence Apache 2.0.
+Source : paquet npm pdfjs-dist@6.5.438, fichiers legacy/build/pdf.min.mjs et legacy/build/pdf.worker.min.mjs.

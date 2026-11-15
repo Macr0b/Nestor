@@ -1,4 +1,4 @@
-# Lance les tests à chaque envoi sur GitHub (onglet « Actions » du dépôt).
+# Vérifie chaque envoi sur GitHub (onglet « Actions » du dépôt) : formatage du code, tests, version Claude.
 name: Tests
 on:
   push:
@@ -11,9 +11,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Outils (prettier, esbuild)
+        run: npm ci
       - name: Navigateur pour les tests d'interface
         run: |
           npm install --no-save playwright@1.63.0
           npx playwright install --with-deps chromium
+      - name: Code bien formaté
+        run: npm run format:check
       - name: Tests
-        run: node --test tests/*.test.mjs
+        run: npm test
+      - name: La version Claude se fabrique
+        run: npm run build:claude

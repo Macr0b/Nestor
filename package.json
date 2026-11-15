@@ -1,0 +1,17 @@
+{
+  "name": "nestor",
+  "private": true,
+  "description": "Imbrication de pièces sur panneaux (laser, CNC, scie) — appli installable",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "format": "prettier --write \"src/**/*.js\" \"tests/**/*.mjs\" \"tools/**/*.mjs\" sw.js",
+    "format:check": "prettier --check \"src/**/*.js\" \"tests/**/*.mjs\" \"tools/**/*.mjs\" sw.js",
+    "build:claude": "node tools/build-claude.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.23.1",
+    "prettier": "3.3.3"
+  }
+}

@@ -10,6 +10,16 @@ SVG and DXF export, works offline, 45 languages.
 
 Installation, mise en ligne et mises à jour : voir [LISEZMOI.md](LISEZMOI.md).
 
+## Code
+
+Modules JavaScript standard, sans étape de fabrication : `src/` (un dossier par domaine : `import/`, `placement/`,
+`export/`, `geometry/`, `ui/`, `i18n/`…), styles dans `css/`, tests rangés de la même façon dans `tests/`.
+`npm test` lance tous les tests, `npm run format` met le code en forme. Détails : [LISEZMOI.md](LISEZMOI.md).
+
+Plain JavaScript modules, no build step: `src/` (one folder per area: `import/`, `placement/`, `export/`,
+`geometry/`, `ui/`, `i18n/`…), styles in `css/`, tests mirrored in `tests/`. `npm test` runs all tests,
+`npm run format` formats the code.
+
 ## Licence / License
 
 Copyright 2026 Macr0b
@@ -25,5 +35,5 @@ Versions 1.0.0 to 1.1.2 were released under AGPL-3.0-or-later and remain so.
 The "Nestor" name and logos are not covered by the license: see [TRADEMARK.md](TRADEMARK.md).
 
 Composants tiers / Third-party components:
-- `vendor/pdfjs/` — PDF.js, Mozilla, Apache License 2.0 (`vendor/pdfjs/LICENSE`)
+- `vendor/pdfjs/` — PDF.js 6.5.438 (legacy build), Mozilla, Apache License 2.0 (`vendor/pdfjs/LICENSE`)
 - `fonts/` — Barlow, Barlow Condensed, IBM Plex Mono, SIL Open Font License 1.1 (`fonts/OFL-*.txt`)

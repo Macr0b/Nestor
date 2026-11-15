@@ -1,0 +1,70 @@
+%PDF-1.5
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R /OCProperties << /OCGs [3 0 R 4 0 R] /D << /Order [3 0 R 4 0 R] >> >> >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [9 0 R 10 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /OCG /Name (DÈcoupe) >>
+endobj
+4 0 obj
+<< /Type /OCG /Name (Gravure) >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /XObject /Subtype /Form /BBox [0 0 56.693 56.693] /Length 56 >>
+stream
+0 0 0 RG 0 0 m 56.693 0 l 56.693 56.693 l 0 56.693 l h S
+endstream
+endobj
+7 0 obj
+<< /Length 474 >>
+stream
+/OC /L1 BDC
+1 0 0 RG 0.5 w
+28.346 28.346 170.079 113.386 re S
+283.465 85.039 m 283.465 124.157 315.213 155.906 354.331 155.906 c 393.449 155.906 425.197 124.157 425.197 85.039 c 425.197 45.921 393.449 14.173 354.331 14.173 c 315.213 14.173 283.465 45.921 283.465 85.039 c h S
+EMC
+/OC /L2 BDC
+0 0 1 RG
+56.693 56.693 m 141.732 56.693 l 141.732 99.213 l h S
+EMC
+q 0.000 0.000 566.929 425.197 re W n Q
+BT /F1 12 Tf 100 100 Td (Texte) Tj ET
+q 1 0 0 1 453.543 226.772 cm /Fm1 Do Q
+endstream
+endobj
+8 0 obj
+<< /Length 41 >>
+stream
+0 0 0 RG 28.346 28.346 85.039 85.039 re S
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 566.929 425.197] /Contents 7 0 R /Resources << /Properties << /L1 3 0 R /L2 4 0 R >> /Font << /F1 5 0 R >> /XObject << /Fm1 6 0 R >> >> >>
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 283.465 283.465] /Contents 8 0 R >>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000015 00000 n 
+0000000134 00000 n 
+0000000198 00000 n 
+0000000246 00000 n 
+0000000294 00000 n 
+0000000364 00000 n 
+0000000526 00000 n 
+0000001051 00000 n 
+0000001142 00000 n 
+0000001340 00000 n 
+trailer
+<< /Size 11 /Root 1 0 R >>
+startxref
+1436
+%%EOF

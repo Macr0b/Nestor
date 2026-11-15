@@ -1,0 +1,80 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Fenêtre des réglages et bandeau de mise à jour. */
+
+/* réglages et bannière */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--shade);
+  display: grid;
+  place-items: center;
+  z-index: 30;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px))
+    max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  width: min(460px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  display: grid;
+  gap: 16px;
+}
+.panel header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.panel h2 {
+  font-size: 18px;
+  color: var(--ink);
+}
+.panel .grp {
+  display: grid;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.panel .grp:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+.ver {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px))
+    max(16px, env(safe-area-inset-left, 0px));
+  font-weight: 600;
+}
+.banner .btn {
+  background: var(--accent-ink);
+  color: var(--accent);
+  border-color: var(--accent-ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn,
+  .drop {
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+  }
+}

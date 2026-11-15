@@ -1,0 +1,59 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Couleurs du thème clair et du thème sombre (variables), et règles de base. */
+
+/* Layout : établi — colonne de réglages (projet, fichier, panneau, pièces) à gauche, panneaux imbriqués à droite ; une colonne sur téléphone */
+:root {
+  --bg: #e8eff4;
+  --surface: #fbfcfd;
+  --ink: #16222c;
+  --muted: #56687a;
+  --line: #c6d3de;
+  --accent: #0d4e73;
+  --accent-ink: #ffffff;
+  --wood: #e4c48e;
+  --wood-2: #d6b073;
+  --wood-edge: #7d5c2c;
+  --scrap: #dde6ed;
+  --hatch: #bfcdd9;
+  --danger: #b4361f;
+  --ok: #2f7a3a;
+  --open: #0d4e73;
+  --shade: rgba(10, 24, 36, 0.45);
+  --bp-minor: rgba(13, 78, 115, 0.09);
+  --bp-major: rgba(13, 78, 115, 0.2);
+  --bp-ink: rgba(13, 78, 115, 0.42);
+  --bp-faint: rgba(13, 78, 115, 0.26);
+  --f-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", "Noto Sans", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b2436;
+    --surface: #10304a;
+    --ink: #e4eef5;
+    --muted: #9bb4c6;
+    --line: #24506d;
+    --accent: #6fb4dc;
+    --accent-ink: #0a1f2e;
+    --wood: #b48f57;
+    --wood-2: #9f7b45;
+    --wood-edge: #f0d6a6;
+    --scrap: #163a55;
+    --hatch: #24506d;
+    --danger: #ef7a62;
+    --ok: #7cc487;
+    --open: #9fd2f0;
+    --shade: rgba(0, 8, 14, 0.65);
+    --bp-minor: rgba(200, 228, 246, 0.075);
+    --bp-major: rgba(200, 228, 246, 0.17);
+    --bp-ink: rgba(200, 228, 246, 0.42);
+    --bp-faint: rgba(200, 228, 246, 0.24);
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}

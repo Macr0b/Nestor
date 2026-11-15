@@ -40,8 +40,8 @@ Sur ordinateur avec Chrome ou Edge, l'application installée peut ouvrir directe
 
 1. Remplace les fichiers modifiés dans le dépôt GitHub (Add file › Upload files, puis Commit changes).
 2. Change toujours le numéro de version **à deux endroits**, sinon les appareils ne verront pas la mise à jour :
-   - `sw.js`, ligne `const VERSION = "1.2.0";`
-   - `app.js`, ligne `var APP_VERSION = "1.2.0";`
+   - `sw.js`, ligne `const VERSION = "1.3.0";`
+   - `src/version.js`, ligne `export const APP_VERSION = "1.3.0";`
 3. Sur chaque appareil, au lancement suivant, une bannière « Nouvelle version disponible » apparaît. Un tap sur **Mettre à jour** suffit. Le bouton ⚙ › Vérifier les mises à jour force la vérification.
 
 Tes réglages de panneaux sont conservés pendant les mises à jour.
@@ -52,7 +52,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Fichiers AI** : enregistrer depuis Illustrator avec l'option « Créer un fichier compatible PDF » (activée par défaut).
 - **Formats lus** : DXF, SVG et SVGZ (Illustrator, Inkscape…), AI, PDF, LightBurn (.lbrn, .lbrn2), VectorCraft (.vectorcraft), HPGL (.plt, .hpgl). Les noms des tracés deviennent les noms des pièces, les calques sont affichés et conservés à l'export.
 - **Pièces** : échelle en % ou cote en mm pour chaque pièce, duplication pour tester une variante, rotation fixe, par quart de tour ou libre par 5°.
-- **Langues** : 45 langues. L'application démarre dans la langue de l'appareil, changement dans ⚙ › Langue. Les textes sont dans `i18n.js`.
+- **Langues** : 45 langues. L'application démarre dans la langue de l'appareil, changement dans ⚙ › Langue. Les textes sont dans `src/i18n/locales/`, un fichier par langue ; seule la langue utilisée est chargée.
 - **Panneaux** : la longueur est verticale et la largeur horizontale (panneau en portrait).
 - **Origine** : le petit carré à 9 points choisit le zéro machine. Les pièces se regroupent à partir de ce point (coin, bord ou centre) et c'est le zéro des fichiers exportés.
 - **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours.
@@ -61,26 +61,40 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 
 ## Contenu du dossier
 
-| Fichier | Rôle |
+| Dossier ou fichier | Rôle |
 |---|---|
-| `index.html` | Page et mise en forme |
-| `app.js` | Fonctionnement de l'interface (sommaire en tête de fichier) |
-| `geo.js` | Géométrie : lecture DXF / HPGL / VectorCraft, regroupement, rectangles, coupes de chutes, export DXF |
-| `nest.js` | Imbrication selon la forme (calculée en arrière-plan) |
-| `formats.js` | Lecture SVG / SVGZ, PDF / AI, LightBurn |
-| `i18n.js` | Traductions (45 langues) |
-| `sw.js` | Hors connexion et mises à jour |
-| `manifest.webmanifest` | Nom, icônes, installation |
+| `index.html` | Structure de la page |
+| `css/` | Mise en forme : polices, couleurs (thèmes clair et sombre), décor « plan technique », interface, réglages |
+| `src/main.js` | Point d'entrée : branche chaque partie de l'interface puis démarre |
+| `src/version.js` | Numéro de version |
+| `src/i18n/` | Langue de l'interface ; `languages.js` (liste des langues) et `locales/` (un fichier de textes par langue) |
+| `src/project/` | Projet en cours, exemple du premier lancement, pièces, réglages mémorisés |
+| `src/geometry/` | Géométrie : tracés SVG, polylignes, regroupement en pièces, pièces placées |
+| `src/import/` | Un lecteur par format (DXF, SVG + nettoyage, PDF / AI, LightBurn, HPGL, VectorCraft) et la lecture des fichiers |
+| `src/placement/` | Imbrication selon la forme, rectangles, origine du panneau, calcul en arrière-plan |
+| `src/export/` | Fichiers exportés (SVG, DXF), contour du panneau, coupes de chutes |
+| `src/ui/` | Chaque partie de l'interface : fichiers, pièces, panneaux, résultat, réglages, installation, mises à jour |
+| `sw.js` | Hors connexion et mises à jour (liste de tous les fichiers à garder en cache) |
+| `manifest.webmanifest` | Nom, icônes, installation, formats ouverts par l'appli |
 | `icons/`, `fonts/` | Icônes et polices (Barlow, IBM Plex Mono — licence OFL) |
-| `vendor/pdfjs/` | Lecteur PDF/AI de Mozilla (licence Apache 2.0) |
-| `tests/` | Tests automatiques, relancés par GitHub à chaque mise à jour |
+| `vendor/pdfjs/` | Lecteur PDF/AI de Mozilla, pdf.js 6.5.438 version « legacy » (licence Apache 2.0) |
+| `tests/` | Tests automatiques, rangés comme `src/`, relancés par GitHub à chaque mise à jour |
+| `tools/build-claude.mjs` | Fabrique la version Claude (une seule page) à partir de l'appli |
 
-Pour lancer les tests sur un ordinateur : `node --test tests/*.test.mjs` (Node 20 ou plus). Les tests d'interface
-demandent en plus Playwright (`npm install --no-save playwright && npx playwright install chromium`), sinon ils sont sautés.
+Chaque fichier de code commence par une ligne qui décrit son rôle. Le code est écrit en modules JavaScript standard
+(`import` / `export`), sans étape de fabrication : le dossier est publié tel quel.
 
-## Licence
+## Pour les développeurs
 
-Nestor est distribué sous la licence **PolyForm Perimeter 1.0.1** (fichier `LICENSE`).
-Tout le monde peut l'utiliser gratuitement, y compris au travail, lire le code et le modifier pour son propre usage. Personne ne peut proposer à d'autres un produit qui fait concurrence à Nestor (revente, service payant, copie rebaptisée), même gratuit.
-Le nom « Nestor » et les logos sont réservés (fichier `TRADEMARK.md`).
-PDF.js reste sous licence Apache 2.0 et les polices sous licence OFL 1.1.
+Il faut Node 22 ou plus.
+
+```
+npm install                 # outils : prettier (mise en forme), esbuild (version Claude)
+npm test                    # tous les tests
+npm run format              # remet le code en forme
+npm run build:claude        # écrit dist/nestor-claude.html
+```
+
+Les tests d'interface utilisent un vrai navigateur. Ils demandent Playwright
+(`npm install --no-save playwright && npx playwright install chromium`), sinon ils sont sautés.
+Avant chaque mise à jour : `npm run format:check` et `npm test` doivent passer (GitHub les relance à chaque envoi).
