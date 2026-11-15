@@ -1,0 +1,212 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Onglet Fraisage : champs de la fraise, de la matière et de la machine, et affichage des réglages conseillés.
+   Le calcul lui-même est dans src/machining/milling.js. */
+
+import { languageLocale, translate } from "../i18n/i18n.js";
+import { FAMILIES, MATERIALS, materialById } from "../machining/materials.js";
+import { millingSettings, TOOL_TYPES } from "../machining/milling.js";
+import { loadMillingInput, saveMillingInput } from "../machining/milling-store.js";
+import { byId, escapeHtml } from "../util/dom.js";
+import { parseNumber } from "../util/numbers.js";
+
+// réglages en cours de l'onglet (relus au démarrage)
+let input = null;
+let preciseOpen = false;
+
+const NUMBER_FIELDS = [
+  ["millDiameter", "diameter"],
+  ["millFlutes", "flutes"],
+  ["millSpindleMin", "spindleMin"],
+  ["millSpindleMax", "spindleMax"],
+  ["millFeedMax", "feedMax"],
+  ["millThickness", "thickness"]
+];
+
+function formatValue(value, digits) {
+  return new Intl.NumberFormat(languageLocale(), { maximumFractionDigits: digits }).format(value);
+}
+
+function familyName(id) {
+  return translate("mill.fam." + id);
+}
+
+/* Listes qui dépendent de la langue : types de fraise, familles, matières précises. */
+function renderChoices() {
+  const typeSelect = byId("millType");
+  typeSelect.innerHTML = TOOL_TYPES.map(function (type) {
+    return '<option value="' + type + '">' + escapeHtml(translate("mill.type." + type)) + "</option>";
+  }).join("");
+  typeSelect.value = input.toolType;
+
+  byId("millFamilies").innerHTML = FAMILIES.map(function (family, index) {
+    let level = "";
+    for (let i = 0; i < FAMILIES.length; i++) level += '<i class="' + (i <= index ? "on" : "") + '"></i>';
+    return (
+      '<button type="button" data-family="' +
+      family.id +
+      '" aria-pressed="false"><b>' +
+      escapeHtml(familyName(family.id)) +
+      '</b><span class="mill-level" aria-hidden="true">' +
+      level +
+      "</span><small>" +
+      escapeHtml(translate("mill.famEx." + family.id)) +
+      "</small></button>"
+    );
+  }).join("");
+
+  byId("millPrecise").innerHTML = FAMILIES.map(function (family) {
+    const chips = MATERIALS.filter(function (material) {
+      return material.family === family.id;
+    }).map(function (material) {
+      return (
+        '<button type="button" data-material="' +
+        material.id +
+        '" aria-pressed="false">' +
+        escapeHtml(translate("mill.mat." + material.id)) +
+        "</button>"
+      );
+    });
+    return '<div class="mill-chips"><span>' + escapeHtml(familyName(family.id)) + "</span>" + chips.join("") + "</div>";
+  }).join("");
+}
+
+/* Ligne d'explication de la matière précise choisie : densité, classe de dureté, famille utilisée. */
+function materialInfo(material) {
+  const parts = [];
+  if (material.density) parts.push(translate("mill.density", { d: formatValue(material.density, 0) }));
+  if (material.hardness) parts.push(translate("mill.hardness", { c: material.hardness }));
+  parts.push(translate("mill.asFamily", { f: familyName(material.family) }));
+  return "<b>" + escapeHtml(translate("mill.mat." + material.id)) + "</b> · " + escapeHtml(parts.join(" · "));
+}
+
+function valueBox(label, value, unit) {
+  return (
+    "<div><small>" +
+    escapeHtml(label) +
+    "</small><b>" +
+    escapeHtml(value) +
+    "</b><em>" +
+    escapeHtml(unit) +
+    "</em></div>"
+  );
+}
+
+/* Met la page à jour d'après les réglages en cours (sans toucher aux champs que l'on est en train de taper). */
+function renderState() {
+  byId("millFamilies")
+    .querySelectorAll("[data-family]")
+    .forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.family === input.family));
+    });
+  byId("millPrecise")
+    .querySelectorAll("[data-material]")
+    .forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.material === input.material));
+    });
+  byId("millPrecise").hidden = !preciseOpen;
+  const preciseButton = byId("millPreciseBtn");
+  preciseButton.setAttribute("aria-expanded", String(preciseOpen));
+  preciseButton.textContent = translate(preciseOpen ? "mill.preciseHide" : "mill.preciseShow");
+  const material = materialById(input.material);
+  const info = byId("millMatInfo");
+  info.hidden = !material;
+  info.innerHTML = material ? materialInfo(material) : "";
+  byId("millRough").setAttribute("aria-pressed", String(!input.finishing));
+  byId("millFinish").setAttribute("aria-pressed", String(input.finishing));
+
+  const result = millingSettings(input);
+  const values = byId("millValues");
+  if (!result) {
+    values.innerHTML = "";
+    byId("millRule").textContent = translate("mill.invalid");
+    byId("millNotes").innerHTML = "";
+    return;
+  }
+  const passes = result.passes
+    ? translate("mill.passesFor", {
+        p: formatValue(result.passes, 0),
+        d: formatValue(result.passDepth, 2),
+        t: formatValue(input.thickness, 2)
+      })
+    : translate("mill.noThickness");
+  values.innerHTML =
+    valueBox(translate("mill.rpm"), formatValue(result.rpm, 0), translate("mill.unitRpm")) +
+    valueBox(translate("mill.feed"), formatValue(result.feed, 0), translate("mill.unitFeed")) +
+    valueBox(translate("mill.depth"), formatValue(result.depth, 2), "mm") +
+    valueBox(translate("mill.passes"), result.passes ? formatValue(result.passes, 0) : "–", passes);
+  byId("millRule").textContent = translate("mill.rule", {
+    c: formatValue(result.chipLoad, 3),
+    k: formatValue(result.chipDivisor, 0),
+    f: formatValue(result.depthFactor, 2)
+  });
+  byId("millNotes").innerHTML = result.notes
+    .map(function (note) {
+      return "<li>" + escapeHtml(translate(note.key, { n: formatValue(note.n || 0, 0) })) + "</li>";
+    })
+    .join("");
+}
+
+function fillFields() {
+  for (const [id, key] of NUMBER_FIELDS) byId(id).value = isFinite(input[key]) ? String(input[key]) : "";
+}
+
+function changed() {
+  saveMillingInput(input);
+  renderState();
+}
+
+/* À appeler après un changement de langue : les listes et les textes calculés sont refaits. */
+export function renderMilling() {
+  if (!input) return;
+  renderChoices();
+  renderState();
+}
+
+export function bindMillingTab() {
+  input = loadMillingInput();
+  fillFields();
+
+  byId("millType").addEventListener("change", function () {
+    input.toolType = this.value;
+    // une fraise 1 dent n'a qu'une dent : le champ suit, modifiable ensuite
+    if (input.toolType === "single") {
+      input.flutes = 1;
+      byId("millFlutes").value = "1";
+    }
+    changed();
+  });
+  for (const [id, key] of NUMBER_FIELDS)
+    byId(id).addEventListener("input", function () {
+      input[key] = this.value.trim() === "" ? NaN : parseNumber(this.value, NaN);
+      changed();
+    });
+  byId("millFamilies").addEventListener("click", function (e) {
+    const button = e.target.closest("[data-family]");
+    if (!button) return;
+    input.family = button.dataset.family;
+    input.material = "";
+    changed();
+  });
+  byId("millPrecise").addEventListener("click", function (e) {
+    const button = e.target.closest("[data-material]");
+    if (!button) return;
+    // un deuxième clic sur la même matière la retire (on garde sa famille)
+    input.material = input.material === button.dataset.material ? "" : button.dataset.material;
+    if (input.material) input.family = materialById(input.material).family;
+    changed();
+  });
+  byId("millPreciseBtn").addEventListener("click", function () {
+    preciseOpen = !preciseOpen;
+    renderState();
+  });
+  byId("millRough").addEventListener("click", function () {
+    input.finishing = false;
+    changed();
+  });
+  byId("millFinish").addEventListener("click", function () {
+    input.finishing = true;
+    changed();
+  });
+  // une matière précise choisie lors d'une visite précédente : la liste s'ouvre pour la montrer
+  preciseOpen = !!input.material;
+}

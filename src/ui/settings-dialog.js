@@ -4,6 +4,7 @@
 import { applyLanguage, languageSelect } from "../i18n/i18n.js";
 import { bugReportUrl } from "./bug-report.js";
 import { refreshInstallButton } from "./install.js";
+import { renderMilling } from "./milling-tab.js";
 import { renderAll } from "./render-all.js";
 import { byId } from "../util/dom.js";
 
@@ -34,6 +35,7 @@ export function bindSettingsDialog() {
     } catch (e) {}
     applyLanguage(languageSelect.value).then(function () {
       renderAll();
+      renderMilling();
       refreshInstallButton();
     });
   });

@@ -585,6 +585,11 @@ describe("Interface", { skip }, () => {
     await page.selectOption("#cutSel", "detail");
     for (const f of ["svg", "dxf"])
       await Promise.all([page.waitForEvent("download"), page.click(`[data-dl=${f}][data-s="0"]`)]);
+    await page.click("#tabMill");
+    await page.click("#millPreciseBtn");
+    await page.click("[data-material=pmma]");
+    await page.fill("#millDiameter", "4");
+    await page.click("#tabNest");
     await page.evaluate(() => navigator.serviceWorker.ready);
     // une injection de script est bien bloquée
     const injected = await page.evaluate(() => {
@@ -671,6 +676,53 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("onglet Fraisage : réglages calculés, matière précise, limites de la machine, tout mémorisé", async () => {
+    const page = await open();
+    const digits = (sel) => page.$$eval(sel, (v) => v.map((x) => x.textContent.replace(/\D/g, "")));
+    await page.click("#tabMill");
+    assert.equal(await page.isVisible("#pageNest"), false, "l'imbrication est cachée");
+    assert.equal(await page.getAttribute("#tabMill", "aria-selected"), "true");
+    // valeurs de départ : fraise Ø 6 à 2 dents, famille intermédiaire, 18 mm en ébauche
+    assert.deepEqual((await digits("#millValues b")).slice(0, 3), ["15900", "1910", "3"]);
+    assert.match(await page.textContent("#millValues"), /6 × 3 mm/);
+    // petite fraise : la broche plafonne, l'avance suit et un message l'explique
+    await page.fill("#millDiameter", "3");
+    assert.equal((await digits("#millValues b"))[0], "24000");
+    assert.match(await page.textContent("#millNotes"), /24\s?000 tr\/min/);
+    // matière précise : sa famille est choisie et expliquée
+    await page.click("[data-family=soft]");
+    await page.click("#millPreciseBtn");
+    await page.click("[data-material=plyBirch]");
+    assert.equal(await page.getAttribute("[data-family=medium]", "aria-pressed"), "true");
+    assert.match(await page.textContent("#millMatInfo"), /700 kg\/m³.*Intermédiaire/);
+    await page.click("#millFinish");
+    await page.fill("#millThickness", "");
+    assert.match(await page.textContent("#millValues"), /indique l’épaisseur/);
+    // diamètre effacé : message au lieu de chiffres
+    await page.fill("#millDiameter", "");
+    assert.equal(await page.locator("#millValues b").count(), 0);
+    assert.match(await page.textContent("#millRule"), /diamètre/);
+    await page.fill("#millDiameter", "3");
+    await page.waitForTimeout(100);
+    // rechargement : onglet, fraise, matière et finition retrouvés
+    await page.reload();
+    await page.waitForSelector("#millValues b");
+    assert.equal(await page.isVisible("#pageMill"), true, "onglet Fraisage gardé");
+    assert.equal(await page.inputValue("#millDiameter"), "3");
+    assert.equal(await page.inputValue("#millThickness"), "");
+    assert.equal(await page.getAttribute("[data-material=plyBirch]", "aria-pressed"), "true");
+    assert.equal(await page.isVisible("#millPrecise"), true, "liste ouverte pour montrer la matière gardée");
+    assert.equal(await page.getAttribute("#millFinish", "aria-pressed"), "true");
+    // clavier : flèche vers l'onglet Imbrication, qui reprend la main avec son résultat
+    await page.focus("#tabMill");
+    await page.keyboard.press("ArrowLeft");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "tabNest");
+    assert.equal(await page.isVisible(".sheet"), true);
+    assert.equal(await page.isVisible("#pageMill"), false);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("changer de langue dans les réglages : textes chargés et appliqués, choix gardé", async () => {
     const page = await open();
     const before = await page.getAttribute("#btnSettings", "aria-label");
@@ -681,6 +733,12 @@ describe("Interface", { skip }, () => {
     assert.notEqual(await page.getAttribute("#btnSettings", "aria-label"), before, "étiquette du bouton traduite");
     assert.match(await page.textContent("#unitSel"), /Automatisch/, "textes de la page traduits");
     assert.equal((await stats(page))[1], "14 / 14", "le résultat est redessiné");
+    await page.click("#btnCloseSet");
+    await page.click("#tabMill");
+    const millText = await page.textContent("#pageMill");
+    assert.doesNotMatch(millText, /Hélice|Ébauche|Réglages conseillés|tr\/min/, "onglet Fraisage traduit");
+    assert.match(await page.textContent("#millValues b >> nth=0"), /^15\.900$/, "nombres à l'allemande");
+    await page.click("#tabNest");
     await page.reload();
     await page.waitForSelector(".sheet");
     assert.equal(await page.evaluate(() => document.documentElement.lang), "de", "langue gardée après rechargement");
@@ -693,6 +751,14 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.getAttribute("html", "dir"), "rtl");
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     assert.ok(overflow <= 1, `débordement de ${overflow}px`);
+    await page.click("#tabMill");
+    await page.click("#millPreciseBtn");
+    const millOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    assert.ok(millOverflow <= 1, `onglet Fraisage : débordement de ${millOverflow}px`);
+    // en arabe, la flèche gauche va vers l'onglet suivant (sens de lecture)
+    await page.focus("#tabMill");
+    await page.keyboard.press("ArrowRight");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "tabNest");
     await page.context().close();
   });
 

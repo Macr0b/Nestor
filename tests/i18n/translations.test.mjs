@@ -47,6 +47,8 @@ test("les clés appelées dans le code et la page existent", () => {
   for (const m of src.matchAll(/\btranslate\(\s*"([\w.]+)"/g)) used.add(m[1]);
   for (const m of src.matchAll(/data-i18n(?:-[\w-]+)?="([\w.]+)"/g)) used.add(m[1]);
   assert.ok(used.size > 50, `seulement ${used.size} clés trouvées : la recherche est cassée`);
-  const unknown = [...used].filter((k) => !(k in dict.fr));
+  // clé bâtie avec une variable (translate("mill.mat." + id)) : le préfixe doit exister ; chaque valeur possible
+  // est vérifiée dans les tests du module concerné (ex. tests/machining)
+  const unknown = [...used].filter((k) => (k.endsWith(".") ? !ref.some((r) => r.startsWith(k)) : !(k in dict.fr)));
   assert.deepEqual(unknown, []);
 });

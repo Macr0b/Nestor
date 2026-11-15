@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.3.0";
+const VERSION = "1.4.0";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -8,7 +8,9 @@ const FILES = [
   "css/app.css",
   "css/blueprint.css",
   "css/fonts.css",
+  "css/milling.css",
   "css/settings.css",
+  "css/tabs.css",
   "css/theme.css",
   "src/export/dxf.js",
   "src/export/export-files.js",
@@ -30,6 +32,9 @@ const FILES = [
   "src/import/svg.js",
   "src/import/text-names.js",
   "src/import/vectorcraft.js",
+  "src/machining/materials.js",
+  "src/machining/milling-store.js",
+  "src/machining/milling.js",
   "src/main.js",
   "src/placement/nest.js",
   "src/placement/origin.js",
@@ -44,6 +49,7 @@ const FILES = [
   "src/ui/bug-report.js",
   "src/ui/files-panel.js",
   "src/ui/install.js",
+  "src/ui/milling-tab.js",
   "src/ui/panels-editor.js",
   "src/ui/parts-list.js",
   "src/ui/release-notes.js",
@@ -51,6 +57,7 @@ const FILES = [
   "src/ui/result-view.js",
   "src/ui/settings-dialog.js",
   "src/ui/sheet-drawing.js",
+  "src/ui/tabs.js",
   "src/ui/updates.js",
   "src/util/dom.js",
   "src/util/host.js",

@@ -23,6 +23,8 @@
 <link rel="stylesheet" href="css/blueprint.css">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/settings.css">
+<link rel="stylesheet" href="css/tabs.css">
+<link rel="stylesheet" href="css/milling.css">
 </head>
 <body>
 <div class="bp-ruler-top" aria-hidden="true"><svg id="bpTop"></svg></div>
@@ -66,7 +68,12 @@
     </div>
   </header>
 
-  <div class="cols">
+  <nav class="tabs" role="tablist" data-i18n-aria="tab.label" aria-label="Outils de Nestor">
+    <button type="button" role="tab" id="tabNest" aria-controls="pageNest" aria-selected="true" data-i18n="tab.nest">Imbrication</button>
+    <button type="button" role="tab" id="tabMill" aria-controls="pageMill" aria-selected="false" tabindex="-1" data-i18n="tab.mill">Fraisage</button>
+  </nav>
+
+  <div class="cols" id="pageNest" role="tabpanel" aria-labelledby="tabNest">
     <div class="side">
       <section class="box" aria-labelledby="h-proj">
         <h2 id="h-proj" data-i18n="proj.title">Projet</h2>
@@ -142,6 +149,47 @@
     </div>
 
     <div class="result" id="result" aria-live="polite"></div>
+  </div>
+
+  <div class="mill-page" id="pageMill" role="tabpanel" aria-labelledby="tabMill" hidden>
+    <section class="box mill-form" aria-labelledby="h-mill">
+      <h2 id="h-mill" data-i18n="mill.title">Paramètres de fraisage</h2>
+      <div class="mill-grp">
+        <h3 data-i18n="mill.tool">Fraise</h3>
+        <div class="mill-tool">
+          <label class="f"><span data-i18n="mill.type">Type</span><select id="millType"></select></label>
+          <label class="f"><span data-i18n="mill.diameter">Diamètre (mm)</span><input type="number" id="millDiameter" inputmode="decimal" min="0.1" step="any"></label>
+          <label class="f"><span data-i18n="mill.flutes">Nombre de dents</span><input type="number" id="millFlutes" inputmode="numeric" min="1" max="12" step="1"></label>
+        </div>
+      </div>
+      <div class="mill-grp">
+        <h3 id="h-millMat" data-i18n="mill.material">Matière</h3>
+        <div class="mill-families" id="millFamilies" role="group" aria-labelledby="h-millMat"></div>
+        <button type="button" class="linkbtn" id="millPreciseBtn" aria-expanded="false" aria-controls="millPrecise"></button>
+        <div class="mill-precise" id="millPrecise" hidden></div>
+        <p class="mill-matinfo" id="millMatInfo" hidden></p>
+      </div>
+      <div class="mill-grp">
+        <h3 data-i18n="mill.machine">Machine et travail</h3>
+        <div class="g4">
+          <label class="f"><span data-i18n="mill.spindleMin">Broche min (tr/min)</span><input type="number" id="millSpindleMin" inputmode="numeric" min="0" step="100"></label>
+          <label class="f"><span data-i18n="mill.spindleMax">Broche max (tr/min)</span><input type="number" id="millSpindleMax" inputmode="numeric" min="0" step="100"></label>
+          <label class="f"><span data-i18n="mill.feedMax">Avance max (mm/min)</span><input type="number" id="millFeedMax" inputmode="numeric" min="0" step="100"></label>
+          <label class="f"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="millThickness" inputmode="decimal" min="0" step="any"></label>
+        </div>
+        <div class="seg" role="group" data-i18n-aria="mill.stage" aria-label="Travail">
+          <button type="button" id="millRough" data-i18n="mill.rough">Ébauche</button>
+          <button type="button" id="millFinish" data-i18n="mill.finish">Finition</button>
+        </div>
+      </div>
+    </section>
+    <section class="box mill-results" aria-labelledby="h-millRes" aria-live="polite">
+      <h2 id="h-millRes" data-i18n="mill.results">Réglages conseillés</h2>
+      <div class="mill-values" id="millValues"></div>
+      <p class="hint" id="millRule"></p>
+      <ul class="mill-notes" id="millNotes"></ul>
+      <p class="hint" data-i18n="mill.prudent">Valeurs de départ prudentes : écoute la machine et ajuste.</p>
+    </section>
   </div>
 </div>
 

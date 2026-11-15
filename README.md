@@ -1,10 +1,10 @@
 # Nestor
 
 Imbrication de pièces DXF, SVG et AI sur panneaux, pour la découpe laser, la CNC et la scie.
-Export SVG et DXF, fonctionne hors connexion, en 45 langues.
+Export SVG et DXF, onglet Fraisage (vitesse de broche, avance, profondeur de passe), fonctionne hors connexion, en 45 langues.
 
 Nesting of DXF, SVG and AI parts on sheets for laser, CNC and saw cutting.
-SVG and DXF export, works offline, 45 languages.
+SVG and DXF export, Milling tab (spindle speed, feed rate, depth of cut), works offline, 45 languages.
 
 **Application : https://macr0b.github.io/Nestor/**
 
@@ -13,7 +13,7 @@ Installation, mise en ligne et mises à jour : voir [LISEZMOI.md](LISEZMOI.md).
 ## Code
 
 Modules JavaScript standard, sans étape de fabrication : `src/` (un dossier par domaine : `import/`, `placement/`,
-`export/`, `geometry/`, `ui/`, `i18n/`…), styles dans `css/`, tests rangés de la même façon dans `tests/`.
+`machining/`, `export/`, `geometry/`, `ui/`, `i18n/`…), styles dans `css/`, tests rangés de la même façon dans `tests/`.
 `npm test` lance tous les tests, `npm run format` met le code en forme. Détails : [LISEZMOI.md](LISEZMOI.md).
 
 Plain JavaScript modules, no build step: `src/` (one folder per area: `import/`, `placement/`, `export/`,

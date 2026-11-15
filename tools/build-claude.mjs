@@ -99,14 +99,18 @@ for (const language of LANGUAGES)
 const localesJs = "window.NESTOR_LOCALES = " + JSON.stringify(locales) + ";";
 
 const safe = (js) => js.replace(/<\/script/gi, "<\\/script");
+// page complète (doctype, en-tête, corps) : l'hébergement des pages Claude n'accepte qu'un document HTML entier
 const page =
+  "<!DOCTYPE html>\n" +
+  '<html lang="fr">\n<head>\n<meta charset="utf-8">\n' +
+  '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
   "<title>Nestor</title>\n" +
   '<meta name="claude:viewport-fit-sides" content="cover">\n' +
   '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
   '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">\n' +
   "<style>" +
   style +
-  "</style>\n" +
+  "</style>\n</head>\n<body>\n" +
   body.trim() +
   "\n<script>\n" +
   safe(localesJs) +
@@ -114,7 +118,7 @@ const page =
   host +
   "</script>\n<script>\n" +
   safe(appJs) +
-  "\n</script>\n";
+  "\n</script>\n</body>\n</html>\n";
 
 await mkdir(dirname(OUT), { recursive: true });
 await writeFile(OUT, page);
