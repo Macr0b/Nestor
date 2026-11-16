@@ -7,6 +7,10 @@ import { FAMILIES, MATERIALS, materialById } from "../machining/materials.js";
 import { millingSettings, TOOL_TYPES } from "../machining/milling.js";
 import { loadMillingInput, saveMillingInput } from "../machining/milling-store.js";
 import { byId, escapeHtml } from "../util/dom.js";
+import { readFeedField, readLengthField, setFeedField, setLengthField, showFeed, showLength } from "./lengths.js";
+import { renderToolGap } from "./panels-editor.js";
+import { drawResult } from "./result-view.js";
+import { session } from "../session.js";
 import { toolIcon } from "./tool-icons.js";
 import { parseNumber } from "../util/numbers.js";
 
@@ -14,16 +18,21 @@ import { parseNumber } from "../util/numbers.js";
 let input = null;
 let preciseOpen = false;
 
+// champs : identifiant, réglage, sorte (longueur et vitesse suivent les unités choisies)
 const NUMBER_FIELDS = [
-  ["millDiameter", "diameter"],
-  ["millFlutes", "flutes"],
-  ["millSpindleMin", "spindleMin"],
-  ["millSpindleMax", "spindleMax"],
-  ["millFeedMax", "feedMax"],
-  ["millThickness", "thickness"],
-  ["millAngle", "angle"],
-  ["millEngraveDepth", "engraveDepth"]
+  ["millDiameter", "diameter", "length"],
+  ["millFlutes", "flutes", "plain"],
+  ["millSpindleMin", "spindleMin", "plain"],
+  ["millSpindleMax", "spindleMax", "plain"],
+  ["millFeedMax", "feedMax", "feed"],
+  ["millThickness", "thickness", "length"],
+  ["millAngle", "angle", "plain"],
+  ["millEngraveDepth", "engraveDepth", "length"]
 ];
+
+// notes du calcul : les valeurs à mettre en forme selon leur sorte
+const NOTE_KINDS = { n: "plain", d: "length", e: "length" };
+const FEED_NOTES = ["mill.noteFeedMax", "mill.noteThinChip"];
 
 function formatValue(value, digits) {
   return new Intl.NumberFormat(languageLocale(), { maximumFractionDigits: digits }).format(value);
@@ -77,6 +86,28 @@ function renderChoices() {
     });
     return '<div class="mill-chips"><span>' + escapeHtml(familyName(family.id)) + "</span>" + chips.join("") + "</div>";
   }).join("");
+}
+
+/* Tableau du rappel théorique : valeurs de chaque famille de matière (celles qu'utilise le calcul). */
+function renderTheoryTable() {
+  const head =
+    "<thead><tr><th>" +
+    escapeHtml(translate("mill.thFamily")) +
+    "</th><th>Vc (m/min)</th><th>fz</th><th>ap</th></tr></thead>";
+  const rows = FAMILIES.map(function (family) {
+    return (
+      "<tr><td>" +
+      escapeHtml(familyName(family.id)) +
+      "</td><td>" +
+      formatValue(family.cuttingSpeed, 0) +
+      "</td><td>Ø ÷ " +
+      formatValue(family.chipDivisor, 0) +
+      "</td><td>" +
+      formatValue(family.depthFactor, 2) +
+      " × Ø</td></tr>"
+    );
+  }).join("");
+  byId("millTheoryTable").innerHTML = head + "<tbody>" + rows + "</tbody>";
 }
 
 /* Ligne d'explication de la matière précise choisie : densité, classe de dureté, famille utilisée. */
@@ -142,42 +173,61 @@ function renderState() {
   const passes = result.passes
     ? translate("mill.passesFor", {
         p: formatValue(result.passes, 0),
-        d: formatValue(result.passDepth, 2),
-        t: formatValue(isVBit ? input.engraveDepth : input.thickness, 2)
+        d: showLength(result.passDepth, { digits: 2 }),
+        t: showLength(isVBit ? input.engraveDepth : input.thickness, { digits: 2 })
       })
     : translate("mill.noThickness");
   values.innerHTML =
     valueBox(translate("mill.rpm"), formatValue(result.rpm, 0), translate("mill.unitRpm")) +
-    valueBox(translate("mill.feed"), formatValue(result.feed, 0), translate("mill.unitFeed")) +
-    valueBox(translate("mill.depth"), formatValue(result.depth, 2), "mm") +
+    valueBox(translate("mill.feed"), showFeed(result.feed), translate("mill.unitFeed")) +
+    valueBox(translate("mill.depth"), showLength(result.depth, { digits: 2 }), translate("mill.unitLength")) +
     valueBox(translate("mill.passes"), result.passes ? formatValue(result.passes, 0) : "–", passes);
   byId("millRule").textContent = translate(isVBit ? "mill.ruleVBit" : "mill.rule", {
-    c: formatValue(result.chipLoad, 3),
+    c: showLength(result.chipLoad, { decimal: true, digits: 4 }),
     k: formatValue(result.chipDivisor, 0),
     f: formatValue(result.depthFactor, 2)
   });
   byId("millNotes").innerHTML = result.notes
     .map(function (note) {
       const values = {};
-      for (const name of ["n", "d", "e"]) if (name in note) values[name] = formatValue(note[name], 2);
+      for (const name of ["n", "d", "e"]) {
+        if (!(name in note)) continue;
+        const kind = name === "n" && FEED_NOTES.includes(note.key) ? "feed" : NOTE_KINDS[name];
+        values[name] =
+          kind === "feed"
+            ? showFeed(note[name])
+            : kind === "length"
+              ? showLength(note[name], { digits: 2 })
+              : formatValue(note[name], 0);
+      }
       return "<li>" + escapeHtml(translate(note.key, values)) + "</li>";
     })
     .join("");
 }
 
 function fillFields() {
-  for (const [id, key] of NUMBER_FIELDS) byId(id).value = isFinite(input[key]) ? String(input[key]) : "";
+  for (const [id, key, kind] of NUMBER_FIELDS) {
+    const field = byId(id);
+    if (kind === "length") setLengthField(field, input[key]);
+    else if (kind === "feed") setFeedField(field, input[key]);
+    else field.value = isFinite(input[key]) ? String(input[key]) : "";
+  }
 }
 
 function changed() {
   saveMillingInput(input);
   renderState();
+  // l'onglet Imbrication s'en sert : écart d'après la fraise et temps de découpe estimé
+  renderToolGap();
+  if (session.lastResult) drawResult(session.lastResult);
 }
 
-/* À appeler après un changement de langue : les listes et les textes calculés sont refaits. */
+/* À appeler après un changement de langue ou d'unités : champs, listes et textes calculés sont refaits. */
 export function renderMilling() {
   if (!input) return;
+  fillFields();
   renderChoices();
+  renderTheoryTable();
   renderState();
 }
 
@@ -196,9 +246,16 @@ export function bindMillingTab() {
     }
     changed();
   });
-  for (const [id, key] of NUMBER_FIELDS)
+  for (const [id, key, kind] of NUMBER_FIELDS)
     byId(id).addEventListener("input", function () {
-      input[key] = this.value.trim() === "" ? NaN : parseNumber(this.value, NaN);
+      let value =
+        kind === "length"
+          ? readLengthField(this)
+          : kind === "feed"
+            ? readFeedField(this)
+            : parseNumber(this.value, NaN);
+      if (this.value.trim() === "") value = NaN;
+      input[key] = value;
       changed();
     });
   byId("millFamilies").addEventListener("click", function (e) {

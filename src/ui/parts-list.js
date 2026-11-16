@@ -10,6 +10,8 @@ import { renderResult } from "./result-view.js";
 import { partThumbnail } from "./sheet-drawing.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber, round1, round2 } from "../util/numbers.js";
+import { lengthFieldValue } from "../util/units.js";
+import { lengthInputAttributes, readLengthField } from "./lengths.js";
 
 function isNamedLayer(layer) {
   return !!layer && layer !== "0";
@@ -175,16 +177,18 @@ export function renderPartsList() {
             '<div class="tline size"><span class="grp"><span class="slbl">' +
             escapeHtml(translate("piece.size")) +
             "</span>" +
-            '<input type="number" class="sz" data-k="sw" inputmode="decimal" min="0" step="any" value="' +
-            round1((t.w * partScale(t)) / 100) +
-            '" aria-label="' +
+            "<input " +
+            lengthInputAttributes(round1((t.w * partScale(t)) / 100)) +
+            ' class="sz" data-k="sw" min="0" aria-label="' +
             escapeHtml(translate("panel.W")) +
             '"><span class="x">×</span>' +
-            '<input type="number" class="sz" data-k="sh" inputmode="decimal" min="0" step="any" value="' +
-            round1((t.h * partScale(t)) / 100) +
-            '" aria-label="' +
+            "<input " +
+            lengthInputAttributes(round1((t.h * partScale(t)) / 100)) +
+            ' class="sz" data-k="sh" min="0" aria-label="' +
             escapeHtml(translate("panel.L")) +
-            '"><span class="u">mm</span></span>' +
+            '"><span class="u">' +
+            escapeHtml(translate("mill.unitLength")) +
+            "</span></span>" +
             '<span class="grp"><span class="slbl">' +
             escapeHtml(translate("piece.scale")) +
             '</span><input type="number" class="pc" data-k="sp" inputmode="decimal" min="1" step="any" value="' +
@@ -263,8 +267,8 @@ function setPartScale(part, row, newValue, source) {
   var q = function (k) {
     return row.querySelector('[data-k="' + k + '"]');
   };
-  if (source !== "sw") q("sw").value = round1((part.w * newValue) / 100);
-  if (source !== "sh") q("sh").value = round1((part.h * newValue) / 100);
+  if (source !== "sw") q("sw").value = lengthFieldValue(round1((part.w * newValue) / 100));
+  if (source !== "sh") q("sh").value = lengthFieldValue(round1((part.h * newValue) / 100));
   if (source !== "sp") q("sp").value = round2(newValue);
   renderScaleMenu();
   scheduleCalculation();
@@ -299,7 +303,8 @@ export function bindPartsList() {
       k = e.target.dataset.k;
     if (!t || !k || k === "on" || k === "rot") return;
     if (k === "sw" || k === "sh" || k === "sp") {
-      var v = parseNumber(e.target.value, NaN);
+      // taille dans les unités choisies (gardée en mm) ou échelle en %
+      var v = k === "sp" ? parseNumber(e.target.value, NaN) : readLengthField(e.target);
       if (k === "sw") v = (v / t.w) * 100;
       else if (k === "sh") v = (v / t.h) * 100;
       setPartScale(t, row, v, k);
@@ -361,8 +366,8 @@ export function bindPartsList() {
     document.querySelectorAll("#types .trow").forEach(function (row) {
       var t = state.types[+row.dataset.i];
       if (t) {
-        row.querySelector('[data-k="sw"]').value = round1((t.w * v) / 100);
-        row.querySelector('[data-k="sh"]').value = round1((t.h * v) / 100);
+        row.querySelector('[data-k="sw"]').value = lengthFieldValue(round1((t.w * v) / 100));
+        row.querySelector('[data-k="sh"]').value = lengthFieldValue(round1((t.h * v) / 100));
         row.querySelector('[data-k="sp"]').value = round2(v);
       }
     });

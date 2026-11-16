@@ -770,6 +770,67 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("unités : pouces décimaux ou en fractions, les tailles ne changent jamais ; temps estimé, écart d'après la fraise, rappel théorique", async () => {
+    const page = await open();
+    const before = await stats(page);
+    const panelL = () => page.inputValue("#pl0-L");
+    assert.equal(await panelL(), "600");
+    // écart d'après la fraise (Ø 6 de l'onglet Fraisage) : 2 × 6 + 1 = 13 mm
+    assert.match(await page.textContent("#btnGapFromTool"), /13 mm/);
+    // temps estimé : contours extérieurs, avec la mention d'estimation
+    assert.match(await page.textContent("#cutTime .v"), /^≈ \d+ (min|h \d+ min)$/);
+    assert.match(await page.textContent("#result"), /Estimation : seulement le contour extérieur/);
+    // impérial décimal
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "inch");
+    assert.equal(await page.isVisible("#fractionStepSel"), false);
+    await page.click("#btnCloseSet");
+    await page.waitForSelector(".sheet");
+    assert.equal(await panelL(), "23.622");
+    assert.match(await page.textContent("#h-panel"), /\(in\)/);
+    assert.deepEqual(await stats(page), before, "même résultat d'imbrication : rien n'a changé de taille");
+    // impérial en fractions (1/16 par défaut)
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "fraction");
+    assert.equal(await page.isVisible("#fractionStepSel"), true);
+    await page.click("#btnCloseSet");
+    await page.waitForSelector(".sheet");
+    assert.equal(await panelL(), "23 5/8");
+    assert.equal(await page.getAttribute("#pl0-L", "type"), "text", "champ texte pour écrire les fractions");
+    assert.deepEqual(await stats(page), before);
+    // retour en métrique sans rien toucher : exactement les mêmes valeurs
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "mm");
+    await page.click("#btnCloseSet");
+    await page.waitForSelector(".sheet");
+    assert.equal(await panelL(), "600");
+    assert.deepEqual(await stats(page), before);
+    // une saisie en fractions est gardée exactement : 24 in = 609,6 mm
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "fraction");
+    await page.click("#btnCloseSet");
+    await page.fill("#pl0-L", "24");
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "mm");
+    await page.click("#btnCloseSet");
+    assert.equal(await panelL(), "609.6");
+    // onglet Fraisage en pouces, et rappel théorique
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "inch");
+    await page.click("#btnCloseSet");
+    await page.click("#tabMill");
+    assert.equal(await page.inputValue("#millDiameter"), "0.2362");
+    assert.match(await page.textContent("#millValues"), /in\/min/);
+    assert.equal(await page.locator(".mill-theory .formula").count(), 6);
+    assert.equal(await page.locator("#millTheoryTable tbody tr").count(), 4);
+    // le choix d'unités est gardé
+    await page.reload();
+    await page.waitForSelector("#millValues b");
+    assert.equal(await page.inputValue("#millDiameter"), "0.2362");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("changer de langue dans les réglages : textes chargés et appliqués, choix gardé", async () => {
     const page = await open();
     const before = await page.getAttribute("#btnSettings", "aria-label");

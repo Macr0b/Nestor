@@ -1,12 +1,13 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Fenêtre des réglages : langue, version, nouveautés, signalement de bug. */
+/* Fenêtre des réglages : langue, thème, unités, version, nouveautés, signalement de bug. */
 
-import { applyLanguage, languageSelect } from "../i18n/i18n.js";
+import { applyLanguage, currentLanguage, languageSelect } from "../i18n/i18n.js";
 import { bugReportUrl } from "./bug-report.js";
 import { refreshInstallButton } from "./install.js";
 import { renderMilling } from "./milling-tab.js";
 import { renderAll } from "./render-all.js";
 import { byId } from "../util/dom.js";
+import { lengthUnits, setLengthUnits } from "../util/units.js";
 
 function openSettings() {
   byId("settings").hidden = false;
@@ -15,6 +16,27 @@ function openSettings() {
 
 function closeSettings() {
   byId("settings").hidden = true;
+}
+
+// textes et valeurs refaits dans la langue et les unités choisies
+function refreshAll() {
+  renderAll();
+  renderMilling();
+  refreshInstallButton();
+}
+
+function showUnitsChoice() {
+  const units = lengthUnits();
+  byId("unitsSel").value = units.system;
+  byId("fractionStepSel").value = String(units.step);
+  byId("fractionStepField").hidden = units.system !== "fraction";
+}
+
+/* Unités d'affichage : seules la saisie et l'affichage changent, les tailles gardées en mm ne bougent pas. */
+function changeUnits() {
+  setLengthUnits(byId("unitsSel").value, Number(byId("fractionStepSel").value));
+  showUnitsChoice();
+  applyLanguage(currentLanguage).then(refreshAll);
 }
 
 export function bindSettingsDialog() {
@@ -40,14 +62,13 @@ export function bindSettingsDialog() {
     // src/ui/theme-early.js relit le choix et l'applique
     document.dispatchEvent(new Event("nestor-theme"));
   });
+  showUnitsChoice();
+  byId("unitsSel").addEventListener("change", changeUnits);
+  byId("fractionStepSel").addEventListener("change", changeUnits);
   languageSelect.addEventListener("change", function () {
     try {
       localStorage.setItem("plancoupe.lang", languageSelect.value);
     } catch (e) {}
-    applyLanguage(languageSelect.value).then(function () {
-      renderAll();
-      renderMilling();
-      refreshInstallButton();
-    });
+    applyLanguage(languageSelect.value).then(refreshAll);
   });
 }

@@ -5,6 +5,7 @@
 import { LANGUAGES } from "./languages.js";
 import { renderReleaseNotes } from "../ui/release-notes.js";
 import { byId, escapeHtml } from "../util/dom.js";
+import { isImperial } from "../util/units.js";
 import { APP_VERSION } from "../version.js";
 
 // textes des langues déjà chargées : { code: { clé: texte } }
@@ -70,10 +71,13 @@ export function translate(key, params) {
   // secours : le français, langue de référence (toutes les langues ont les mêmes clés, vérifié par les tests)
   if (text == null && dictionaries.fr) text = dictionaries.fr[key];
   if (text == null) return key;
-  if (params)
+  // {u} : unité de longueur choisie dans les réglages (mm ou in), sauf si l'appel la donne
+  if (params || text.indexOf("{u}") >= 0) {
+    var values = Object.assign({ u: translate(isImperial() ? "len.in" : "len.mm") }, params);
     text = text.replace(/\{(\w+)\}/g, function (_, name) {
-      return params[name] != null ? params[name] : "";
+      return values[name] != null ? values[name] : "";
     });
+  }
   return text;
 }
 

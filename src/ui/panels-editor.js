@@ -11,6 +11,8 @@ import { scheduleCalculation } from "./parts-list.js";
 import { drawResult, renderResult } from "./result-view.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber } from "../util/numbers.js";
+import { lengthInputAttributes, readLengthField, setLengthField, showLength } from "./lengths.js";
+import { loadMillingInput } from "../machining/milling-store.js";
 
 function renderPanels() {
   var ps = state.sheet.panels;
@@ -20,19 +22,19 @@ function renderPanels() {
         '<div class="pnl" data-i="' +
         i +
         '">' +
-        '<input type="number" id="pl' +
+        "<input " +
+        lengthInputAttributes(p.L) +
+        ' id="pl' +
         i +
-        '-L" data-k="L" inputmode="decimal" min="1" value="' +
-        escapeHtml(p.L) +
-        '" aria-label="' +
+        '-L" data-k="L" min="1" aria-label="' +
         escapeHtml(translate("panel.L")) +
         '">' +
         '<span class="x" aria-hidden="true">×</span>' +
-        '<input type="number" id="pl' +
+        "<input " +
+        lengthInputAttributes(p.W) +
+        ' id="pl' +
         i +
-        '-W" data-k="W" inputmode="decimal" min="1" value="' +
-        escapeHtml(p.W) +
-        '" aria-label="' +
+        '-W" data-k="W" min="1" aria-label="' +
         escapeHtml(translate("panel.W")) +
         '">' +
         '<input type="number" id="pl' +
@@ -95,10 +97,32 @@ const ORIGIN_CHOICES = [
   ["br", "↘"]
 ];
 
+// écart conseillé entre pièces pour la fraise de l'onglet Fraisage : 2 × Ø + un peu de matière (doc. Vectric)
+const GAP_EXTRA_MM = 1;
+
+function toolGap() {
+  var diameter = loadMillingInput().diameter;
+  return diameter > 0 ? { gap: 2 * diameter + GAP_EXTRA_MM, diameter: diameter } : null;
+}
+
+/* Lien « Écart d'après la fraise » sous l'espace entre pièces (refait quand la fraise change). */
+export function renderToolGap() {
+  var tool = toolGap(),
+    button = byId("btnGapFromTool");
+  button.closest("p").hidden = !tool;
+  if (!tool) return;
+  button.textContent = translate("panel.gapFromTool", { g: showLength(tool.gap, { digits: 2 }) });
+  byId("gapFromToolHow").textContent = translate("panel.gapFromToolHow", {
+    d: showLength(tool.diameter, { digits: 2 }),
+    m: showLength(GAP_EXTRA_MM, { digits: 2 })
+  });
+}
+
 export function renderSheetInputs() {
   renderPanels();
-  byId("sG").value = state.sheet.gap;
-  byId("sM").value = state.sheet.margin;
+  renderToolGap();
+  setLengthField(byId("sG"), state.sheet.gap);
+  setLengthField(byId("sM"), state.sheet.margin);
   byId("projName").value = state.name || "";
   byId("sMode").value = state.sheet.mode === "rect" ? "rect" : "nest";
   byId("dlBoard").checked = exportOptions.includeBoard;
@@ -112,12 +136,13 @@ export function bindPanelsEditor() {
     var p = state.sheet.panels[+row.dataset.i],
       k = e.target.dataset.k;
     if (!p || !k) return;
-    p[k] =
-      e.target.value === ""
-        ? ""
-        : k === "qty"
-          ? Math.max(0, Math.floor(parseNumber(e.target.value, 0)))
-          : parseNumber(e.target.value, 0);
+    if (k === "qty") p[k] = e.target.value === "" ? "" : Math.max(0, Math.floor(parseNumber(e.target.value, 0)));
+    else {
+      // longueur dans les unités choisies, gardée en mm ; saisie en cours illisible (« 48 1/ ») : on attend
+      var length = readLengthField(e.target);
+      if (Number.isNaN(length)) return;
+      p[k] = length;
+    }
     schedulePreferencesSave();
     scheduleCalculation();
   });
@@ -161,10 +186,20 @@ export function bindPanelsEditor() {
     ["sM", "margin"]
   ].forEach(function (a) {
     byId(a[0]).addEventListener("input", function (e) {
-      state.sheet[a[1]] = e.target.value === "" ? "" : parseNumber(e.target.value, 0);
+      var length = readLengthField(e.target);
+      if (Number.isNaN(length)) return;
+      state.sheet[a[1]] = length;
       schedulePreferencesSave();
       scheduleCalculation();
     });
+  });
+  byId("btnGapFromTool").addEventListener("click", function () {
+    var tool = toolGap();
+    if (!tool) return;
+    state.sheet.gap = Math.round(tool.gap * 1000) / 1000;
+    setLengthField(byId("sG"), state.sheet.gap);
+    schedulePreferencesSave();
+    scheduleCalculation();
   });
   byId("projName").addEventListener("input", function (e) {
     state.name = e.target.value;

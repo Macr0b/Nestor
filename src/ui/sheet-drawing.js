@@ -2,7 +2,8 @@
 /* Dessin des panneaux et des pièces à l'écran (SVG), et vignettes des pièces. */
 
 import { sheetOffcutCuts } from "../export/export-files.js";
-import { formatNumber, translate } from "../i18n/i18n.js";
+import { translate } from "../i18n/i18n.js";
+import { showLength } from "./lengths.js";
 import { originPoint, sheetPartPaths } from "../placement/origin.js";
 import { partDisplayName, scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
@@ -69,7 +70,7 @@ export function renderSheetSvg(resultSheet) {
       " " +
       (panelHeight + 2 * pad) +
       '" role="img" aria-label="' +
-      escapeHtml(translate("res.panelAria", { w: formatNumber(panelHeight), h: formatNumber(panelWidth) })) +
+      escapeHtml(translate("res.panelAria", { w: showLength(panelHeight), h: showLength(panelWidth) })) +
       '">'
   ];
   svg.push(
@@ -132,9 +133,9 @@ export function renderSheetSvg(resultSheet) {
         '"><title>' +
         escapeHtml(partDisplayName(t, p.i)) +
         " — " +
-        formatNumber(te.w) +
+        showLength(te.w) +
         " × " +
-        formatNumber(te.h) +
+        showLength(te.h) +
         "</title></path>"
     );
     var od = pathData(pp, false);
@@ -158,7 +159,7 @@ export function renderSheetSvg(resultSheet) {
   var offcuts = sheetOffcutCuts(resultSheet);
   offcuts.chutes.forEach(function (c) {
     // texte écrit dans le sens de la plus grande longueur de la chute, et réduit pour tenir dedans
-    var label = translate("cuts.chute", { w: formatNumber(c.w), h: formatNumber(c.h) }),
+    var label = translate("cuts.chute", { w: showLength(c.w), h: showLength(c.h) }),
       vertical = c.h > c.w,
       long = vertical ? c.h : c.w,
       short = vertical ? c.w : c.h,

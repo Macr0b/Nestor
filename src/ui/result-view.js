@@ -5,6 +5,11 @@ import { buildDxfFile } from "../export/dxf.js";
 import { exportPaths, fileSlug, saveFile } from "../export/export-files.js";
 import { buildSvgFile } from "../export/svg.js";
 import { formatNumber, translate } from "../i18n/i18n.js";
+import { showDistance, showFeed, showLength } from "./lengths.js";
+import { outerContourLength } from "../geometry/polylines.js";
+import { estimateCutTime, splitDuration } from "../machining/cut-time.js";
+import { loadMillingInput } from "../machining/milling-store.js";
+import { millingSettings } from "../machining/milling.js";
 import { applyOrigin, nestingFrame, originPoint, panelList, panelOrigin } from "../placement/origin.js";
 import { packRectangles } from "../placement/rectangles.js";
 import { buildNestInput, nestPanelByPanel, nestWithOrigin, stopNesting } from "../placement/run-nesting.js";
@@ -17,7 +22,7 @@ import { byId, escapeHtml } from "../util/dom.js";
 let currentJob = 0;
 
 function panelSizeLabel(sheet) {
-  return formatNumber(sheet.W) + " × " + formatNumber(sheet.L);
+  return showLength(sheet.W) + " × " + showLength(sheet.L);
 }
 
 // annulation d'un calcul long demandée par l'utilisateur
@@ -86,7 +91,10 @@ export function renderResult() {
   (same ? nestWithOrigin(panelSpecs[0].L, panelSpecs[0].W, panelOrigin(0)) : nestPanelByPanel(panelSpecs))
     .then(function (res) {
       if (jobId !== currentJob) return;
-      msg.textContent = translate("calc.done", { s: formatNumber((Date.now() - t0) / 1000), p: formatNumber(res.res) });
+      msg.textContent = translate("calc.done", {
+        s: formatNumber((Date.now() - t0) / 1000),
+        p: showLength(res.res, { decimal: true, digits: 2 })
+      });
       drawResult(res);
     })
     .catch(function (x) {
@@ -95,6 +103,32 @@ export function renderResult() {
       msg.textContent = translate("calc.fail");
       session.lastError = translate("calc.fail") + (x && x.message ? " (" + x.message + ")" : "");
     });
+}
+
+/* Case « Découpe estimée » : contours extérieurs des pièces placées, avec l'avance et les passes de l'onglet Fraisage. */
+function cutTimeStat(contourLength) {
+  var settings = millingSettings(loadMillingInput()),
+    time = estimateCutTime(contourLength, settings),
+    value = "–",
+    detail = translate(settings && !settings.passes ? "res.timeNoThickness" : "res.timeNone");
+  if (time) {
+    var d = splitDuration(time.minutes);
+    value = "≈ " + translate(d.hours ? "res.timeHours" : "res.timeMinutes", { h: d.hours, m: d.minutes });
+    detail = translate("res.timeDetail", {
+      l: showDistance(time.length),
+      f: showFeed(time.feed),
+      p: time.passes
+    });
+  }
+  return (
+    '<div class="stat" id="cutTime"><div class="v">' +
+    escapeHtml(value) +
+    '</div><div class="k">' +
+    escapeHtml(translate("res.timeLabel")) +
+    '</div><div class="bd">' +
+    escapeHtml(detail) +
+    "</div></div>"
+  );
 }
 
 export function drawResult(res) {
@@ -106,10 +140,13 @@ export function drawResult(res) {
     h = [],
     groups = {},
     order = [];
+  var contourLength = 0;
   res.sheets.forEach(function (s) {
     s.area = 0;
     s.parts.forEach(function (p) {
-      s.area += partArea(scaledPart(state.types[p.i]));
+      var part = scaledPart(state.types[p.i]);
+      s.area += partArea(part);
+      contourLength += outerContourLength(part);
     });
     used += s.area;
     total += s.L * s.W;
@@ -146,7 +183,12 @@ export function drawResult(res) {
       (n ? formatNumber(pct) : "–") +
       ' %</div><div class="k">' +
       escapeHtml(translate("res.waste")) +
-      "</div></div></div>"
+      "</div></div>" +
+      cutTimeStat(contourLength) +
+      "</div>" +
+      '<p class="hint">' +
+      escapeHtml(translate("res.timeNote")) +
+      "</p>"
   );
   function names(why) {
     var o = {};
@@ -154,7 +196,7 @@ export function drawResult(res) {
       if ((u.why || "size") !== why) return;
       var t = state.types[u.i],
         te = scaledPart(t);
-      o[u.i + 1 + " · " + partDisplayName(t, u.i) + " (" + formatNumber(te.w) + " × " + formatNumber(te.h) + ")"] = 1;
+      o[u.i + 1 + " · " + partDisplayName(t, u.i) + " (" + showLength(te.w) + " × " + showLength(te.h) + ")"] = 1;
     });
     return Object.keys(o);
   }
@@ -171,7 +213,7 @@ export function drawResult(res) {
       " · " +
       translate("sheet.meta", { n: s.parts.length, u: formatNumber(Math.round((1000 * s.area) / (s.L * s.W)) / 10) }) +
       (fr && fr.w >= 50 && fr.h >= 50
-        ? " · " + translate("sheet.free", { w: formatNumber(Math.floor(fr.w)), h: formatNumber(Math.floor(fr.h)) })
+        ? " · " + translate("sheet.free", { w: showLength(Math.floor(fr.w)), h: showLength(Math.floor(fr.h)) })
         : "");
     h.push(
       '<article class="sheet"><h3>' +

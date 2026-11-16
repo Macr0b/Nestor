@@ -1,5 +1,5 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Outils sur les polylignes : encombrement, simplification, fermeture des contours presque fermés. */
+/* Outils sur les polylignes : encombrement, simplification, fermeture des contours presque fermés, longueur du contour extérieur. */
 
 export function boundingBox(paths) {
   var box = [Infinity, Infinity, -Infinity, -Infinity];
@@ -72,4 +72,33 @@ export function scaleAndFlipY(paths, factor) {
       0.01
     );
   });
+}
+
+/* Longueur du contour extérieur d'une pièce (le plus grand tracé fermé), sans les trous ni les traits intérieurs.
+   Pièce sans tracé fermé : le tour de son rectangle. Sert à estimer le temps de découpe. */
+export function outerContourLength(part) {
+  var best = null,
+    bestArea = -1;
+  part.paths.forEach(function (p) {
+    if (!p.closed || p.pts.length < 3) return;
+    var a = 0,
+      P = p.pts;
+    for (var i = 0; i < P.length; i++) {
+      var q = P[i],
+        r = P[(i + 1) % P.length];
+      a += q[0] * r[1] - r[0] * q[1];
+    }
+    if (Math.abs(a) > bestArea) {
+      bestArea = Math.abs(a);
+      best = P;
+    }
+  });
+  if (!best) return 2 * (part.w + part.h);
+  var length = 0;
+  for (var j = 0; j < best.length; j++) {
+    var s = best[j],
+      t = best[(j + 1) % best.length];
+    length += Math.hypot(t[0] - s[0], t[1] - s[1]);
+  }
+  return length;
 }

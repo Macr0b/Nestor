@@ -857,3 +857,14 @@ button:focus-visible,
 .dl .hint {
   flex: 1 1 200px;
 }
+
+/* lien « Écart d'après la fraise » sous l'espace entre pièces : un clic remplit le champ, rien ne se déplie */
+.gap-tool {
+  margin-top: -4px;
+}
+.gap-tool .linkbtn {
+  font-size: 13px;
+}
+.gap-tool .linkbtn::before {
+  content: none;
+}

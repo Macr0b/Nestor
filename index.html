@@ -116,6 +116,7 @@
           <label class="f"><span data-i18n="panel.gap">Espace entre pièces</span><input type="number" id="sG" inputmode="decimal" min="0" step="0.5"></label>
           <label class="f"><span data-i18n="panel.margin">Marge au bord</span><input type="number" id="sM" inputmode="decimal" min="0" step="0.5"></label>
         </div>
+        <p class="hint gap-tool"><button type="button" class="linkbtn" id="btnGapFromTool"></button> <span id="gapFromToolHow"></span></p>
         <label class="f"><span data-i18n="panel.method">Méthode</span>
           <select id="sMode">
             <option value="nest" data-i18n="method.nest">Imbrication selon la forme (laser, CNC)</option>
@@ -188,6 +189,21 @@
       <ul class="mill-notes" id="millNotes"></ul>
       <p class="hint" data-i18n="mill.prudent">Valeurs de départ prudentes : écoute la machine et ajuste.</p>
     </section>
+    <section class="box mill-theory" aria-labelledby="h-millTheory">
+      <h2 id="h-millTheory" data-i18n="mill.theory">Comprendre le calcul</h2>
+      <div class="mill-theory-items">
+        <div><h3 data-i18n="mill.thVcTitle">Vitesse de coupe (Vc)</h3><p data-i18n="mill.thVc"></p></div>
+        <div><h3 data-i18n="mill.thNTitle">Rotation de la broche (N)</h3><code class="formula">N = 1000 × Vc ÷ (π × Ø)</code><p data-i18n="mill.thN"></p></div>
+        <div><h3 data-i18n="mill.thFzTitle">Copeau par dent (fz)</h3><code class="formula">fz = Ø ÷ k</code><p data-i18n="mill.thFz"></p></div>
+        <div><h3 data-i18n="mill.thVfTitle">Vitesse d’avance (Vf)</h3><code class="formula">Vf = N × Z × fz</code><p data-i18n="mill.thVf"></p></div>
+        <div><h3 data-i18n="mill.thApTitle">Profondeur de passe (ap)</h3><code class="formula">ap = K × Ø</code><p data-i18n="mill.thAp"></p></div>
+        <div><h3 data-i18n="mill.thVTitle">Fraise conique en V</h3><code class="formula">Ø = 2 × p × tan(angle ÷ 2)</code><p data-i18n="mill.thV"></p></div>
+        <div><h3 data-i18n="mill.thLimitsTitle">Limites de la machine</h3><p data-i18n="mill.thLimits"></p></div>
+        <div><h3 data-i18n="mill.thGapTitle">Écart entre pièces (e)</h3><code class="formula">e ≥ 2 × Ø + m</code><p data-i18n="mill.thGap"></p></div>
+      </div>
+      <table class="mill-theory-table" id="millTheoryTable"></table>
+      <p class="hint"><span data-i18n="mill.thMetric">Calculs faits en millimètres, convertis à l’affichage.</span> <span data-i18n="mill.thSources"></span></p>
+    </section>
   </div>
 </div>
 
@@ -209,6 +225,19 @@
         <option value="light" data-i18n="set.themeLight">Clair</option>
         <option value="dark" data-i18n="set.themeDark">Sombre</option>
       </select></label>
+      <div class="g4">
+        <label class="f"><span data-i18n="set.units">Unités</span><select id="unitsSel">
+          <option value="mm" data-i18n="set.unitsMm">Métrique (mm)</option>
+          <option value="inch" data-i18n="set.unitsInch">Impérial, pouces décimaux (48,82 in)</option>
+          <option value="fraction" data-i18n="set.unitsFraction">Impérial, pouces en fractions (48 13/16 in)</option>
+        </select></label>
+        <label class="f" id="fractionStepField" hidden><span data-i18n="set.fractionStep">Précision des fractions</span><select id="fractionStepSel">
+          <option value="8">1/8 in</option>
+          <option value="16">1/16 in</option>
+          <option value="32">1/32 in</option>
+          <option value="64">1/64 in</option>
+        </select></label>
+      </div>
     </div>
     <div class="grp" id="updGrp">
       <h2 data-i18n="set.updates">Mises à jour</h2>

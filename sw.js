@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.4.1";
+const VERSION = "1.5.0";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -32,6 +32,7 @@ const FILES = [
   "src/import/svg.js",
   "src/import/text-names.js",
   "src/import/vectorcraft.js",
+  "src/machining/cut-time.js",
   "src/machining/materials.js",
   "src/machining/milling-store.js",
   "src/machining/milling.js",
@@ -49,6 +50,7 @@ const FILES = [
   "src/ui/bug-report.js",
   "src/ui/files-panel.js",
   "src/ui/install.js",
+  "src/ui/lengths.js",
   "src/ui/milling-tab.js",
   "src/ui/panels-editor.js",
   "src/ui/parts-list.js",
@@ -64,6 +66,7 @@ const FILES = [
   "src/util/dom.js",
   "src/util/host.js",
   "src/util/numbers.js",
+  "src/util/units.js",
   "src/version.js",
   "src/i18n/locales/ar.json",
   "src/i18n/locales/be.json",

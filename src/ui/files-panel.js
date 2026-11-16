@@ -2,7 +2,8 @@
 /* Bloc « Fichier des pièces » : choix ou glisser-déposer de fichiers, ajout, retrait, résumé de ce qui a été
    lu et erreurs. */
 
-import { formatNumber, translate } from "../i18n/i18n.js";
+import { translate } from "../i18n/i18n.js";
+import { showLength } from "./lengths.js";
 import { parseImportedFile, readFiles } from "../import/read-file.js";
 import { schedulePreferencesSave } from "../project/preferences.js";
 import { state } from "../project/state.js";
@@ -141,8 +142,8 @@ export function renderFileInfo() {
         escapeHtml(
           translate("file.summary", {
             kind: i.kind,
-            w: formatNumber(i.size[0]),
-            h: formatNumber(i.size[1]),
+            w: showLength(i.size[0]),
+            h: showLength(i.size[1]),
             n: i.n,
             how: translate(i.how)
           })
