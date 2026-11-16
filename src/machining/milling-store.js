@@ -18,11 +18,10 @@ export function cleanMillingInput(saved) {
   if (familyById(saved.family)) input.family = saved.family;
   input.material = materialById(saved.material) ? saved.material : "";
   if (input.material) input.family = materialById(input.material).family;
-  for (const key of ["diameter", "flutes", "spindleMin", "spindleMax", "feedMax"])
+  for (const key of ["diameter", "flutes", "spindleMin", "spindleMax", "feedMax", "angle", "engraveDepth"])
     input[key] = numberOr(saved[key], DEFAULT_MILLING[key]);
   // l'épaisseur peut rester vide (pas de nombre de passes)
   input.thickness = saved.thickness === null ? NaN : numberOr(saved.thickness, DEFAULT_MILLING.thickness);
-  input.finishing = saved.finishing === true;
   return input;
 }
 

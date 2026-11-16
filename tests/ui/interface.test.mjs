@@ -689,13 +689,30 @@ describe("Interface", { skip }, () => {
     await page.fill("#millDiameter", "3");
     assert.equal((await digits("#millValues b"))[0], "24000");
     assert.match(await page.textContent("#millNotes"), /24\s?000 tr\/min/);
+    // type de fraise en cartes : la 1 dent met le nombre de dents à 1
+    assert.equal(await page.getAttribute("[data-tool=upcut]", "aria-pressed"), "true");
+    assert.equal(await page.locator("#millTypes svg").count(), 7, "un dessin par type");
+    // fraise conique : angle et profondeur de gravure à la place de l'épaisseur, une seule passe
+    assert.equal(await page.isVisible("#millAngle"), false);
+    await page.click("[data-tool=vbit]");
+    assert.equal(await page.isVisible("#millThickness"), false);
+    await page.fill("#millAngle", "60");
+    await page.fill("#millEngraveDepth", "1.5");
+    assert.match(await page.textContent("#millNotes"), /1,5 mm de profondeur.*1,73 mm de large/);
+    assert.match(await page.textContent("#millValues"), /1 × 1,5 mm pour 1,5 mm/);
+    await page.fill("#millAngle", "");
+    assert.match(await page.textContent("#millRule"), /angle/);
+    await page.fill("#millAngle", "60");
+    await page.click("[data-tool=single]");
+    assert.equal(await page.getAttribute("[data-tool=single]", "aria-pressed"), "true");
+    assert.equal(await page.getAttribute("[data-tool=upcut]", "aria-pressed"), "false");
+    assert.equal(await page.inputValue("#millFlutes"), "1");
     // matière précise : sa famille est choisie et expliquée
     await page.click("[data-family=soft]");
     await page.click("#millPreciseBtn");
     await page.click("[data-material=plyBirch]");
     assert.equal(await page.getAttribute("[data-family=medium]", "aria-pressed"), "true");
     assert.match(await page.textContent("#millMatInfo"), /700 kg\/m³.*Intermédiaire/);
-    await page.click("#millFinish");
     await page.fill("#millThickness", "");
     assert.match(await page.textContent("#millValues"), /indique l’épaisseur/);
     // diamètre effacé : message au lieu de chiffres
@@ -704,21 +721,51 @@ describe("Interface", { skip }, () => {
     assert.match(await page.textContent("#millRule"), /diamètre/);
     await page.fill("#millDiameter", "3");
     await page.waitForTimeout(100);
-    // rechargement : onglet, fraise, matière et finition retrouvés
+    // rechargement : onglet, fraise et matière retrouvés
     await page.reload();
     await page.waitForSelector("#millValues b");
     assert.equal(await page.isVisible("#pageMill"), true, "onglet Fraisage gardé");
     assert.equal(await page.inputValue("#millDiameter"), "3");
     assert.equal(await page.inputValue("#millThickness"), "");
+    assert.equal(await page.getAttribute("[data-tool=single]", "aria-pressed"), "true");
     assert.equal(await page.getAttribute("[data-material=plyBirch]", "aria-pressed"), "true");
     assert.equal(await page.isVisible("#millPrecise"), true, "liste ouverte pour montrer la matière gardée");
-    assert.equal(await page.getAttribute("#millFinish", "aria-pressed"), "true");
     // clavier : flèche vers l'onglet Imbrication, qui reprend la main avec son résultat
     await page.focus("#tabMill");
     await page.keyboard.press("ArrowLeft");
     assert.equal(await page.evaluate(() => document.activeElement.id), "tabNest");
     assert.equal(await page.isVisible(".sheet"), true);
     assert.equal(await page.isVisible("#pageMill"), false);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("thème : automatique suit l'appareil, clair ou sombre forcé dans les réglages, gardé sans éclair au démarrage", async () => {
+    const page = await open({ colorScheme: "dark" });
+    const theme = () => page.evaluate(() => document.documentElement.dataset.theme);
+    const background = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    assert.equal(await theme(), "dark", "automatique : appareil en sombre");
+    const darkBackground = await background();
+    await page.click("#btnSettings");
+    assert.equal(await page.inputValue("#themeSel"), "auto");
+    await page.selectOption("#themeSel", "light");
+    assert.equal(await theme(), "light");
+    assert.notEqual(await background(), darkBackground, "les couleurs suivent");
+    assert.equal(await page.getAttribute('meta[name="theme-color"]', "content"), "#0d4e73");
+    // le choix est posé avant le premier affichage, dès la lecture de <head>
+    await page.reload({ waitUntil: "commit" });
+    await page.waitForSelector("body");
+    assert.equal(await theme(), "light", "clair gardé au démarrage, malgré l'appareil en sombre");
+    await page.waitForSelector(".sheet");
+    await page.click("#btnSettings");
+    assert.equal(await page.inputValue("#themeSel"), "light");
+    await page.selectOption("#themeSel", "dark");
+    assert.equal(await theme(), "dark");
+    assert.equal(await page.getAttribute('meta[name="theme-color"]', "content"), "#0b2436");
+    // retour en automatique : l'appareil passe en clair, l'appli suit
+    await page.selectOption("#themeSel", "auto");
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.waitForFunction(() => document.documentElement.dataset.theme === "light", null, { timeout: 3000 });
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });

@@ -9,8 +9,8 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Nestor</title>
 <meta name="description" content="Imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.">
-<meta name="theme-color" content="#0d4e73" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b2436" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0d4e73">
+<script src="src/ui/theme-early.js"></script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Nestor">
@@ -156,10 +156,12 @@
       <h2 id="h-mill" data-i18n="mill.title">Paramètres de fraisage</h2>
       <div class="mill-grp">
         <h3 data-i18n="mill.tool">Fraise</h3>
+        <div class="mill-types" id="millTypes" role="group" data-i18n-aria="mill.type" aria-label="Type"></div>
         <div class="mill-tool">
-          <label class="f"><span data-i18n="mill.type">Type</span><select id="millType"></select></label>
           <label class="f"><span data-i18n="mill.diameter">Diamètre (mm)</span><input type="number" id="millDiameter" inputmode="decimal" min="0.1" step="any"></label>
           <label class="f"><span data-i18n="mill.flutes">Nombre de dents</span><input type="number" id="millFlutes" inputmode="numeric" min="1" max="12" step="1"></label>
+          <label class="f" id="millAngleField" hidden><span data-i18n="mill.angle">Angle de la pointe (°)</span><input type="number" id="millAngle" inputmode="decimal" min="1" max="179" step="any"></label>
+          <label class="f" id="millEngraveField" hidden><span data-i18n="mill.engraveDepth">Profondeur de gravure (mm)</span><input type="number" id="millEngraveDepth" inputmode="decimal" min="0" step="any"></label>
         </div>
       </div>
       <div class="mill-grp">
@@ -175,11 +177,7 @@
           <label class="f"><span data-i18n="mill.spindleMin">Broche min (tr/min)</span><input type="number" id="millSpindleMin" inputmode="numeric" min="0" step="100"></label>
           <label class="f"><span data-i18n="mill.spindleMax">Broche max (tr/min)</span><input type="number" id="millSpindleMax" inputmode="numeric" min="0" step="100"></label>
           <label class="f"><span data-i18n="mill.feedMax">Avance max (mm/min)</span><input type="number" id="millFeedMax" inputmode="numeric" min="0" step="100"></label>
-          <label class="f"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="millThickness" inputmode="decimal" min="0" step="any"></label>
-        </div>
-        <div class="seg" role="group" data-i18n-aria="mill.stage" aria-label="Travail">
-          <button type="button" id="millRough" data-i18n="mill.rough">Ébauche</button>
-          <button type="button" id="millFinish" data-i18n="mill.finish">Finition</button>
+          <label class="f" id="millThicknessField"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="millThickness" inputmode="decimal" min="0" step="any"></label>
         </div>
       </div>
     </section>
@@ -206,6 +204,11 @@
     <header><h2 id="set-h" data-i18n="set.title">Réglages</h2><button class="btn sm" id="btnCloseSet" type="button" data-i18n="set.close">Fermer</button></header>
     <div class="grp">
       <label class="f"><span data-i18n="set.lang">Langue</span><select id="langSel"></select></label>
+      <label class="f"><span data-i18n="set.theme">Thème</span><select id="themeSel">
+        <option value="auto" data-i18n="set.themeAuto">Automatique (comme l’appareil)</option>
+        <option value="light" data-i18n="set.themeLight">Clair</option>
+        <option value="dark" data-i18n="set.themeDark">Sombre</option>
+      </select></label>
     </div>
     <div class="grp" id="updGrp">
       <h2 data-i18n="set.updates">Mises à jour</h2>

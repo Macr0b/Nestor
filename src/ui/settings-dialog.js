@@ -29,6 +29,17 @@ export function bindSettingsDialog() {
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !byId("settings").hidden) closeSettings();
   });
+  const themeSelect = byId("themeSel");
+  try {
+    themeSelect.value = localStorage.getItem("nestor.theme") || "auto";
+  } catch (e) {}
+  themeSelect.addEventListener("change", function () {
+    try {
+      localStorage.setItem("nestor.theme", themeSelect.value);
+    } catch (e) {}
+    // src/ui/theme-early.js relit le choix et l'applique
+    document.dispatchEvent(new Event("nestor-theme"));
+  });
   languageSelect.addEventListener("change", function () {
     try {
       localStorage.setItem("plancoupe.lang", languageSelect.value);

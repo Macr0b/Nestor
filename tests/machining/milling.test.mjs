@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT } from "../helpers.mjs";
-import { millingSettings, DEFAULT_MILLING, TOOL_TYPES } from "../../src/machining/milling.js";
+import { millingSettings, vBitCutWidth, DEFAULT_MILLING, TOOL_TYPES } from "../../src/machining/milling.js";
 import { FAMILIES, MATERIALS, familyById } from "../../src/machining/materials.js";
 
 const base = (over) => Object.assign({}, DEFAULT_MILLING, over);
@@ -18,16 +18,12 @@ describe("Réglages de fraisage (millingSettings)", () => {
   });
 
   test("avance = rotation × dents × copeau (Ø / diviseur de la famille)", () => {
-    for (const family of FAMILIES)
-      for (const finishing of [false, true]) {
-        const r = millingSettings(
-          base({ family: family.id, finishing, spindleMin: 0, spindleMax: 100000, feedMax: 0 })
-        );
-        const stage = finishing ? 1 : 0;
-        assert.equal(r.chipDivisor, family.chipDivisor[stage]);
-        assert.ok(Math.abs(r.feed - r.rpm * 2 * (6 / family.chipDivisor[stage])) <= 5, family.id);
-        assert.equal(r.depth, 6 * family.depthFactor[stage]);
-      }
+    for (const family of FAMILIES) {
+      const r = millingSettings(base({ family: family.id, spindleMin: 0, spindleMax: 100000, feedMax: 0 }));
+      assert.equal(r.chipDivisor, family.chipDivisor);
+      assert.ok(Math.abs(r.feed - r.rpm * 2 * (6 / family.chipDivisor)) <= 5, family.id);
+      assert.equal(r.depth, 6 * family.depthFactor);
+    }
   });
 
   test("plus la matière est dure, plus l'avance et la passe sont faibles", () => {
@@ -35,14 +31,6 @@ describe("Réglages de fraisage (millingSettings)", () => {
     for (let i = 1; i < results.length; i++) {
       assert.ok(results[i].feed < results[i - 1].feed, FAMILIES[i].id);
       assert.ok(results[i].depth < results[i - 1].depth, FAMILIES[i].id);
-    }
-  });
-
-  test("la finition prend un copeau plus fin et une passe plus faible que l'ébauche", () => {
-    for (const family of FAMILIES) {
-      const rough = millingSettings(base({ family: family.id }));
-      const fine = millingSettings(base({ family: family.id, finishing: true }));
-      assert.ok(fine.chipLoad < rough.chipLoad && fine.depth < rough.depth, family.id);
     }
   });
 
@@ -107,8 +95,8 @@ describe("Réglages de fraisage (millingSettings)", () => {
     assert.deepEqual(birch, medium);
   });
 
-  test("plastique qui fond : gros copeau (Ø / 50) même en finition, et conseil 1 dent", () => {
-    const r = millingSettings(base({ material: "pmma", finishing: true, flutes: 2 }));
+  test("plastique qui fond : gros copeau (Ø / 50), et conseil 1 dent", () => {
+    const r = millingSettings(base({ material: "pmma", flutes: 2 }));
     assert.equal(r.chipDivisor, 50);
     assert.deepEqual(
       r.notes.map((n) => n.key),
@@ -127,6 +115,46 @@ describe("Réglages de fraisage (millingSettings)", () => {
       millingSettings(base({ toolType: "compression" })).notes.map((n) => n.key),
       ["mill.noteCompression"]
     );
+  });
+
+  test("fraise conique : largeur de coupe = 2 × profondeur × tan(angle / 2), limitée au diamètre", () => {
+    assert.ok(Math.abs(vBitCutWidth(6, 90, 1).width - 2) < 1e-9, "90° à 1 mm : 2 mm");
+    assert.ok(Math.abs(vBitCutWidth(6, 60, 1).width - 2 / Math.sqrt(3)) < 1e-6, "60° à 1 mm");
+    assert.deepEqual(vBitCutWidth(6, 90, 5), { width: 6, capped: true });
+    for (const [angle, depth] of [
+      [0, 1],
+      [180, 1],
+      [NaN, 1],
+      [90, 0],
+      [90, -1],
+      [90, NaN]
+    ])
+      assert.equal(vBitCutWidth(6, angle, depth), null, `${angle}° / ${depth} mm`);
+  });
+
+  test("fraise conique : calcul sur la largeur qui coupe, gravure en une passe, avec explication", () => {
+    const v = millingSettings(base({ toolType: "vbit", angle: 90, engraveDepth: 1, spindleMax: 100000, feedMax: 0 }));
+    const flat2 = millingSettings(base({ diameter: 2, spindleMax: 100000, feedMax: 0 }));
+    assert.equal(v.cutWidth, 2);
+    assert.equal(v.rpm, flat2.rpm, "même rotation qu'une fraise de 2 mm");
+    assert.equal(v.feed, flat2.feed);
+    assert.equal(v.passes, 1);
+    assert.equal(v.passDepth, 1);
+    assert.equal(v.depth, 1);
+    assert.deepEqual(v.notes, [{ key: "mill.noteVBit", e: 1, d: 2 }]);
+    // l'épaisseur à couper ne compte pas pour une gravure
+    assert.deepEqual(millingSettings(base({ toolType: "vbit", thickness: 40 })).passes, 1);
+  });
+
+  test("fraise conique trop enfoncée : largeur limitée au diamètre, avec un message", () => {
+    const r = millingSettings(base({ toolType: "vbit", angle: 90, engraveDepth: 10, diameter: 6 }));
+    assert.equal(r.cutWidth, 6);
+    assert.equal(r.notes[0].key, "mill.noteVBitDeep");
+  });
+
+  test("fraise conique sans angle ou sans profondeur : pas de résultat", () => {
+    assert.equal(millingSettings(base({ toolType: "vbit", angle: NaN })), null);
+    assert.equal(millingSettings(base({ toolType: "vbit", engraveDepth: 0 })), null);
   });
 
   test("famille inconnue (réglage abîmé) : la famille intermédiaire, sans planter", () => {
@@ -156,6 +184,12 @@ describe("Matières", () => {
       assert.ok("mill.famEx." + f.id in fr, f.id);
     }
     for (const t of TOOL_TYPES) assert.ok("mill.type." + t in fr, t);
+  });
+
+  test("bois massifs : classe de dureté A réglée « Tendre », classes B, C et D réglées « Intermédiaire »", () => {
+    const woods = MATERIALS.filter((m) => m.hardness);
+    assert.ok(woods.length >= 20, "essences de bois");
+    for (const m of woods) assert.equal(m.family, m.hardness === "A" ? "soft" : "medium", m.id);
   });
 
   test("contreplaqués : le bouleau, plus dense, est réglé plus dur que le peuplier et l'okoumé", () => {

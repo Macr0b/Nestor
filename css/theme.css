@@ -28,30 +28,29 @@
   --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b2436;
-    --surface: #10304a;
-    --ink: #e4eef5;
-    --muted: #9bb4c6;
-    --line: #24506d;
-    --accent: #6fb4dc;
-    --accent-ink: #0a1f2e;
-    --wood: #b48f57;
-    --wood-2: #9f7b45;
-    --wood-edge: #f0d6a6;
-    --scrap: #163a55;
-    --hatch: #24506d;
-    --danger: #ef7a62;
-    --ok: #7cc487;
-    --open: #9fd2f0;
-    --shade: rgba(0, 8, 14, 0.65);
-    --bp-minor: rgba(200, 228, 246, 0.075);
-    --bp-major: rgba(200, 228, 246, 0.17);
-    --bp-ink: rgba(200, 228, 246, 0.42);
-    --bp-faint: rgba(200, 228, 246, 0.24);
-    color-scheme: dark;
-  }
+/* thème sombre : choisi dans les réglages, ou suivi de l'appareil (voir src/ui/theme-early.js) */
+:root[data-theme="dark"] {
+  --bg: #0b2436;
+  --surface: #10304a;
+  --ink: #e4eef5;
+  --muted: #9bb4c6;
+  --line: #24506d;
+  --accent: #6fb4dc;
+  --accent-ink: #0a1f2e;
+  --wood: #b48f57;
+  --wood-2: #9f7b45;
+  --wood-edge: #f0d6a6;
+  --scrap: #163a55;
+  --hatch: #24506d;
+  --danger: #ef7a62;
+  --ok: #7cc487;
+  --open: #9fd2f0;
+  --shade: rgba(0, 8, 14, 0.65);
+  --bp-minor: rgba(200, 228, 246, 0.075);
+  --bp-major: rgba(200, 228, 246, 0.17);
+  --bp-ink: rgba(200, 228, 246, 0.42);
+  --bp-faint: rgba(200, 228, 246, 0.24);
+  color-scheme: dark;
 }
 
 * {

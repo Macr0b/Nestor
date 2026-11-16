@@ -7,6 +7,7 @@ import { FAMILIES, MATERIALS, materialById } from "../machining/materials.js";
 import { millingSettings, TOOL_TYPES } from "../machining/milling.js";
 import { loadMillingInput, saveMillingInput } from "../machining/milling-store.js";
 import { byId, escapeHtml } from "../util/dom.js";
+import { toolIcon } from "./tool-icons.js";
 import { parseNumber } from "../util/numbers.js";
 
 // réglages en cours de l'onglet (relus au démarrage)
@@ -19,7 +20,9 @@ const NUMBER_FIELDS = [
   ["millSpindleMin", "spindleMin"],
   ["millSpindleMax", "spindleMax"],
   ["millFeedMax", "feedMax"],
-  ["millThickness", "thickness"]
+  ["millThickness", "thickness"],
+  ["millAngle", "angle"],
+  ["millEngraveDepth", "engraveDepth"]
 ];
 
 function formatValue(value, digits) {
@@ -32,11 +35,17 @@ function familyName(id) {
 
 /* Listes qui dépendent de la langue : types de fraise, familles, matières précises. */
 function renderChoices() {
-  const typeSelect = byId("millType");
-  typeSelect.innerHTML = TOOL_TYPES.map(function (type) {
-    return '<option value="' + type + '">' + escapeHtml(translate("mill.type." + type)) + "</option>";
+  byId("millTypes").innerHTML = TOOL_TYPES.map(function (type) {
+    return (
+      '<button type="button" data-tool="' +
+      type +
+      '" aria-pressed="false">' +
+      toolIcon(type) +
+      "<span>" +
+      escapeHtml(translate("mill.type." + type)) +
+      "</span></button>"
+    );
   }).join("");
-  typeSelect.value = input.toolType;
 
   byId("millFamilies").innerHTML = FAMILIES.map(function (family, index) {
     let level = "";
@@ -93,6 +102,11 @@ function valueBox(label, value, unit) {
 
 /* Met la page à jour d'après les réglages en cours (sans toucher aux champs que l'on est en train de taper). */
 function renderState() {
+  byId("millTypes")
+    .querySelectorAll("[data-tool]")
+    .forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.tool === input.toolType));
+    });
   byId("millFamilies")
     .querySelectorAll("[data-family]")
     .forEach(function (button) {
@@ -111,14 +125,17 @@ function renderState() {
   const info = byId("millMatInfo");
   info.hidden = !material;
   info.innerHTML = material ? materialInfo(material) : "";
-  byId("millRough").setAttribute("aria-pressed", String(!input.finishing));
-  byId("millFinish").setAttribute("aria-pressed", String(input.finishing));
+
+  // fraise conique : angle et profondeur de gravure à la place de l'épaisseur
+  const isVBit = input.toolType === "vbit";
+  byId("millAngleField").hidden = byId("millEngraveField").hidden = !isVBit;
+  byId("millThicknessField").hidden = isVBit;
 
   const result = millingSettings(input);
   const values = byId("millValues");
   if (!result) {
     values.innerHTML = "";
-    byId("millRule").textContent = translate("mill.invalid");
+    byId("millRule").textContent = translate(isVBit ? "mill.invalidVBit" : "mill.invalid");
     byId("millNotes").innerHTML = "";
     return;
   }
@@ -126,7 +143,7 @@ function renderState() {
     ? translate("mill.passesFor", {
         p: formatValue(result.passes, 0),
         d: formatValue(result.passDepth, 2),
-        t: formatValue(input.thickness, 2)
+        t: formatValue(isVBit ? input.engraveDepth : input.thickness, 2)
       })
     : translate("mill.noThickness");
   values.innerHTML =
@@ -134,14 +151,16 @@ function renderState() {
     valueBox(translate("mill.feed"), formatValue(result.feed, 0), translate("mill.unitFeed")) +
     valueBox(translate("mill.depth"), formatValue(result.depth, 2), "mm") +
     valueBox(translate("mill.passes"), result.passes ? formatValue(result.passes, 0) : "–", passes);
-  byId("millRule").textContent = translate("mill.rule", {
+  byId("millRule").textContent = translate(isVBit ? "mill.ruleVBit" : "mill.rule", {
     c: formatValue(result.chipLoad, 3),
     k: formatValue(result.chipDivisor, 0),
     f: formatValue(result.depthFactor, 2)
   });
   byId("millNotes").innerHTML = result.notes
     .map(function (note) {
-      return "<li>" + escapeHtml(translate(note.key, { n: formatValue(note.n || 0, 0) })) + "</li>";
+      const values = {};
+      for (const name of ["n", "d", "e"]) if (name in note) values[name] = formatValue(note[name], 2);
+      return "<li>" + escapeHtml(translate(note.key, values)) + "</li>";
     })
     .join("");
 }
@@ -166,8 +185,10 @@ export function bindMillingTab() {
   input = loadMillingInput();
   fillFields();
 
-  byId("millType").addEventListener("change", function () {
-    input.toolType = this.value;
+  byId("millTypes").addEventListener("click", function (e) {
+    const button = e.target.closest("[data-tool]");
+    if (!button) return;
+    input.toolType = button.dataset.tool;
     // une fraise 1 dent n'a qu'une dent : le champ suit, modifiable ensuite
     if (input.toolType === "single") {
       input.flutes = 1;
@@ -198,14 +219,6 @@ export function bindMillingTab() {
   byId("millPreciseBtn").addEventListener("click", function () {
     preciseOpen = !preciseOpen;
     renderState();
-  });
-  byId("millRough").addEventListener("click", function () {
-    input.finishing = false;
-    changed();
-  });
-  byId("millFinish").addEventListener("click", function () {
-    input.finishing = true;
-    changed();
   });
   // une matière précise choisie lors d'une visite précédente : la liste s'ouvre pour la montrer
   preciseOpen = !!input.material;

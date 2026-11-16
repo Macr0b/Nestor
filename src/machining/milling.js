@@ -10,7 +10,7 @@
 
 import { familyById, materialById } from "./materials.js";
 
-export const TOOL_TYPES = ["upcut", "downcut", "compression", "straight", "single", "roughing"];
+export const TOOL_TYPES = ["upcut", "downcut", "compression", "straight", "single", "roughing", "vbit"];
 
 /* Valeurs de départ (fraise de 6 mm à 2 dents, broche de défonceuse courante). */
 export const DEFAULT_MILLING = {
@@ -22,9 +22,20 @@ export const DEFAULT_MILLING = {
   spindleMin: 6000,
   spindleMax: 24000,
   feedMax: 6000,
-  finishing: false,
-  thickness: 18
+  thickness: 18,
+  // fraise conique (gravure en V) : angle de la pointe et profondeur de gravure
+  angle: 90,
+  engraveDepth: 1
 };
+
+/* Fraise conique : largeur de coupe à une profondeur donnée, limitée au diamètre de la fraise.
+   largeur = 2 × profondeur × tan(angle / 2). Retour : { width, capped } ou null si l'angle ou la profondeur manquent. */
+export function vBitCutWidth(diameter, angle, depth) {
+  if (!positive(angle) || angle >= 180 || !positive(depth)) return null;
+  // arrondi au millionième de mm : tan(45°) donne 0,999… en calcul flottant
+  const width = Math.round(2 * depth * Math.tan((angle * Math.PI) / 360) * 1e6) / 1e6;
+  return width > diameter ? { width: diameter, capped: true } : { width, capped: false };
+}
 
 function roundTo(value, step) {
   return Math.round(value / step) * step;
@@ -36,18 +47,30 @@ function positive(value) {
 
 /* Réglages conseillés, ou null si le diamètre ou le nombre de dents manquent.
    Retour : { rpm, feed (mm/min), chipLoad, chipDivisor, depthFactor, depth, passes, passDepth, notes }
-   notes : liste de { key, n } à traduire (limite de la broche, plastique qui fond, type de fraise). */
+   Fraise conique : le calcul se fait sur la largeur qui coupe à la profondeur de gravure (cutWidth), en une passe.
+   notes : liste de { key, n, d, e } à traduire (limite de la broche, plastique qui fond, type de fraise). */
 export function millingSettings(input) {
-  const diameter = input.diameter;
   const flutes = Math.round(input.flutes);
-  if (!positive(diameter) || !(flutes >= 1)) return null;
+  if (!positive(input.diameter) || !(flutes >= 1)) return null;
   const material = materialById(input.material);
   const family = familyById(material ? material.family : input.family) || familyById("medium");
-  const stage = input.finishing ? 1 : 0;
   const notes = [];
+  const isVBit = input.toolType === "vbit";
+  let diameter = input.diameter;
+  let cutWidth = 0;
+  if (isVBit) {
+    const cut = vBitCutWidth(input.diameter, input.angle, input.engraveDepth);
+    if (!cut) return null;
+    cutWidth = diameter = cut.width;
+    notes.push(
+      cut.capped
+        ? { key: "mill.noteVBitDeep", d: cut.width }
+        : { key: "mill.noteVBit", e: input.engraveDepth, d: cut.width }
+    );
+  }
 
-  // un plastique qui fond garde un gros copeau, même en finition (id-conception : diamètre / 50)
-  const chipDivisor = material && material.melts ? 50 : family.chipDivisor[stage];
+  // un plastique qui fond garde un gros copeau (id-conception : diamètre / 50)
+  const chipDivisor = material && material.melts ? 50 : family.chipDivisor;
   const chipLoad = diameter / chipDivisor;
 
   let rpm = roundTo((1000 * family.cuttingSpeed) / (Math.PI * diameter), 100);
@@ -75,11 +98,15 @@ export function millingSettings(input) {
   }
   feed = Math.max(10, Math.min(roundTo(feed, 10), positive(input.feedMax) ? input.feedMax : Infinity));
 
-  const depthFactor = family.depthFactor[stage];
-  const depth = diameter * depthFactor;
+  const depthFactor = family.depthFactor;
+  let depth = diameter * depthFactor;
   let passes = 0,
     passDepth = 0;
-  if (positive(input.thickness)) {
+  if (isVBit) {
+    // gravure : une seule passe, à la profondeur demandée
+    depth = passDepth = input.engraveDepth;
+    passes = 1;
+  } else if (positive(input.thickness)) {
     passes = Math.max(1, Math.ceil(input.thickness / depth - 1e-9));
     passDepth = input.thickness / passes;
   }
@@ -88,5 +115,5 @@ export function millingSettings(input) {
   if (input.toolType === "downcut") notes.push({ key: "mill.noteDowncut" });
   if (input.toolType === "compression") notes.push({ key: "mill.noteCompression" });
 
-  return { rpm, feed, chipLoad, chipDivisor, depthFactor, depth, passes, passDepth, notes };
+  return { rpm, feed, chipLoad, chipDivisor, depthFactor, depth, passes, passDepth, cutWidth, notes };
 }

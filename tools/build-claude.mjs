@@ -22,18 +22,15 @@ function extract(pattern, what, text = html) {
   return m;
 }
 
-// styles : sans les polices locales, thème piloté par le lecteur Claude, marges gérées par Claude
+// styles : sans les polices locales, marges gérées par Claude
 // feuilles de style de la page, dans l'ordre, sauf les polices locales
 const sheets = [...html.matchAll(/<link rel="stylesheet" href="(css\/[^"]+)">/g)].map((m) => m[1]);
 if (!sheets.length) throw new Error("index.html : aucune feuille de style trouvée, adapter tools/build-claude.mjs");
 let style = "";
 for (const sheet of sheets)
   if (!sheet.endsWith("fonts.css")) style += (await readFile(join(ROOT, sheet), "utf8")) + "\n";
-const dark = extract(/@media \(prefers-color-scheme: ?dark\) ?\{\s*:root ?\{([\s\S]*?)\}\s*\}/, "thème sombre", style);
-style = style.replace(
-  dark[0],
-  `@media (prefers-color-scheme: dark) {\n  :root:not([data-theme="light"]) {${dark[1]}}\n}\n:root[data-theme="dark"] {${dark[1]}}`
-);
+// le thème sombre suit l'attribut data-theme, posé par src/ui/theme-early.js (repris plus bas) ou par le lecteur Claude
+extract(/:root\[data-theme="dark"\] \{/, "thème sombre", style);
 style = style.replace(
   extract(
     /padding-top: ?calc\(24px \+ env\(safe-area-inset-top, ?0px\)\);\s*padding-bottom: ?calc\(40px \+ env\(safe-area-inset-bottom, ?0px\)\)/,
@@ -98,6 +95,8 @@ for (const language of LANGUAGES)
   );
 const localesJs = "window.NESTOR_LOCALES = " + JSON.stringify(locales) + ";";
 
+// thème clair ou sombre posé avant le premier affichage, comme dans l'appli
+const themeJs = await readFile(join(ROOT, "src", "ui", "theme-early.js"), "utf8");
 const safe = (js) => js.replace(/<\/script/gi, "<\\/script");
 // page complète (doctype, en-tête, corps) : l'hébergement des pages Claude n'accepte qu'un document HTML entier
 const page =
@@ -110,7 +109,9 @@ const page =
   '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">\n' +
   "<style>" +
   style +
-  "</style>\n</head>\n<body>\n" +
+  "</style>\n<script>\n" +
+  safe(themeJs) +
+  "\n</script>\n</head>\n<body>\n" +
   body.trim() +
   "\n<script>\n" +
   safe(localesJs) +
