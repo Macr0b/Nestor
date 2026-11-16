@@ -935,6 +935,85 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("matières et coût : bibliothèque, matière partagée entre Imbrication, Fraisage et Coût, coût de revient", async () => {
+    const page = await open();
+    const addMaterial = async (name, mill, t, L, W, price) => {
+      await page.click("#btnLibNew");
+      await page.fill("#libName", name);
+      await page.selectOption("#libMill", mill);
+      await page.fill("#libThickness", t);
+      await page.fill("#libL", L);
+      await page.fill("#libW", W);
+      await page.fill("#libPrice", price);
+      await page.click("#libForm [type=submit]");
+    };
+    await page.click("#tabCost");
+    assert.match(await page.textContent("#costResult"), /Calcule d’abord|Panneau|Coût/);
+    await page.click("#tabMaterials");
+    assert.match(await page.textContent("#libTable"), /bibliothèque est vide/);
+    await addMaterial("CP peuplier", "plyPoplar", "18", "2500", "1220", "42");
+    await addMaterial("CP bouleau", "plyBirch", "18", "2500", "1250", "89");
+    assert.equal(await page.locator("#libTable tbody tr").count(), 2);
+    assert.match(await page.textContent("#libTable"), /13,77\s?€\/m²/);
+    assert.equal(await page.textContent("#libMsg"), "Matière enregistrée.");
+    const ids = await page.$$eval("#libTable tbody tr", (r) => r.map((x) => x.dataset.id));
+    // Imbrication : la matière remplit la taille du premier panneau
+    await page.click("#tabNest");
+    await page.selectOption("#nestMaterial", { label: "CP peuplier 18 mm — 2 500 × 1 220" });
+    assert.equal(await page.inputValue("#pl0-L"), "2500");
+    assert.equal(await page.inputValue("#pl0-W"), "1220");
+    await idle(page);
+    // Fraisage : même matière et même épaisseur
+    await page.click("#tabMill");
+    assert.equal(await page.getAttribute("[data-material=plyPoplar]", "aria-pressed"), "true");
+    assert.equal(await page.inputValue("#millThickness"), "18");
+    // Coût : la même matière, son prix
+    await page.click("#tabCost");
+    assert.equal(await page.inputValue("#costMaterial"), ids[1]);
+    assert.match(await page.textContent("#costPanels"), /42,00\s?€/);
+    // même ordre des côtés que le résultat de l'imbrication et la bibliothèque
+    assert.match(await page.textContent("#costPanels"), /2\s?500 × 1\s?220/);
+    assert.match(await page.textContent("#costResult .big"), /42,00\s?€/);
+    // Fraisage → bouleau : le projet suit, partout (la taille du panneau ne bouge pas : prix au prorata)
+    await page.click("#tabMill");
+    await page.click("[data-material=plyBirch]");
+    await page.click("#tabCost");
+    assert.equal(await page.inputValue("#costMaterial"), ids[0]);
+    assert.match(await page.textContent("#costPanelsHint"), /prorata/);
+    assert.equal(await page.inputValue("#nestMaterial"), ids[0]);
+    // Fraisage → MDF, absent de la bibliothèque : plus de matière, prix à la main
+    await page.click("#tabMill");
+    await page.click("[data-material=mdf]");
+    await page.click("#tabCost");
+    assert.equal(await page.inputValue("#costMaterial"), "");
+    await page.fill("#costPanels input", "20");
+    assert.match(await page.textContent("#costResult .big"), /20,00\s?€/);
+    assert.equal(await page.evaluate(() => document.activeElement.matches("#costPanels input")), true, "saisie gardée");
+    // machine : taux et préparation
+    await page.fill("#costRate", "60");
+    await page.fill("#costPrep", "30");
+    assert.match(await page.textContent("#costResult"), /Machine\s*\d/);
+    const total = await page.textContent("#costResult .big b");
+    assert.notEqual(total.replace(/\D/g, ""), "2000", "la machine s'ajoute");
+    // dernier panneau : partie utilisée seulement, moins cher
+    await page.selectOption("#costLastSheet", "used");
+    const partial = await page.textContent("#costResult .big b");
+    assert.ok(
+      parseFloat(partial.replace(/[^\d,]/g, "").replace(",", ".")) <
+        parseFloat(total.replace(/[^\d,]/g, "").replace(",", "."))
+    );
+    // tout est gardé, et l'onglet Coût rouvert
+    await page.reload();
+    await page.waitForSelector("#costResult .ct-tot");
+    assert.equal(await page.getAttribute("#tabCost", "aria-selected"), "true");
+    assert.equal(await page.inputValue("#costRate"), "60");
+    assert.equal(await page.inputValue("#costLastSheet"), "used");
+    await page.click("#tabMaterials");
+    assert.equal(await page.locator("#libTable tbody tr").count(), 2);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("changer de langue dans les réglages : textes chargés et appliqués, choix gardé", async () => {
     const page = await open();
     const before = await page.getAttribute("#btnSettings", "aria-label");

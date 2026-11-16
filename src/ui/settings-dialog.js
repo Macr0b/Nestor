@@ -6,6 +6,8 @@ import { bugReportUrl } from "./bug-report.js";
 import { refreshInstallButton } from "./install.js";
 import { renderMilling } from "./milling-tab.js";
 import { renderNotebook } from "./notebook-tab.js";
+import { renderLibrary } from "./materials-tab.js";
+import { refreshCostTab } from "./cost-tab.js";
 import { renderAll } from "./render-all.js";
 import { byId } from "../util/dom.js";
 import { lengthUnits, setLengthUnits } from "../util/units.js";
@@ -24,6 +26,8 @@ function refreshAll() {
   renderAll();
   renderMilling();
   renderNotebook();
+  renderLibrary();
+  refreshCostTab();
   refreshInstallButton();
 }
 

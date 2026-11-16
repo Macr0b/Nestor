@@ -9,6 +9,8 @@ import { bindFilesPanel } from "./ui/files-panel.js";
 import { bindInstall, refreshInstallButton } from "./ui/install.js";
 import { bindMillingTab, renderMilling } from "./ui/milling-tab.js";
 import { bindNotebookTab, renderNotebook } from "./ui/notebook-tab.js";
+import { bindMaterialsTab, renderLibrary } from "./ui/materials-tab.js";
+import { bindCostTab, refreshCostTab } from "./ui/cost-tab.js";
 import { bindPanelsEditor } from "./ui/panels-editor.js";
 import { bindPartsList } from "./ui/parts-list.js";
 import { renderAll } from "./ui/render-all.js";
@@ -31,6 +33,8 @@ async function start() {
   bindSettingsDialog();
   bindInstall();
   bindUpdates();
+  bindMaterialsTab();
+  bindCostTab();
   bindMillingTab();
   bindNotebookTab();
 
@@ -41,6 +45,8 @@ async function start() {
   renderAll();
   renderMilling();
   renderNotebook();
+  renderLibrary();
+  refreshCostTab();
   refreshInstallButton();
   const versionLabel = document.getElementById("cartVer");
   if (versionLabel) versionLabel.textContent = APP_VERSION;

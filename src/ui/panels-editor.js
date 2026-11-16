@@ -13,6 +13,8 @@ import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber } from "../util/numbers.js";
 import { lengthInputAttributes, readLengthField, setLengthField, showLength } from "./lengths.js";
 import { loadMillingInput } from "../machining/milling-store.js";
+import { onProjectMaterialChange, setProjectMaterial } from "../library/library-store.js";
+import { fillMaterialSelect, libraryItem, onLibraryChange } from "./materials-tab.js";
 
 function renderPanels() {
   var ps = state.sheet.panels;
@@ -119,6 +121,7 @@ export function renderToolGap() {
 }
 
 export function renderSheetInputs() {
+  fillMaterialSelect(byId("nestMaterial"), "lib.none");
   renderPanels();
   renderToolGap();
   setLengthField(byId("sG"), state.sheet.gap);
@@ -192,6 +195,25 @@ export function bindPanelsEditor() {
       schedulePreferencesSave();
       scheduleCalculation();
     });
+  });
+  // matière de la bibliothèque : partagée avec Fraisage et Coût, et sa taille remplit le premier panneau
+  byId("nestMaterial").addEventListener("change", function () {
+    var item = libraryItem(this.value),
+      first = state.sheet.panels[0];
+    setProjectMaterial(this.value, "nest");
+    if (item && item.L && item.W && first) {
+      first.L = item.L;
+      first.W = item.W;
+      renderPanels();
+      schedulePreferencesSave();
+      scheduleCalculation();
+    }
+  });
+  onProjectMaterialChange("nest", function () {
+    fillMaterialSelect(byId("nestMaterial"), "lib.none");
+  });
+  onLibraryChange(function () {
+    fillMaterialSelect(byId("nestMaterial"), "lib.none");
   });
   byId("btnGapFromTool").addEventListener("click", function () {
     var tool = toolGap();

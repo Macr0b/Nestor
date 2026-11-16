@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="css/tabs.css">
 <link rel="stylesheet" href="css/milling.css">
 <link rel="stylesheet" href="css/notebook.css">
+<link rel="stylesheet" href="css/cost.css">
 </head>
 <body>
 <div class="bp-ruler-top" aria-hidden="true"><svg id="bpTop"></svg></div>
@@ -73,6 +74,8 @@
     <button type="button" role="tab" id="tabNest" aria-controls="pageNest" aria-selected="true" data-i18n="tab.nest">Imbrication</button>
     <button type="button" role="tab" id="tabMill" aria-controls="pageMill" aria-selected="false" tabindex="-1" data-i18n="tab.mill">Fraisage</button>
     <button type="button" role="tab" id="tabNotebook" aria-controls="pageNotebook" aria-selected="false" tabindex="-1" data-i18n="tab.notebook">Carnet</button>
+    <button type="button" role="tab" id="tabCost" aria-controls="pageCost" aria-selected="false" tabindex="-1" data-i18n="tab.cost">Coût</button>
+    <button type="button" role="tab" id="tabMaterials" aria-controls="pageMaterials" aria-selected="false" tabindex="-1" data-i18n="tab.materials">Matières</button>
   </nav>
 
   <div class="cols" id="pageNest" role="tabpanel" aria-labelledby="tabNest">
@@ -109,6 +112,7 @@
 
       <section class="box" aria-labelledby="h-panel">
         <h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2>
+        <label class="f mat-pick"><span data-i18n="lib.projectMaterial">Matière</span><select id="nestMaterial"></select></label>
         <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Origine</span><span></span><span></span></div>
         <div class="pnls" id="panels"></div>
         <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button></div>
@@ -268,6 +272,110 @@
         <label class="f"><span data-i18n="nb.note">Note</span><textarea id="nbNote" maxlength="2000"></textarea></label>
         <div class="nb-save">
           <button type="button" class="btn sm" id="btnNbCancel" data-i18n="nb.cancel">Annuler</button>
+          <button type="submit" class="btn" data-i18n="nb.save">Enregistrer</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="ct-page" id="pageCost" role="tabpanel" aria-labelledby="tabCost" hidden>
+    <section class="box" aria-labelledby="h-cost">
+      <h2 id="h-cost" data-i18n="cost.title">Coût du plan</h2>
+      <div class="ct-grp">
+        <h3 data-i18n="cost.material">Matière des panneaux</h3>
+        <label class="f"
+          ><span data-i18n="lib.projectMaterial">Matière</span
+          ><select id="costMaterial"></select
+        ></label>
+        <div id="costPanels" class="ct-panels"></div>
+        <p class="hint" id="costPanelsHint"></p>
+        <div class="ct-g2">
+          <label class="f"
+            ><span data-i18n="cost.currency">Monnaie</span
+            ><select id="costCurrency"></select
+          ></label>
+          <label class="f"
+            ><span data-i18n="cost.lastSheet">Dernier panneau</span
+            ><select id="costLastSheet">
+              <option value="full" data-i18n="cost.lastFull">Compté entier</option>
+              <option value="used" data-i18n="cost.lastUsed">Seulement la partie utilisée</option>
+            </select></label
+          >
+        </div>
+        <p class="hint" data-i18n="cost.lastHint">
+          « Seulement la partie utilisée » : le rectangle occupé par les pièces sur le dernier panneau ; la chute
+          retourne en stock et n’est pas comptée.
+        </p>
+      </div>
+      <div class="ct-grp">
+        <h3 data-i18n="cost.machine">Machine et main-d’œuvre</h3>
+        <div class="ct-g2">
+          <label class="f"
+            ><span id="costRateLabel" data-i18n="cost.rate">Taux horaire</span
+            ><input type="number" id="costRate" inputmode="decimal" min="0" step="any"
+          /></label>
+          <label class="f"
+            ><span data-i18n="cost.prep">Temps de préparation (min)</span
+            ><input type="number" id="costPrep" inputmode="numeric" min="0" step="1"
+          /></label>
+        </div>
+        <p class="hint" id="costTimeHint"></p>
+      </div>
+    </section>
+    <section class="box" aria-labelledby="h-costRes" aria-live="polite">
+      <h2 id="h-costRes" data-i18n="cost.result">Résultat</h2>
+      <div id="costResult"></div>
+    </section>
+  </div>
+
+  <div class="lib-page" id="pageMaterials" role="tabpanel" aria-labelledby="tabMaterials" hidden>
+    <section class="box lib-listbox" aria-labelledby="h-lib">
+      <h2 id="h-lib" data-i18n="lib.title">Bibliothèque de matières</h2>
+      <p class="hint" data-i18n="lib.hint">
+        Tes panneaux habituels avec leur prix. La matière choisie pour le projet est la même dans Imbrication,
+        Fraisage et Coût.
+      </p>
+      <div class="nb-top">
+        <button type="button" class="btn" id="btnLibNew" data-i18n="lib.new">＋ Ajouter une matière</button>
+        <button type="button" class="btn sm" id="btnLibExport" data-i18n="nb.export">Exporter</button>
+        <label class="btn sm nb-import"
+          ><span data-i18n="nb.import">Importer</span
+          ><input type="file" id="libImport" accept=".json,application/json" hidden
+        /></label>
+      </div>
+      <p class="hint" id="libMsg" aria-live="polite"></p>
+      <div class="lib-table-wrap"><table class="ct-table lib-table" id="libTable"></table></div>
+    </section>
+    <section class="box" id="libFormBox" aria-labelledby="h-libForm" hidden>
+      <h2 id="h-libForm"></h2>
+      <form class="nb-form" id="libForm">
+        <div class="nb-grid">
+          <label class="f"
+            ><span data-i18n="lib.name">Nom</span><input type="text" id="libName" maxlength="80"
+          /></label>
+          <label class="f"
+            ><span data-i18n="lib.millMaterial">Matière pour le fraisage</span
+            ><select id="libMill"></select
+          ></label>
+          <label class="f"
+            ><span data-i18n="nb.thickness">Épaisseur ({u})</span
+            ><input type="text" id="libThickness" inputmode="decimal"
+          /></label>
+          <label class="f"
+            ><span data-i18n="lib.length">Longueur du panneau ({u})</span
+            ><input type="text" id="libL" inputmode="decimal"
+          /></label>
+          <label class="f"
+            ><span data-i18n="lib.width">Largeur du panneau ({u})</span
+            ><input type="text" id="libW" inputmode="decimal"
+          /></label>
+          <label class="f"
+            ><span id="libPriceLabel" data-i18n="lib.price">Prix du panneau</span
+            ><input type="number" id="libPrice" inputmode="decimal" min="0" step="any"
+          /></label>
+        </div>
+        <div class="nb-save">
+          <button type="button" class="btn sm" id="btnLibCancel" data-i18n="nb.cancel">Annuler</button>
           <button type="submit" class="btn" data-i18n="nb.save">Enregistrer</button>
         </div>
       </form>

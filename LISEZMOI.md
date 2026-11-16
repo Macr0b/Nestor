@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.6.0
+Version : 1.7.0
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -60,6 +60,8 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Coupes de chutes** (option sous « Méthode ») : traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l'espace entre pièces. « Simples » : d'un bord à l'autre du panneau. « Détaillées » : la découpe suit à peu près le contour du groupe de pièces. Les traits sont exportés sur un calque « Coupes ».
 - **Onglet Fraisage** : rotation de la broche, avance, profondeur et nombre de passes selon la fraise (type, diamètre, nombre de dents), la matière (quatre familles, ou une matière précise : essences de bois, contreplaqués, plastiques, métaux) et les limites de la machine. Valeurs de départ prudentes, d'après les méthodes d'id-conception.fr et de cncfraises.fr. Les réglages sont mémorisés.
 - **Onglet Carnet** : tes réglages éprouvés (fraisage, laser, autre) avec machine, matière, épaisseur, valeurs utilisées, note et état (validé / à revoir). Recherche, filtre, « Garder dans le carnet » depuis l'onglet Fraisage, « Ouvrir dans Fraisage », sauvegarde et import d'un fichier.
+- **Onglet Coût** : prix de revient du plan d'après les panneaux utilisés : matière, chute (dernier panneau compté entier ou seulement la partie utilisée), machine (taux horaire, temps de préparation, temps de découpe estimé) et coût par pièce, réparti selon la surface. C'est une estimation.
+- **Onglet Matières** : bibliothèque de tes panneaux habituels avec leur prix (nom, matière pour le fraisage, épaisseur, taille, prix). La matière choisie pour le projet est la même partout : dans Imbrication elle remplit la taille du panneau, dans Fraisage elle règle la matière et l'épaisseur, dans Coût elle donne le prix. Sauvegarde et import d'un fichier.
 - **Unités** : métrique par défaut, ou pouces décimaux ou en fractions (Réglages). Les tailles ne changent jamais ; en pouces, les fichiers exportés sont aussi en pouces.
 
 ## Contenu du dossier
@@ -67,7 +69,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | Dossier ou fichier | Rôle |
 |---|---|
 | `index.html` | Structure de la page |
-| `css/` | Mise en forme : polices, couleurs (thèmes clair et sombre), décor « plan technique », interface, réglages, onglets, fraisage |
+| `css/` | Mise en forme : polices, couleurs (thèmes clair et sombre), décor « plan technique », interface, réglages, onglets, fraisage, carnet, coût |
 | `src/main.js` | Point d'entrée : branche chaque partie de l'interface puis démarre |
 | `src/version.js` | Numéro de version |
 | `src/i18n/` | Langue de l'interface ; `languages.js` (liste des langues) et `locales/` (un fichier de textes par langue) |
@@ -76,9 +78,10 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `src/import/` | Un lecteur par format (DXF, SVG + nettoyage, PDF / AI, LightBurn, HPGL, VectorCraft) et la lecture des fichiers |
 | `src/placement/` | Imbrication selon la forme, rectangles, origine du panneau, calcul en arrière-plan |
 | `src/notebook/` | Carnet de réglages : fiches vérifiées, recherche, sauvegarde et import |
+| `src/library/` | Bibliothèque de matières (prix des panneaux, matière du projet) et calcul du prix de revient |
 | `src/machining/` | Calcul des réglages de fraisage, familles et liste des matières, réglages mémorisés |
 | `src/export/` | Fichiers exportés (SVG, DXF), contour du panneau, coupes de chutes |
-| `src/ui/` | Chaque partie de l'interface : onglets, fichiers, pièces, panneaux, résultat, fraisage, réglages, installation, mises à jour |
+| `src/ui/` | Chaque partie de l'interface : onglets, fichiers, pièces, panneaux, résultat, fraisage, carnet, coût, matières, réglages, installation, mises à jour |
 | `sw.js` | Hors connexion et mises à jour (liste de tous les fichiers à garder en cache) |
 | `manifest.webmanifest` | Nom, icônes, installation, formats ouverts par l'appli |
 | `icons/`, `fonts/` | Icônes et polices (Barlow, IBM Plex Mono — licence OFL) |

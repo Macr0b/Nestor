@@ -12,6 +12,9 @@ import { renderToolGap } from "./panels-editor.js";
 import { drawResult } from "./result-view.js";
 import { session } from "../session.js";
 import { toolIcon } from "./tool-icons.js";
+import { findItem, onProjectMaterialChange, projectMaterialId, setProjectMaterial } from "../library/library-store.js";
+import { libraryItem, libraryItems } from "./materials-tab.js";
+import { renderCost } from "./cost-tab.js";
 import { parseNumber } from "../util/numbers.js";
 
 // réglages en cours de l'onglet (relus au démarrage)
@@ -214,9 +217,39 @@ function fillFields() {
   }
 }
 
+/* Matière précise et épaisseur choisies ici : la matière de la bibliothèque qui correspond devient celle du projet
+   (aucune si rien ne correspond), sauf si celle du projet correspond déjà. */
+function syncProjectMaterial() {
+  if (!input.material) return;
+  const current = libraryItem(projectMaterialId());
+  const thickness = input.toolType === "vbit" ? null : input.thickness;
+  const matches =
+    current &&
+    current.millMaterial === input.material &&
+    (thickness == null || current.thickness == null || Math.abs(current.thickness - thickness) < 0.05);
+  if (matches) return;
+  const found = thickness == null ? null : findItem(libraryItems(), input.material, thickness);
+  setProjectMaterial(found ? found.id : "", "milling");
+}
+
+/* Matière du projet choisie dans un autre onglet : matière de fraisage et épaisseur reprises. */
+function applyProjectMaterial() {
+  const item = libraryItem(projectMaterialId());
+  if (!item || !item.millMaterial) return;
+  input.material = item.millMaterial;
+  input.family = materialById(item.millMaterial).family;
+  if (item.thickness) input.thickness = item.thickness;
+  preciseOpen = true;
+  fillFields();
+  saveMillingInput(input);
+  renderState();
+}
+
 function changed() {
   saveMillingInput(input);
   renderState();
+  syncProjectMaterial();
+  renderCost();
   // l'onglet Imbrication s'en sert : écart d'après la fraise et temps de découpe estimé
   renderToolGap();
   if (session.lastResult) drawResult(session.lastResult);
@@ -309,6 +342,7 @@ export function bindMillingTab() {
     preciseOpen = !preciseOpen;
     renderState();
   });
+  onProjectMaterialChange("milling", applyProjectMaterial);
   // une matière précise choisie lors d'une visite précédente : la liste s'ouvre pour la montrer
   preciseOpen = !!input.material;
 }

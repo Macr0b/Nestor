@@ -7,6 +7,7 @@ import { buildSvgFile } from "../export/svg.js";
 import { formatNumber, translate } from "../i18n/i18n.js";
 import { showDistance, showFeed, showLength } from "./lengths.js";
 import { isImperial } from "../util/units.js";
+import { renderCost } from "./cost-tab.js";
 import { outerContourLength } from "../geometry/polylines.js";
 import { estimateCutTime, splitDuration } from "../machining/cut-time.js";
 import { loadMillingInput } from "../machining/milling-store.js";
@@ -242,6 +243,8 @@ export function drawResult(res) {
   // les fichiers suivent les unités choisies : en pouces si l'appli est en pouces
   if (n) h.push('<p class="hint">' + escapeHtml(translate(isImperial() ? "res.noteInch" : "res.note")) + "</p>");
   byId("result").innerHTML = h.join("");
+  // l'onglet Coût suit le dernier plan calculé
+  renderCost();
 }
 
 export function bindResultView() {

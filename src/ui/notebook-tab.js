@@ -20,6 +20,8 @@ import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber } from "../util/numbers.js";
 import { readFeedField, readLengthField, setFeedField, setLengthField, showFeed, showLength } from "./lengths.js";
 import { millingSnapshot, openInMilling } from "./milling-tab.js";
+import { libraryItem } from "./materials-tab.js";
+import { projectMaterialId } from "../library/library-store.js";
 import { selectTab } from "./tabs.js";
 
 let entries = [];
@@ -291,13 +293,16 @@ function store() {
 function keepMilling() {
   const snap = millingSnapshot();
   const r = snap.result;
+  // nom de la matière du projet (bibliothèque) quand elle correspond à celle du fraisage
+  const item = libraryItem(projectMaterialId());
+  const materialName = item && item.name && item.millMaterial === snap.input.material ? item.name : snap.materialName;
   openNotebookForm({
     id: newId(),
     date: today(),
     process: "mill",
     status: "ok",
     machine: "",
-    material: snap.materialName,
+    material: materialName,
     thickness: snap.input.toolType === "vbit" ? snap.input.engraveDepth : snap.input.thickness,
     note: "",
     values: {
