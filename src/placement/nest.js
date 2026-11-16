@@ -357,7 +357,8 @@ export function nest(input) {
     }
     return x;
   }
-  /* Note d'une position (plus petite = meilleure), en trois niveaux :
+  /* Note d'une position (plus petite = meilleure). Origine dans un coin : 2 × grand côté + petit côté de l'encombrement
+     du groupe, puis la distance à l'origine. Origine au centre ou au milieu d'un bord, en trois niveaux :
        1. le groupe reste le plus compact possible : plus grand côté de son encombrement réel une fois la pièce posée
           (depuis le bord quand l'accroche est sur un bord, sinon largeur ou hauteur réelle du groupe, recentré à la fin) ;
        2. puis la plus petite somme largeur + hauteur de cet encombrement ;
@@ -365,6 +366,9 @@ export function nest(input) {
      Le groupe est mesuré par son encombrement réel et pas par sa distance au centre : sinon, quand il dépasse plus
      d'un côté que de l'autre, l'appli croit « gratuit » de déborder de l'autre côté et laisse des pièces dépasser. */
   function grade(sx, sy, near) {
+    // origine dans un coin : le petit côté compte aussi, sinon une pièce glisse loin du bord pour gagner quelques
+    // millimètres sur le grand côté (créneaux emboîtés) et laisse une bande perdue le long du bord
+    if (!ax && !ay) return (sx > sy ? 2 * sx + sy : 2 * sy + sx) * 1e5 + near;
     return (sx > sy ? sx : sy) * 1e9 + (sx + sy) * 1e5 + near;
   }
   // distance d'une pièce au point d'accroche sur un axe (en cases) : depuis le bord, ou deux fois l'écart au milieu

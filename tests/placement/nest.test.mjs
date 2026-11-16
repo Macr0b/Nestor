@@ -157,6 +157,34 @@ describe("Imbrication (nest)", () => {
 
   // cas signalé (1.2.5) : origine au centre, des pièces posées debout dépassaient en bas alors qu'elles tenaient à plat ;
   // le groupe était mesuré par sa distance au centre au lieu de son encombrement réel
+  test("pièces à créneaux : elles restent contre le bord au lieu de glisser pour emboîter leurs créneaux (bug 1.5.0)", () => {
+    // contour avec créneaux de 70 × 12 mm en haut et en bas, comme les pièces d'un caisson
+    const tabbed = (w, h, topRight = w) => {
+      const t = 12,
+        tw = 70,
+        pts = [[0, 0]];
+      for (const f of [0.2, 0.75]) pts.push([f * w, 0], [f * w, -t], [f * w + tw, -t], [f * w + tw, 0]);
+      pts.push([w, 0], [topRight, h]);
+      for (const f of [0.75, 0.2])
+        pts.push([f * topRight + tw, h], [f * topRight + tw, h + t], [f * topRight, h + t], [f * topRight, h]);
+      pts.push([0, h]);
+      return pts;
+    };
+    for (const rot of [1, 2]) {
+      const types = [
+        type(tabbed(898, 698), 1, { rot }),
+        type(tabbed(698, 829, 670), 1, { rot }),
+        type(tabbed(898, 800), 1, { rot })
+      ];
+      const res = nest(input(types, [{ L: 1250, W: 2500, qty: -1 }], 2, 5));
+      assert.equal(res.sheets.length, 1);
+      // panneau de 1250 : les pièces s'empilent le long du grand côté, toutes collées au bord de la marge
+      for (const p of res.sheets[0].parts)
+        assert.ok(Math.min(p.x, p.y) <= 5 + res.res, `pièce ${p.i} à ${p.x.toFixed(0)}, ${p.y.toFixed(0)}`);
+      assert.deepEqual(checkSheet(res.sheets[0], types, { margin: 5, gap: 2, tol: res.res + 0.05 }), []);
+    }
+  });
+
   test("origine au centre : le groupe reste presque aussi compact que depuis un coin", () => {
     const L = [
       [0, 0],
@@ -190,9 +218,10 @@ describe("Imbrication (nest)", () => {
       const coin = nest({ ...inp, anchor: { ax: 0, ay: 0 } }),
         centre = nest({ ...inp, anchor: { ax: 0.5, ay: 0.5 } });
       assert.equal(centre.sheets.length, 1, name);
-      // avant la correction : jusqu'à 8,5 % plus grand ; maintenant moins de 5 %
+      // le groupement depuis un coin est plus compact depuis la 1.5.1 (le petit côté compte aussi) : le centre
+      // reste à moins de 12 % de lui (et pas plus étalé qu'avant : voir le test suivant)
       assert.ok(
-        side(centre) <= side(coin) * 1.06,
+        side(centre) <= side(coin) * 1.12,
         `${name} : ${side(centre).toFixed(0)} contre ${side(coin).toFixed(0)} depuis le coin`
       );
     }

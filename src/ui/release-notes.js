@@ -7,6 +7,7 @@ import { byId, escapeHtml } from "../util/dom.js";
 
 /* nouveautés des dernières versions (réglages) */
 const RELEASE_NOTES = [
+  ["1.6.0", "2026-11-16", "news.160"],
   ["1.5.0", "2026-11-16", "news.150"],
   ["1.4.1", "2026-11-16", "news.141"],
   ["1.4.0", "2026-11-15", "news.140"],

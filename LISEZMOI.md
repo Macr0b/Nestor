@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.5.0
+Version : 1.6.0
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -59,6 +59,8 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Export** : fichiers en mm, zéro sur l'origine choisie. En option (sous « Méthode ») : le contour du panneau sur un calque « Panneau ».
 - **Coupes de chutes** (option sous « Méthode ») : traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l'espace entre pièces. « Simples » : d'un bord à l'autre du panneau. « Détaillées » : la découpe suit à peu près le contour du groupe de pièces. Les traits sont exportés sur un calque « Coupes ».
 - **Onglet Fraisage** : rotation de la broche, avance, profondeur et nombre de passes selon la fraise (type, diamètre, nombre de dents), la matière (quatre familles, ou une matière précise : essences de bois, contreplaqués, plastiques, métaux) et les limites de la machine. Valeurs de départ prudentes, d'après les méthodes d'id-conception.fr et de cncfraises.fr. Les réglages sont mémorisés.
+- **Onglet Carnet** : tes réglages éprouvés (fraisage, laser, autre) avec machine, matière, épaisseur, valeurs utilisées, note et état (validé / à revoir). Recherche, filtre, « Garder dans le carnet » depuis l'onglet Fraisage, « Ouvrir dans Fraisage », sauvegarde et import d'un fichier.
+- **Unités** : métrique par défaut, ou pouces décimaux ou en fractions (Réglages). Les tailles ne changent jamais ; en pouces, les fichiers exportés sont aussi en pouces.
 
 ## Contenu du dossier
 
@@ -73,6 +75,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `src/geometry/` | Géométrie : tracés SVG, polylignes, regroupement en pièces, pièces placées |
 | `src/import/` | Un lecteur par format (DXF, SVG + nettoyage, PDF / AI, LightBurn, HPGL, VectorCraft) et la lecture des fichiers |
 | `src/placement/` | Imbrication selon la forme, rectangles, origine du panneau, calcul en arrière-plan |
+| `src/notebook/` | Carnet de réglages : fiches vérifiées, recherche, sauvegarde et import |
 | `src/machining/` | Calcul des réglages de fraisage, familles et liste des matières, réglages mémorisés |
 | `src/export/` | Fichiers exportés (SVG, DXF), contour du panneau, coupes de chutes |
 | `src/ui/` | Chaque partie de l'interface : onglets, fichiers, pièces, panneaux, résultat, fraisage, réglages, installation, mises à jour |

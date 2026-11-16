@@ -1,20 +1,27 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Écriture du fichier SVG exporté : calques conservés, zéro à l'origine choisie, en mm. */
+/* Écriture du fichier SVG exporté : calques conservés, zéro à l'origine choisie, en mm (ou en pouces si demandé). */
 
 import { exportPaths } from "./export-files.js";
 import { originPoint } from "../placement/origin.js";
 import { escapeHtml } from "../util/dom.js";
+import { MM_PER_INCH } from "../util/units.js";
 
-export function buildSvgFile(sheet) {
+export function buildSvgFile(sheet, inches) {
   // calques d'origine conservés (lisibles par Illustrator, Inkscape, LightBurn), puis regroupement par couleur
-  var panelWidth = sheet.L,
-    panelHeight = sheet.W,
+  // inches : fichier en pouces (cotes divisées par 25,4 et unité « in ») ; sinon en mm
+  var k = inches ? 1 / MM_PER_INCH : 1,
+    unit = inches ? "in" : "mm",
+    precision = inches ? 100000 : 1000,
+    panelWidth = sheet.L * k,
+    panelHeight = sheet.W * k,
     layers = {},
     lorder = [];
-  var origin = originPoint(sheet);
+  var origin = originPoint(sheet).map(function (v) {
+    return v * k;
+  });
   exportPaths(sheet).forEach(function (q) {
     q.pts = q.pts.map(function (v) {
-      return [v[0] - origin[0], v[1] - origin[1]];
+      return [v[0] * k - origin[0], v[1] * k - origin[1]];
     });
     var ly = q.layer || "",
       key = q.color || "#000000";
@@ -28,9 +35,11 @@ export function buildSvgFile(sheet) {
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="' +
       panelWidth +
-      'mm" height="' +
+      unit +
+      '" height="' +
       panelHeight +
-      'mm" viewBox="' +
+      unit +
+      '" viewBox="' +
       -origin[0] +
       " " +
       -origin[1] +
@@ -65,13 +74,13 @@ export function buildSvgFile(sheet) {
       );
     }
     Object.keys(groups).forEach(function (c) {
-      o.push('<g fill="none" stroke="' + escapeHtml(c) + '" stroke-width="0.1">');
+      o.push('<g fill="none" stroke="' + escapeHtml(c) + '" stroke-width="' + 0.1 * k + '">');
       groups[c].forEach(function (q) {
         o.push(
           '<path d="M' +
             q.pts
               .map(function (v) {
-                return Math.round(v[0] * 1000) / 1000 + " " + Math.round(v[1] * 1000) / 1000;
+                return Math.round(v[0] * precision) / precision + " " + Math.round(v[1] * precision) / precision;
               })
               .join("L") +
             (q.closed ? "Z" : "") +

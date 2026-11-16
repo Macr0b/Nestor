@@ -9,7 +9,7 @@ import { join, extname } from "node:path";
 import { createRequire } from "node:module";
 import { gzipSync } from "node:zlib";
 import { ROOT } from "../helpers.mjs";
-import { READERS, bounds } from "../export-readers.mjs";
+import { READERS, bounds, fileUnit } from "../export-readers.mjs";
 
 let chromium = null;
 try {
@@ -488,66 +488,76 @@ describe("Interface", { skip }, () => {
   // Tous les formats d'export proposés (boutons « Télécharger … ») sont vérifiés de la même façon, pour chaque origine
   // et avec toutes les options : zéro à l'origine, contour du panneau, traits de coupe, mêmes pièces dans chaque format.
   // Un nouveau format sans lecteur dans export-readers.mjs fait échouer ce test.
-  test("tous les formats d'export : mêmes pièces, zéro à l'origine, contour et coupes présents", async () => {
-    const page = await open();
-    await page.check("#dlBoard");
-    await page.selectOption("#cutSel", "detail");
-    const formats = await page.$$eval('[data-dl][data-s="0"]', (v) => v.map((b) => b.dataset.dl));
-    assert.ok(formats.length >= 2, `formats trouvés : ${formats}`);
-    for (const f of formats)
-      assert.ok(READERS[f], `pas de lecteur de test pour le format « ${f} » : l'ajouter dans export-readers.mjs`);
-    const near = (a, b, msg) => assert.ok(Math.abs(a - b) < 0.05, `${msg} : ${a} au lieu de ${b}`);
-    // origine → encombrement attendu du panneau dans le repère machine (panneau de l'exemple : 400 de large, 600 de haut)
-    const expect = { tl: [0, -600, 400, 0], br: [-400, 0, 0, 600], mc: [-200, -300, 200, 300], bl: [0, 0, 400, 600] };
-    for (const o of Object.keys(expect)) {
-      await page.click(`.pnl[data-i="0"] [data-o=${o}]`);
-      await idle(page);
-      const cutsOnScreen = await page.locator(".sheet").first().locator(".svg-cut").count();
-      const parts = {};
-      for (const f of formats) {
-        const [d] = await Promise.all([page.waitForEvent("download"), page.click(`[data-dl=${f}][data-s="0"]`)]);
-        const layers = READERS[f](await readFile(await d.path(), "utf8"));
-        const where = `${f}, origine ${o}`;
-        // contour du panneau : un rectangle fermé, exactement le panneau autour du zéro choisi
-        assert.equal(layers.Panneau?.length, 1, `${where} : contour du panneau`);
-        bounds(layers.Panneau).forEach((v, k) => near(v, expect[o][k], `${where} : contour`));
-        // traits de coupe : autant que sur l'écran, tous dans le panneau
-        assert.equal(layers.Coupes?.length || 0, cutsOnScreen, `${where} : traits de coupe`);
-        for (const c of layers.Coupes || []) {
-          const [x0, y0, x1, y1] = bounds([c]);
+  for (const units of ["mm", "inch"])
+    test(`tous les formats d'export (${units}) : mêmes pièces, zéro à l'origine, contour et coupes présents`, async () => {
+      const page = await open();
+      if (units !== "mm") {
+        // appli en pouces : les fichiers aussi, ramenés en mm par les lecteurs pour comparer aux mêmes cotes
+        await page.click("#btnSettings");
+        await page.selectOption("#unitsSel", units);
+        await page.click("#btnCloseSet");
+        await idle(page);
+      }
+      await page.check("#dlBoard");
+      await page.selectOption("#cutSel", "detail");
+      const formats = await page.$$eval('[data-dl][data-s="0"]', (v) => v.map((b) => b.dataset.dl));
+      assert.ok(formats.length >= 2, `formats trouvés : ${formats}`);
+      for (const f of formats)
+        assert.ok(READERS[f], `pas de lecteur de test pour le format « ${f} » : l'ajouter dans export-readers.mjs`);
+      const near = (a, b, msg) => assert.ok(Math.abs(a - b) < 0.05, `${msg} : ${a} au lieu de ${b}`);
+      // origine → encombrement attendu du panneau dans le repère machine (panneau de l'exemple : 400 de large, 600 de haut)
+      const expect = { tl: [0, -600, 400, 0], br: [-400, 0, 0, 600], mc: [-200, -300, 200, 300], bl: [0, 0, 400, 600] };
+      for (const o of Object.keys(expect)) {
+        await page.click(`.pnl[data-i="0"] [data-o=${o}]`);
+        await idle(page);
+        const cutsOnScreen = await page.locator(".sheet").first().locator(".svg-cut").count();
+        const parts = {};
+        for (const f of formats) {
+          const [d] = await Promise.all([page.waitForEvent("download"), page.click(`[data-dl=${f}][data-s="0"]`)]);
+          const text = await readFile(await d.path(), "utf8");
+          const layers = READERS[f](text);
+          const where = `${f} ${units}, origine ${o}`;
+          assert.equal(fileUnit(text), units === "mm" ? "mm" : "in", `${where} : unité écrite dans le fichier`);
+          // contour du panneau : un rectangle fermé, exactement le panneau autour du zéro choisi
+          assert.equal(layers.Panneau?.length, 1, `${where} : contour du panneau`);
+          bounds(layers.Panneau).forEach((v, k) => near(v, expect[o][k], `${where} : contour`));
+          // traits de coupe : autant que sur l'écran, tous dans le panneau
+          assert.equal(layers.Coupes?.length || 0, cutsOnScreen, `${where} : traits de coupe`);
+          for (const c of layers.Coupes || []) {
+            const [x0, y0, x1, y1] = bounds([c]);
+            assert.ok(
+              x0 >= expect[o][0] - 0.05 &&
+                x1 <= expect[o][2] + 0.05 &&
+                y0 >= expect[o][1] - 0.05 &&
+                y1 <= expect[o][3] + 0.05,
+              `${where} : trait hors du panneau`
+            );
+          }
+          // pièces : tout le reste, dans le panneau
+          const p = Object.entries(layers)
+            .filter(([k]) => k !== "Panneau" && k !== "Coupes")
+            .flatMap(([, v]) => v);
+          assert.ok(p.length > 0, `${where} : pièces`);
+          const b = bounds(p);
           assert.ok(
-            x0 >= expect[o][0] - 0.05 &&
-              x1 <= expect[o][2] + 0.05 &&
-              y0 >= expect[o][1] - 0.05 &&
-              y1 <= expect[o][3] + 0.05,
-            `${where} : trait hors du panneau`
+            b[0] >= expect[o][0] - 0.05 &&
+              b[2] <= expect[o][2] + 0.05 &&
+              b[1] >= expect[o][1] - 0.05 &&
+              b[3] <= expect[o][3] + 0.05,
+            `${where} : pièces hors du panneau ${b}`
           );
+          parts[f] = { n: p.length, b };
         }
-        // pièces : tout le reste, dans le panneau
-        const p = Object.entries(layers)
-          .filter(([k]) => k !== "Panneau" && k !== "Coupes")
-          .flatMap(([, v]) => v);
-        assert.ok(p.length > 0, `${where} : pièces`);
-        const b = bounds(p);
-        assert.ok(
-          b[0] >= expect[o][0] - 0.05 &&
-            b[2] <= expect[o][2] + 0.05 &&
-            b[1] >= expect[o][1] - 0.05 &&
-            b[3] <= expect[o][3] + 0.05,
-          `${where} : pièces hors du panneau ${b}`
-        );
-        parts[f] = { n: p.length, b };
+        // tous les formats contiennent exactement les mêmes pièces au même endroit
+        const [ref, ...others] = formats;
+        for (const f of others) {
+          assert.equal(parts[f].n, parts[ref].n, `origine ${o} : nombre de tracés ${f} ≠ ${ref}`);
+          parts[f].b.forEach((v, k) => near(v, parts[ref].b[k], `origine ${o} : position des pièces ${f} ≠ ${ref}`));
+        }
       }
-      // tous les formats contiennent exactement les mêmes pièces au même endroit
-      const [ref, ...others] = formats;
-      for (const f of others) {
-        assert.equal(parts[f].n, parts[ref].n, `origine ${o} : nombre de tracés ${f} ≠ ${ref}`);
-        parts[f].b.forEach((v, k) => near(v, parts[ref].b[k], `origine ${o} : position des pièces ${f} ≠ ${ref}`));
-      }
-    }
-    assert.deepEqual(page.errors, []);
-    await page.context().close();
-  });
+      assert.deepEqual(page.errors, []);
+      await page.context().close();
+    });
 
   test("hors ligne : l'appli se recharge et calcule sans connexion", async () => {
     const page = await open();
@@ -827,6 +837,100 @@ describe("Interface", { skip }, () => {
     await page.reload();
     await page.waitForSelector("#millValues b");
     assert.equal(await page.inputValue("#millDiameter"), "0.2362");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("carnet : garder depuis Fraisage, chercher, laser, modifier, supprimer, rouvrir, exporter et importer", async () => {
+    const page = await open();
+    const cards = () => page.locator("#nbList .nb-card").count();
+    // depuis l'onglet Fraisage : fiche pré-remplie avec les réglages conseillés
+    await page.click("#tabMill");
+    await page.click("#btnKeepMilling");
+    assert.equal(await page.getAttribute("#tabNotebook", "aria-selected"), "true");
+    assert.equal(await page.isVisible("#nbFormBox"), true);
+    assert.equal(await page.inputValue("#nbMaterial"), "Intermédiaire");
+    assert.equal(await page.inputValue("#nbRpm"), "15900");
+    assert.equal(await page.inputValue("#nbDepth"), "3");
+    assert.equal(await page.inputValue("#nbMillPasses"), "6");
+    await page.fill("#nbMachine", "CNC atelier");
+    await page.fill("#nbMaterial", "Contreplaqué bouleau");
+    await page.fill("#nbNote", '<img src=x onerror="window.pwned=1"> Propre');
+    await page.click("#nbForm [type=submit]");
+    assert.equal(await cards(), 1);
+    assert.equal(await page.locator("#nbList img").count(), 0, "la note reste du texte");
+    assert.match(await page.textContent("#nbList"), /Contreplaqué bouleau · 18 mm/);
+    assert.match(await page.textContent("#nbList"), /15\s?900 tr\/min/);
+    // fiche laser à la main
+    await page.click("#btnNbNew");
+    await page.click('#nbProcess [data-process="laser"]');
+    assert.equal(await page.isVisible("#nbSpeed"), true);
+    assert.equal(await page.isVisible("#nbRpm"), false);
+    await page.fill("#nbMachine", "Trotec Speedy 360");
+    await page.fill("#nbMaterial", "PMMA coulé");
+    await page.selectOption("#nbOperation", "engrave");
+    await page.fill("#nbSpeed", "60");
+    await page.fill("#nbPower", "35");
+    await page.selectOption("#nbStatus", "review");
+    await page.click("#nbForm [type=submit]");
+    assert.equal(await cards(), 2);
+    // recherche sans accents et filtre par procédé
+    await page.fill("#nbSearch", "contreplaque");
+    assert.equal(await cards(), 1);
+    await page.fill("#nbSearch", "gravure");
+    assert.equal(await cards(), 1, "libellé traduit trouvé");
+    await page.fill("#nbSearch", "zzz");
+    assert.equal(await cards(), 0);
+    assert.match(await page.textContent("#nbList"), /Aucun réglage/);
+    await page.fill("#nbSearch", "");
+    await page.click('#nbFilter [data-process="laser"]');
+    assert.equal(await cards(), 1);
+    await page.click('#nbFilter [data-process=""]');
+    // modifier la fiche laser
+    const laser = page.locator(".nb-card", { hasText: "PMMA" });
+    await laser.locator("[data-act=edit]").click();
+    assert.equal(await page.inputValue("#nbPower"), "35");
+    await page.fill("#nbPower", "25");
+    await page.click("#nbForm [type=submit]");
+    assert.match(await laser.textContent(), /Puissance 25 %/);
+    assert.match(await laser.textContent(), /À revoir/);
+    // ouvrir la fiche de fraisage dans l'onglet Fraisage, après lui avoir donné une fraise de 8
+    const mill = page.locator(".nb-card", { hasText: "bouleau" });
+    await mill.locator("[data-act=edit]").click();
+    await page.fill("#nbDiameter", "8");
+    await page.click("#nbForm [type=submit]");
+    await mill.locator("[data-act=open]").click();
+    assert.equal(await page.getAttribute("#tabMill", "aria-selected"), "true");
+    assert.equal(await page.inputValue("#millDiameter"), "8");
+    // gardé après rechargement
+    await page.reload();
+    await page.waitForSelector("#millValues b");
+    await page.click("#tabNotebook");
+    assert.equal(await cards(), 2);
+    // export puis import dans un carnet vidé
+    const [d] = await Promise.all([page.waitForEvent("download"), page.click("#btnNbExport")]);
+    const saved = await d.path();
+    const data = JSON.parse(await readFile(saved, "utf8"));
+    assert.equal(data.kind, "carnet");
+    assert.equal(data.entries.length, 2);
+    for (let i = 0; i < 2; i++) {
+      await page.locator(".nb-card [data-act=delete]").first().click();
+      await page.locator(".nb-card [data-act=confirm]").first().click();
+    }
+    assert.equal(await cards(), 0);
+    assert.match(await page.textContent("#nbList"), /carnet est vide/);
+    await page.setInputFiles("#nbImport", saved);
+    await page.waitForFunction(() => document.querySelectorAll("#nbList .nb-card").length === 2);
+    assert.match(await page.textContent("#nbMsg"), /2 réglages importés/);
+    // un fichier qui n'est pas un carnet : refusé, rien ne change
+    await page.setInputFiles("#nbImport", {
+      name: "x.json",
+      mimeType: "application/json",
+      buffer: Buffer.from('{"a":1}')
+    });
+    await page.waitForFunction(() => /pas un carnet/.test(document.getElementById("nbMsg").textContent));
+    assert.equal(await cards(), 2);
+    assert.equal(await page.evaluate(() => window.pwned), undefined);
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });

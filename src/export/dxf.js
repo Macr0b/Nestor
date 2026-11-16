@@ -1,5 +1,7 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Écriture du fichier DXF exporté : calques conservés, zéro à l'origine choisie, en mm. */
+/* Écriture du fichier DXF exporté : calques conservés, zéro à l'origine choisie, en mm (ou en pouces si demandé). */
+
+import { MM_PER_INCH } from "../util/units.js";
 
 export function dxfLayerName(layer) {
   var n =
@@ -19,7 +21,9 @@ function hashString(text) {
 }
 
 // ox, oy : origine choisie (coordonnées de la page, Y vers le bas) ; le DXF a son Y vers le haut
-export function buildDxfFile(paths, originX, originY) {
+// inches : fichier en pouces (cotes divisées par 25,4, $INSUNITS = 1) ; sinon en mm ($INSUNITS = 4)
+export function buildDxfFile(paths, originX, originY, inches) {
+  var k = inches ? 1 / MM_PER_INCH : 1;
   var lines = [
     "0",
     "SECTION",
@@ -32,7 +36,7 @@ export function buildDxfFile(paths, originX, originY) {
     "9",
     "$INSUNITS",
     "70",
-    "4",
+    inches ? "1" : "4",
     "0",
     "ENDSEC",
     "0",
@@ -41,7 +45,8 @@ export function buildDxfFile(paths, originX, originY) {
     "ENTITIES"
   ];
   function r(v) {
-    return (Math.round(v * 10000) / 10000).toString();
+    var precision = inches ? 1000000 : 10000;
+    return (Math.round(v * k * precision) / precision).toString();
   }
   paths.forEach(function (p) {
     var lay = dxfLayerName(p.layer);

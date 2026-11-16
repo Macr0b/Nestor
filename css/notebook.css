@@ -1,0 +1,227 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Onglet Carnet : liste des réglages éprouvés et formulaire d'ajout ou de modification. */
+
+.nb-page {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .nb-page.editing {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+  }
+  .nb-formbox {
+    position: sticky;
+    top: 16px;
+  }
+}
+.nb-page [hidden] {
+  display: none;
+}
+.nb-top {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+.nb-search {
+  flex: 1 1 220px;
+}
+.nb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nb-chips button {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.nb-chips button:hover {
+  border-color: var(--accent);
+}
+.nb-chips button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.nb-import {
+  cursor: pointer;
+}
+#nbMsg:empty {
+  display: none;
+}
+.nb-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+.nb-empty {
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* une fiche */
+.nb-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 6px 14px;
+  align-items: start;
+}
+.nb-tag {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.nb-tag.mill {
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  color: var(--accent);
+}
+.nb-tag.laser {
+  background: color-mix(in srgb, var(--danger) 14%, var(--surface));
+  color: var(--danger);
+}
+.nb-tag.other {
+  background: var(--scrap);
+  color: var(--muted);
+}
+.nb-title {
+  font-weight: 700;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.nb-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+.nb-vals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+}
+.nb-vals b {
+  color: var(--accent);
+}
+.nb-settings {
+  margin-top: 8px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.nb-note {
+  grid-column: 2 / 3;
+  font-size: 13px;
+  background: var(--scrap);
+  border-radius: 6px;
+  padding: 6px 9px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.nb-act {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  font-size: 12px;
+  color: var(--muted);
+}
+.nb-act .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.nb-ok {
+  color: var(--ok, #2e7d4f);
+  font-weight: 600;
+}
+.nb-review {
+  color: var(--warn, #b26a00);
+  font-weight: 600;
+}
+.nb-act .confirm {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* formulaire ouvert à côté : liste plus étroite, boutons de la fiche sous son contenu */
+.nb-page.editing .nb-card {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+.nb-page.editing .nb-act {
+  grid-column: 2;
+  grid-row: 3;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  justify-items: start;
+}
+.nb-page.editing .nb-act .row {
+  justify-self: end;
+}
+
+/* formulaire */
+.nb-form {
+  display: grid;
+  gap: 12px;
+}
+.nb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.nb-form textarea {
+  min-height: 64px;
+  resize: vertical;
+}
+.nb-save {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* bouton « Garder dans le carnet » de l'onglet Fraisage */
+.nb-from {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.nb-from .hint {
+  margin: 0;
+  flex: 1 1 200px;
+}
+
+@media (max-width: 560px) {
+  .nb-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nb-note {
+    grid-column: auto;
+  }
+  .nb-act {
+    justify-items: start;
+  }
+}

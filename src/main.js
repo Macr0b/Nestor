@@ -8,6 +8,7 @@ import { startBlueprintDecor } from "./ui/blueprint-decor.js";
 import { bindFilesPanel } from "./ui/files-panel.js";
 import { bindInstall, refreshInstallButton } from "./ui/install.js";
 import { bindMillingTab, renderMilling } from "./ui/milling-tab.js";
+import { bindNotebookTab, renderNotebook } from "./ui/notebook-tab.js";
 import { bindPanelsEditor } from "./ui/panels-editor.js";
 import { bindPartsList } from "./ui/parts-list.js";
 import { renderAll } from "./ui/render-all.js";
@@ -31,6 +32,7 @@ async function start() {
   bindInstall();
   bindUpdates();
   bindMillingTab();
+  bindNotebookTab();
 
   const startLanguage = detectLanguage();
   languageSelect.value = startLanguage;
@@ -38,6 +40,7 @@ async function start() {
   loadPreferences();
   renderAll();
   renderMilling();
+  renderNotebook();
   refreshInstallButton();
   const versionLabel = document.getElementById("cartVer");
   if (versionLabel) versionLabel.textContent = APP_VERSION;

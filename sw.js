@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.5.0";
+const VERSION = "1.6.0";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -9,6 +9,7 @@ const FILES = [
   "css/blueprint.css",
   "css/fonts.css",
   "css/milling.css",
+  "css/notebook.css",
   "css/settings.css",
   "css/tabs.css",
   "css/theme.css",
@@ -37,6 +38,7 @@ const FILES = [
   "src/machining/milling-store.js",
   "src/machining/milling.js",
   "src/main.js",
+  "src/notebook/notebook-store.js",
   "src/placement/nest.js",
   "src/placement/origin.js",
   "src/placement/rectangles.js",
@@ -52,6 +54,7 @@ const FILES = [
   "src/ui/install.js",
   "src/ui/lengths.js",
   "src/ui/milling-tab.js",
+  "src/ui/notebook-tab.js",
   "src/ui/panels-editor.js",
   "src/ui/parts-list.js",
   "src/ui/release-notes.js",

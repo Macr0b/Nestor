@@ -3,6 +3,7 @@ import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { rect } from "../helpers.mjs";
 import { buildDxfFile } from "../../src/export/dxf.js";
+import { readDXF } from "../export-readers.mjs";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b} (±${tol})`);
 describe("Export DXF", () => {
@@ -28,6 +29,19 @@ describe("Export DXF", () => {
     const { ys } = coords(buildDxfFile(polys, 0, 0));
     assert.ok(ys.every((y) => y <= 0));
     near(Math.min(...ys), -70);
+  });
+
+  test("en pouces : unité 1 dans l'en-tête et cotes divisées par 25,4", () => {
+    const inch = buildDxfFile(polys, 0, 400, true);
+    assert.match(inch, /\$INSUNITS\r?\n70\r?\n1\r?\n/);
+    assert.match(buildDxfFile(polys, 0, 400), /\$INSUNITS\r?\n70\r?\n4\r?\n/);
+    // le lecteur ramène le fichier en pouces en mm : mêmes points qu'en mm (à l'arrondi du fichier près)
+    const mm = readDXF(buildDxfFile(polys, 0, 400)).Decoupe[0].pts,
+      back = readDXF(inch).Decoupe[0].pts;
+    back.forEach(([x, y], i) => {
+      near(x, mm[i][0], 0.0001);
+      near(y, mm[i][1], 0.0001);
+    });
   });
 
   test("nom de calque lisible par les vieux logiciels (sans accent ni espace)", () => {

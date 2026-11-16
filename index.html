@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="css/settings.css">
 <link rel="stylesheet" href="css/tabs.css">
 <link rel="stylesheet" href="css/milling.css">
+<link rel="stylesheet" href="css/notebook.css">
 </head>
 <body>
 <div class="bp-ruler-top" aria-hidden="true"><svg id="bpTop"></svg></div>
@@ -71,6 +72,7 @@
   <nav class="tabs" role="tablist" data-i18n-aria="tab.label" aria-label="Outils de Nestor">
     <button type="button" role="tab" id="tabNest" aria-controls="pageNest" aria-selected="true" data-i18n="tab.nest">Imbrication</button>
     <button type="button" role="tab" id="tabMill" aria-controls="pageMill" aria-selected="false" tabindex="-1" data-i18n="tab.mill">Fraisage</button>
+    <button type="button" role="tab" id="tabNotebook" aria-controls="pageNotebook" aria-selected="false" tabindex="-1" data-i18n="tab.notebook">Carnet</button>
   </nav>
 
   <div class="cols" id="pageNest" role="tabpanel" aria-labelledby="tabNest">
@@ -185,6 +187,7 @@
     <section class="box mill-results" aria-labelledby="h-millRes" aria-live="polite">
       <h2 id="h-millRes" data-i18n="mill.results">Réglages conseillés</h2>
       <div class="mill-values" id="millValues"></div>
+      <div class="nb-from"><button type="button" class="btn" id="btnKeepMilling" data-i18n="nb.keep">＋ Garder dans le carnet</button><span class="hint" data-i18n="nb.keepHint">Tu pourras corriger les valeurs vraiment utilisées et ajouter une note.</span></div>
       <p class="hint" id="millRule"></p>
       <ul class="mill-notes" id="millNotes"></ul>
       <p class="hint" data-i18n="mill.prudent">Valeurs de départ prudentes : écoute la machine et ajuste.</p>
@@ -203,6 +206,71 @@
       </div>
       <table class="mill-theory-table" id="millTheoryTable"></table>
       <p class="hint"><span data-i18n="mill.thMetric">Calculs faits en millimètres, convertis à l’affichage.</span> <span data-i18n="mill.thSources"></span></p>
+    </section>
+  </div>
+  <div class="nb-page" id="pageNotebook" role="tabpanel" aria-labelledby="tabNotebook" hidden>
+    <section class="box nb-listbox" aria-labelledby="h-nb">
+      <h2 id="h-nb" data-i18n="nb.title">Carnet de réglages</h2>
+      <div class="nb-top">
+        <label class="f nb-search"><span data-i18n="nb.search">Rechercher</span><input type="search" id="nbSearch" data-i18n-ph="nb.searchPh" placeholder="matière, machine, note…"></label>
+        <div class="nb-chips" id="nbFilter" role="group" data-i18n-aria="nb.filter" aria-label="Procédé">
+          <button type="button" data-process="" aria-pressed="true" data-i18n="nb.all">Tout</button>
+          <button type="button" data-process="mill" aria-pressed="false" data-i18n="nb.mill">Fraisage</button>
+          <button type="button" data-process="laser" aria-pressed="false" data-i18n="nb.laser">Laser</button>
+          <button type="button" data-process="other" aria-pressed="false" data-i18n="nb.other">Autre</button>
+        </div>
+        <button type="button" class="btn" id="btnNbNew" data-i18n="nb.new">＋ Nouveau réglage</button>
+        <button type="button" class="btn sm" id="btnNbExport" data-i18n="nb.export">Exporter</button>
+        <label class="btn sm nb-import"><span data-i18n="nb.import">Importer</span><input type="file" id="nbImport" accept=".json,application/json" hidden></label>
+      </div>
+      <p class="hint" id="nbMsg" aria-live="polite"></p>
+      <div class="nb-list" id="nbList"></div>
+    </section>
+    <section class="box nb-formbox" id="nbFormBox" aria-labelledby="h-nbForm" hidden>
+      <h2 id="h-nbForm"></h2>
+      <form class="nb-form" id="nbForm">
+        <div class="nb-chips" id="nbProcess" role="group" data-i18n-aria="nb.process" aria-label="Procédé">
+          <button type="button" data-process="mill" data-i18n="nb.mill">Fraisage</button>
+          <button type="button" data-process="laser" data-i18n="nb.laser">Laser</button>
+          <button type="button" data-process="other" data-i18n="nb.other">Autre</button>
+        </div>
+        <div class="nb-grid">
+          <label class="f"><span data-i18n="nb.machine">Machine</span><input type="text" id="nbMachine" maxlength="120"></label>
+          <label class="f"><span data-i18n="nb.material">Matière</span><input type="text" id="nbMaterial" maxlength="120"></label>
+          <label class="f"><span data-i18n="nb.thickness">Épaisseur ({u})</span><input type="text" id="nbThickness" inputmode="decimal"></label>
+          <label class="f"><span data-i18n="nb.status">Résultat</span><select id="nbStatus">
+            <option value="ok" data-i18n="nb.statusOk">✓ Validé</option>
+            <option value="review" data-i18n="nb.statusReview">⚠ À revoir</option>
+          </select></label>
+        </div>
+        <div class="nb-grid" data-for="mill">
+          <label class="f"><span data-i18n="mill.type">Type</span><select id="nbTool"></select></label>
+          <label class="f"><span data-i18n="mill.diameter">Diamètre ({u})</span><input type="text" id="nbDiameter" inputmode="decimal"></label>
+          <label class="f"><span data-i18n="mill.flutes">Nombre de dents</span><input id="nbFlutes" type="number" inputmode="numeric" min="1" step="1"></label>
+          <label class="f"><span data-i18n="nb.rpm">Rotation (tr/min)</span><input id="nbRpm" type="number" inputmode="numeric" min="0" step="100"></label>
+          <label class="f"><span data-i18n="nb.feed">Avance ({u}/min)</span><input id="nbFeed" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="f"><span data-i18n="nb.depth">Passe ({u})</span><input type="text" id="nbDepth" inputmode="decimal"></label>
+          <label class="f"><span data-i18n="mill.passes">Nombre de passes</span><input id="nbMillPasses" type="number" inputmode="numeric" min="0" step="1"></label>
+        </div>
+        <div class="nb-grid" data-for="laser">
+          <label class="f"><span data-i18n="nb.operation">Opération</span><select id="nbOperation">
+            <option value="cut" data-i18n="nb.opCut">Découpe</option>
+            <option value="engrave" data-i18n="nb.opEngrave">Gravure</option>
+            <option value="mark" data-i18n="nb.opMark">Marquage</option>
+          </select></label>
+          <label class="f"><span data-i18n="nb.optics">Optique, accessoire</span><input type="text" id="nbOptics" maxlength="120"></label>
+          <label class="f"><span data-i18n="nb.speed">Vitesse (%)</span><input id="nbSpeed" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="f"><span data-i18n="nb.power">Puissance (%)</span><input id="nbPower" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="f"><span data-i18n="nb.frequency">Fréquence (Hz) ou PPI</span><input id="nbFrequency" type="number" inputmode="numeric" min="0" step="any"></label>
+          <label class="f"><span data-i18n="mill.passes">Nombre de passes</span><input id="nbLaserPasses" type="number" inputmode="numeric" min="0" step="1"></label>
+        </div>
+        <label class="f" data-for="other"><span data-i18n="nb.settings">Réglages</span><textarea id="nbSettings" maxlength="2000"></textarea></label>
+        <label class="f"><span data-i18n="nb.note">Note</span><textarea id="nbNote" maxlength="2000"></textarea></label>
+        <div class="nb-save">
+          <button type="button" class="btn sm" id="btnNbCancel" data-i18n="nb.cancel">Annuler</button>
+          <button type="submit" class="btn" data-i18n="nb.save">Enregistrer</button>
+        </div>
+      </form>
     </section>
   </div>
 </div>

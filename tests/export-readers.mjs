@@ -2,6 +2,21 @@
 // le test « tous les formats d'export » échoue sinon, pour qu'aucun format ne reste sans vérification.
 // Chaque lecteur renvoie les tracés dans le même repère machine : X vers la droite, Y vers le haut, zéro à l'origine
 // choisie, en mm : { calque: [ { pts: [[x, y], ...], closed }, ... ], ... }
+// Un fichier écrit en pouces (DXF : $INSUNITS = 1 ; SVG : largeur en « in ») est ramené en mm.
+
+const toMm = (layers, k) => {
+  if (k !== 1)
+    for (const paths of Object.values(layers)) for (const p of paths) p.pts = p.pts.map(([x, y]) => [x * k, y * k]);
+  return layers;
+};
+
+/** Unité écrite dans le fichier : "in" ou "mm". */
+export function fileUnit(text) {
+  const dxf = text.match(/\$INSUNITS\s*\r?\n\s*70\s*\r?\n\s*(\d+)/);
+  if (dxf) return dxf[1] === "1" ? "in" : "mm";
+  const svg = text.match(/<svg[^>]*\swidth="[\d.]+(in|mm)"/);
+  return svg ? svg[1] : "mm";
+}
 
 /** DXF (POLYLINE + VERTEX, LWPOLYLINE, LINE) : Y est déjà vers le haut. */
 export function readDXF(text) {
@@ -39,7 +54,7 @@ export function readDXF(text) {
       });
     }
   }
-  return layers;
+  return toMm(layers, fileUnit(text) === "in" ? 25.4 : 1);
 }
 
 /** SVG : calques = groupes inkscape:label ; Y du SVG vers le bas, donc retourné. */
@@ -65,7 +80,7 @@ export function readSVG(text) {
     (layers[layer] = layers[layer] || []).push({ pts, closed: /z\s*$/i.test(d) });
     if (selfClose) continue;
   }
-  return layers;
+  return toMm(layers, fileUnit(text) === "in" ? 25.4 : 1);
 }
 
 export const READERS = { dxf: readDXF, svg: readSVG };

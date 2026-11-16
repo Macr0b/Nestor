@@ -6,6 +6,7 @@ import { exportPaths, fileSlug, saveFile } from "../export/export-files.js";
 import { buildSvgFile } from "../export/svg.js";
 import { formatNumber, translate } from "../i18n/i18n.js";
 import { showDistance, showFeed, showLength } from "./lengths.js";
+import { isImperial } from "../util/units.js";
 import { outerContourLength } from "../geometry/polylines.js";
 import { estimateCutTime, splitDuration } from "../machining/cut-time.js";
 import { loadMillingInput } from "../machining/milling-store.js";
@@ -238,7 +239,8 @@ export function drawResult(res) {
     );
   });
   if (!n && !res.unplaced.length) h.push('<p class="hint">' + escapeHtml(translate("res.empty")) + "</p>");
-  if (n) h.push('<p class="hint">' + escapeHtml(translate("res.note")) + "</p>");
+  // les fichiers suivent les unités choisies : en pouces si l'appli est en pouces
+  if (n) h.push('<p class="hint">' + escapeHtml(translate(isImperial() ? "res.noteInch" : "res.note")) + "</p>");
   byId("result").innerHTML = h.join("");
 }
 
@@ -253,11 +255,11 @@ export function bindResultView() {
       base = fileSlug(state.name || state.source.replace(/\.\w+$/, "")) + "-" + (si + 1);
     var data, type;
     if (kind === "svg") {
-      data = buildSvgFile(s);
+      data = buildSvgFile(s, isImperial());
       type = "image/svg+xml";
     } else {
       var op = originPoint(s);
-      data = buildDxfFile(exportPaths(s), op[0], op[1]);
+      data = buildDxfFile(exportPaths(s), op[0], op[1], isImperial());
       type = "application/dxf";
     }
     saveFile(base + "." + kind, new Blob([data], { type: type }))

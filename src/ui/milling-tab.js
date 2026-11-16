@@ -222,6 +222,38 @@ function changed() {
   if (session.lastResult) drawResult(session.lastResult);
 }
 
+/* Réglages en cours et résultat, pour garder une fiche dans le carnet. */
+export function millingSnapshot() {
+  const material = materialById(input.material);
+  return {
+    input: Object.assign({}, input),
+    result: millingSettings(input),
+    materialName: material ? translate("mill.mat." + material.id) : familyName(input.family)
+  };
+}
+
+/* Ouvre une fiche du carnet dans l'onglet Fraisage : fraise, matière et épaisseur reprises. */
+export function openInMilling(entry) {
+  const v = entry.values;
+  if (TOOL_TYPES.includes(v.tool)) input.toolType = v.tool;
+  if (v.diameter > 0) input.diameter = v.diameter;
+  if (v.flutes >= 1) input.flutes = v.flutes;
+  if (materialById(v.materialId)) {
+    input.material = v.materialId;
+    input.family = materialById(v.materialId).family;
+  } else if (FAMILIES.some((f) => f.id === v.family)) {
+    input.material = "";
+    input.family = v.family;
+  }
+  if (entry.thickness > 0) {
+    if (input.toolType === "vbit") input.engraveDepth = entry.thickness;
+    else input.thickness = entry.thickness;
+  }
+  preciseOpen = !!input.material;
+  fillFields();
+  changed();
+}
+
 /* À appeler après un changement de langue ou d'unités : champs, listes et textes calculés sont refaits. */
 export function renderMilling() {
   if (!input) return;

@@ -133,12 +133,15 @@ label.f {
 }
 input,
 select,
+textarea,
 button {
   font: inherit;
   color: inherit;
 }
 input[type="text"],
 input[type="number"],
+input[type="search"],
+textarea,
 select {
   width: 100%;
   min-width: 0;
@@ -155,6 +158,7 @@ input[type="number"] {
 }
 input:focus-visible,
 select:focus-visible,
+textarea:focus-visible,
 button:focus-visible,
 .drop:focus-within {
   outline: 2px solid var(--accent);
