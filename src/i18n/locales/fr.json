@@ -592,7 +592,7 @@
   "lz.mat.cottonFabric": "Tissu de coton",
   "lz.matSaveFailed": "Tes matières n’ont pas pu être enregistrées sur cet appareil (mémoire pleine ou navigation privée).",
   "lz.thThunderTitle": "Tableau Thunder Laser",
-  "lz.thThunder": "Contreplaqué bouleau, MDF, carton, cuir, papier, placage et tissu : valeurs du tableau publié par Thunder Laser pour ses tubes CO2 de 40 à 130 W. Ce sont des vitesses maximales en ligne droite, puissance au maximum : ralentis pour les courbes et les petits détails.",
+  "lz.thThunder": "Contreplaqué bouleau, carton, cuir, papier, placage et tissu : valeurs du tableau publié par Thunder Laser pour ses tubes CO2 de 40 à 130 W. Ce sont des vitesses maximales en ligne droite, puissance au maximum : ralentis pour les courbes et les petits détails.",
   "lz.thOwnTitle": "Tes valeurs",
   "lz.thOwn": "Toutes ces valeurs sont indicatives. « Modifier ces valeurs » enregistre les tiennes pour la machine, l’opération et l’épaisseur choisies ; elles passent alors avant les indicatives. Tes matières (« ＋ Nouvelle matière ») n’ont que tes valeurs : à une autre épaisseur ou sur une autre machine du même type, Nestor les estime à partir des plus proches.",
   "lz.thLimitTitle": "Découpe jusqu’à 10 mm",
@@ -609,5 +609,11 @@
   "manual.added": "{n} pièce(s) ajoutée(s) à la liste.",
   "manual.pasteNone": "Aucune pièce lue dans ce collage : il faut au moins une longueur et une largeur par ligne.",
   "manual.skipped": "{n} ligne(s) ignorée(s) (cotes ou quantité illisibles).",
-  "manual.sourceChoice": "Origine des pièces"
+  "manual.sourceChoice": "Origine des pièces",
+  "lz.groupGweike": "Valeurs GWK Laser",
+  "lz.fromGweike": "Valeurs publiées par GWK Laser pour un tube de {w} W : 90 % de puissance, vitesse pour un bord propre.",
+  "lz.estimatedGweike": "Estimation à partir du tableau GWK Laser ({w} W, 90 % de puissance) : à tester.",
+  "lz.mat.gwkSoftwood": "Bois tendre et contreplaqué courant",
+  "lz.thGweikeTitle": "Tableau GWK Laser",
+  "lz.thGweike": "Bois tendre et contreplaqué courant, MDF et acrylique de 3 à 10 mm : valeurs du tableau publié par GWK Laser (Gweike) pour ses tubes CO2 de 40 à 150 W, à 90 % de puissance. Nestor reprend la vitesse pour un bord propre, pas la plus rapide."
 }

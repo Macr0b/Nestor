@@ -92,6 +92,10 @@ export function fillLaserMaterialSelect(select, selected) {
     group(
       "lz.groupThunder",
       LASER_MATERIALS.filter((m) => m.source === "thunder")
+    ) +
+    group(
+      "lz.groupGweike",
+      LASER_MATERIALS.filter((m) => m.source === "gweike")
     );
   select.value = knownLaserMaterial(selected) ? selected : LASER_MATERIALS[0].id;
 }

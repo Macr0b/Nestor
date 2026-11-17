@@ -1341,7 +1341,13 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.textContent("#lzMatDelete"), "Supprimer ?");
     await page.click("#lzMatDelete");
     assert.match(await page.textContent("#lzMatMsg"), /Matière supprimée/);
-    assert.equal(await page.locator("#lzMaterial optgroup").count(), 2);
+    assert.equal(await page.locator("#lzMaterial optgroup").count(), 3);
+    // tableau GWK : MDF 5 mm sur la 60 W, 8 mm/s à 90 %, converti en % Trotec
+    await page.selectOption("#lzMachine", { label: "Speedy 360 — 60 W" });
+    await page.selectOption("#lzMaterial", "gwkMdf");
+    await page.fill("#lzThickness", "5");
+    assert.deepEqual((await lzValues(page)).slice(0, 2), ["90", "0,23"]);
+    assert.match(await source(), /GWK Laser pour un tube de 60 W : 90 % de puissance/);
     assert.ok(await page.isHidden("#lzMatEdit"));
     assert.deepEqual(page.errors, []);
     await page.context().close();

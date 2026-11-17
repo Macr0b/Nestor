@@ -96,7 +96,7 @@ export function laserSettings(machine, material, op, thickness) {
       return x.book.watts;
     })
   );
-  if (source.maxLineSpeed && watts < minWatts) return { tooWeak: minWatts };
+  if (source.chart && watts < minWatts) return { tooWeak: minWatts };
   // livret de la même puissance ; sinon les deux voisins (ou le plus proche hors de la plage)
   var exact = books.find(function (x) {
     return x.book.watts === watts;

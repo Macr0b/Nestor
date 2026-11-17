@@ -118,7 +118,7 @@ describe("vitesse selon la machine", () => {
   });
 });
 
-describe("contreplaqué, MDF, carton, cuir… (Thunder Laser, mm/s)", () => {
+describe("contreplaqué bouleau, carton, cuir… (Thunder Laser, mm/s)", () => {
   const co2 = (watts) => ({ kind: "co2", watts, trotec: false });
   test("valeur publiée telle quelle : contreplaqué bouleau 3,2 mm en 80 W = 60 mm/s", () => {
     const s = laserSettings(co2(80), "birchPly", "cut", 3.2);
@@ -145,7 +145,7 @@ describe("contreplaqué, MDF, carton, cuir… (Thunder Laser, mm/s)", () => {
 
   test("épaisseurs publiées en mm", () => {
     assert.deepEqual(publishedThicknesses("birchPly"), [3.2, 6.4, 9.5]);
-    assert.deepEqual(publishedThicknesses("mdfLaser"), [3.2, 6.4]);
+    assert.deepEqual(publishedThicknesses("leather"), [1.6]);
   });
 
   test("chaque matière Thunder a au moins une valeur, toutes sous 10 mm", async () => {
@@ -156,5 +156,44 @@ describe("contreplaqué, MDF, carton, cuir… (Thunder Laser, mm/s)", () => {
         m.id
       );
     for (const b of THUNDER_BOOKS) for (const r of b.rows) assert.ok(r.thickness <= 10 && r.speed > 0);
+  });
+});
+
+describe("bois tendre, MDF, acrylique (GWK Laser, mm/s à 90 %)", () => {
+  const co2 = (watts) => ({ kind: "co2", watts, trotec: false });
+  test("chaque valeur du tableau ressort telle quelle, à 90 %", async () => {
+    const { GWEIKE_BOOKS } = await import("../../src/laser/gweike-chart.js");
+    let n = 0;
+    for (const book of GWEIKE_BOOKS)
+      for (const row of book.rows) {
+        const s = laserSettings(co2(book.watts), row.material, "cut", row.thickness);
+        assert.equal(s.speedMm, row.speed, `${row.material} ${row.thickness} mm ${book.watts} W`);
+        assert.equal(s.power, 90);
+        assert.equal(s.published, true);
+        assert.equal(s.source, "gweike");
+        assert.equal(s.maxLineSpeed, false);
+        n++;
+      }
+    assert.equal(n, 52); // 60 cases moins les 8 puissances qui ne coupent pas
+  });
+
+  test("MDF 5 mm en 60 W = 8 mm/s ; acrylique 10 mm demande 80 W ; bois 10 mm en 150 W = 14", () => {
+    assert.equal(laserSettings(co2(60), "gwkMdf", "cut", 5).speedMm, 8);
+    assert.deepEqual(laserSettings(co2(60), "gwkAcrylic", "cut", 10), { tooWeak: 80 });
+    assert.equal(laserSettings(co2(150), "gwkSoftwood", "cut", 10).speedMm, 14);
+    assert.deepEqual(publishedThicknesses("gwkAcrylic"), [3, 5, 8, 10]);
+  });
+
+  test("autre puissance : entre les deux colonnes ; autre épaisseur : depuis la plus proche", () => {
+    const s = laserSettings(co2(120), "gwkMdf", "cut", 3);
+    assert.ok(s.speedMm > 18 && s.speedMm < 20 && s.published === false, JSON.stringify(s));
+    const t = laserSettings(co2(80), "gwkMdf", "cut", 6);
+    assert.equal(t.thicknessFrom, 5);
+    assert.equal(t.speedMm, Math.round(((10 * 5) / 6) * 10) / 10);
+  });
+
+  test("machine Trotec : vitesse convertie en % (100 % = 3 550 mm/s)", () => {
+    const s = laserSettings({ kind: "co2", watts: 60, trotec: true }, "gwkAcrylic", "cut", 3);
+    assert.equal(s.speed, 0.42);
   });
 });

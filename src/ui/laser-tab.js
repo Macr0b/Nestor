@@ -175,19 +175,13 @@ function renderValues() {
         : translate("lz.estimatedOwn")
     );
   } else {
-    const thunder = settings.source === "thunder";
-    lines.push(
-      translate(
-        thunder
-          ? settings.published
-            ? "lz.fromThunder"
-            : "lz.estimatedThunder"
-          : settings.published
-            ? "lz.fromBook"
-            : "lz.estimated",
-        { w: formatValue(settings.bookWatts, 0) }
-      )
-    );
+    // texte de la source : valeur publiée ou estimée, pour Trotec, Thunder Laser ou GWK
+    const key = {
+      trotec: ["lz.fromBook", "lz.estimated"],
+      thunder: ["lz.fromThunder", "lz.estimatedThunder"],
+      gweike: ["lz.fromGweike", "lz.estimatedGweike"]
+    }[settings.source];
+    lines.push(translate(key[settings.published ? 0 : 1], { w: formatValue(settings.bookWatts, 0) }));
     if (settings.maxLineSpeed) lines.push(translate("lz.maxLineSpeed"));
   }
   if (settings.thicknessFrom) lines.push(translate("lz.thicknessFrom", { t: thicknessText(settings.thicknessFrom) }));
