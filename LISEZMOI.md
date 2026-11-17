@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.8.1
+Version : 1.9.0
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -56,11 +56,13 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Panneaux** : la longueur est verticale et la largeur horizontale (panneau en portrait).
 - **Origine** : le petit carré à 9 points choisit le zéro machine. Les pièces se regroupent à partir de ce point (coin, bord ou centre) et c'est le zéro des fichiers exportés.
 - **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours.
+- **Saisir à la main** : pièces rectangulaires (nom, longueur, largeur, quantité, sens fixe), une par une ou collées depuis un tableur (colonnes nom, longueur, largeur, quantité). Elles rejoignent la liste des pièces, restent quand on importe un fichier ensuite, et sont gardées dans les projets.
 - **Export** : fichiers en mm, zéro sur l'origine choisie. En option (sous « Méthode ») : le contour du panneau sur un calque « Panneau », et le numéro de chaque pièce à graver sur un calque « Numéros » (trait simple, placé dans la matière de la pièce).
 - **PDF à imprimer** : sous chaque panneau, son plan numéroté avec ses cotes, le zéro machine et la liste de ses pièces ; « Tout le plan en PDF » ajoute une page de résumé. A4 en métrique, Letter en impérial.
-- **Coupes de chutes** (option sous « Méthode ») : traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l'espace entre pièces. « Simples » : d'un bord à l'autre du panneau. « Détaillées » : la découpe suit à peu près le contour du groupe de pièces. Les traits sont exportés sur un calque « Coupes ».
+- **Coupes de chutes** (option sous « Méthode ») : traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l'espace entre pièces. « Simples » : d'un bord à l'autre du panneau. « Détaillées » : la découpe suit à peu près le contour du groupe de pièces. Les traits sont exportés sur un calque « Coupes ». Aucun trait parallèle au bord ne tombe dans la marge.
+- **Ordre des coupes à la scie** (option de la méthode Rectangles) : coupes numérotées sur le panneau, d'un bord à l'autre du morceau coupé, avec leur liste (sens, cote depuis le bord gauche ou haut, morceau coupé) sous le panneau et dans le PDF. Les bords de marge sont délignés d'abord, les grandes chutes partent d'un seul trait, et l'espace entre pièces compte comme trait de scie.
 - **Onglet Fraisage** : rotation de la broche, avance, profondeur et nombre de passes selon la fraise (type, diamètre, nombre de dents), la matière (quatre familles, ou une matière précise : essences de bois, contreplaqués, plastiques, métaux) et les limites de la machine. Valeurs de départ prudentes, d'après les méthodes d'id-conception.fr et de cncfraises.fr. Les réglages sont mémorisés.
-- **Onglet Laser** : tes machines (plusieurs puissances possibles), et pour chacune un point de départ par matière et épaisseur, tiré des livrets de paramètres publiés par Trotec (60, 80 et 120 W) ; autre puissance ou autre épaisseur : estimation signalée. Vitesse en % pour une Trotec, en mm/s pour les autres. Grille de test (16 carrés puissance × vitesse) en SVG ou DXF.
+- **Onglet Laser** : tes machines (plusieurs puissances possibles), et pour chacune un point de départ par matière et épaisseur, tiré des livrets de paramètres publiés par Trotec (60, 80 et 120 W), du tableau de Thunder Laser (contreplaqué bouleau, carton, cuir, papier, placage, tissu ; 40 à 130 W) et du tableau de GWK Laser (bois tendre et contreplaqué courant, MDF, acrylique ; 40 à 150 W) ; autre puissance ou autre épaisseur : estimation signalée. Ce sont des valeurs indicatives : « Modifier ces valeurs » enregistre les tiennes pour la machine, et « ＋ Nouvelle matière » ajoute tes propres matières. Au-delà de 10 mm, le laser ne sert qu'à graver. Vitesse en % pour une Trotec, en mm/s pour les autres. Grille de test (16 carrés puissance × vitesse) en SVG ou DXF.
 - **Onglet Carnet** : tes réglages éprouvés (fraisage, laser, autre) avec machine, matière, épaisseur, valeurs utilisées, note et état (validé / à revoir). Recherche, filtre par procédé et par machine, « Garder dans le carnet » depuis Fraisage et Laser, « Ouvrir dans Fraisage », sauvegarde et import d'un fichier.
 - **Onglet Coût** : prix de revient du plan d'après les panneaux utilisés : matière, chute (dernier panneau compté entier ou seulement la partie utilisée), machine (taux horaire, temps de préparation, temps de découpe estimé) et coût par pièce, réparti selon la surface. C'est une estimation.
 - **Onglet Matières** : bibliothèque de tes panneaux habituels avec leur prix (nom, matière pour le fraisage, épaisseur, taille, prix). La matière choisie pour le projet est la même partout : dans Imbrication elle remplit la taille du panneau, dans Fraisage elle règle la matière et l'épaisseur, dans Coût elle donne le prix. Sauvegarde et import d'un fichier.
@@ -77,7 +79,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `src/main.js` | Point d'entrée : branche chaque partie de l'interface puis démarre |
 | `src/version.js` | Numéro de version |
 | `src/i18n/` | Langue de l'interface ; `languages.js` (liste des langues) et `locales/` (un fichier de textes par langue) |
-| `src/project/` | Projet en cours, exemple du premier lancement, pièces, réglages mémorisés, projets enregistrés (photo vérifiée, base du navigateur) |
+| `src/project/` | Projet en cours, exemple du premier lancement, pièces, pièces saisies à la main, réglages mémorisés, projets enregistrés (photo vérifiée, base du navigateur) |
 | `src/geometry/` | Géométrie : tracés SVG, polylignes, regroupement en pièces, pièces placées, emplacement du numéro dans une pièce |
 | `src/text/` | Police au trait simple pour les numéros gravés et la grille de test |
 | `src/import/` | Un lecteur par format (DXF, SVG + nettoyage, PDF / AI, LightBurn, HPGL, VectorCraft) et la lecture des fichiers |
@@ -85,8 +87,8 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `src/notebook/` | Carnet de réglages : fiches vérifiées, recherche, sauvegarde et import |
 | `src/library/` | Bibliothèque de matières (prix des panneaux, matière du projet) et calcul du prix de revient |
 | `src/machining/` | Calcul des réglages de fraisage, familles et liste des matières, réglages mémorisés |
-| `src/laser/` | Livrets Trotec, point de départ laser par machine, machines mémorisées, grille de test |
-| `src/export/` | Fichiers exportés (SVG, DXF, PDF), contour du panneau, coupes de chutes, numéros gravés |
+| `src/laser/` | Livrets Trotec, tableaux Thunder Laser et GWK, point de départ laser par machine, tes matières et tes valeurs, machines mémorisées, grille de test |
+| `src/export/` | Fichiers exportés (SVG, DXF, PDF), contour du panneau, coupes de chutes, ordre des coupes à la scie, numéros gravés |
 | `src/ui/` | Chaque partie de l'interface : onglets, fichiers, pièces, panneaux, résultat, pages du PDF, fraisage, laser, carnet, coût, matières, projets, raccourcis, réglages, installation, mises à jour |
 | `sw.js` | Hors connexion et mises à jour (liste de tous les fichiers à garder en cache) |
 | `manifest.webmanifest` | Nom, icônes, installation, formats ouverts par l'appli |
