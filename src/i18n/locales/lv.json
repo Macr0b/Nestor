@@ -188,6 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
+  "news.181": "Tālrunī pogas “Projekti” un “Iestatījumi” tagad ir zem logotipa, nevis to aizsedz.",
   "news.180": "Jauna cilne Lāzers (tavas iekārtas, sākuma vērtības no Trotec grāmatām, testa režģis), drukājams PDF zem katras plātnes vai visam plānam, gravējami detaļu numuri, saglabāti projekti (poga Projekti) un īsinājumtaustiņi (taustiņš ?).",
   "news.170": "Jauna cilne Izmaksas (plāna pašizmaksa: materiāls, atgriezumi, mašīna, uz detaļu) un cilne Materiāli (jūsu plātņu bibliotēka ar cenu). Izvēlētais materiāls ir tas pats sadaļās Izkārtojums, Frēzēšana un Izmaksas.",
   "news.160": "Jauna cilne “Piezīmju grāmata” pārbaudītiem iestatījumiem (frēzēšana, lāzers, cits) ar dublējumu failā. Collu režīmā faili tiek eksportēti collās. Izkārtojums: detaļas vairs neslīd prom no malas, lai saķertu savus zobus.",

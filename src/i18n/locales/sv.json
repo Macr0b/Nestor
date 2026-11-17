@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.181": "På telefonen ligger knapparna Projekt och Inställningar nu under logotypen i stället för att täcka den.",
   "news.180": "Ny flik Laser (dina maskiner, utgångsvärden från Trotecs böcker, testrutnät), utskrivbar PDF under varje skiva eller för hela planen, delnummer att gravera, sparade projekt (knappen Projekt) och kortkommandon (tangenten ?).",
   "news.170": "Ny flik Kostnad (planens självkostnad: material, spill, maskin, per del) och flik Material (bibliotek med dina skivor och deras pris). Det valda materialet är detsamma i Utplacering, Fräsning och Kostnad.",
   "news.160": "Ny flik Anteckningsbok för dina beprövade inställningar (fräsning, laser, annat), med säkerhetskopia i en fil. Filer exporteras i tum när appen är i tum. Utplacering: delar glider inte längre bort från kanten för att haka i sina tappar.",

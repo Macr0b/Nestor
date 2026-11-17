@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.181": "Puhelimessa Projektit- ja Asetukset-painikkeet ovat nyt logon alla eivätkä peitä sitä.",
   "news.180": "Uusi Laser-välilehti (koneesi, lähtöarvot Trotecin kirjoista, testiruudukko), tulostettava PDF jokaisen levyn alla tai koko suunnitelmasta, kaiverrettavat osien numerot, tallennetut projektit (Projektit-painike) ja pikanäppäimet (?-näppäin).",
   "news.170": "Uusi Kustannus-välilehti (suunnitelman omakustannus: materiaali, hukka, kone, osaa kohden) ja Materiaalit-välilehti (levyjesi kirjasto hintoineen). Valittu materiaali on sama Sijoittelussa, Jyrsinnässä ja Kustannuksessa.",
   "news.160": "Uusi Muistikirja-välilehti hyväksi todetuille asetuksille (jyrsintä, laser, muu) ja varmuuskopio tiedostoon. Tiedostot viedään tuumina, kun sovellus on tuumatilassa. Sijoittelu: kappaleet eivät enää liu’u reunasta lukitakseen tappinsa yhteen.",

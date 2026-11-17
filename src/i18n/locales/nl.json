@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.181": "Op de telefoon staan de knoppen Projecten en Instellingen nu onder het logo in plaats van erover.",
   "news.180": "Nieuw tabblad Laser (je machines, startpunt uit de Trotec-boeken, testraster), afdrukbare PDF onder elke plaat of voor het hele plan, onderdeelnummers om te graveren, opgeslagen projecten (knop Projecten) en sneltoetsen (toets ?).",
   "news.170": "Nieuwe tabbladen Kosten (kostprijs van het plan: materiaal, restafval, machine, per onderdeel) en Materialen (bibliotheek van je platen met prijs). Het gekozen materiaal is hetzelfde in Nesten, Frezen en Kosten.",
   "news.160": "Nieuw tabblad Notitieboek om beproefde instellingen te bewaren (frezen, laser, overig), met back-up in een bestand. Bestanden worden in inches geëxporteerd als de app in inches staat. Nesten: onderdelen schuiven niet meer weg van de rand om hun lipjes in elkaar te laten grijpen.",

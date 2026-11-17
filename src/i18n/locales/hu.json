@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.181": "Telefonon a Projektek és a Beállítások gomb most a logó alatt van, nem takarja el.",
   "news.180": "Új Lézer lap (a gépeid, kiindulási értékek a Trotec könyvekből, tesztrács), nyomtatható PDF minden tábla alatt vagy az egész tervhez, gravírozandó alkatrészszámok, mentett projektek (Projektek gomb) és billentyűparancsok (? billentyű).",
   "news.170": "Új Költség lap (a terv önköltsége: anyag, hulladék, gép, alkatrészenként) és Anyagok lap (a tábláid könyvtára az árukkal). A kiválasztott anyag ugyanaz az Elrendezés, a Marás és a Költség lapon.",
   "news.160": "Új Jegyzetfüzet lap a bevált beállításokhoz (marás, lézer, egyéb), fájlba mentéssel. Hüvelyk módban a fájlok hüvelykben exportálódnak. Elrendezés: az alkatrészek már nem csúsznak el a széltől, hogy a csapjaik összeérjenek.",

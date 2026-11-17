@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.181": "Di ponsel, tombol Proyek dan Pengaturan kini berada di bawah logo, tidak lagi menutupinya.",
   "news.180": "Tab Laser baru (mesinmu, titik awal dari buku Trotec, kisi uji), PDF siap cetak di bawah setiap papan atau untuk seluruh rencana, nomor komponen untuk digrafir, proyek tersimpan (tombol Proyek), dan pintasan keyboard (tombol ?).",
   "news.170": "Tab Biaya baru (harga pokok rencana: bahan, sisa potongan, mesin, per komponen) dan tab Bahan (pustaka papan Anda beserta harganya). Bahan yang dipilih sama di Penataan, Frais, dan Biaya.",
   "news.160": "Tab baru Buku catatan untuk setelan yang sudah teruji (frais, laser, lainnya), dengan cadangan ke berkas. Berkas diekspor dalam inci saat aplikasi dalam inci. Penataan: bagian tidak lagi bergeser dari tepi untuk mengaitkan tonjolannya.",

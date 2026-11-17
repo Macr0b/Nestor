@@ -188,6 +188,7 @@
   "calc.cancelled": "Proračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tokom dugog proračuna pojavljuje se dugme Odustani.",
+  "news.181": "Na telefonu su dugmad Projekti i Postavke sada ispod logotipa umjesto preko njega.",
   "news.180": "Nova kartica Laser (tvoje mašine, početne vrijednosti iz Trotecovih knjiga, probna mreža), PDF za štampu ispod svake ploče ili za cijeli raspored, brojevi dijelova za graviranje, sačuvani projekti (dugme Projekti) i prečice na tastaturi (tipka ?).",
   "news.170": "Nova kartica Trošak (cijena koštanja rasporeda: materijal, otpad, mašina, po dijelu) i kartica Materijali (biblioteka vaših ploča s cijenom). Odabrani materijal je isti u Raspoređivanju, Glodanju i Trošku.",
   "news.160": "Nova kartica Bilježnica za provjerene postavke (glodanje, laser, ostalo), sa čuvanjem u datoteku. Datoteke se izvoze u inčima kad je aplikacija u inčima. Raspoređivanje: dijelovi se više ne odmiču od ruba da bi spojili zupce.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.181": "Na telefonie przyciski Projekty i Ustawienia są teraz pod logo, zamiast je zasłaniać.",
   "news.180": "Nowa zakładka Laser (twoje maszyny, punkt wyjścia z książek Trotec, siatka testowa), PDF do druku pod każdą płytą lub dla całego rozkroju, numery elementów do grawerowania, zapisane projekty (przycisk Projekty) i skróty klawiszowe (klawisz ?).",
   "news.170": "Nowa zakładka Koszt (koszt własny rozkroju: materiał, odpad, maszyna, na element) i zakładka Materiały (biblioteka Twoich płyt z ceną). Wybrany materiał jest ten sam w zakładkach Rozkrój, Frezowanie i Koszt.",
   "news.160": "Nowa karta Notatnik na sprawdzone ustawienia (frezowanie, laser, inne), z kopią w pliku. Pliki są eksportowane w calach, gdy aplikacja jest w calach. Rozkrój: części nie odsuwają się już od krawędzi, by zazębić wypusty.",

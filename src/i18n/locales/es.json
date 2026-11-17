@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.181": "En el móvil, los botones Proyectos y Ajustes pasan debajo del logo en lugar de taparlo.",
   "news.180": "Nueva pestaña Láser (tus máquinas, punto de partida según los libros Trotec, rejilla de prueba), PDF para imprimir bajo cada tablero o de todo el plan, números de pieza para grabar, proyectos guardados (botón Proyectos) y atajos de teclado (tecla ?).",
   "news.170": "Nuevas pestañas Coste (coste del plan: material, retal, máquina, por pieza) y Materiales (biblioteca de tus tableros con su precio). El material elegido es el mismo en Anidado, Fresado y Coste.",
   "news.160": "Nueva pestaña Cuaderno para guardar tus ajustes probados (fresado, láser, otro), con copia en un archivo. Archivos exportados en pulgadas cuando la app está en pulgadas. Anidado: las piezas ya no se alejan del borde para encajar sus pestañas.",

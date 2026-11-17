@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul anulat.",
   "calc.many": "{n} piese de așezat: poate dura ceva timp.",
   "news.121": "Cantitățile nu mai sunt limitate la 500, piesele prea mari sunt semnalate imediat, iar în timpul unui calcul lung apare butonul Anulează.",
+  "news.181": "Pe telefon, butoanele Proiecte și Setări stau acum sub logo, în loc să-l acopere.",
   "news.180": "Filă nouă Laser (mașinile tale, punct de pornire după cărțile Trotec, grilă de test), PDF de tipărit sub fiecare placă sau pentru tot planul, numerele pieselor de gravat, proiecte salvate (butonul Proiecte) și scurtături de tastatură (tasta ?).",
   "news.170": "Filă nouă Cost (costul de producție al planului: material, deșeu, mașină, pe piesă) și filă Materiale (biblioteca plăcilor tale cu prețul lor). Materialul ales este același în Așezare, Frezare și Cost.",
   "news.160": "Filă nouă Caiet pentru setările tale verificate (frezare, laser, altul), cu salvare într-un fișier. Fișierele se exportă în inchi când aplicația e în inchi. Așezare: piesele nu mai alunecă departe de margine ca să-și îmbine dinții.",

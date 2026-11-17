@@ -40,9 +40,10 @@ html[lang="th"] body {
   display: grid;
   gap: 20px;
 }
+/* en-tête : logo au centre, boutons à droite ; les côtés prennent la place des boutons (Projets + Réglages) */
 header.top {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 12px;
 }
@@ -67,6 +68,18 @@ header.top h1 .wordmark {
 header.top .topr {
   grid-column: 3;
   justify-self: end;
+}
+/* écran étroit : boutons sous le logo, pour ne jamais le recouvrir */
+@media (max-width: 640px) {
+  header.top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  header.top h1,
+  header.top .topr {
+    grid-column: 1;
+    justify-self: center;
+  }
 }
 h1 {
   font-family: var(--f-display);

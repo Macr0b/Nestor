@@ -1311,6 +1311,31 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.context().close();
   });
 
+  // en-tête : le logo n'est jamais recouvert par les boutons, du téléphone à l'ordinateur, même en allemand
+  for (const [width, locale] of [
+    [320, "fr-FR"],
+    [390, "de-DE"],
+    [640, "fr-FR"],
+    [700, "fr-FR"],
+    [1280, "fr-FR"]
+  ])
+    test(`en-tête à ${width} px (${locale}) : logo entier, boutons à côté ou dessous sans le recouvrir`, async () => {
+      const page = await open({ viewport: { width, height: 800 }, locale });
+      const logo = await page.locator("header.top .wordmark").boundingBox();
+      for (const button of ["#btnProjects", "#btnSettings"]) {
+        const b = await page.locator(button).boundingBox();
+        const apart =
+          b.x >= logo.x + logo.width ||
+          b.x + b.width <= logo.x ||
+          b.y >= logo.y + logo.height ||
+          b.y + b.height <= logo.y;
+        assert.ok(apart, `${button} recouvre le logo`);
+        assert.ok(b.x >= 0 && b.x + b.width <= width, `${button} sort de l'écran`);
+      }
+      assert.ok(logo.x >= 0 && logo.x + logo.width <= width, "logo coupé");
+      await page.context().close();
+    });
+
   test("raccourcis : onglets, aide, enregistrer, ouvrir ; rien pendant la saisie", async () => {
     const page = await open();
     await page.locator("body").click({ position: { x: 5, y: 300 } });

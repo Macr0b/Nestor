@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.181": "Në telefon, butonat Projektet dhe Cilësimet tani dalin nën logo në vend që ta mbulojnë.",
   "news.180": "Skedë e re Lazer (makinat e tua, pika e nisjes sipas librave Trotec, rrjetë prove), PDF për shtyp nën çdo pllakë ose për gjithë planin, numrat e pjesëve për gdhendje, projekte të ruajtura (butoni Projektet) dhe shkurtore tastiere (tasti ?).",
   "news.170": "Skedë e re Kosto (kostoja e prodhimit të planit: material, mbetje, makinë, për pjesë) dhe skedë Materialet (biblioteka e pllakave tuaja me çmimin e tyre). Materiali i zgjedhur është i njëjti te Vendosja, Frezimi dhe Kosto.",
   "news.160": "Skedë e re Fletore për cilësimet e provuara (frezim, lazer, tjetër), me kopje në skedar. Skedarët eksportohen në inç kur aplikacioni është në inç. Vendosja: pjesët nuk largohen më nga buza për të mbërthyer dhëmbët.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
+  "news.181": "Na telefonu jsou tlačítka Projekty a Nastavení nyní pod logem, místo aby ho zakrývala.",
   "news.180": "Nová karta Laser (tvoje stroje, výchozí hodnoty z knih Trotec, testovací mřížka), PDF k tisku pod každou deskou nebo pro celý plán, čísla dílů ke gravírování, uložené projekty (tlačítko Projekty) a klávesové zkratky (klávesa ?).",
   "news.170": "Nová karta Náklady (vlastní náklady plánu: materiál, odpad, stroj, na díl) a karta Materiály (knihovna vašich desek s cenou). Zvolený materiál je stejný v Rozmístění, Frézování i Nákladech.",
   "news.160": "Nová karta Zápisník pro ověřená nastavení (frézování, laser, jiné) se zálohou do souboru. Soubory se exportují v palcích, když je aplikace v palcích. Rozmístění: díly už neujíždějí od okraje, aby zaklesly své čepy.",

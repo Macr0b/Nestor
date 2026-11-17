@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.181": "Al mòbil, els botons Projectes i Configuració passen sota el logotip en lloc de tapar-lo.",
   "news.180": "Nova pestanya Làser (les teves màquines, punt de partida segons els llibres Trotec, graella de prova), PDF per imprimir sota cada tauler o de tot el pla, números de peça per gravar, projectes desats (botó Projectes) i dreceres de teclat (tecla ?).",
   "news.170": "Noves pestanyes Cost (cost del pla: material, retalla, màquina, per peça) i Materials (biblioteca dels teus taulers amb el preu). El material triat és el mateix a Encaix, Fresatge i Cost.",
   "news.160": "Nova pestanya Quadern per desar els teus ajustos provats (fresatge, làser, altre), amb còpia en un fitxer. Fitxers exportats en polzades quan l’app és en polzades. Encaix: les peces ja no s’allunyen de la vora per encaixar les pestanyes.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.181": "No telemóvel, os botões Projetos e Definições passam para baixo do logótipo em vez de o tapar.",
   "news.180": "Novo separador Laser (as tuas máquinas, ponto de partida segundo os livros Trotec, grelha de teste), PDF para imprimir sob cada painel ou de todo o plano, números das peças a gravar, projetos guardados (botão Projetos) e atalhos de teclado (tecla ?).",
   "news.170": "Novos separadores Custo (custo do plano: material, sobra, máquina, por peça) e Materiais (biblioteca das tuas placas com o preço). O material escolhido é o mesmo em Encaixe, Fresagem e Custo.",
   "news.160": "Novo separador Caderno para guardar os teus ajustes comprovados (fresagem, laser, outro), com cópia num ficheiro. Ficheiros exportados em polegadas quando a app está em polegadas. Encaixe: as peças já não se afastam da borda para encaixar os entalhes.",

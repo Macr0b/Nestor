@@ -188,6 +188,7 @@
   "calc.cancelled": "Skaičiavimas atšauktas.",
   "calc.many": "Reikia išdėstyti {n} detalių: tai gali užtrukti.",
   "news.121": "Kiekiai nebėra apriboti 500, per didelės detalės pažymimos iš karto, o ilgo skaičiavimo metu atsiranda mygtukas Atšaukti.",
+  "news.181": "Telefone mygtukai „Projektai“ ir „Nustatymai“ dabar yra po logotipu, o ne ant jo.",
   "news.180": "Nauja kortelė Lazeris (tavo staklės, pradinės vertės iš Trotec knygų, bandomasis tinklelis), spausdinamas PDF po kiekviena plokšte arba visam planui, graviruojami detalių numeriai, išsaugoti projektai (mygtukas Projektai) ir spartieji klavišai (klavišas ?).",
   "news.170": "Nauja kortelė Kaina (plano savikaina: medžiaga, atliekos, staklės, detalei) ir kortelė Medžiagos (jūsų plokščių biblioteka su kaina). Pasirinkta medžiaga ta pati skiltyse Išdėstymas, Frezavimas ir Kaina.",
   "news.160": "Naujas skirtukas „Užrašų knyga“ patikrintiems nustatymams (frezavimas, lazeris, kita) su atsargine kopija faile. Colių režimu failai eksportuojami coliais. Išdėstymas: detalės nebeslysta nuo krašto, kad sukabintų savo dantis.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
+  "news.181": "Sur téléphone, les boutons Projets et Réglages passent sous le logo au lieu de le recouvrir.",
   "news.180": "Nouvel onglet Laser (tes machines, point de départ d’après les livrets Trotec, grille de test), PDF à imprimer sous chaque panneau ou pour tout le plan, numéros des pièces à graver, projets enregistrés (bouton Projets) et raccourcis clavier (touche ?).",
   "news.170": "Nouveaux onglets Coût (coût de revient du plan : matière, chute, machine, par pièce) et Matières (bibliothèque de tes panneaux avec leur prix). La matière choisie est la même dans Imbrication, Fraisage et Coût.",
   "news.160": "Nouvel onglet Carnet pour garder tes réglages éprouvés (fraisage, laser, autre), avec sauvegarde dans un fichier. Fichiers exportés en pouces quand l’appli est en pouces. Imbrication : les pièces ne glissent plus loin du bord pour emboîter leurs créneaux.",

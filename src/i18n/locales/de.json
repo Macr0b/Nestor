@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.181": "Auf dem Handy stehen die Schaltflächen Projekte und Einstellungen jetzt unter dem Logo, statt es zu verdecken.",
   "news.180": "Neuer Tab Laser (deine Maschinen, Ausgangswerte aus den Trotec-Büchern, Testraster), druckbares PDF unter jeder Platte oder für den ganzen Plan, Teilenummern zum Gravieren, gespeicherte Projekte (Schaltfläche Projekte) und Tastenkürzel (Taste ?).",
   "news.170": "Neue Reiter Kosten (Selbstkosten des Plans: Material, Verschnitt, Maschine, pro Teil) und Materialien (Bibliothek deiner Platten mit Preis). Das gewählte Material ist in Verschachtelung, Fräsen und Kosten dasselbe.",
   "news.160": "Neuer Reiter Notizbuch für bewährte Einstellungen (Fräsen, Laser, Sonstiges), mit Sicherung in eine Datei. Dateien werden in Zoll exportiert, wenn die App in Zoll ist. Verschachtelung: Teile rutschen nicht mehr vom Rand weg, um ihre Zapfen zu verschränken.",

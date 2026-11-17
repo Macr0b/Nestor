@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.181": "Sul telefono, i pulsanti Progetti e Impostazioni passano sotto il logo invece di coprirlo.",
   "news.180": "Nuova scheda Laser (le tue macchine, punto di partenza dai libretti Trotec, griglia di prova), PDF da stampare sotto ogni pannello o per tutto il piano, numeri dei pezzi da incidere, progetti salvati (pulsante Progetti) e scorciatoie da tastiera (tasto ?).",
   "news.170": "Nuove schede Costo (costo del piano: materiale, scarto, macchina, per pezzo) e Materiali (libreria dei tuoi pannelli con il prezzo). Il materiale scelto è lo stesso in Nesting, Fresatura e Costo.",
   "news.160": "Nuova scheda Taccuino per conservare le impostazioni collaudate (fresatura, laser, altro), con copia in un file. File esportati in pollici quando l’app è in pollici. Nesting: i pezzi non si allontanano più dal bordo per incastrare le linguette.",

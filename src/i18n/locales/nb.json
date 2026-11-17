@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.181": "På telefonen står knappene Prosjekter og Innstillinger nå under logoen i stedet for å dekke den.",
   "news.180": "Ny fane Laser (maskinene dine, utgangspunkt fra Trotecs bøker, testrutenett), PDF for utskrift under hver plate eller for hele planen, delnumre til gravering, lagrede prosjekter (knappen Prosjekter) og hurtigtaster (tasten ?).",
   "news.170": "Ny fane Kostnad (planens selvkost: materiale, svinn, maskin, per del) og fane Materialer (bibliotek med platene dine og prisen deres). Det valgte materialet er det samme i Plassering, Fresing og Kostnad.",
   "news.160": "Ny fane Notatbok for dine utprøvde innstillinger (fresing, laser, annet), med sikkerhetskopi i en fil. Filer eksporteres i tommer når appen er i tommer. Plassering: deler glir ikke lenger bort fra kanten for å hekte tappene i hverandre.",
