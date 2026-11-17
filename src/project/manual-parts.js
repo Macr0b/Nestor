@@ -4,7 +4,7 @@
 
 import { parseLength } from "../util/units.js";
 
-export const MAX_MANUAL_QTY = 100000;
+const MAX_MANUAL_QTY = 100000;
 
 function rectanglePaths(width, length) {
   return [

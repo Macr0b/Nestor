@@ -62,7 +62,7 @@ export function laserMaterialForMill(mill) {
   return m ? m.id : "";
 }
 
-export function knownLaserMaterial(id) {
+function knownLaserMaterial(id) {
   return !!(customMaterial(library, id) || laserMaterial(id));
 }
 
