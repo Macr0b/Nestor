@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.191": "Fűrészvágások sorrendje: a nagy hulladék egyetlen vágással válik le ahelyett, hogy csíkokra vágnánk, a számok pedig oda kerülnek, ahol sem az alkatrészeket, sem más számokat nem takarják (kisebbek a PDF-ben).",
   "news.190": "Alkatrészek kézi megadása (vagy beillesztése táblázatból), fűrészvágások sorrendje a Téglalapok módszerhez (a fűrészlapod vastagságával), saját lézeranyagok és -értékek, tájékoztató értékek a Thunder Lasertől és a GWK-tól (rétegelt lemez, MDF, akril, karton, bőr…), és nincs több hulladékvonal a margók mentén.",
   "news.181": "Telefonon a Projektek és a Beállítások gomb most a logó alatt van, nem takarja el.",
   "news.180": "Új Lézer lap (a gépeid, kiindulási értékek a Trotec könyvekből, tesztrács), nyomtatható PDF minden tábla alatt vagy az egész tervhez, gravírozandó alkatrészszámok, mentett projektek (Projektek gomb) és billentyűparancsok (? billentyű).",

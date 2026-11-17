@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.191": "Zaagvolgorde: het grote reststuk komt er in één snede af in plaats van in stroken te worden gezaagd, en de nummers staan waar ze geen onderdelen of andere nummers bedekken (kleiner in de PDF).",
   "news.190": "Onderdelen met de hand invoeren (of plakken uit een spreadsheet), zaagvolgorde voor de methode Rechthoeken (met de dikte van je zaagblad), eigen lasermaterialen en -waarden, richtwaarden van Thunder Laser en GWK (multiplex, MDF, acryl, karton, leer…), en geen restlijnen meer langs de marges.",
   "news.181": "Op de telefoon staan de knoppen Projecten en Instellingen nu onder het logo in plaats van erover.",
   "news.180": "Nieuw tabblad Laser (je machines, startpunt uit de Trotec-boeken, testraster), afdrukbare PDF onder elke plaat of voor het hele plan, onderdeelnummers om te graveren, opgeslagen projecten (knop Projecten) en sneltoetsen (toets ?).",

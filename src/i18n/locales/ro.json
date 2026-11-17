@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul anulat.",
   "calc.many": "{n} piese de așezat: poate dura ceva timp.",
   "news.121": "Cantitățile nu mai sunt limitate la 500, piesele prea mari sunt semnalate imediat, iar în timpul unui calcul lung apare butonul Anulează.",
+  "news.191": "Ordinea tăieturilor cu fierăstrăul: restul mare se desprinde dintr-o singură tăietură în loc să fie tăiat în fâșii, iar numerele se așază acolo unde nu acoperă nici piesele, nici alte numere (mai discrete în PDF).",
   "news.190": "Piese introduse manual (sau lipite dintr-o foaie de calcul), ordinea tăieturilor cu fierăstrăul pentru metoda Dreptunghiuri (cu grosimea pânzei tale), materiale și valori laser proprii, valori orientative Thunder Laser și GWK (placaj, MDF, acril, carton, piele…) și nu mai apar linii de resturi de-a lungul marginilor.",
   "news.181": "Pe telefon, butoanele Proiecte și Setări stau acum sub logo, în loc să-l acopere.",
   "news.180": "Filă nouă Laser (mașinile tale, punct de pornire după cărțile Trotec, grilă de test), PDF de tipărit sub fiecare placă sau pentru tot planul, numerele pieselor de gravat, proiecte salvate (butonul Proiecte) și scurtături de tastatură (tasta ?).",

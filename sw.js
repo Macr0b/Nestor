@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.9.0";
+const VERSION = "1.9.1";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -80,6 +80,7 @@ const FILES = [
   "src/geometry/label-spot.js",
   "src/export/part-numbers.js",
   "src/export/saw-cuts.js",
+  "src/export/saw-labels.js",
   "src/export/svg-writer.js",
   "src/export/pdf-writer.js",
   "src/ui/print-pages.js",

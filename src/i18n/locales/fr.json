@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
+  "news.191": "Ordre des coupes à la scie : la grande chute part d’un seul trait au lieu d’être recoupée en lanières, et les numéros se placent là où ils ne cachent ni les pièces ni les autres numéros (plus discrets dans le PDF).",
   "news.190": "Saisie de pièces à la main (ou collées d’un tableur), ordre des coupes à la scie pour la méthode Rectangles (avec l’épaisseur de ta lame), matières et valeurs laser à toi, valeurs indicatives Thunder Laser et GWK (contreplaqué, MDF, acrylique, carton, cuir…), et plus de traits de chutes le long des marges.",
   "news.181": "Sur téléphone, les boutons Projets et Réglages passent sous le logo au lieu de le recouvrir.",
   "news.180": "Nouvel onglet Laser (tes machines, point de départ d’après les livrets Trotec, grille de test), PDF à imprimer sous chaque panneau ou pour tout le plan, numéros des pièces à graver, projets enregistrés (bouton Projets) et raccourcis clavier (touche ?).",

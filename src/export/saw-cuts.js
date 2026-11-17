@@ -89,32 +89,37 @@ function splitRegion(region, boxes, list, minStrip) {
     trim(region, boxes[0], list, minStrip);
     return;
   }
-  // une chute après la dernière pièce part d'abord, d'un seul trait (la plus grande des deux)
-  var tail = ["x", "y"]
-    .map(function (axis) {
-      var reach = Math.max.apply(
-          null,
-          boxes.map(function (b) {
-            return b[axis + "1"];
-          })
-        ),
-        other = axis === "x" ? "y" : "x";
-      return {
-        axis: axis,
-        at: reach,
-        area: (region[axis + "1"] - reach) * (region[other + "1"] - region[other + "0"]),
-        strip: region[axis + "1"] - reach
-      };
-    })
+  // une chute avant la première pièce ou après la dernière part d'abord, d'un seul trait (la plus grande),
+  // pour ne jamais recouper une grande chute en lanières
+  var tail = [];
+  ["x", "y"].forEach(function (axis) {
+    var other = axis === "x" ? "y" : "x",
+      width = region[other + "1"] - region[other + "0"],
+      first = Math.min.apply(
+        null,
+        boxes.map(function (b) {
+          return b[axis + "0"];
+        })
+      ),
+      last = Math.max.apply(
+        null,
+        boxes.map(function (b) {
+          return b[axis + "1"];
+        })
+      );
+    tail.push({ axis: axis, at: last, keep: 0, strip: region[axis + "1"] - last, width: width });
+    tail.push({ axis: axis, at: first, keep: 1, strip: first - region[axis + "0"], width: width });
+  });
+  tail = tail
     .filter(function (t) {
       return t.strip > minStrip;
     })
     .sort(function (a, b) {
-      return b.area - a.area;
+      return b.strip * b.width - a.strip * a.width;
     })[0];
   if (tail) {
     cut(region, tail.axis, tail.at, list);
-    splitRegion(halves(region, tail.axis, tail.at)[0], boxes, list, minStrip);
+    splitRegion(halves(region, tail.axis, tail.at)[tail.keep], boxes, list, minStrip);
     return;
   }
   // puis entre les pièces : d'abord dans le sens de la plus grande dimension du morceau, sinon l'autre

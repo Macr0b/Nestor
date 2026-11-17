@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.191": "Ordem dos cortes com serra: a sobra grande sai num só corte em vez de ser cortada em tiras, e os números ficam onde não tapam nem as peças nem outros números (mais discretos no PDF).",
   "news.190": "Peças introduzidas à mão (ou coladas de uma folha de cálculo), ordem dos cortes com serra para o método Retângulos (com a espessura da tua lâmina), materiais e valores laser teus, valores indicativos da Thunder Laser e da GWK (contraplacado, MDF, acrílico, cartão, couro…), e deixa de haver linhas de sobras ao longo das margens.",
   "news.181": "No telemóvel, os botões Projetos e Definições passam para baixo do logótipo em vez de o tapar.",
   "news.180": "Novo separador Laser (as tuas máquinas, ponto de partida segundo os livros Trotec, grelha de teste), PDF para imprimir sob cada painel ou de todo o plano, números das peças a gravar, projetos guardados (botão Projetos) e atalhos de teclado (tecla ?).",

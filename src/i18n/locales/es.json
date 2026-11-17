@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.191": "Orden de cortes con sierra: el retal grande sale de un solo corte en lugar de trocearse en tiras, y los números se colocan donde no tapan ni las piezas ni otros números (más discretos en el PDF).",
   "news.190": "Piezas introducidas a mano (o pegadas desde una hoja de cálculo), orden de cortes con sierra para el método Rectángulos (con el grosor de tu hoja), materiales y valores láser propios, valores orientativos de Thunder Laser y GWK (contrachapado, MDF, acrílico, cartón, cuero…), y ya no hay líneas de retales a lo largo de los márgenes.",
   "news.181": "En el móvil, los botones Proyectos y Ajustes pasan debajo del logo en lugar de taparlo.",
   "news.180": "Nueva pestaña Láser (tus máquinas, punto de partida según los libros Trotec, rejilla de prueba), PDF para imprimir bajo cada tablero o de todo el plan, números de pieza para grabar, proyectos guardados (botón Proyectos) y atajos de teclado (tecla ?).",

@@ -5,6 +5,7 @@
 
 import { sheetSawCuts } from "../export/export-files.js";
 import { partNumberSpot, partNumberText } from "../export/part-numbers.js";
+import { badgeHalfWidth, placeSawLabels } from "../export/saw-labels.js";
 import { buildPdf, mmToPt, PAPER } from "../export/pdf-writer.js";
 import { labelHeight } from "../geometry/label-spot.js";
 import { translate, languageLocale, formatNumber } from "../i18n/i18n.js";
@@ -28,6 +29,8 @@ const SOFT = "#666666";
 const LINE = "#b8b8b8";
 const PART_FILL = "#ececec";
 const SAW = "#1f6fd1";
+// hauteur de la pastille d'un numéro de coupe sur le papier (mm)
+const SAW_BADGE = 2.6;
 
 function fonts() {
   var style = getComputedStyle(document.documentElement),
@@ -215,28 +218,37 @@ function drawSheet(page, sheet, box) {
       align: "center"
     });
   });
-  // coupes à la scie numérotées (option) : trait, puis numéro dans une pastille
+  // coupes à la scie numérotées (option) : trait fin, puis numéro dans une petite pastille, pour garder le plan lisible
   var sawCuts = sheetSawCuts(sheet);
   ctx.strokeStyle = SAW;
-  ctx.lineWidth = 0.35;
+  ctx.lineWidth = 0.2;
   sawCuts.forEach(function (c) {
     ctx.beginPath();
     ctx.moveTo(x0 + c.x1 * scale, y0 + c.y1 * scale);
     ctx.lineTo(x0 + c.x2 * scale, y0 + c.y2 * scale);
     ctx.stroke();
   });
-  sawCuts.forEach(function (c, n) {
-    var cx = x0 + ((c.x1 + c.x2) / 2) * scale,
-      cy = y0 + ((c.y1 + c.y2) / 2) * scale,
+  var r = SAW_BADGE / 2,
+    spots = placeSawLabels(sawCuts, sheet.parts, r / scale, { w: sheet.L, h: sheet.W });
+  spots.forEach(function (spot, n) {
+    var cx = x0 + spot.x * scale,
+      cy = y0 + spot.y * scale,
       label = String(n + 1),
-      half = Math.max(1.6, 0.9 * (label.length + 0.8));
+      rr = spot.r * scale,
+      half = badgeHalfWidth(rr, label.length);
     ctx.fillStyle = SAW;
     ctx.beginPath();
     // pastille arrondie (rectangle simple sur les navigateurs qui ne savent pas l'arrondir)
-    if (ctx.roundRect) ctx.roundRect(cx - half, cy - 1.6, half * 2, 3.2, 1.6);
-    else ctx.rect(cx - half, cy - 1.6, half * 2, 3.2);
+    if (ctx.roundRect) ctx.roundRect(cx - half, cy - rr, half * 2, rr * 2, rr);
+    else ctx.rect(cx - half, cy - rr, half * 2, rr * 2);
     ctx.fill();
-    text(ctx, label, cx, cy + 0.9, { size: 2.4, bold: true, color: "#ffffff", align: "center", family: f.display });
+    text(ctx, label, cx, cy + rr * 0.5, {
+      size: rr * 1.45,
+      bold: true,
+      color: "#ffffff",
+      align: "center",
+      family: f.display
+    });
   });
   // zéro machine
   var origin = originPoint(sheet),

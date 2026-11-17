@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tijekom dugog izračuna pojavljuje se gumb Odustani.",
+  "news.191": "Redoslijed rezova pilom: veliki otpadak otpada jednim rezom umjesto da se reže na trake, a brojevi se postavljaju tamo gdje ne prekrivaju ni dijelove ni druge brojeve (manji u PDF-u).",
   "news.190": "Ručni unos dijelova (ili lijepljenje iz tablice), redoslijed rezova pilom za metodu Pravokutnici (s debljinom tvog lista pile), vlastiti laserski materijali i vrijednosti, okvirne vrijednosti Thunder Laser i GWK (šperploča, MDF, akril, karton, koža…) i više nema linija otpadaka uz rubove.",
   "news.181": "Na telefonu su gumbi Projekti i Postavke sada ispod logotipa umjesto preko njega.",
   "news.180": "Nova kartica Laser (tvoji strojevi, početne vrijednosti iz Trotecovih knjiga, probna mreža), PDF za ispis ispod svake ploče ili za cijeli raspored, brojevi dijelova za graviranje, spremljeni projekti (gumb Projekti) i tipkovnički prečaci (tipka ?).",

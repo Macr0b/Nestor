@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.191": "Sågordning: den stora spillbiten kommer loss med ett enda snitt i stället för att sågas i remsor, och numren hamnar där de varken döljer delar eller andra nummer (mindre i PDF:en).",
   "news.190": "Delar inmatade för hand (eller inklistrade från ett kalkylblad), sågordning för metoden Rektanglar (med din klingas tjocklek), egna lasermaterial och -värden, riktvärden från Thunder Laser och GWK (plywood, MDF, akryl, kartong, läder …), och inga fler spillinjer längs marginalerna.",
   "news.181": "På telefonen ligger knapparna Projekt och Inställningar nu under logotypen i stället för att täcka den.",
   "news.180": "Ny flik Laser (dina maskiner, utgångsvärden från Trotecs böcker, testrutnät), utskrivbar PDF under varje skiva eller för hela planen, delnummer att gravera, sparade projekt (knappen Projekt) och kortkommandon (tangenten ?).",

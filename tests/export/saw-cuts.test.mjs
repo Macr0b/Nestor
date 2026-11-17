@@ -135,10 +135,9 @@ describe("Ordre des coupes à la scie", () => {
       cuts.map((c) => [Math.round(c.at * 10) / 10, Math.round(c.piece.l * 10) / 10]),
       [
         [100, 320],
-        // second morceau : 320 − 100 − 3,2 = 216,8 ; coupe entre les pièces 2 et 3, à 106,8 de son bord
-        [106.8, 216.8],
-        // puis la bande de 6,8 qui reste avant chacune des deux pièces
-        [6.8, 106.8],
+        // second morceau : 320 − 100 − 3,2 = 216,8 ; la bande de 6,8 avant la pièce part d'abord
+        [6.8, 216.8],
+        [100, 210],
         [6.8, 106.8]
       ]
     );
@@ -146,6 +145,19 @@ describe("Ordre des coupes à la scie", () => {
     const thick = computeSawCuts(300, 320, parts, 15);
     assert.ok(thick.every((c) => c.piece.l > 0));
     assert.equal(thick.filter((c) => c.dir === "across").length, 2);
+  });
+
+  test("pièces groupées en bas d'un grand panneau : la chute du haut part d'un trait, aucune coupe ne la traverse", () => {
+    // panneau 1200 × 2500, quatre pièces côte à côte en bas (origine en bas), espace 20
+    const parts = [0, 1, 2, 3].map((k) => ({ x: 9 + k * 220, y: 2091, w: 200, h: 400 }));
+    const cuts = computeSawCuts(1200, 2500, parts, 20, 9);
+    replay(1200, 2500, parts, cuts, 20);
+    const first = cuts.findIndex((c) => c.y1 === c.y2 && c.y1 === 2091);
+    assert.ok(first >= 0 && first <= 2, "la chute du haut est détachée dès le début");
+    // aucune coupe verticale ne monte dans la chute
+    for (const c of cuts.filter((c) => c.x1 === c.x2))
+      assert.ok(Math.min(c.y1, c.y2) >= 2091 - 1e-6, JSON.stringify(c));
+    assert.ok(cuts.length <= 2 + 1 + 3 + 4, `${cuts.length} coupes`);
   });
 
   test("pièce qui remplit le panneau : aucune coupe", () => {

@@ -188,6 +188,7 @@
   "calc.cancelled": "Hætt var við útreikning.",
   "calc.many": "{n} hlutum á að raða: það getur tekið tíma.",
   "news.121": "Magn er ekki lengur takmarkað við 500, of stórir hlutar eru tilkynntir strax og hnappurinn Hætta við birtist í löngum útreikningi.",
+  "news.191": "Röð sagarskurða: stóri afgangurinn fer af í einum skurði í stað þess að vera skorinn í ræmur, og númerin raðast þar sem þau hylja hvorki hluti né önnur númer (minni í PDF).",
   "news.190": "Hlutir slegnir inn í höndunum (eða límdir úr töflureikni), röð sagarskurða fyrir aðferðina Rétthyrningar (með þykkt blaðsins þíns), þín eigin leysiefni og gildi, leiðbeinandi gildi frá Thunder Laser og GWK (krossviður, MDF, akrýl, pappi, leður…), og engar afgangslínur lengur meðfram jaðrinum.",
   "news.181": "Í síma eru hnapparnir Verkefni og Stillingar nú undir merkinu í stað þess að hylja það.",
   "news.180": "Nýr flipi Leysir (vélarnar þínar, upphafsgildi úr bókum Trotec, prófunarnet), PDF til prentunar undir hverri plötu eða fyrir alla áætlunina, númer hluta til að grafa, vistuð verkefni (hnappurinn Verkefni) og flýtilyklar (lykill ?).",

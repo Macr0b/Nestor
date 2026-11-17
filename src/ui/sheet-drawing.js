@@ -2,6 +2,7 @@
 /* Dessin des panneaux et des pièces à l'écran (SVG), et vignettes des pièces. */
 
 import { sheetOffcutCuts, sheetSawCuts } from "../export/export-files.js";
+import { badgeHalfWidth, placeSawLabels } from "../export/saw-labels.js";
 import { partNumberSpot, partNumberText } from "../export/part-numbers.js";
 import { labelHeight } from "../geometry/label-spot.js";
 import { translate } from "../i18n/i18n.js";
@@ -50,10 +51,11 @@ export function partThumbnail(part) {
   );
 }
 
-/* Coupes à la scie numérotées : trait plein, numéro dans une pastille au milieu du trait. */
-function drawSawCuts(svg, cuts, strokeWidth, panelSize) {
-  var r = panelSize * 0.012;
-  cuts.forEach(function (c, n) {
+/* Coupes à la scie numérotées : trait plein, numéro dans une pastille posée là où elle gêne le moins. */
+function drawSawCuts(svg, cuts, strokeWidth, sheet) {
+  var r = Math.max(sheet.L, sheet.W) * 0.008,
+    spots = placeSawLabels(cuts, sheet.parts, r, { w: sheet.L, h: sheet.W });
+  cuts.forEach(function (c) {
     svg.push(
       '<line class="svg-saw" x1="' +
         c.x1 +
@@ -64,33 +66,32 @@ function drawSawCuts(svg, cuts, strokeWidth, panelSize) {
         '" y2="' +
         c.y2 +
         '" stroke-width="' +
-        strokeWidth * 1.6 +
+        strokeWidth * 1.4 +
         '"/>'
     );
   });
   // pastilles après tous les traits, pour qu'aucun trait ne passe dessus
-  cuts.forEach(function (c, n) {
-    var cx = (c.x1 + c.x2) / 2,
-      cy = (c.y1 + c.y2) / 2,
-      label = String(n + 1),
-      w = Math.max(r * 2, r * 0.75 * (label.length + 1.2));
+  spots.forEach(function (spot, n) {
+    var label = String(n + 1),
+      rr = spot.r,
+      half = badgeHalfWidth(rr, label.length);
     svg.push(
       '<g class="svg-saw-n"><rect x="' +
-        (cx - w / 2) +
+        (spot.x - half) +
         '" y="' +
-        (cy - r) +
+        (spot.y - rr) +
         '" width="' +
-        w +
+        half * 2 +
         '" height="' +
-        r * 2 +
+        rr * 2 +
         '" rx="' +
-        r +
+        rr +
         '"/><text x="' +
-        cx +
+        spot.x +
         '" y="' +
-        (cy + r * 0.42) +
+        (spot.y + rr * 0.42) +
         '" text-anchor="middle" font-size="' +
-        r * 1.25 +
+        rr * 1.25 +
         '">' +
         label +
         "</text></g>"
@@ -214,7 +215,7 @@ export function renderSheetSvg(resultSheet) {
   });
   // ordre des coupes à la scie : il remplace les traits de chutes (il dégage déjà tout)
   var sawCuts = sheetSawCuts(resultSheet);
-  drawSawCuts(svg, sawCuts, strokeWidth, Math.max(panelWidth, panelHeight));
+  drawSawCuts(svg, sawCuts, strokeWidth, resultSheet);
   // traits de coupe des chutes, avec la taille de chaque chute
   var offcuts = sawCuts.length ? { cuts: [], chutes: [] } : sheetOffcutCuts(resultSheet);
   offcuts.chutes.forEach(function (c) {

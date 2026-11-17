@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.191": "Rendi i prerjeve me sharrë: mbetja e madhe del me një prerje të vetme në vend që të pritet në rripa, dhe numrat vendosen aty ku nuk mbulojnë as pjesët as numrat e tjerë (më të vegjël në PDF).",
   "news.190": "Futje e pjesëve me dorë (ose ngjitje nga fletëllogaritësja), rendi i prerjeve me sharrë për metodën Drejtkëndësha (me trashësinë e tehut tënd), materiale dhe vlera lazeri të tuat, vlera orientuese nga Thunder Laser dhe GWK (kompensatë, MDF, akrilik, karton, lëkurë…) dhe më s’ka vija mbetjesh përgjatë kufijve.",
   "news.181": "Në telefon, butonat Projektet dhe Cilësimet tani dalin nën logo në vend që ta mbulojnë.",
   "news.180": "Skedë e re Lazer (makinat e tua, pika e nisjes sipas librave Trotec, rrjetë prove), PDF për shtyp nën çdo pllakë ose për gjithë planin, numrat e pjesëve për gdhendje, projekte të ruajtura (butoni Projektet) dhe shkurtore tastiere (tasti ?).",

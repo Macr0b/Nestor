@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.191": "Ordre dels talls amb serra: el retall gran surt d’un sol tall en lloc de tallar-se a tires, i els números es col·loquen on no tapen ni les peces ni altres números (més discrets al PDF).",
   "news.190": "Peces introduïdes a mà (o enganxades d’un full de càlcul), ordre dels talls amb serra per al mètode Rectangles (amb el gruix de la teva fulla), materials i valors làser teus, valors orientatius de Thunder Laser i GWK (contraxapat, MDF, acrílic, cartró, cuir…), i ja no hi ha línies de retalls al llarg dels marges.",
   "news.181": "Al mòbil, els botons Projectes i Configuració passen sota el logotip en lloc de tapar-lo.",
   "news.180": "Nova pestanya Làser (les teves màquines, punt de partida segons els llibres Trotec, graella de prova), PDF per imprimir sota cada tauler o de tot el pla, números de peça per gravar, projectes desats (botó Projectes) i dreceres de teclat (tecla ?).",
