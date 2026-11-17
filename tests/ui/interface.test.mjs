@@ -1571,6 +1571,8 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     // Ctrl+S marche même dans un champ : la fenêtre Projets s'ouvre et montre l'enregistrement
     await page.keyboard.press("Control+s");
     await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    // la liste se recharge juste après le message : on attend la ligne du projet
+    await page.waitForSelector(".proj-row", { timeout: 10000 });
     assert.equal(await page.locator(".proj-row").count(), 1);
     await page.keyboard.press("Escape");
     await page.keyboard.press("Control+o");
