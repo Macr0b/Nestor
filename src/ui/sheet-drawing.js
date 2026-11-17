@@ -1,7 +1,7 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Dessin des panneaux et des pièces à l'écran (SVG), et vignettes des pièces. */
 
-import { sheetOffcutCuts } from "../export/export-files.js";
+import { sheetOffcutCuts, sheetSawCuts } from "../export/export-files.js";
 import { partNumberSpot, partNumberText } from "../export/part-numbers.js";
 import { labelHeight } from "../geometry/label-spot.js";
 import { translate } from "../i18n/i18n.js";
@@ -48,6 +48,54 @@ export function partThumbnail(part) {
     pathData(part.paths, false) +
     '"/></svg>'
   );
+}
+
+/* Coupes à la scie numérotées : trait plein, numéro dans une pastille au milieu du trait. */
+function drawSawCuts(svg, cuts, strokeWidth, panelSize) {
+  var r = panelSize * 0.012;
+  cuts.forEach(function (c, n) {
+    svg.push(
+      '<line class="svg-saw" x1="' +
+        c.x1 +
+        '" y1="' +
+        c.y1 +
+        '" x2="' +
+        c.x2 +
+        '" y2="' +
+        c.y2 +
+        '" stroke-width="' +
+        strokeWidth * 1.6 +
+        '"/>'
+    );
+  });
+  // pastilles après tous les traits, pour qu'aucun trait ne passe dessus
+  cuts.forEach(function (c, n) {
+    var cx = (c.x1 + c.x2) / 2,
+      cy = (c.y1 + c.y2) / 2,
+      label = String(n + 1),
+      w = Math.max(r * 2, r * 0.75 * (label.length + 1.2));
+    svg.push(
+      '<g class="svg-saw-n"><rect x="' +
+        (cx - w / 2) +
+        '" y="' +
+        (cy - r) +
+        '" width="' +
+        w +
+        '" height="' +
+        r * 2 +
+        '" rx="' +
+        r +
+        '"/><text x="' +
+        cx +
+        '" y="' +
+        (cy + r * 0.42) +
+        '" text-anchor="middle" font-size="' +
+        r * 1.25 +
+        '">' +
+        label +
+        "</text></g>"
+    );
+  });
 }
 
 export function renderSheetSvg(resultSheet) {
@@ -164,8 +212,11 @@ export function renderSheetSvg(resultSheet) {
         "</text>"
     );
   });
+  // ordre des coupes à la scie : il remplace les traits de chutes (il dégage déjà tout)
+  var sawCuts = sheetSawCuts(resultSheet);
+  drawSawCuts(svg, sawCuts, strokeWidth, Math.max(panelWidth, panelHeight));
   // traits de coupe des chutes, avec la taille de chaque chute
-  var offcuts = sheetOffcutCuts(resultSheet);
+  var offcuts = sawCuts.length ? { cuts: [], chutes: [] } : sheetOffcutCuts(resultSheet);
   offcuts.chutes.forEach(function (c) {
     // texte écrit dans le sens de la plus grande longueur de la chute, et réduit pour tenir dedans
     var label = translate("cuts.chute", { w: showLength(c.w), h: showLength(c.h) }),

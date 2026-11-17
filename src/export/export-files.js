@@ -4,6 +4,7 @@
 
 import { exportOptions } from "./export-options.js";
 import { computeOffcutCuts } from "./offcuts.js";
+import { computeSawCuts } from "./saw-cuts.js";
 import { partNumberPaths } from "./part-numbers.js";
 import { translate } from "../i18n/i18n.js";
 import { sheetPartPaths } from "../placement/origin.js";
@@ -51,6 +52,18 @@ export function sheetOffcutCuts(resultSheet) {
     boxes,
     parseNumber(state.sheet.gap, 0),
     exportOptions.offcutMode,
+    parseNumber(state.sheet.margin, 0)
+  );
+}
+
+/* Ordre des coupes à la scie (option, méthode Rectangles seulement) : coupes numérotées dans l'ordre. */
+export function sheetSawCuts(resultSheet) {
+  if (!exportOptions.sawOrder || state.sheet.mode !== "rect" || !resultSheet.parts.length) return [];
+  return computeSawCuts(
+    resultSheet.L,
+    resultSheet.W,
+    resultSheet.parts,
+    parseNumber(state.sheet.gap, 0),
     parseNumber(state.sheet.margin, 0)
   );
 }

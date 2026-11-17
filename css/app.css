@@ -617,6 +617,17 @@ button:focus-visible,
 .svg-cut {
   stroke: #2f8fff;
 }
+.svg-saw {
+  stroke: #2f8fff;
+}
+.svg-saw-n rect {
+  fill: #2f8fff;
+}
+.svg-saw-n text {
+  fill: #fff;
+  font-family: var(--f-mono);
+  font-weight: 700;
+}
 .svg-chute {
   fill: #2f8fff;
   font-family: var(--f-mono);
@@ -947,4 +958,36 @@ button:focus-visible,
 }
 .manual-form [type="submit"] {
   grid-column: 2 / -1;
+}
+
+/* liste des coupes à la scie, sous le plan */
+.saw-list {
+  margin: 10px 0 4px;
+  font-size: 13px;
+}
+.saw-list summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.saw-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.saw-list th,
+.saw-list td {
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.saw-list th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+.saw-list td:first-child {
+  width: 3em;
+  font-weight: 700;
+  color: #2f8fff;
 }

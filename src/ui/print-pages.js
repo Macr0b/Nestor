@@ -3,6 +3,7 @@
    zéro machine, liste de ses pièces) et, pour le plan entier, une page de résumé avant les panneaux.
    A4 en métrique, Letter en impérial ; la liste longue continue sur les pages suivantes. */
 
+import { sheetSawCuts } from "../export/export-files.js";
 import { partNumberSpot, partNumberText } from "../export/part-numbers.js";
 import { buildPdf, mmToPt, PAPER } from "../export/pdf-writer.js";
 import { labelHeight } from "../geometry/label-spot.js";
@@ -15,6 +16,7 @@ import { isImperial } from "../util/units.js";
 import { showLength } from "./lengths.js";
 import { itemLabel, libraryItem } from "./materials-tab.js";
 import { cutTimeSummary, panelSizeLabel, planSummary } from "./plan-summary.js";
+import { sawCutColumns, sawCutRows } from "./saw-cut-list.js";
 
 // résolution des pages (points par pouce) : nette à l'impression, fichier raisonnable
 const DPI = 200;
@@ -25,6 +27,7 @@ const INK = "#1a1a1a";
 const SOFT = "#666666";
 const LINE = "#b8b8b8";
 const PART_FILL = "#ececec";
+const SAW = "#1f6fd1";
 
 function fonts() {
   var style = getComputedStyle(document.documentElement),
@@ -212,6 +215,29 @@ function drawSheet(page, sheet, box) {
       align: "center"
     });
   });
+  // coupes à la scie numérotées (option) : trait, puis numéro dans une pastille
+  var sawCuts = sheetSawCuts(sheet);
+  ctx.strokeStyle = SAW;
+  ctx.lineWidth = 0.35;
+  sawCuts.forEach(function (c) {
+    ctx.beginPath();
+    ctx.moveTo(x0 + c.x1 * scale, y0 + c.y1 * scale);
+    ctx.lineTo(x0 + c.x2 * scale, y0 + c.y2 * scale);
+    ctx.stroke();
+  });
+  sawCuts.forEach(function (c, n) {
+    var cx = x0 + ((c.x1 + c.x2) / 2) * scale,
+      cy = y0 + ((c.y1 + c.y2) / 2) * scale,
+      label = String(n + 1),
+      half = Math.max(1.6, 0.9 * (label.length + 0.8));
+    ctx.fillStyle = SAW;
+    ctx.beginPath();
+    // pastille arrondie (rectangle simple sur les navigateurs qui ne savent pas l'arrondir)
+    if (ctx.roundRect) ctx.roundRect(cx - half, cy - 1.6, half * 2, 3.2, 1.6);
+    else ctx.rect(cx - half, cy - 1.6, half * 2, 3.2);
+    ctx.fill();
+    text(ctx, label, cx, cy + 0.9, { size: 2.4, bold: true, color: "#ffffff", align: "center", family: f.display });
+  });
   // zéro machine
   var origin = originPoint(sheet),
     ox = x0 + origin[0] * scale,
@@ -302,6 +328,18 @@ function sheetPages(sheet, index, count) {
     page = newPage(false);
     top = header(page, detail);
     next = table(page, partColumns(), rows, next, top, page.height - 14);
+    pages.push(page);
+  }
+  // ordre des coupes à la scie (option) : sur ses propres pages, à la suite
+  var cuts = sawCutRows(sheetSawCuts(sheet)),
+    columns = sawCutColumns().map(function (title, c) {
+      return { title: title, width: [12, 0, 36, 60][c], align: c >= 2 ? "right" : "left" };
+    });
+  next = 0;
+  while (next < cuts.length) {
+    page = newPage(false);
+    top = header(page, detail + " · " + translate("saw.title", { n: cuts.length }));
+    next = table(page, columns, cuts, next, top, page.height - 14);
     pages.push(page);
   }
   return pages;

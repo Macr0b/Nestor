@@ -2,7 +2,7 @@
 /* Bloc résultat : chiffres, dessin de chaque panneau, boutons de téléchargement. */
 
 import { buildDxfFile } from "../export/dxf.js";
-import { exportPaths, fileSlug, saveFile } from "../export/export-files.js";
+import { exportPaths, fileSlug, saveFile, sheetSawCuts } from "../export/export-files.js";
 import { buildSvgFile } from "../export/svg.js";
 import { formatNumber, translate } from "../i18n/i18n.js";
 import { showLength } from "./lengths.js";
@@ -11,6 +11,7 @@ import { isImperial } from "../util/units.js";
 import { renderCost } from "./cost-tab.js";
 import { applyOrigin, nestingFrame, originPoint, panelList, panelOrigin } from "../placement/origin.js";
 import { packRectangles } from "../placement/rectangles.js";
+import { sawCutTableHtml } from "./saw-cut-list.js";
 import { buildNestInput, nestPanelByPanel, nestWithOrigin, stopNesting } from "../placement/run-nesting.js";
 import { partDisplayName, scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
@@ -185,6 +186,7 @@ export function drawResult(res) {
         '<div class="svgbox">' +
         renderSheetSvg(s) +
         "</div>" +
+        sawCutTableHtml(sheetSawCuts(s)) +
         '<div class="dl"><button class="btn sm" type="button" data-dl="svg" data-s="' +
         si +
         '">' +

@@ -1390,6 +1390,46 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
       await page.context().close();
     });
 
+  test("ordre des coupes à la scie : méthode Rectangles seulement, numéros, liste, PDF, gardé", async () => {
+    const page = await open();
+    assert.ok(await page.isHidden("#sawOrderWrap"));
+    await page.selectOption("#sMode", "rect");
+    await idle(page);
+    assert.ok(await page.isVisible("#sawOrderWrap"));
+    assert.equal(await page.locator(".saw-list").count(), 0);
+    await page.check("#sawOrder");
+    const n = await page.locator(".svg-saw").count();
+    assert.ok(n >= 8, `${n} coupes`);
+    assert.equal(await page.locator(".svg-saw-n").count(), n);
+    assert.equal(await page.locator(".saw-list tbody tr").count(), n);
+    assert.match(await page.textContent(".saw-list summary"), new RegExp(`Ordre des coupes \\(${n}\\)`));
+    const first = await page.$$eval(".saw-list tbody tr:first-child td", (v) => v.map((td) => td.textContent));
+    assert.equal(first[0], "1");
+    assert.match(first[1], /^(Dans la longueur|En travers)$/);
+    assert.match(first[3], /^[\d\s ,.]+ × [\d\s ,.]+$/);
+    // les traits de chutes laissent la place aux coupes numérotées
+    await page.selectOption("#cutSel", "detail");
+    assert.equal(await page.locator(".svg-cut").count(), 0);
+    // PDF du panneau : une page de plus pour la liste des coupes
+    const [d] = await Promise.all([
+      page.waitForEvent("download", { timeout: 30000 }),
+      page.click('[data-dl="pdf"][data-s="0"]')
+    ]);
+    const bytes = await readFile(await d.path());
+    assert.equal(pdfPages(bytes), 2, `${n} coupes`);
+    // gardé au rechargement ; en imbrication selon la forme, rien de tout ça
+    await page.reload();
+    await idle(page);
+    assert.ok(await page.isChecked("#sawOrder"));
+    assert.equal(await page.locator(".saw-list").count(), 1);
+    await page.selectOption("#sMode", "nest");
+    await idle(page);
+    assert.equal(await page.locator(".saw-list").count(), 0);
+    assert.ok(await page.isHidden("#sawOrderWrap"));
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("projets : enregistrer, protéger les changements, rouvrir à l'identique, exporter, importer, supprimer", async () => {
     const page = await open();
     // réglages du projet dans plusieurs onglets

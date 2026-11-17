@@ -131,6 +131,8 @@ export function renderSheetInputs() {
   byId("dlBoard").checked = exportOptions.includeBoard;
   byId("dlNumbers").checked = exportOptions.partNumbers;
   byId("cutSel").value = exportOptions.offcutMode;
+  byId("sawOrder").checked = exportOptions.sawOrder;
+  byId("sawOrderWrap").hidden = state.sheet.mode !== "rect";
 }
 
 export function bindPanelsEditor() {
@@ -230,6 +232,7 @@ export function bindPanelsEditor() {
   });
   byId("sMode").addEventListener("change", function (e) {
     state.sheet.mode = e.target.value;
+    byId("sawOrderWrap").hidden = state.sheet.mode !== "rect";
     schedulePreferencesSave();
     renderResult();
   });
@@ -241,6 +244,11 @@ export function bindPanelsEditor() {
   byId("dlNumbers").addEventListener("change", function (e) {
     exportOptions.partNumbers = e.target.checked;
     schedulePreferencesSave();
+  });
+  byId("sawOrder").addEventListener("change", function (e) {
+    exportOptions.sawOrder = e.target.checked;
+    schedulePreferencesSave();
+    if (session.lastResult) drawResult(session.lastResult);
   });
   byId("cutSel").addEventListener("change", function (e) {
     exportOptions.offcutMode = e.target.value;

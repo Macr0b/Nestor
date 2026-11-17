@@ -615,5 +615,14 @@
   "lz.estimatedGweike": "Estimation à partir du tableau GWK Laser ({w} W, 90 % de puissance) : à tester.",
   "lz.mat.gwkSoftwood": "Bois tendre et contreplaqué courant",
   "lz.thGweikeTitle": "Tableau GWK Laser",
-  "lz.thGweike": "Bois tendre et contreplaqué courant, MDF et acrylique de 3 à 10 mm : valeurs du tableau publié par GWK Laser (Gweike) pour ses tubes CO2 de 40 à 150 W, à 90 % de puissance. Nestor reprend la vitesse pour un bord propre, pas la plus rapide."
+  "lz.thGweike": "Bois tendre et contreplaqué courant, MDF et acrylique de 3 à 10 mm : valeurs du tableau publié par GWK Laser (Gweike) pour ses tubes CO2 de 40 à 150 W, à 90 % de puissance. Nestor reprend la vitesse pour un bord propre, pas la plus rapide.",
+  "saw.option": "Ordre des coupes à la scie",
+  "saw.hint": "Coupes numérotées sur le panneau, et leur liste dessous et dans le PDF : chaque coupe va d’un bord à l’autre du morceau, la cote se prend depuis son bord gauche ou haut.",
+  "saw.title": "Ordre des coupes ({n})",
+  "saw.colNumber": "N°",
+  "saw.colCut": "Coupe",
+  "saw.colAt": "Cote",
+  "saw.colPiece": "Dans le morceau",
+  "saw.along": "Dans la longueur",
+  "saw.across": "En travers"
 }

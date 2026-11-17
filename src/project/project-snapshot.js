@@ -170,7 +170,8 @@ export function cleanSnapshot(raw) {
       includeBoard: exportOptions.includeBoard === true,
       offcutMode:
         exportOptions.offcutMode === "simple" || exportOptions.offcutMode === "detail" ? exportOptions.offcutMode : "",
-      partNumbers: exportOptions.partNumbers === true
+      partNumbers: exportOptions.partNumbers === true,
+      sawOrder: exportOptions.sawOrder === true
     },
     material: typeof s.material === "string" && /^[\w-]{0,40}$/.test(s.material) ? s.material : "",
     milling: settingsObject(s.milling),
