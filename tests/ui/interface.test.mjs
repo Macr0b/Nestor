@@ -759,7 +759,8 @@ describe("Interface", { skip }, () => {
     await page.focus("#tabMill");
     await page.keyboard.press("ArrowLeft");
     assert.equal(await page.evaluate(() => document.activeElement.id), "tabNest");
-    assert.equal(await page.isVisible(".sheet"), true);
+    // le plan peut être en train d'être redessiné (changements faits dans Fraisage) : on attend qu'il paraisse
+    await page.waitForSelector(".sheet", { state: "visible", timeout: 10000 });
     assert.equal(await page.isVisible("#pageMill"), false);
     assert.deepEqual(page.errors, []);
     await page.context().close();
