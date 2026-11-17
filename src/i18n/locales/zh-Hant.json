@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "速度以 % 或 mm/s 表示",
   "lz.thSpeed": "Trotec 機器以 % 設定速度，其他機器常用 mm/s。Nestor 依 Speedy 360 的最高速度換算。這是最不可靠的換算：請使用測試網格。",
   "lz.thOtherTitle": "二極體和光纖",
-  "lz.thOther": "手冊只涵蓋 CO2。二極體或光纖雷射請把驗證過的參數記在筆記本裡。",
   "lz.noMachine": "沒有機器",
   "lz.published": "Trotec 公布的厚度：{t}",
   "lz.addFirst": "新增你的機器（名稱、類型、功率）即可看到起始值。",

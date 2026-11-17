@@ -4,12 +4,14 @@
    par millimètre (puissance × % / vitesse), interpolée entre les livrets voisins. Autre épaisseur : vitesse
    proportionnelle à l'épaisseur publiée la plus proche. Tout le reste est une estimation à tester. */
 
-import { TROTEC_BOOKS } from "./trotec-books.js";
+import { laserMaterial, SOURCES } from "./reference-sources.js";
 
 export const MACHINE_KINDS = ["co2", "diode", "fiber"];
 export const LASER_OPS = ["cut", "engrave", "engraveDark"];
 // vitesse maximale de référence des livrets (Speedy 360) : 100 % de vitesse = 3550 mm/s
 export const TROTEC_FULL_SPEED = 3550;
+// au-delà de cette épaisseur (mm), le laser ne sert qu'à graver : la découpe passe par la fraiseuse
+export const LASER_CUT_LIMIT = 10;
 
 // arrondi au pas donné, sans reste de virgule flottante (0,6 et non 0,6000000000000001)
 function round(value, step) {
@@ -33,10 +35,22 @@ function energy(watts, row) {
   return (watts * row.power) / row.speed;
 }
 
+// pas d'arrondi de la vitesse (%) : assez fin pour garder les valeurs publiées (0,05 ; 1,2 ; 1,8…)
+export function speedStep(speed) {
+  return speed >= 10 ? 0.5 : speed >= 1 ? 0.1 : 0.01;
+}
+
+function sourceOf(material) {
+  var m = laserMaterial(material);
+  return m ? SOURCES[m.source] : null;
+}
+
 /* Épaisseurs publiées pour une matière en découpe (pour proposer les bonnes valeurs). */
 export function publishedThicknesses(material) {
-  var set = {};
-  TROTEC_BOOKS.forEach(function (book) {
+  var set = {},
+    source = sourceOf(material);
+  if (!source) return [];
+  source.books.forEach(function (book) {
     book.rows.forEach(function (r) {
       if (r.material === material && r.op === "cut") set[r.thickness] = true;
     });
@@ -53,14 +67,36 @@ export function publishedThicknesses(material) {
    { power, speed (%), speedMm (mm/s), frequency, zOffset, passes, published, bookWatts, thicknessFrom } */
 export function laserSettings(machine, material, op, thickness) {
   if (!machine || machine.kind !== "co2" || !(machine.watts > 0)) return null;
+  if (op === "cut" && thickness > LASER_CUT_LIMIT) return null;
+  var source = sourceOf(material);
+  if (!source) return null;
   var watts = machine.watts,
     t = op === "cut" ? Math.max(0.1, thickness || 0) : 0;
-  var books = TROTEC_BOOKS.map(function (book) {
-    return { book: book, row: bookRow(book, material, op, t) };
-  }).filter(function (x) {
-    return x.row;
-  });
+  // découpe : on part de l'épaisseur publiée la plus proche, et seulement des puissances qui la coupent
+  var thicknessRef = null;
+  if (op === "cut") {
+    var published = publishedThicknesses(material);
+    if (!published.length) return null;
+    thicknessRef = published.reduce(function (best, v) {
+      return Math.abs(v - t) < Math.abs(best - t) ? v : best;
+    });
+  }
+  var books = source.books
+    .map(function (book) {
+      return { book: book, row: bookRow(book, material, op, thicknessRef == null ? t : thicknessRef) };
+    })
+    .filter(function (x) {
+      return x.row && (thicknessRef == null || x.row.thickness === thicknessRef);
+    });
   if (!books.length) return null;
+  // trop faible : la source ne coupe cette épaisseur qu'à partir d'une certaine puissance
+  var minWatts = Math.min.apply(
+    null,
+    books.map(function (x) {
+      return x.book.watts;
+    })
+  );
+  if (source.maxLineSpeed && watts < minWatts) return { tooWeak: minWatts };
   // livret de la même puissance ; sinon les deux voisins (ou le plus proche hors de la plage)
   var exact = books.find(function (x) {
     return x.book.watts === watts;
@@ -103,12 +139,16 @@ export function laserSettings(machine, material, op, thickness) {
   var thicknessFrom = op === "cut" && Math.abs(row.thickness - t) > 0.05 ? row.thickness : null;
   if (thicknessFrom) speed = (speed * row.thickness) / t;
   power = Math.min(100, round(power, 1));
-  speed = speed >= 1 ? round(speed, 0.5) : round(speed, 0.05);
-  speed = Math.max(0.05, speed);
+  // vitesse dans l'unité de la source, puis dans l'autre (100 % = vitesse maximale de la Speedy 360)
+  var percent = source.unit === "mmps" ? (speed / TROTEC_FULL_SPEED) * 100 : speed,
+    mm = source.unit === "mmps" ? speed : (speed / 100) * TROTEC_FULL_SPEED;
+  percent = Math.max(0.01, round(percent, speedStep(percent)));
   return {
     power: power,
-    speed: speed,
-    speedMm: round((speed / 100) * TROTEC_FULL_SPEED, 0.1),
+    speed: percent,
+    speedMm: round(mm, 0.1),
+    maxLineSpeed: !!source.maxLineSpeed,
+    source: laserMaterial(material).source,
     frequency: row.frequency,
     zOffset: row.zOffset,
     passes: 1,

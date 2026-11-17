@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Greitis % arba mm/s",
   "lz.thSpeed": "Trotec staklėse greitis nustatomas %, kitose dažnai mm/s. Nestor perskaičiuoja pagal didžiausią Speedy 360 greitį. Tai mažiausiai patikimas perskaičiavimas: naudok bandomąjį tinklelį.",
   "lz.thOtherTitle": "Diodas ir šviesolaidis",
-  "lz.thOther": "Knygos apima tik CO2. Diodiniam ar šviesolaidiniam lazeriui patikrintus nustatymus užsirašyk Užrašų knygoje.",
   "lz.noMachine": "Staklių nėra",
   "lz.published": "Trotec paskelbti storiai: {t}",
   "lz.addFirst": "Pridėk savo stakles (pavadinimas, tipas, galia), kad pamatytum pradines vertes.",

@@ -1,12 +1,12 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Onglet Laser : tes machines, la matière et l'opération, le point de départ tiré des livrets Trotec,
-   la grille de test à télécharger et l'envoi vers le carnet. */
+/* Onglet Laser : tes machines, la matière et l'opération, les valeurs (les tiennes ou indicatives),
+   la grille de test à télécharger et l'envoi vers le carnet. Tes matières et tes valeurs : laser-materials.js. */
 
 import { buildDxfFile } from "../export/dxf.js";
 import { fileSlug, saveFile } from "../export/export-files.js";
 import { buildSvgFromPaths } from "../export/svg-writer.js";
 import { languageLocale, translate } from "../i18n/i18n.js";
-import { laserSettings, publishedThicknesses, speedForMachine } from "../laser/laser-settings.js";
+import { LASER_CUT_LIMIT, laserSettings, publishedThicknesses, speedForMachine } from "../laser/laser-settings.js";
 import {
   activeMachine,
   cleanLaserInput,
@@ -16,7 +16,6 @@ import {
   saveLaserInput
 } from "../laser/laser-store.js";
 import { buildTestGrid } from "../laser/test-grid.js";
-import { LASER_MATERIALS } from "../laser/trotec-books.js";
 import { findItem, onProjectMaterialChange, projectMaterialId, setProjectMaterial } from "../library/library-store.js";
 import { today, newId } from "../notebook/notebook-store.js";
 import { byId, escapeHtml } from "../util/dom.js";
@@ -25,19 +24,24 @@ import { readLengthField, setLengthField, showLength } from "./lengths.js";
 import { libraryItem, libraryItems } from "./materials-tab.js";
 import { keepInNotebook } from "./notebook-tab.js";
 import { renderCost } from "./cost-tab.js";
+import {
+  bindLaserMaterials,
+  fillLaserMaterialSelect,
+  laserMaterialForMill,
+  laserMaterialMill,
+  laserMaterialName,
+  loadLaserMaterials,
+  openValuesForm,
+  renderMaterialButtons,
+  resetOwnValues,
+  resolveLaserValues
+} from "./laser-materials.js";
 import { formatValue, valueBox } from "./value-box.js";
 
 let input = null;
 // machine en cours de modification dans le formulaire (null : nouvelle machine)
 let editingId = null;
 let confirmDelete = false;
-
-function materialName(id) {
-  const m = LASER_MATERIALS.find(function (x) {
-    return x.id === id;
-  });
-  return m && m.mill ? translate("mill.mat." + m.mill) : translate("lz.mat." + id);
-}
 
 function machineLabel(machine) {
   return (machine.name || translate("lz.kind." + machine.kind)) + " — " + formatValue(machine.watts, 1) + " W";
@@ -58,31 +62,54 @@ function fillLists() {
         .join("")
     : '<option value="">' + escapeHtml(translate("lz.noMachine")) + "</option>";
   machines.value = input.activeId;
-  byId("lzMaterial").innerHTML = LASER_MATERIALS.map(function (m) {
-    return '<option value="' + m.id + '">' + escapeHtml(materialName(m.id)) + "</option>";
-  }).join("");
-  byId("lzMaterial").value = input.material;
+  fillLaserMaterialSelect(byId("lzMaterial"), input.material);
+  input.material = byId("lzMaterial").value;
   byId("lzOp").value = input.op;
   setLengthField(byId("lzThickness"), input.thickness);
 }
 
-function currentSettings() {
+// valeurs affichées (les tiennes, indicatives ou estimées) et leur origine
+function currentValues() {
   const machine = activeMachine(input);
-  return machine ? laserSettings(machine, input.material, input.op, input.thickness) : null;
+  return machine ? resolveLaserValues(machine, input.material, input.op, input.thickness) : { kind: "none" };
 }
 
-/* Point de départ, source des valeurs et aide sur les épaisseurs publiées. */
+function currentSettings() {
+  return currentValues().settings || null;
+}
+
+function valuesTarget() {
+  const machine = activeMachine(input);
+  return {
+    machine: machine,
+    machineLabel: machineLabel(machine),
+    material: input.material,
+    op: input.op,
+    thickness: input.thickness
+  };
+}
+
+function thicknessText(mm) {
+  return showLength(mm, { digits: 2 }) + " " + translate("mill.unitLength");
+}
+
+// vitesse à montrer : celle que tu as saisie (dans ton unité), sinon celle de la machine (% Trotec ou mm/s)
+function shownSpeed(machine, settings) {
+  return settings.savedSpeed || speedForMachine(machine, settings);
+}
+
+/* Valeurs affichées, d'où elles viennent, et les boutons pour les modifier. */
 function renderValues() {
   const machine = activeMachine(input),
     cut = input.op === "cut",
-    settings = currentSettings(),
     values = byId("lzValues"),
     source = byId("lzSource");
   byId("lzThicknessField").hidden = !cut;
+  renderMaterialButtons(input.material);
   const thicknesses = publishedThicknesses(input.material);
   byId("lzThicknessHint").textContent =
     cut && thicknesses.length
-      ? translate("lz.published", {
+      ? translate("lz.publishedAny", {
           t:
             thicknesses
               .map(function (t) {
@@ -94,17 +121,30 @@ function renderValues() {
         })
       : "";
   byId("lzEdit").hidden = byId("lzDelete").hidden = !machine;
+  byId("lzEditValues").hidden = byId("lzResetValues").hidden = true;
+  values.innerHTML = "";
   if (!machine) {
-    values.innerHTML = "";
     source.textContent = translate("lz.addFirst");
     return;
   }
-  if (!settings) {
-    values.innerHTML = "";
-    source.textContent = translate(machine.kind === "co2" ? "lz.noValue" : "lz.notCo2");
+  const result = currentValues();
+  if (result.kind === "tooThick") {
+    source.textContent = translate("lz.tooThick", { t: thicknessText(LASER_CUT_LIMIT) });
     return;
   }
-  const speed = speedForMachine(machine, settings);
+  // tes valeurs se saisissent pour toute matière et toute machine (même diode ou fibre)
+  byId("lzEditValues").hidden = false;
+  byId("lzEditValues").textContent = translate(result.settings ? "lz.editValues" : "lz.enterValues");
+  if (result.kind === "tooWeak") {
+    source.textContent = translate("lz.tooWeak", { w: formatValue(machine.watts, 0), m: result.minWatts });
+    return;
+  }
+  if (result.kind === "none") {
+    source.textContent = translate(machine.kind === "co2" ? "lz.noValueOwn" : "lz.notCo2Own");
+    return;
+  }
+  const settings = result.settings,
+    speed = shownSpeed(machine, settings);
   values.innerHTML =
     valueBox(translate("nb.powerShort"), formatValue(settings.power, 1), "%") +
     valueBox(
@@ -114,7 +154,7 @@ function renderValues() {
     ) +
     valueBox(
       translate("nb.frequencyShort"),
-      formatValue(settings.frequency, 0),
+      settings.frequency ? formatValue(settings.frequency, 0) : "–",
       translate(cut ? "lz.unitHz" : "lz.unitPpi")
     ) +
     valueBox(
@@ -122,16 +162,37 @@ function renderValues() {
       (settings.zOffset > 0 ? "+" : "") + showLength(settings.zOffset, { digits: 2 }),
       translate("mill.unitLength")
     );
-  const lines = [
-    translate(settings.published ? "lz.fromBook" : "lz.estimated", { w: formatValue(settings.bookWatts, 0) })
-  ];
-  if (settings.thicknessFrom)
+  const lines = [];
+  if (result.kind === "own") {
+    lines.push(translate("lz.ownValues"));
+    // retour possible aux valeurs indicatives quand il y en a sous les tiennes
+    const reference = laserSettings(machine, input.material, input.op, input.thickness);
+    byId("lzResetValues").hidden = !(reference && !reference.tooWeak);
+  } else if (result.kind === "estimate") {
     lines.push(
-      translate("lz.thicknessFrom", {
-        t: showLength(settings.thicknessFrom, { digits: 2 }) + " " + translate("mill.unitLength")
-      })
+      settings.fromMachine
+        ? translate("lz.estimatedOwnMachine", { m: settings.fromMachine })
+        : translate("lz.estimatedOwn")
     );
-  lines.push(translate("lz.passes"));
+  } else {
+    const thunder = settings.source === "thunder";
+    lines.push(
+      translate(
+        thunder
+          ? settings.published
+            ? "lz.fromThunder"
+            : "lz.estimatedThunder"
+          : settings.published
+            ? "lz.fromBook"
+            : "lz.estimated",
+        { w: formatValue(settings.bookWatts, 0) }
+      )
+    );
+    if (settings.maxLineSpeed) lines.push(translate("lz.maxLineSpeed"));
+  }
+  if (settings.thicknessFrom) lines.push(translate("lz.thicknessFrom", { t: thicknessText(settings.thicknessFrom) }));
+  if (result.kind === "reference") lines.push(translate("lz.passes"));
+  if (result.kind !== "own") lines.push(translate("lz.indicative"));
   source.textContent = lines.join(" ");
 }
 
@@ -143,31 +204,28 @@ function changed() {
 
 /* Matière et épaisseur choisies ici : la matière de la bibliothèque qui correspond devient celle du projet. */
 function syncProjectMaterial() {
-  const laserMaterial = LASER_MATERIALS.find(function (m) {
-    return m.id === input.material;
-  });
-  if (!laserMaterial || !laserMaterial.mill || input.op !== "cut") return;
+  const mill = laserMaterialMill(input.material);
+  if (!mill || input.op !== "cut") return;
   const current = libraryItem(projectMaterialId());
   if (
     current &&
-    current.millMaterial === laserMaterial.mill &&
+    current.millMaterial === mill &&
     (current.thickness == null || Math.abs(current.thickness - input.thickness) < 0.05)
   )
     return;
-  const found = findItem(libraryItems(), laserMaterial.mill, input.thickness);
+  const found = findItem(libraryItems(), mill, input.thickness);
   setProjectMaterial(found ? found.id : "", "laser");
   renderCost();
 }
 
-/* Matière du projet choisie dans un autre onglet : matière et épaisseur reprises quand le laser la connaît. */
+/* Matière du projet choisie dans un autre onglet : matière et épaisseur reprises quand le laser la connaît
+   (une de tes matières liée à la même matière de fraisage d'abord). */
 function applyProjectMaterial() {
   const item = libraryItem(projectMaterialId());
   if (!item || !item.millMaterial) return;
-  const laserMaterial = LASER_MATERIALS.find(function (m) {
-    return m.mill === item.millMaterial;
-  });
-  if (!laserMaterial) return;
-  input.material = laserMaterial.id;
+  const id = laserMaterialForMill(item.millMaterial);
+  if (!id) return;
+  input.material = id;
   if (item.thickness) input.thickness = item.thickness;
   store();
   fillLists();
@@ -242,14 +300,14 @@ function deleteMachine() {
 function keepLaser() {
   const machine = activeMachine(input),
     settings = currentSettings();
-  const speed = machine && settings ? speedForMachine(machine, settings) : null;
+  const speed = machine && settings ? shownSpeed(machine, settings) : null;
   keepInNotebook({
     id: newId(),
     date: today(),
     process: "laser",
     status: "ok",
     machine: machine ? machineLabel(machine) : "",
-    material: materialName(input.material),
+    material: laserMaterialName(input.material),
     thickness: input.op === "cut" ? input.thickness : null,
     note: "",
     values: {
@@ -273,7 +331,7 @@ function downloadGrid(kind) {
     return;
   }
   // séparateur décimal de la langue (virgule ou point) ; les autres écritures n'existent pas dans la police au trait
-  const speed = speedForMachine(machine, settings),
+  const speed = shownSpeed(machine, settings),
     decimal = (1.5).toLocaleString(languageLocale()).charAt(1) === "," ? "," : ".";
   const grid = buildTestGrid(settings.power, speed.value, speed.unit === "percent" ? "%" : "mm/s", decimal, {
     cell: translate("lz.gridCell"),
@@ -287,7 +345,7 @@ function downloadGrid(kind) {
     name =
       fileSlug(translate("lz.gridFile"), "laser-test") +
       "-" +
-      fileSlug(materialName(input.material) + "-" + machineLabel(machine), "laser") +
+      fileSlug(laserMaterialName(input.material) + "-" + machineLabel(machine), "laser") +
       "." +
       kind;
   saveFile(name, new Blob([data], { type: kind === "svg" ? "image/svg+xml" : "application/dxf" }))
@@ -322,7 +380,28 @@ export function renderLaser() {
 }
 
 export function bindLaserTab() {
+  loadLaserMaterials();
   input = loadLaserInput();
+  bindLaserMaterials({
+    material: function () {
+      return input.material;
+    },
+    selectMaterial: function (id) {
+      input.material = id;
+      fillLists();
+      changed();
+    },
+    changed: renderValues
+  });
+  byId("lzEditValues").addEventListener("click", function () {
+    const result = currentValues(),
+      machine = activeMachine(input);
+    openValuesForm(valuesTarget(), result.settings, result.settings ? shownSpeed(machine, result.settings) : null);
+  });
+  byId("lzResetValues").addEventListener("click", function () {
+    resetOwnValues(valuesTarget());
+    renderValues();
+  });
   byId("lzMachine").addEventListener("change", function () {
     input.activeId = this.value;
     confirmDelete = false;

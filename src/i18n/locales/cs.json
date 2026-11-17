@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Rychlost v % nebo v mm/s",
   "lz.thSpeed": "Stroje Trotec nastavují rychlost v %, jiné stroje často v mm/s. Nestor převádí podle maximální rychlosti Speedy 360. Je to nejméně jistý převod: použij testovací mřížku.",
   "lz.thOtherTitle": "Dioda a vlákno",
-  "lz.thOther": "Knihy pokrývají jen CO2. Pro diodový nebo vláknový laser si ověřená nastavení zapisuj do Zápisníku.",
   "lz.noMachine": "Žádný stroj",
   "lz.published": "Tloušťky zveřejněné firmou Trotec: {t}",
   "lz.addFirst": "Přidej svůj stroj (název, typ, výkon), aby se ukázaly výchozí hodnoty.",

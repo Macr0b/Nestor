@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Brzina u % ili u mm/s",
   "lz.thSpeed": "Trotec strojevi postavljaju brzinu u %, drugi strojevi često u mm/s. Nestor pretvara prema najvećoj brzini Speedy 360. To je najnesigurnija pretvorba: koristi probnu mrežu.",
   "lz.thOtherTitle": "Dioda i vlakno",
-  "lz.thOther": "Knjige pokrivaju samo CO2. Za diodni ili vlaknasti laser upiši provjerene postavke u Bilježnicu.",
   "lz.noMachine": "Nema stroja",
   "lz.published": "Debljine koje je objavio Trotec: {t}",
   "lz.addFirst": "Dodaj svoj stroj (naziv, vrsta, snaga) da vidiš početne vrijednosti.",

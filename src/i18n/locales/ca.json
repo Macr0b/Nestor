@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Velocitat en % o en mm/s",
   "lz.thSpeed": "Les Trotec ajusten la velocitat en %; altres màquines sovint en mm/s. Nestor converteix amb la velocitat màxima de la Speedy 360. És la conversió menys segura: fes servir la graella de prova.",
   "lz.thOtherTitle": "Díode i fibra",
-  "lz.thOther": "Els llibres només cobreixen el CO2. Per a un làser de díode o de fibra, anota els teus ajustos provats al Quadern.",
   "lz.noMachine": "Cap màquina",
   "lz.published": "Gruixos publicats per Trotec: {t}",
   "lz.addFirst": "Afegeix la teva màquina (nom, tipus, potència) per veure el punt de partida.",

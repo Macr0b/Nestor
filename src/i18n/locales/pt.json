@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Velocidade em % ou em mm/s",
   "lz.thSpeed": "As Trotec regulam a velocidade em %; outras máquinas muitas vezes em mm/s. O Nestor converte com a velocidade máxima da Speedy 360. É a conversão menos segura: usa a grelha de teste.",
   "lz.thOtherTitle": "Díodo e fibra",
-  "lz.thOther": "Os livros só cobrem o CO2. Para um laser de díodo ou de fibra, regista as tuas regulações comprovadas no Caderno.",
   "lz.noMachine": "Nenhuma máquina",
   "lz.published": "Espessuras publicadas pela Trotec: {t}",
   "lz.addFirst": "Adiciona a tua máquina (nome, tipo, potência) para ver o ponto de partida.",

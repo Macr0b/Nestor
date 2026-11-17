@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Hız % veya mm/s olarak",
   "lz.thSpeed": "Trotec makineleri hızı % olarak ayarlar, diğer makineler çoğu zaman mm/s. Nestor, Speedy 360’ın en yüksek hızıyla dönüştürür. Bu en az güvenilir dönüştürmedir: test ızgarasını kullan.",
   "lz.thOtherTitle": "Diyot ve fiber",
-  "lz.thOther": "Kitaplar yalnızca CO2’yi kapsar. Diyot ya da fiber lazer için denenmiş ayarlarını Deftere yaz.",
   "lz.noMachine": "Makine yok",
   "lz.published": "Trotec’in yayımladığı kalınlıklar: {t}",
   "lz.addFirst": "Başlangıç değerlerini görmek için makineni ekle (ad, tür, güç).",

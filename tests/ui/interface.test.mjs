@@ -1127,8 +1127,9 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.match(await page.textContent("#lzValues"), /mm\/s/);
     // diode : pas de livret, message clair
     await addMachine(page, "Diode", 20, false, "diode");
-    assert.match(await page.textContent("#lzSource"), /ne couvrent que les lasers CO2/);
+    assert.match(await page.textContent("#lzSource"), /Pas de valeurs publiées pour ce type de laser/);
     assert.equal(await page.textContent("#lzValues"), "");
+    assert.equal(await page.textContent("#lzEditValues"), "Saisir mes valeurs");
     // suppression en deux clics
     await page.click("#lzDelete");
     assert.equal(await page.locator("#lzMachine option").count(), 5);
@@ -1190,6 +1191,91 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.click("#tabLaser");
     assert.equal(await page.inputValue("#lzMaterial"), "oak");
     assert.equal(await page.inputValue("#lzThickness"), "5");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("laser : valeurs Thunder indicatives, limite de 10 mm, trop faible, tes valeurs et tes matières", async () => {
+    const page = await open();
+    await page.click("#tabLaser");
+    await addMachine(page, "Speedy 360", 60, true);
+    // contreplaqué bouleau 3,2 mm, 60 W : tableau Thunder (50 mm/s), converti en % Trotec
+    await page.selectOption("#lzMaterial", "birchPly");
+    await page.fill("#lzThickness", "3.2");
+    const source = () => page.textContent("#lzSource");
+    assert.match(await source(), /publiées par Thunder Laser pour un tube de 60 W/);
+    assert.match(await source(), /ligne droite/);
+    assert.match(await source(), /Valeurs indicatives/);
+    assert.deepEqual((await lzValues(page)).slice(0, 3), ["100", "1,4", "–"]);
+    assert.ok(await page.isHidden("#lzResetValues"));
+    // 9,5 mm : 60 W trop faible (dès 80 W)
+    await page.fill("#lzThickness", "9.5");
+    assert.match(await source(), /Trop épais pour 60 W.*80 W/);
+    assert.equal(await page.textContent("#lzValues"), "");
+    // au-delà de 10 mm : gravure seulement
+    await page.fill("#lzThickness", "12");
+    assert.match(await source(), /Au-delà de 10 mm, le laser sert à graver/);
+    assert.ok(await page.isHidden("#lzEditValues"));
+    // tes valeurs à 3,2 mm : remplacent les indicatives, et on peut y revenir
+    await page.fill("#lzThickness", "3.2");
+    await page.click("#lzEditValues");
+    assert.equal(await page.inputValue("#lzValPower"), "100");
+    assert.equal(await page.inputValue("#lzValSpeedUnit"), "percent");
+    assert.match(await page.textContent("#lzValFor"), /Speedy 360 — 60 W · Découpe · 3,2 mm/);
+    await page.fill("#lzValPower", "90");
+    await page.fill("#lzValSpeed", "1.2");
+    await page.fill("#lzValFrequency", "500");
+    await page.click("#lzValForm [type=submit]");
+    assert.deepEqual((await lzValues(page)).slice(0, 3), ["90", "1,2", "500"]);
+    assert.match(await source(), /Tes valeurs pour cette machine/);
+    assert.ok(await page.isVisible("#lzResetValues"));
+    // ailleurs que 3,2 mm : la référence publiée passe avant l'estimation depuis tes valeurs
+    await page.fill("#lzThickness", "6.4");
+    assert.match(await source(), /Thunder Laser/);
+    await page.fill("#lzThickness", "3.2");
+    await page.click("#lzResetValues");
+    assert.deepEqual((await lzValues(page)).slice(0, 2), ["100", "1,4"]);
+    // ta matière : CP peuplier lié au contreplaqué, sans valeur au départ
+    await page.click("#lzMatNew");
+    await page.click("#lzMatForm [type=submit]");
+    assert.match(await page.textContent("#lzMatMsg"), /Donne un nom/);
+    await page.fill("#lzMatName", "CP peuplier");
+    await page.selectOption("#lzMatMill", "plyPoplar");
+    await page.click("#lzMatForm [type=submit]");
+    assert.equal(await page.$eval("#lzMaterial option:checked", (o) => o.parentElement.label), "Mes matières");
+    assert.match(await source(), /Pas encore de valeur/);
+    assert.equal(await page.textContent("#lzEditValues"), "Saisir mes valeurs");
+    await page.click("#lzEditValues");
+    await page.fill("#lzValPower", "80");
+    await page.fill("#lzValSpeed", "2");
+    await page.click("#lzValForm [type=submit]");
+    assert.deepEqual((await lzValues(page)).slice(0, 3), ["80", "2", "–"]);
+    // autre épaisseur : estimation depuis tes valeurs (vitesse × 3,2 / 6)
+    await page.fill("#lzThickness", "6");
+    assert.match(await source(), /Estimé depuis tes valeurs/);
+    assert.deepEqual((await lzValues(page)).slice(0, 2), ["80", "1,1"]);
+    // autre machine CO2 : estimation depuis ta 60 W, convertie en mm/s (2 % × 3 550 × 3,2 / 3)
+    await addMachine(page, "Chinoise", 60, false);
+    await page.fill("#lzThickness", "3");
+    assert.match(await source(), /Estimé depuis tes valeurs sur Speedy 360 — 60 W/);
+    assert.deepEqual((await lzValues(page)).slice(0, 2), ["80", "75,7"]);
+    // grille de test et carnet avec le nom de ta matière
+    const [d] = await Promise.all([page.waitForEvent("download"), page.click("[data-grid=svg]")]);
+    assert.match(d.suggestedFilename(), /^grille-test-cp-peuplier-chinoise-60-w\.svg$/);
+    await page.click("#btnKeepLaser");
+    assert.equal(await page.inputValue("#nbMaterial"), "CP peuplier");
+    await page.click("#tabLaser");
+    // tout est gardé au rechargement, puis suppression en deux clics
+    await page.reload();
+    await page.waitForSelector("#lzMachine option", { state: "attached" });
+    assert.equal(await page.$eval("#lzMaterial option:checked", (o) => o.textContent), "CP peuplier");
+    assert.ok(await page.isVisible("#lzMatEdit"));
+    await page.click("#lzMatDelete");
+    assert.equal(await page.textContent("#lzMatDelete"), "Supprimer ?");
+    await page.click("#lzMatDelete");
+    assert.match(await page.textContent("#lzMatMsg"), /Matière supprimée/);
+    assert.equal(await page.locator("#lzMaterial optgroup").count(), 2);
+    assert.ok(await page.isHidden("#lzMatEdit"));
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });

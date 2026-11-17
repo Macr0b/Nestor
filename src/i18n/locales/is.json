@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Hraði í % eða mm/s",
   "lz.thSpeed": "Trotec-vélar stilla hraða í %, aðrar vélar oft í mm/s. Nestor umreiknar með hámarkshraða Speedy 360. Þetta er óvissasta umreikningurinn: notaðu prófunarnetið.",
   "lz.thOtherTitle": "Díóða og trefjar",
-  "lz.thOther": "Bækurnar ná aðeins yfir CO2. Fyrir díóðu- eða trefjaleysi skaltu skrá reyndar stillingar í Minnisbókina.",
   "lz.noMachine": "Engin vél",
   "lz.published": "Þykktir sem Trotec birtir: {t}",
   "lz.addFirst": "Bættu vélinni þinni við (heiti, gerð, afl) til að sjá upphafsgildin.",

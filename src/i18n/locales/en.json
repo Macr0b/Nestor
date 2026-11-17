@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Speed in % or in mm/s",
   "lz.thSpeed": "Trotec machines set speed in %; other machines often in mm/s. Nestor converts using the maximum speed of the Speedy 360. This is the least reliable conversion: use the test grid.",
   "lz.thOtherTitle": "Diode and fiber",
-  "lz.thOther": "The books only cover CO2. For a diode or fiber laser, record your proven settings in the Notebook.",
   "lz.noMachine": "No machine",
   "lz.published": "Thicknesses published by Trotec: {t}",
   "lz.addFirst": "Add your machine (name, type, power) to see the starting point.",

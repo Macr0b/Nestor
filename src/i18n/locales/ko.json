@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "속도는 % 또는 mm/s",
   "lz.thSpeed": "Trotec은 속도를 %로, 다른 기계는 흔히 mm/s로 설정합니다. Nestor는 Speedy 360의 최고 속도로 환산합니다. 가장 불확실한 환산이므로 테스트 격자를 쓰세요.",
   "lz.thOtherTitle": "다이오드와 파이버",
-  "lz.thOther": "북은 CO2만 다룹니다. 다이오드나 파이버 레이저는 검증한 설정을 노트에 기록하세요.",
   "lz.noMachine": "기계 없음",
   "lz.published": "Trotec이 공개한 두께: {t}",
   "lz.addFirst": "기계(이름, 종류, 출력)를 추가하면 시작값이 보입니다.",

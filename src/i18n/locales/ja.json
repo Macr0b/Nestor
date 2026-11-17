@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "速度は % または mm/s",
   "lz.thSpeed": "Trotec は速度を % で設定し、ほかのマシンは mm/s が多いです。Nestor は Speedy 360 の最高速度で換算します。もっとも不確かな換算なので、テストグリッドを使ってください。",
   "lz.thOtherTitle": "ダイオードとファイバー",
-  "lz.thOther": "ブックは CO2 のみです。ダイオードやファイバーレーザーは、確かめた設定をノートに記録してください。",
   "lz.noMachine": "マシンなし",
   "lz.published": "Trotec が公開している厚さ：{t}",
   "lz.addFirst": "マシン（名前、種類、出力）を追加すると初期値が表示されます。",

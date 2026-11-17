@@ -257,13 +257,37 @@
           </select></label>
           <label class="f" id="lzThicknessField"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="lzThickness" inputmode="decimal" min="0" step="any"></label>
         </div>
+        <div class="lz-mat-actions">
+          <button type="button" class="btn sm" id="lzMatNew" data-i18n="lz.matNew">＋ Nouvelle matière</button>
+          <button type="button" class="btn sm" id="lzMatEdit" data-i18n="lz.matEdit">Modifier la matière</button>
+          <button type="button" class="btn sm" id="lzMatDelete" data-i18n="lz.matDelete">Supprimer la matière</button>
+        </div>
+        <form class="lz-form" id="lzMatForm" hidden>
+          <label class="f"><span data-i18n="lib.name">Nom</span><input type="text" id="lzMatName" maxlength="80" placeholder="CP peuplier"></label>
+          <label class="f"><span data-i18n="lib.millMaterial">Matière pour le fraisage</span><select id="lzMatMill"></select></label>
+          <div class="lz-form-buttons"><button type="submit" class="btn" data-i18n="lz.save">Enregistrer</button><button type="button" class="btn sm" id="lzMatCancel" data-i18n="nb.cancel">Annuler</button></div>
+        </form>
         <p class="hint" id="lzThicknessHint"></p>
+        <p class="hint" id="lzMatMsg" aria-live="polite"></p>
       </div>
     </section>
     <section class="box mill-results" aria-labelledby="h-lzRes" aria-live="polite">
       <h2 id="h-lzRes" data-i18n="lz.results">Point de départ</h2>
       <div class="mill-values" id="lzValues"></div>
       <p class="hint" id="lzSource"></p>
+      <div class="lz-own">
+        <button type="button" class="btn sm" id="lzEditValues" data-i18n="lz.editValues">Modifier ces valeurs</button>
+        <button type="button" class="btn sm" id="lzResetValues" data-i18n="lz.resetValues">Revenir aux valeurs indicatives</button>
+      </div>
+      <form class="lz-form" id="lzValForm" hidden>
+        <p class="hint lz-form-title" id="lzValFor"></p>
+        <label class="f"><span data-i18n="nb.powerShort">Puissance</span><input type="number" id="lzValPower" inputmode="decimal" min="0.1" max="100" step="any" required></label>
+        <label class="f"><span data-i18n="nb.speedShort">Vitesse</span><span class="unit-pair"><input type="number" id="lzValSpeed" inputmode="decimal" min="0" step="any" required><select id="lzValSpeedUnit" aria-label="Unité de la vitesse" data-i18n-aria="nb.speedUnit"><option value="percent">%</option><option value="mmps">mm/s</option></select></span></label>
+        <label class="f"><span data-i18n="nb.frequencyShort">Fréquence</span><input type="number" id="lzValFrequency" inputmode="decimal" min="0" step="any"></label>
+        <label class="f"><span data-i18n="mill.passes">Nombre de passes</span><input type="number" id="lzValPasses" inputmode="numeric" min="1" step="1"></label>
+        <label class="f"><span data-i18n="lz.zOffset">Décalage Z</span><input type="number" id="lzValZ" inputmode="decimal" step="any"></label>
+        <div class="lz-form-buttons"><button type="submit" class="btn" data-i18n="lz.save">Enregistrer</button><button type="button" class="btn sm" id="lzValCancel" data-i18n="nb.cancel">Annuler</button></div>
+      </form>
       <div class="nb-from"><button type="button" class="btn" id="btnKeepLaser" data-i18n="nb.keep">＋ Garder dans le carnet</button><span class="hint" data-i18n="nb.keepHint">Tu pourras corriger les valeurs vraiment utilisées et ajouter une note.</span></div>
       <div class="lz-grid">
         <h3 data-i18n="lz.grid">Grille de test</h3>
@@ -280,9 +304,12 @@
         <div><h3 data-i18n="lz.thPowerTitle">Autre puissance</h3><code class="formula">v = P × p ÷ E</code><p data-i18n="lz.thPower"></p></div>
         <div><h3 data-i18n="lz.thThicknessTitle">Autre épaisseur</h3><code class="formula">v₂ = v₁ × e₁ ÷ e₂</code><p data-i18n="lz.thThickness"></p></div>
         <div><h3 data-i18n="lz.thSpeedTitle">Vitesse en % ou en mm/s</h3><code class="formula">100 % = 3550 mm/s</code><p data-i18n="lz.thSpeed"></p></div>
-        <div><h3 data-i18n="lz.thOtherTitle">Diode et fibre</h3><p data-i18n="lz.thOther"></p></div>
+        <div><h3 data-i18n="lz.thThunderTitle">Tableau Thunder Laser</h3><p data-i18n="lz.thThunder"></p></div>
+        <div><h3 data-i18n="lz.thOwnTitle">Tes valeurs</h3><p data-i18n="lz.thOwn"></p></div>
+        <div><h3 data-i18n="lz.thLimitTitle">Découpe jusqu’à 10 mm</h3><p data-i18n="lz.thLimit"></p></div>
+        <div><h3 data-i18n="lz.thOtherTitle">Diode et fibre</h3><p data-i18n="lz.thOtherOwn"></p></div>
       </div>
-      <p class="hint lz-links"><a href="https://www.troteclaser.com/laser-parameter-files/Speedy400-60W-TroLase.pdf" target="_blank" rel="noopener">Trotec 60 W</a> · <a href="https://www.troteclaser.com/laser-parameter-files/Speedy360-80W-TroLase.pdf" target="_blank" rel="noopener">Trotec 80 W</a> · <a href="https://www.troteclaser.com/laser-parameter-files/Speedy360-120W-TroLase.pdf" target="_blank" rel="noopener">Trotec 120 W</a></p>
+      <p class="hint lz-links"><a href="https://www.troteclaser.com/laser-parameter-files/Speedy400-60W-TroLase.pdf" target="_blank" rel="noopener">Trotec 60 W</a> · <a href="https://www.troteclaser.com/laser-parameter-files/Speedy360-80W-TroLase.pdf" target="_blank" rel="noopener">Trotec 80 W</a> · <a href="https://www.troteclaser.com/laser-parameter-files/Speedy360-120W-TroLase.pdf" target="_blank" rel="noopener">Trotec 120 W</a> · <a href="https://www.thunderlaserusa.com/knowledge/parameter-comparison" target="_blank" rel="noopener">Thunder Laser</a></p>
     </section>
   </div>
   <div class="nb-page" id="pageNotebook" role="tabpanel" aria-labelledby="tabNotebook" hidden>

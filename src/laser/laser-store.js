@@ -3,7 +3,7 @@
    la matière, l'opération et l'épaisseur. Tout est vérifié champ par champ à la lecture. */
 
 import { LASER_OPS, MACHINE_KINDS } from "./laser-settings.js";
-import { LASER_MATERIALS } from "./trotec-books.js";
+import { LASER_MATERIALS } from "./reference-sources.js";
 
 const LASER_KEY = "nestor.laser.v1";
 const MAX_MACHINES = 30;
@@ -43,14 +43,21 @@ export function cleanLaserInput(saved) {
     input.machines.push(machine);
   });
   input.activeId = seen[saved.activeId] ? saved.activeId : input.machines.length ? input.machines[0].id : "";
+  // matière indicative connue, ou une de tes matières (identifiant « lm… »)
   if (
     LASER_MATERIALS.some(function (m) {
       return m.id === saved.material;
-    })
+    }) ||
+    (typeof saved.material === "string" && /^lm[\w-]{1,38}$/.test(saved.material))
   )
     input.material = saved.material;
   if (LASER_OPS.includes(saved.op)) input.op = saved.op;
-  if (typeof saved.thickness === "number" && isFinite(saved.thickness) && saved.thickness > 0)
+  if (
+    typeof saved.thickness === "number" &&
+    isFinite(saved.thickness) &&
+    saved.thickness > 0 &&
+    saved.thickness <= 1000
+  )
     input.thickness = saved.thickness;
   return input;
 }

@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Kecepatan dalam % atau mm/s",
   "lz.thSpeed": "Mesin Trotec mengatur kecepatan dalam %, mesin lain sering dalam mm/s. Nestor mengonversi dengan kecepatan maksimum Speedy 360. Ini konversi yang paling tidak pasti: gunakan kisi uji.",
   "lz.thOtherTitle": "Dioda dan serat",
-  "lz.thOther": "Buku hanya mencakup CO2. Untuk laser dioda atau serat, catat pengaturanmu yang sudah teruji di Buku catatan.",
   "lz.noMachine": "Belum ada mesin",
   "lz.published": "Ketebalan yang diterbitkan Trotec: {t}",
   "lz.addFirst": "Tambahkan mesinmu (nama, jenis, daya) untuk melihat titik awal.",

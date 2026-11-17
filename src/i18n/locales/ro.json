@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Viteză în % sau în mm/s",
   "lz.thSpeed": "Mașinile Trotec setează viteza în %, altele adesea în mm/s. Nestor convertește cu viteza maximă a Speedy 360. Este conversia cea mai nesigură: folosește grila de test.",
   "lz.thOtherTitle": "Diodă și fibră",
-  "lz.thOther": "Cărțile acoperă doar CO2. Pentru un laser cu diodă sau cu fibră, notează setările verificate în Caiet.",
   "lz.noMachine": "Nicio mașină",
   "lz.published": "Grosimi publicate de Trotec: {t}",
   "lz.addFirst": "Adaugă mașina ta (nume, tip, putere) ca să vezi punctul de pornire.",

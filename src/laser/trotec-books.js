@@ -8,7 +8,7 @@
    - 120 W : https://www.troteclaser.com/laser-parameter-files/Speedy360-120W-TroLase.pdf */
 
 // matières des livrets ; mill : matière correspondante de l'onglet Fraisage (lien avec la bibliothèque)
-export const LASER_MATERIALS = [
+export const TROTEC_MATERIALS = [
   { id: "castAcrylic", mill: "pmma" },
   { id: "alder", mill: "alder" },
   { id: "cherry", mill: "cherry" },

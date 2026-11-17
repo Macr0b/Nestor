@@ -158,11 +158,12 @@ export function renderLibrary() {
   byId("libTable").innerHTML = items.length
     ? head + "<tbody>" + rows + "</tbody>"
     : '<tbody><tr><td class="nb-empty">' + escapeHtml(translate("lib.empty")) + "</td></tr></tbody>";
-  if (editing) fillMillSelect(byId("libMill").value);
+  if (editing) fillMillSelect(byId("libMill"), byId("libMill").value);
 }
 
-function fillMillSelect(selected) {
-  byId("libMill").innerHTML =
+/* Liste des matières de fraisage, par famille (bibliothèque et matières laser). */
+export function fillMillSelect(select, selected) {
+  select.innerHTML =
     '<option value="">' +
     escapeHtml(translate("lib.noMill")) +
     "</option>" +
@@ -179,14 +180,14 @@ function fillMillSelect(selected) {
         "</optgroup>"
       );
     }).join("");
-  byId("libMill").value = selected || "";
+  select.value = selected || "";
 }
 
 function openForm(item) {
   editing = item;
   byId("h-libForm").textContent = translate(libraryItem(item.id) ? "lib.editTitle" : "lib.newTitle");
   byId("libName").value = item.name || "";
-  fillMillSelect(item.millMaterial);
+  fillMillSelect(byId("libMill"), item.millMaterial);
   setLengthField(byId("libThickness"), item.thickness);
   setLengthField(byId("libL"), item.L);
   setLengthField(byId("libW"), item.W);

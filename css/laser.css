@@ -43,3 +43,16 @@
 .lz-links a {
   color: var(--accent);
 }
+.lz-mat-actions,
+.lz-own {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lz-own:has(> :not([hidden])) {
+  margin-top: -2px;
+}
+.lz-form-title {
+  grid-column: 1 / -1;
+  margin: 0;
+}

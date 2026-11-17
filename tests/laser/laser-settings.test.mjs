@@ -2,7 +2,7 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { laserSettings, publishedThicknesses, speedForMachine } from "../../src/laser/laser-settings.js";
-import { TROTEC_BOOKS, LASER_MATERIALS } from "../../src/laser/trotec-books.js";
+import { TROTEC_BOOKS, TROTEC_MATERIALS as LASER_MATERIALS } from "../../src/laser/trotec-books.js";
 
 const trotec = (watts) => ({ kind: "co2", watts, trotec: true });
 
@@ -31,6 +31,19 @@ describe("livrets Trotec", () => {
 });
 
 describe("même puissance qu'un livret : valeurs publiées", () => {
+  test("chaque valeur des livrets ressort exactement, sans arrondi", () => {
+    for (const book of TROTEC_BOOKS)
+      for (const r of book.rows) {
+        const s = laserSettings({ kind: "co2", watts: book.watts, trotec: true }, r.material, r.op, r.thickness);
+        if (r.op === "cut" && s.thicknessFrom) continue;
+        assert.deepEqual(
+          [s.power, s.speed],
+          [r.power, r.speed],
+          `${book.watts} W ${r.material} ${r.op} ${r.thickness}`
+        );
+      }
+  });
+
   test("acrylique 3 mm sur 60, 80, 120 W", () => {
     const s60 = laserSettings(trotec(60), "castAcrylic", "cut", 3),
       s80 = laserSettings(trotec(80), "castAcrylic", "cut", 3),
@@ -102,5 +115,46 @@ describe("vitesse selon la machine", () => {
     const s = laserSettings(trotec(80), "oak", "cut", 3);
     assert.deepEqual(speedForMachine({ trotec: true }, s), { value: 0.4, unit: "percent" });
     assert.deepEqual(speedForMachine({ trotec: false }, s), { value: 14.2, unit: "mmps" });
+  });
+});
+
+describe("contreplaqué, MDF, carton, cuir… (Thunder Laser, mm/s)", () => {
+  const co2 = (watts) => ({ kind: "co2", watts, trotec: false });
+  test("valeur publiée telle quelle : contreplaqué bouleau 3,2 mm en 80 W = 60 mm/s", () => {
+    const s = laserSettings(co2(80), "birchPly", "cut", 3.2);
+    assert.equal(s.speedMm, 60);
+    assert.equal(s.power, 100);
+    assert.equal(s.published, true);
+    assert.equal(s.maxLineSpeed, true);
+    assert.equal(s.source, "thunder");
+  });
+
+  test("puissance entre deux colonnes : vitesse entre les deux", () => {
+    const s = laserSettings(co2(90), "birchPly", "cut", 6.4);
+    assert.ok(s.speedMm > 30 && s.speedMm < 32, JSON.stringify(s));
+  });
+
+  test("trop faible pour l'épaisseur : 9,5 mm demande au moins 80 W", () => {
+    assert.deepEqual(laserSettings(co2(60), "birchPly", "cut", 9.5), { tooWeak: 80 });
+    assert.ok(laserSettings(co2(100), "birchPly", "cut", 9.5).speedMm === 7);
+  });
+
+  test("au-delà de 10 mm : pas de découpe", () => {
+    assert.equal(laserSettings(co2(130), "birchPly", "cut", 12), null);
+  });
+
+  test("épaisseurs publiées en mm", () => {
+    assert.deepEqual(publishedThicknesses("birchPly"), [3.2, 6.4, 9.5]);
+    assert.deepEqual(publishedThicknesses("mdfLaser"), [3.2, 6.4]);
+  });
+
+  test("chaque matière Thunder a au moins une valeur, toutes sous 10 mm", async () => {
+    const { THUNDER_BOOKS, THUNDER_MATERIALS } = await import("../../src/laser/thunder-chart.js");
+    for (const m of THUNDER_MATERIALS)
+      assert.ok(
+        THUNDER_BOOKS.some((b) => b.rows.some((r) => r.material === m.id)),
+        m.id
+      );
+    for (const b of THUNDER_BOOKS) for (const r of b.rows) assert.ok(r.thickness <= 10 && r.speed > 0);
   });
 });

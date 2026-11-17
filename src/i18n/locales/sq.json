@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Shpejtësia në % ose në mm/s",
   "lz.thSpeed": "Makinat Trotec e caktojnë shpejtësinë në %, të tjerat shpesh në mm/s. Nestor e kthen me shpejtësinë maksimale të Speedy 360. Është kthimi më pak i sigurt: përdor rrjetën e provës.",
   "lz.thOtherTitle": "Diodë dhe fibër",
-  "lz.thOther": "Librat mbulojnë vetëm CO2. Për një lazer me diodë ose fibër, shënoji parametrat e provuar në Fletore.",
   "lz.noMachine": "Asnjë makinë",
   "lz.published": "Trashësitë e botuara nga Trotec: {t}",
   "lz.addFirst": "Shto makinën tënde (emri, lloji, fuqia) për të parë pikën e nisjes.",

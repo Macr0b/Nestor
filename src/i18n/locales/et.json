@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Kiirus %-des või mm/s",
   "lz.thSpeed": "Trotecu masinad seavad kiiruse %-des, teised masinad sageli mm/s. Nestor teisendab Speedy 360 suurima kiiruse järgi. See on kõige ebakindlam teisendus: kasuta testvõrku.",
   "lz.thOtherTitle": "Diood ja kiud",
-  "lz.thOther": "Raamatud katavad ainult CO2. Dioodi- või kiudlaseri puhul pane oma järeleproovitud seaded Märkmikku kirja.",
   "lz.noMachine": "Masinat pole",
   "lz.published": "Trotecu avaldatud paksused: {t}",
   "lz.addFirst": "Lisa oma masin (nimi, tüüp, võimsus), et näha lähteväärtusi.",

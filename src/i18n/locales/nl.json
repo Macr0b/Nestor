@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Snelheid in % of in mm/s",
   "lz.thSpeed": "Trotec-machines stellen de snelheid in % in, andere machines vaak in mm/s. Nestor rekent om met de maximale snelheid van de Speedy 360. Dat is de minst zekere omrekening: gebruik het testraster.",
   "lz.thOtherTitle": "Diode en fiber",
-  "lz.thOther": "De boeken dekken alleen CO2. Noteer voor een diode- of fiberlaser je beproefde instellingen in het Notitieboek.",
   "lz.noMachine": "Geen machine",
   "lz.published": "Door Trotec gepubliceerde diktes: {t}",
   "lz.addFirst": "Voeg je machine toe (naam, type, vermogen) om het startpunt te zien.",

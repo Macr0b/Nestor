@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Ātrums % vai mm/s",
   "lz.thSpeed": "Trotec iekārtās ātrumu iestata %, citās bieži mm/s. Nestor pārrēķina pēc Speedy 360 maksimālā ātruma. Tas ir visnedrošākais pārrēķins: izmanto testa režģi.",
   "lz.thOtherTitle": "Diode un šķiedra",
-  "lz.thOther": "Grāmatas aptver tikai CO2. Diožu vai šķiedras lāzeram pārbaudītos iestatījumus pieraksti Piezīmju grāmatā.",
   "lz.noMachine": "Nav iekārtas",
   "lz.published": "Trotec publicētie biezumi: {t}",
   "lz.addFirst": "Pievieno savu iekārtu (nosaukums, veids, jauda), lai redzētu sākuma vērtības.",

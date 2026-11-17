@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Nopeus %:na tai mm/s",
   "lz.thSpeed": "Trotec-koneissa nopeus asetetaan %:na, muissa usein mm/s. Nestor muuntaa Speedy 360:n suurimmalla nopeudella. Se on epävarmin muunnos: käytä testiruudukkoa.",
   "lz.thOtherTitle": "Diodi ja kuitu",
-  "lz.thOther": "Kirjat kattavat vain CO2:n. Diodi- tai kuitulaserille kirjaa hyväksi todetut asetuksesi Muistikirjaan.",
   "lz.noMachine": "Ei konetta",
   "lz.published": "Trotecin julkaisemat paksuudet: {t}",
   "lz.addFirst": "Lisää koneesi (nimi, tyyppi, teho) nähdäksesi lähtöarvot.",

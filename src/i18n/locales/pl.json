@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Prędkość w % lub mm/s",
   "lz.thSpeed": "Maszyny Trotec ustawiają prędkość w %, inne często w mm/s. Nestor przelicza według maksymalnej prędkości Speedy 360. To najmniej pewne przeliczenie: użyj siatki testowej.",
   "lz.thOtherTitle": "Dioda i światłowód",
-  "lz.thOther": "Książki obejmują tylko CO2. Dla lasera diodowego lub światłowodowego zapisuj sprawdzone ustawienia w Notatniku.",
   "lz.noMachine": "Brak maszyny",
   "lz.published": "Grubości opublikowane przez Trotec: {t}",
   "lz.addFirst": "Dodaj swoją maszynę (nazwa, rodzaj, moc), aby zobaczyć punkt wyjścia.",

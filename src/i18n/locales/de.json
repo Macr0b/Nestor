@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Geschwindigkeit in % oder mm/s",
   "lz.thSpeed": "Trotec-Maschinen stellen die Geschwindigkeit in % ein, andere Maschinen oft in mm/s. Nestor rechnet mit der Höchstgeschwindigkeit des Speedy 360 um. Das ist die unsicherste Umrechnung: nutze das Testraster.",
   "lz.thOtherTitle": "Diode und Faser",
-  "lz.thOther": "Die Bücher decken nur CO2 ab. Für einen Dioden- oder Faserlaser trage deine bewährten Einstellungen ins Notizbuch ein.",
   "lz.noMachine": "Keine Maschine",
   "lz.published": "Von Trotec veröffentlichte Dicken: {t}",
   "lz.addFirst": "Füge deine Maschine hinzu (Name, Typ, Leistung), um die Ausgangswerte zu sehen.",

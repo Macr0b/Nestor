@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Hitrost v % ali v mm/s",
   "lz.thSpeed": "Stroji Trotec nastavljajo hitrost v %, drugi stroji pogosto v mm/s. Nestor pretvarja po največji hitrosti stroja Speedy 360. To je najmanj zanesljiva pretvorba: uporabi preizkusno mrežo.",
   "lz.thOtherTitle": "Dioda in vlakno",
-  "lz.thOther": "Knjige zajemajo le CO2. Za diodni ali vlakenski laser preizkušene nastavitve zapiši v Beležnico.",
   "lz.noMachine": "Ni stroja",
   "lz.published": "Debeline, ki jih je objavil Trotec: {t}",
   "lz.addFirst": "Dodaj svoj stroj (ime, vrsta, moč), da vidiš izhodiščne vrednosti.",

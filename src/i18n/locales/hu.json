@@ -485,7 +485,6 @@
   "lz.thSpeedTitle": "Sebesség %-ban vagy mm/s-ban",
   "lz.thSpeed": "A Trotec gépek %-ban állítják a sebességet, más gépek gyakran mm/s-ban. A Nestor a Speedy 360 legnagyobb sebességével számol át. Ez a legbizonytalanabb átszámítás: használd a tesztrácsot.",
   "lz.thOtherTitle": "Dióda és szál",
-  "lz.thOther": "A könyvek csak a CO2-t fedik le. Dióda- vagy szállézernél írd a bevált beállításaidat a Jegyzetfüzetbe.",
   "lz.noMachine": "Nincs gép",
   "lz.published": "A Trotec által közölt vastagságok: {t}",
   "lz.addFirst": "Add hozzá a gépedet (név, típus, teljesítmény) a kiindulási értékekhez.",
