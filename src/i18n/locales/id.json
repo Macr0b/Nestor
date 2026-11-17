@@ -188,7 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
-  "news.190": "Komponen dimasukkan manual (atau ditempel dari spreadsheet), urutan potongan gergaji untuk metode Persegi panjang, bahan dan nilai laser milikmu, nilai acuan dari Thunder Laser dan GWK (kayu lapis, MDF, akrilik, karton, kulit…), dan tak ada lagi garis sisa di sepanjang margin.",
+  "news.190": "Komponen dimasukkan manual (atau ditempel dari spreadsheet), urutan potongan gergaji untuk metode Persegi panjang (dengan tebal mata gergajimu), bahan dan nilai laser milikmu, nilai acuan dari Thunder Laser dan GWK (kayu lapis, MDF, akrilik, karton, kulit…), dan tak ada lagi garis sisa di sepanjang margin.",
   "news.181": "Di ponsel, tombol Proyek dan Pengaturan kini berada di bawah logo, tidak lagi menutupinya.",
   "news.180": "Tab Laser baru (mesinmu, titik awal dari buku Trotec, kisi uji), PDF siap cetak di bawah setiap papan atau untuk seluruh rencana, nomor komponen untuk digrafir, proyek tersimpan (tombol Proyek), dan pintasan keyboard (tombol ?).",
   "news.170": "Tab Biaya baru (harga pokok rencana: bahan, sisa potongan, mesin, per komponen) dan tab Bahan (pustaka papan Anda beserta harganya). Bahan yang dipilih sama di Penataan, Frais, dan Biaya.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabel GWK Laser",
   "lz.thGweike": "Kayu lunak dan kayu lapis biasa, MDF, dan akrilik 3 sampai 10 mm: nilai dari tabel yang diterbitkan GWK Laser (Gweike) untuk tabung CO2-nya 40 sampai 150 W pada daya 90 %. Nestor memakai kecepatan untuk tepi bersih, bukan yang tercepat.",
   "saw.option": "Urutan potongan gergaji",
-  "saw.hint": "Potongan bernomor pada papan, dengan daftarnya di bawah dan di PDF: setiap potongan berjalan dari satu tepi potongan ke tepi lainnya, ukuran diambil dari tepi kiri atau atasnya.",
+  "saw.hint": "Potongan bernomor pada papan, dengan daftarnya di bawah dan di PDF: setiap potongan berjalan dari satu tepi potongan ke tepi lainnya, ukuran diambil dari tepi kiri atau atasnya. Mata gergaji membuang tebalnya setelah setiap potongan; jika dikosongkan, nilainya sama dengan jarak antarkomponen.",
   "saw.title": "Urutan potongan ({n})",
   "saw.colNumber": "No.",
   "saw.colCut": "Potongan",
   "saw.colAt": "Ukuran",
   "saw.colPiece": "Pada bagian",
   "saw.along": "Memanjang",
-  "saw.across": "Melintang"
+  "saw.across": "Melintang",
+  "saw.kerf": "Tebal mata gergaji",
+  "saw.blade": "mata gergaji {k}",
+  "saw.kerfWarn": "Jarak antarkomponen ({g}) lebih tipis daripada mata gergaji ({k}): komponen akan kehilangan bahan saat dipotong.",
+  "saw.gapFromKerf": "Atur jarak ke {k}"
 }

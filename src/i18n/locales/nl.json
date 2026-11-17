@@ -188,7 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
-  "news.190": "Onderdelen met de hand invoeren (of plakken uit een spreadsheet), zaagvolgorde voor de methode Rechthoeken, eigen lasermaterialen en -waarden, richtwaarden van Thunder Laser en GWK (multiplex, MDF, acryl, karton, leer…), en geen restlijnen meer langs de marges.",
+  "news.190": "Onderdelen met de hand invoeren (of plakken uit een spreadsheet), zaagvolgorde voor de methode Rechthoeken (met de dikte van je zaagblad), eigen lasermaterialen en -waarden, richtwaarden van Thunder Laser en GWK (multiplex, MDF, acryl, karton, leer…), en geen restlijnen meer langs de marges.",
   "news.181": "Op de telefoon staan de knoppen Projecten en Instellingen nu onder het logo in plaats van erover.",
   "news.180": "Nieuw tabblad Laser (je machines, startpunt uit de Trotec-boeken, testraster), afdrukbare PDF onder elke plaat of voor het hele plan, onderdeelnummers om te graveren, opgeslagen projecten (knop Projecten) en sneltoetsen (toets ?).",
   "news.170": "Nieuwe tabbladen Kosten (kostprijs van het plan: materiaal, restafval, machine, per onderdeel) en Materialen (bibliotheek van je platen met prijs). Het gekozen materiaal is hetzelfde in Nesten, Frezen en Kosten.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabel van GWK Laser",
   "lz.thGweike": "Zacht hout en gewoon multiplex, MDF en acryl van 3 tot 10 mm: waarden uit de tabel die GWK Laser (Gweike) publiceert voor zijn CO2-buizen van 40 tot 150 W, op 90 % vermogen. Nestor neemt de snelheid voor een schone rand, niet de snelste.",
   "saw.option": "Zaagvolgorde",
-  "saw.hint": "Genummerde zaagsneden op de plaat, met hun lijst eronder en in de PDF: elke snede loopt van de ene rand van het stuk naar de andere, de maat gemeten vanaf de linker- of bovenrand.",
+  "saw.hint": "Genummerde zaagsneden op de plaat, met hun lijst eronder en in de PDF: elke snede loopt van de ene rand van het stuk naar de andere, de maat gemeten vanaf de linker- of bovenrand. Het zaagblad neemt na elke snede zijn dikte weg; leeg gelaten is die gelijk aan de ruimte tussen de onderdelen.",
   "saw.title": "Zaagvolgorde ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Snede",
   "saw.colAt": "Maat",
   "saw.colPiece": "In het stuk",
   "saw.along": "In de lengte",
-  "saw.across": "Dwars"
+  "saw.across": "Dwars",
+  "saw.kerf": "Zaagbladdikte",
+  "saw.blade": "zaagblad van {k}",
+  "saw.kerfWarn": "De ruimte tussen de onderdelen ({g}) is dunner dan het zaagblad ({k}): de onderdelen zouden bij het zagen materiaal verliezen.",
+  "saw.gapFromKerf": "Ruimte op {k} zetten"
 }

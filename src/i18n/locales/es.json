@@ -188,7 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
-  "news.190": "Piezas introducidas a mano (o pegadas desde una hoja de cálculo), orden de cortes con sierra para el método Rectángulos, materiales y valores láser propios, valores orientativos de Thunder Laser y GWK (contrachapado, MDF, acrílico, cartón, cuero…), y ya no hay líneas de retales a lo largo de los márgenes.",
+  "news.190": "Piezas introducidas a mano (o pegadas desde una hoja de cálculo), orden de cortes con sierra para el método Rectángulos (con el grosor de tu hoja), materiales y valores láser propios, valores orientativos de Thunder Laser y GWK (contrachapado, MDF, acrílico, cartón, cuero…), y ya no hay líneas de retales a lo largo de los márgenes.",
   "news.181": "En el móvil, los botones Proyectos y Ajustes pasan debajo del logo en lugar de taparlo.",
   "news.180": "Nueva pestaña Láser (tus máquinas, punto de partida según los libros Trotec, rejilla de prueba), PDF para imprimir bajo cada tablero o de todo el plan, números de pieza para grabar, proyectos guardados (botón Proyectos) y atajos de teclado (tecla ?).",
   "news.170": "Nuevas pestañas Coste (coste del plan: material, retal, máquina, por pieza) y Materiales (biblioteca de tus tableros con su precio). El material elegido es el mismo en Anidado, Fresado y Coste.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabla de GWK Laser",
   "lz.thGweike": "Madera blanda y contrachapado común, MDF y acrílico de 3 a 10 mm: valores de la tabla publicada por GWK Laser (Gweike) para sus tubos CO2 de 40 a 150 W, al 90 % de potencia. Nestor toma la velocidad para un borde limpio, no la más rápida.",
   "saw.option": "Orden de cortes con sierra",
-  "saw.hint": "Cortes numerados en el tablero, con su lista debajo y en el PDF: cada corte va de un borde a otro del trozo, la medida se toma desde su borde izquierdo o superior.",
+  "saw.hint": "Cortes numerados en el tablero, con su lista debajo y en el PDF: cada corte va de un borde a otro del trozo, la medida se toma desde su borde izquierdo o superior. La hoja quita su grosor tras cada corte; si se deja vacía, vale la separación entre piezas.",
   "saw.title": "Orden de cortes ({n})",
   "saw.colNumber": "N.º",
   "saw.colCut": "Corte",
   "saw.colAt": "Medida",
   "saw.colPiece": "En el trozo",
   "saw.along": "A lo largo",
-  "saw.across": "Transversal"
+  "saw.across": "Transversal",
+  "saw.kerf": "Grosor de la hoja",
+  "saw.blade": "hoja de {k}",
+  "saw.kerfWarn": "La separación entre piezas ({g}) es más fina que la hoja ({k}): las piezas perderían material al cortar.",
+  "saw.gapFromKerf": "Poner la separación a {k}"
 }

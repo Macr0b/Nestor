@@ -188,7 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
-  "news.190": "Detaļu ievade manuāli (vai ielīmēšana no izklājlapas), zāģēšanas secība metodei Taisnstūri, savi lāzera materiāli un vērtības, Thunder Laser un GWK orientējošās vērtības (saplāksnis, MDF, akrils, kartons, āda…) un vairs nav atgriezumu līniju gar malām.",
+  "news.190": "Detaļu ievade manuāli (vai ielīmēšana no izklājlapas), zāģēšanas secība metodei Taisnstūri (ar tava asmens biezumu), savi lāzera materiāli un vērtības, Thunder Laser un GWK orientējošās vērtības (saplāksnis, MDF, akrils, kartons, āda…) un vairs nav atgriezumu līniju gar malām.",
   "news.181": "Tālrunī pogas “Projekti” un “Iestatījumi” tagad ir zem logotipa, nevis to aizsedz.",
   "news.180": "Jauna cilne Lāzers (tavas iekārtas, sākuma vērtības no Trotec grāmatām, testa režģis), drukājams PDF zem katras plātnes vai visam plānam, gravējami detaļu numuri, saglabāti projekti (poga Projekti) un īsinājumtaustiņi (taustiņš ?).",
   "news.170": "Jauna cilne Izmaksas (plāna pašizmaksa: materiāls, atgriezumi, mašīna, uz detaļu) un cilne Materiāli (jūsu plātņu bibliotēka ar cenu). Izvēlētais materiāls ir tas pats sadaļās Izkārtojums, Frēzēšana un Izmaksas.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Laser tabula",
   "lz.thGweike": "Mīkstkoks un parasts saplāksnis, MDF un akrils no 3 līdz 10 mm: vērtības no tabulas, ko GWK Laser (Gweike) publicē savām 40–150 W CO2 caurulēm ar 90 % jaudu. Nestor ņem ātrumu tīrai malai, nevis lielāko.",
   "saw.option": "Zāģēšanas secība",
-  "saw.hint": "Numurēti griezumi uz plātnes un to saraksts zem tās un PDF: katrs griezums iet no viena gabala malas līdz otrai, izmēru mēra no tā kreisās vai augšējās malas.",
+  "saw.hint": "Numurēti griezumi uz plātnes un to saraksts zem tās un PDF: katrs griezums iet no viena gabala malas līdz otrai, izmēru mēra no tā kreisās vai augšējās malas. Asmens pēc katra griezuma noņem savu biezumu; ja lauks ir tukšs, tas ir vienāds ar atstarpi starp detaļām.",
   "saw.title": "Griezumu secība ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Griezums",
   "saw.colAt": "Izmērs",
   "saw.colPiece": "Gabalā",
   "saw.along": "Gareniski",
-  "saw.across": "Šķērsām"
+  "saw.across": "Šķērsām",
+  "saw.kerf": "Zāģa asmens biezums",
+  "saw.blade": "asmens {k}",
+  "saw.kerfWarn": "Atstarpe starp detaļām ({g}) ir plānāka par asmeni ({k}): detaļas griežot zaudētu materiālu.",
+  "saw.gapFromKerf": "Iestatīt atstarpi {k}"
 }

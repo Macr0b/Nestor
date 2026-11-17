@@ -171,7 +171,8 @@ export function cleanSnapshot(raw) {
       offcutMode:
         exportOptions.offcutMode === "simple" || exportOptions.offcutMode === "detail" ? exportOptions.offcutMode : "",
       partNumbers: exportOptions.partNumbers === true,
-      sawOrder: exportOptions.sawOrder === true
+      sawOrder: exportOptions.sawOrder === true,
+      sawKerf: exportOptions.sawKerf > 0 && exportOptions.sawKerf <= 50 ? exportOptions.sawKerf : ""
     },
     material: typeof s.material === "string" && /^[\w-]{0,40}$/.test(s.material) ? s.material : "",
     milling: settingsObject(s.milling),

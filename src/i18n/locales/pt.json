@@ -188,7 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
-  "news.190": "Peças introduzidas à mão (ou coladas de uma folha de cálculo), ordem dos cortes com serra para o método Retângulos, materiais e valores laser teus, valores indicativos da Thunder Laser e da GWK (contraplacado, MDF, acrílico, cartão, couro…), e deixa de haver linhas de sobras ao longo das margens.",
+  "news.190": "Peças introduzidas à mão (ou coladas de uma folha de cálculo), ordem dos cortes com serra para o método Retângulos (com a espessura da tua lâmina), materiais e valores laser teus, valores indicativos da Thunder Laser e da GWK (contraplacado, MDF, acrílico, cartão, couro…), e deixa de haver linhas de sobras ao longo das margens.",
   "news.181": "No telemóvel, os botões Projetos e Definições passam para baixo do logótipo em vez de o tapar.",
   "news.180": "Novo separador Laser (as tuas máquinas, ponto de partida segundo os livros Trotec, grelha de teste), PDF para imprimir sob cada painel ou de todo o plano, números das peças a gravar, projetos guardados (botão Projetos) e atalhos de teclado (tecla ?).",
   "news.170": "Novos separadores Custo (custo do plano: material, sobra, máquina, por peça) e Materiais (biblioteca das tuas placas com o preço). O material escolhido é o mesmo em Encaixe, Fresagem e Custo.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabela GWK Laser",
   "lz.thGweike": "Madeira macia e contraplacado comum, MDF e acrílico de 3 a 10 mm: valores da tabela publicada pela GWK Laser (Gweike) para os seus tubos CO2 de 40 a 150 W, a 90 % de potência. O Nestor usa a velocidade para uma aresta limpa, não a mais rápida.",
   "saw.option": "Ordem dos cortes com serra",
-  "saw.hint": "Cortes numerados no painel, com a sua lista por baixo e no PDF: cada corte vai de um bordo ao outro do pedaço, a cota mede-se a partir do seu bordo esquerdo ou superior.",
+  "saw.hint": "Cortes numerados no painel, com a sua lista por baixo e no PDF: cada corte vai de um bordo ao outro do pedaço, a cota mede-se a partir do seu bordo esquerdo ou superior. A lâmina retira a sua espessura após cada corte; se ficar vazia, vale o espaço entre peças.",
   "saw.title": "Ordem dos cortes ({n})",
   "saw.colNumber": "N.º",
   "saw.colCut": "Corte",
   "saw.colAt": "Cota",
   "saw.colPiece": "No pedaço",
   "saw.along": "Ao comprido",
-  "saw.across": "Na transversal"
+  "saw.across": "Na transversal",
+  "saw.kerf": "Espessura da lâmina",
+  "saw.blade": "lâmina de {k}",
+  "saw.kerfWarn": "O espaço entre peças ({g}) é mais fino do que a lâmina ({k}): as peças perderiam material no corte.",
+  "saw.gapFromKerf": "Pôr o espaço em {k}"
 }

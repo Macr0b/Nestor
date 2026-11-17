@@ -188,7 +188,7 @@
   "calc.cancelled": "Izračun preklican.",
   "calc.many": "{n} delov za razporeditev: to lahko traja.",
   "news.121": "Količine niso več omejene na 500, preveliki deli so takoj označeni, med dolgim izračunom pa se pojavi gumb Prekliči.",
-  "news.190": "Ročni vnos kosov (ali lepljenje iz preglednice), vrstni red rezov z žago za metodo Pravokotniki, lastni laserski materiali in vrednosti, okvirne vrednosti Thunder Laser in GWK (vezana plošča, MDF, akril, karton, usnje …) in nič več črt ostankov ob robovih.",
+  "news.190": "Ročni vnos kosov (ali lepljenje iz preglednice), vrstni red rezov z žago za metodo Pravokotniki (z debelino tvojega lista), lastni laserski materiali in vrednosti, okvirne vrednosti Thunder Laser in GWK (vezana plošča, MDF, akril, karton, usnje …) in nič več črt ostankov ob robovih.",
   "news.181": "Na telefonu sta gumba Projekti in Nastavitve zdaj pod logotipom, namesto da bi ga prekrivala.",
   "news.180": "Nov zavihek Laser (tvoji stroji, izhodiščne vrednosti iz Trotecovih knjig, preizkusna mreža), PDF za tiskanje pod vsako ploščo ali za ves razpored, številke kosov za graviranje, shranjeni projekti (gumb Projekti) in bližnjice na tipkovnici (tipka ?).",
   "news.170": "Nov zavihek Stroški (lastna cena razporeda: material, ostanek, stroj, na kos) in zavihek Materiali (knjižnica vaših plošč s ceno). Izbrani material je isti v Razporejanju, Rezkanju in Stroških.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabela GWK Laser",
   "lz.thGweike": "Mehki les in običajna vezana plošča, MDF in akril od 3 do 10 mm: vrednosti iz tabele, ki jo GWK Laser (Gweike) objavlja za svoje cevi CO2 od 40 do 150 W pri 90 % moči. Nestor vzame hitrost za čist rob, ne najhitrejše.",
   "saw.option": "Vrstni red rezov z žago",
-  "saw.hint": "Oštevilčeni rezi na plošči in njihov seznam pod njo in v PDF: vsak rez gre od enega roba kosa do drugega, mera se odčita od levega ali zgornjega roba.",
+  "saw.hint": "Oštevilčeni rezi na plošči in njihov seznam pod njo in v PDF: vsak rez gre od enega roba kosa do drugega, mera se odčita od levega ali zgornjega roba. List po vsakem rezu odvzame svojo debelino; če polje pustiš prazno, je enaka razmiku med kosi.",
   "saw.title": "Vrstni red rezov ({n})",
   "saw.colNumber": "Št.",
   "saw.colCut": "Rez",
   "saw.colAt": "Mera",
   "saw.colPiece": "V kosu",
   "saw.along": "Vzdolžno",
-  "saw.across": "Prečno"
+  "saw.across": "Prečno",
+  "saw.kerf": "Debelina žaginega lista",
+  "saw.blade": "list {k}",
+  "saw.kerfWarn": "Razmik med kosi ({g}) je tanjši od žaginega lista ({k}): kosi bi pri rezu izgubili material.",
+  "saw.gapFromKerf": "Nastavi razmik na {k}"
 }

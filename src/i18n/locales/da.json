@@ -188,7 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
-  "news.190": "Emner indtastet i hånden (eller indsat fra et regneark), rækkefølge for savsnit med metoden Rektangler, dine egne lasermaterialer og -værdier, vejledende værdier fra Thunder Laser og GWK (krydsfiner, MDF, akryl, karton, læder …), og ikke flere restlinjer langs margenerne.",
+  "news.190": "Emner indtastet i hånden (eller indsat fra et regneark), rækkefølge for savsnit med metoden Rektangler (med din klinges tykkelse), dine egne lasermaterialer og -værdier, vejledende værdier fra Thunder Laser og GWK (krydsfiner, MDF, akryl, karton, læder …), og ikke flere restlinjer langs margenerne.",
   "news.181": "På telefonen står knapperne Projekter og Indstillinger nu under logoet i stedet for at dække det.",
   "news.180": "Ny fane Laser (dine maskiner, udgangspunkt fra Trotecs bøger, testgitter), PDF til udskrift under hver plade eller for hele planen, delnumre til gravering, gemte projekter (knappen Projekter) og tastaturgenveje (tasten ?).",
   "news.170": "Ny fane Omkostninger (planens kostpris: materiale, spild, maskine, pr. del) og fane Materialer (bibliotek med dine plader og deres pris). Det valgte materiale er det samme i Placering, Fræsning og Omkostninger.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Lasers tabel",
   "lz.thGweike": "Blødt træ og almindelig krydsfiner, MDF og akryl fra 3 til 10 mm: værdier fra tabellen, som GWK Laser (Gweike) udgiver for sine CO2-rør på 40 til 150 W ved 90 % effekt. Nestor bruger hastigheden til en ren kant, ikke den hurtigste.",
   "saw.option": "Rækkefølge for savsnit",
-  "saw.hint": "Nummererede snit på pladen med deres liste nedenunder og i PDF’en: hvert snit går fra den ene kant af stykket til den anden, målt fra dets venstre eller øverste kant.",
+  "saw.hint": "Nummererede snit på pladen med deres liste nedenunder og i PDF’en: hvert snit går fra den ene kant af stykket til den anden, målt fra dets venstre eller øverste kant. Klingen fjerner sin tykkelse efter hvert snit; står feltet tomt, svarer den til afstanden mellem emnerne.",
   "saw.title": "Rækkefølge for snit ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Snit",
   "saw.colAt": "Mål",
   "saw.colPiece": "I stykket",
   "saw.along": "På langs",
-  "saw.across": "På tværs"
+  "saw.across": "På tværs",
+  "saw.kerf": "Savklingens tykkelse",
+  "saw.blade": "klinge på {k}",
+  "saw.kerfWarn": "Afstanden mellem emnerne ({g}) er tyndere end klingen ({k}): emnerne ville miste materiale ved snittet.",
+  "saw.gapFromKerf": "Sæt afstanden til {k}"
 }

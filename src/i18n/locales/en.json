@@ -188,7 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
-  "news.190": "Parts entered by hand (or pasted from a spreadsheet), saw cutting order for the Rectangles method, your own laser materials and values, indicative values from Thunder Laser and GWK (plywood, MDF, acrylic, cardboard, leather…), and no more offcut lines along the margins.",
+  "news.190": "Parts entered by hand (or pasted from a spreadsheet), saw cutting order for the Rectangles method (with your blade thickness), your own laser materials and values, indicative values from Thunder Laser and GWK (plywood, MDF, acrylic, cardboard, leather…), and no more offcut lines along the margins.",
   "news.181": "On phones, the Projects and Settings buttons now sit below the logo instead of covering it.",
   "news.180": "New Laser tab (your machines, starting point from the Trotec books, test grid), printable PDF under each panel or for the whole plan, part numbers to engrave, saved projects (Projects button) and keyboard shortcuts (? key).",
   "news.170": "New Cost tab (cost price of the plan: material, offcut, machine, per part) and Materials tab (library of your boards with their price). The chosen material is the same in Nesting, Milling and Cost.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Laser chart",
   "lz.thGweike": "Softwood and standard plywood, MDF and acrylic from 3 to 10 mm: values from the chart published by GWK Laser (Gweike) for its 40 to 150 W CO2 tubes, at 90 % power. Nestor uses the speed for a clean edge, not the fastest one.",
   "saw.option": "Saw cutting order",
-  "saw.hint": "Numbered cuts on the panel, with their list below and in the PDF: each cut goes from one edge of the piece to the other, measured from its left or top edge.",
+  "saw.hint": "Numbered cuts on the panel, with their list below and in the PDF: each cut goes from one edge of the piece to the other, measured from its left or top edge. The blade removes its thickness after each cut; left empty, it equals the gap between parts.",
   "saw.title": "Cutting order ({n})",
   "saw.colNumber": "No.",
   "saw.colCut": "Cut",
   "saw.colAt": "Distance",
   "saw.colPiece": "In the piece",
   "saw.along": "Lengthwise",
-  "saw.across": "Crosswise"
+  "saw.across": "Crosswise",
+  "saw.kerf": "Blade thickness",
+  "saw.blade": "{k} blade",
+  "saw.kerfWarn": "The gap between parts ({g}) is thinner than the blade ({k}): the parts would lose material when cut.",
+  "saw.gapFromKerf": "Set the gap to {k}"
 }

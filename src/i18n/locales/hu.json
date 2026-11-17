@@ -188,7 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
-  "news.190": "Alkatrészek kézi megadása (vagy beillesztése táblázatból), fűrészvágások sorrendje a Téglalapok módszerhez, saját lézeranyagok és -értékek, tájékoztató értékek a Thunder Lasertől és a GWK-tól (rétegelt lemez, MDF, akril, karton, bőr…), és nincs több hulladékvonal a margók mentén.",
+  "news.190": "Alkatrészek kézi megadása (vagy beillesztése táblázatból), fűrészvágások sorrendje a Téglalapok módszerhez (a fűrészlapod vastagságával), saját lézeranyagok és -értékek, tájékoztató értékek a Thunder Lasertől és a GWK-tól (rétegelt lemez, MDF, akril, karton, bőr…), és nincs több hulladékvonal a margók mentén.",
   "news.181": "Telefonon a Projektek és a Beállítások gomb most a logó alatt van, nem takarja el.",
   "news.180": "Új Lézer lap (a gépeid, kiindulási értékek a Trotec könyvekből, tesztrács), nyomtatható PDF minden tábla alatt vagy az egész tervhez, gravírozandó alkatrészszámok, mentett projektek (Projektek gomb) és billentyűparancsok (? billentyű).",
   "news.170": "Új Költség lap (a terv önköltsége: anyag, hulladék, gép, alkatrészenként) és Anyagok lap (a tábláid könyvtára az árukkal). A kiválasztott anyag ugyanaz az Elrendezés, a Marás és a Költség lapon.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Laser-táblázat",
   "lz.thGweike": "Puhafa és szokásos rétegelt lemez, MDF és akril 3–10 mm között: a GWK Laser (Gweike) 40–150 W-os CO2-csöveihez, 90 %-os teljesítményre közölt táblázat értékei. A Nestor a tiszta élhez tartozó sebességet veszi, nem a leggyorsabbat.",
   "saw.option": "Fűrészvágások sorrendje",
-  "saw.hint": "Számozott vágások a lapon, alatta és a PDF-ben a listájuk: minden vágás a darab egyik szélétől a másikig tart, a méretet a bal vagy a felső szélétől mérjük.",
+  "saw.hint": "Számozott vágások a lapon, alatta és a PDF-ben a listájuk: minden vágás a darab egyik szélétől a másikig tart, a méretet a bal vagy a felső szélétől mérjük. A fűrészlap minden vágás után elviszi a vastagságát; üresen hagyva megegyezik az alkatrészek közti hézaggal.",
   "saw.title": "Vágások sorrendje ({n})",
   "saw.colNumber": "Sz.",
   "saw.colCut": "Vágás",
   "saw.colAt": "Méret",
   "saw.colPiece": "A darabban",
   "saw.along": "Hosszában",
-  "saw.across": "Keresztben"
+  "saw.across": "Keresztben",
+  "saw.kerf": "Fűrészlap vastagsága",
+  "saw.blade": "{k} fűrészlap",
+  "saw.kerfWarn": "Az alkatrészek közti hézag ({g}) vékonyabb a fűrészlapnál ({k}): az alkatrészek anyagot veszítenének a vágásnál.",
+  "saw.gapFromKerf": "Hézag beállítása: {k}"
 }

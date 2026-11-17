@@ -32,7 +32,8 @@ function savePreferences() {
         board: exportOptions.includeBoard,
         numbers: exportOptions.partNumbers,
         cuts: exportOptions.offcutMode,
-        saw: exportOptions.sawOrder
+        saw: exportOptions.sawOrder,
+        kerf: exportOptions.sawKerf
       })
     );
   } catch (e) {}
@@ -54,6 +55,7 @@ export function loadPreferences() {
     exportOptions.includeBoard = saved.board === true;
     exportOptions.partNumbers = saved.numbers === true;
     exportOptions.sawOrder = saved.saw === true;
+    exportOptions.sawKerf = saved.kerf > 0 && saved.kerf <= 50 ? saved.kerf : "";
     exportOptions.offcutMode = saved.cuts === "simple" || saved.cuts === "detail" ? saved.cuts : "";
     if (saved.gap != null) state.sheet.gap = parseNumber(saved.gap, 2);
     if (saved.margin != null) state.sheet.margin = parseNumber(saved.margin, 5);

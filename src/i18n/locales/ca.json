@@ -188,7 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
-  "news.190": "Peces introduïdes a mà (o enganxades d’un full de càlcul), ordre dels talls amb serra per al mètode Rectangles, materials i valors làser teus, valors orientatius de Thunder Laser i GWK (contraxapat, MDF, acrílic, cartró, cuir…), i ja no hi ha línies de retalls al llarg dels marges.",
+  "news.190": "Peces introduïdes a mà (o enganxades d’un full de càlcul), ordre dels talls amb serra per al mètode Rectangles (amb el gruix de la teva fulla), materials i valors làser teus, valors orientatius de Thunder Laser i GWK (contraxapat, MDF, acrílic, cartró, cuir…), i ja no hi ha línies de retalls al llarg dels marges.",
   "news.181": "Al mòbil, els botons Projectes i Configuració passen sota el logotip en lloc de tapar-lo.",
   "news.180": "Nova pestanya Làser (les teves màquines, punt de partida segons els llibres Trotec, graella de prova), PDF per imprimir sota cada tauler o de tot el pla, números de peça per gravar, projectes desats (botó Projectes) i dreceres de teclat (tecla ?).",
   "news.170": "Noves pestanyes Cost (cost del pla: material, retalla, màquina, per peça) i Materials (biblioteca dels teus taulers amb el preu). El material triat és el mateix a Encaix, Fresatge i Cost.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Taula de GWK Laser",
   "lz.thGweike": "Fusta tova i contraxapat corrent, MDF i acrílic de 3 a 10 mm: valors de la taula publicada per GWK Laser (Gweike) per als seus tubs CO2 de 40 a 150 W, al 90 % de potència. Nestor fa servir la velocitat per a una vora neta, no la més ràpida.",
   "saw.option": "Ordre dels talls amb serra",
-  "saw.hint": "Talls numerats al tauler, amb la seva llista a sota i al PDF: cada tall va d’una vora a l’altra del tros, la cota es pren des de la seva vora esquerra o superior.",
+  "saw.hint": "Talls numerats al tauler, amb la seva llista a sota i al PDF: cada tall va d’una vora a l’altra del tros, la cota es pren des de la seva vora esquerra o superior. La fulla treu el seu gruix després de cada tall; si es deixa buit, val l’espai entre peces.",
   "saw.title": "Ordre dels talls ({n})",
   "saw.colNumber": "Núm.",
   "saw.colCut": "Tall",
   "saw.colAt": "Cota",
   "saw.colPiece": "Al tros",
   "saw.along": "Al llarg",
-  "saw.across": "De través"
+  "saw.across": "De través",
+  "saw.kerf": "Gruix de la fulla",
+  "saw.blade": "fulla de {k}",
+  "saw.kerfWarn": "L’espai entre peces ({g}) és més fi que la fulla ({k}): les peces perdrien material en tallar.",
+  "saw.gapFromKerf": "Posa l’espai a {k}"
 }

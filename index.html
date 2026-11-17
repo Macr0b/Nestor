@@ -163,6 +163,10 @@
         <p class="hint" data-i18n="cuts.hint">Traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l’espace entre pièces.</p>
         <div id="sawOrderWrap" hidden>
           <label class="dlopt"><input type="checkbox" id="sawOrder"> <span data-i18n="saw.option">Ordre des coupes à la scie</span></label>
+          <div id="sawBladeWrap" hidden>
+            <label class="f saw-blade"><span data-i18n="saw.kerf">Épaisseur de lame</span><input id="sawKerf" type="number" inputmode="decimal" min="0" step="any"></label>
+            <p class="warn" id="sawKerfWarn" hidden><span id="sawKerfWarnText"></span> <button type="button" class="linkbtn" id="btnGapFromKerf"></button></p>
+          </div>
           <p class="hint" data-i18n="saw.hint">Coupes numérotées sur le panneau, et leur liste dessous et dans le PDF : chaque coupe va d’un bord à l’autre du morceau, la cote se prend depuis son bord gauche ou haut.</p>
         </div>
         <label class="dlopt"><input type="checkbox" id="dlBoard"> <span data-i18n="dl.board">Inclure le contour du panneau dans les exports</span></label>

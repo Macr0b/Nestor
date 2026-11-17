@@ -3,6 +3,7 @@
    puis chaque morceau de la même façon, jusqu'à ce que chaque morceau ne porte plus qu'une pièce, qu'on détoure.
    Chaque coupe traverse tout le morceau qu'elle coupe (faisable à la scie à panneaux ou sur table).
    Les bords qui ne portent que la marge sont délignés d'abord, une fois pour tout le panneau.
+   La lame enlève son épaisseur (kerf) juste après chaque coupe : les morceaux suivants en sont diminués.
    Dans le repère du plan : x vers la droite (largeur du panneau, →), y vers le bas (longueur du panneau, ↑).
    Une coupe « along » (x constant, trait vertical) va dans la longueur ; « across » (y constant) va en travers. */
 
@@ -123,7 +124,21 @@ function splitRegion(region, boxes, list, minStrip) {
     var at = firstGap(region, boxes, axes[k]);
     if (at == null) continue;
     cut(region, axes[k], at, list);
-    halves(region, axes[k], at).forEach(function (h) {
+    var parts = halves(region, axes[k], at),
+      a0 = axes[k] + "0",
+      // la lame mange son épaisseur au début du second morceau (jamais au-delà des pièces qui y sont)
+      next = Math.min.apply(
+        null,
+        boxes
+          .filter(function (b) {
+            return b[a0] >= at - 1e-6;
+          })
+          .map(function (b) {
+            return b[a0];
+          })
+      );
+    parts[1][a0] = Math.min(at + (minStrip - STRIP_SLACK), next);
+    parts.forEach(function (h) {
       splitRegion(h, boxesIn(h, boxes), list, minStrip);
     });
     return;

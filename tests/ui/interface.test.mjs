@@ -1407,6 +1407,20 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(first[0], "1");
     assert.match(first[1], /^(Dans la longueur|En travers)$/);
     assert.match(first[3], /^[\d\s ,.]+ × [\d\s ,.]+$/);
+    // épaisseur de lame : vide, elle vaut l'espace entre pièces (2 mm sur l'exemple)
+    assert.ok(await page.isVisible("#sawKerf"));
+    assert.equal(await page.getAttribute("#sawKerf", "placeholder"), "2");
+    assert.match(await page.textContent(".saw-list summary"), /lame de 2 mm/);
+    assert.ok(await page.isHidden("#sawKerfWarn"));
+    // lame de 3,2 : plus épaisse que l'espace, alerte et bouton pour corriger
+    await page.fill("#sawKerf", "3.2");
+    assert.match(await page.textContent(".saw-list summary"), /lame de 3,2 mm/);
+    assert.ok(await page.isVisible("#sawKerfWarn"));
+    assert.match(await page.textContent("#sawKerfWarn"), /plus fin que la lame \(3,2\)/);
+    await page.click("#btnGapFromKerf");
+    await idle(page);
+    assert.equal(await page.inputValue("#sG"), "3.2");
+    assert.ok(await page.isHidden("#sawKerfWarn"));
     // les traits de chutes laissent la place aux coupes numérotées
     await page.selectOption("#cutSel", "detail");
     assert.equal(await page.locator(".svg-cut").count(), 0);
@@ -1422,6 +1436,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await idle(page);
     assert.ok(await page.isChecked("#sawOrder"));
     assert.equal(await page.locator(".saw-list").count(), 1);
+    assert.equal(await page.inputValue("#sawKerf"), "3.2");
     await page.selectOption("#sMode", "nest");
     await idle(page);
     assert.equal(await page.locator(".saw-list").count(), 0);

@@ -188,7 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
-  "news.190": "Ruční zadání dílů (nebo vložení z tabulky), pořadí řezů pilou pro metodu Obdélníky, vlastní laserové materiály a hodnoty, orientační hodnoty Thunder Laser a GWK (překližka, MDF, akrylát, karton, kůže…) a už žádné čáry odřezků podél okrajů.",
+  "news.190": "Ruční zadání dílů (nebo vložení z tabulky), pořadí řezů pilou pro metodu Obdélníky (s tloušťkou tvého kotouče), vlastní laserové materiály a hodnoty, orientační hodnoty Thunder Laser a GWK (překližka, MDF, akrylát, karton, kůže…) a už žádné čáry odřezků podél okrajů.",
   "news.181": "Na telefonu jsou tlačítka Projekty a Nastavení nyní pod logem, místo aby ho zakrývala.",
   "news.180": "Nová karta Laser (tvoje stroje, výchozí hodnoty z knih Trotec, testovací mřížka), PDF k tisku pod každou deskou nebo pro celý plán, čísla dílů ke gravírování, uložené projekty (tlačítko Projekty) a klávesové zkratky (klávesa ?).",
   "news.170": "Nová karta Náklady (vlastní náklady plánu: materiál, odpad, stroj, na díl) a karta Materiály (knihovna vašich desek s cenou). Zvolený materiál je stejný v Rozmístění, Frézování i Nákladech.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabulka GWK Laser",
   "lz.thGweike": "Měkké dřevo a běžná překližka, MDF a akrylát od 3 do 10 mm: hodnoty z tabulky, kterou GWK Laser (Gweike) zveřejňuje pro své CO2 trubice 40 až 150 W při výkonu 90 %. Nestor bere rychlost pro čistou hranu, ne tu nejvyšší.",
   "saw.option": "Pořadí řezů pilou",
-  "saw.hint": "Očíslované řezy na desce a jejich seznam pod ní a v PDF: každý řez vede od jednoho okraje kusu k druhému, míra se bere od jeho levého nebo horního okraje.",
+  "saw.hint": "Očíslované řezy na desce a jejich seznam pod ní a v PDF: každý řez vede od jednoho okraje kusu k druhému, míra se bere od jeho levého nebo horního okraje. Kotouč po každém řezu ubere svou tloušťku; když pole necháš prázdné, rovná se mezeře mezi díly.",
   "saw.title": "Pořadí řezů ({n})",
   "saw.colNumber": "Č.",
   "saw.colCut": "Řez",
   "saw.colAt": "Míra",
   "saw.colPiece": "V kusu",
   "saw.along": "Podélně",
-  "saw.across": "Příčně"
+  "saw.across": "Příčně",
+  "saw.kerf": "Tloušťka pilového kotouče",
+  "saw.blade": "kotouč {k}",
+  "saw.kerfWarn": "Mezera mezi díly ({g}) je tenčí než kotouč ({k}): díly by při řezu přišly o materiál.",
+  "saw.gapFromKerf": "Nastavit mezeru na {k}"
 }

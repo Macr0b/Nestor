@@ -188,7 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
-  "news.190": "Futje e pjesëve me dorë (ose ngjitje nga fletëllogaritësja), rendi i prerjeve me sharrë për metodën Drejtkëndësha, materiale dhe vlera lazeri të tuat, vlera orientuese nga Thunder Laser dhe GWK (kompensatë, MDF, akrilik, karton, lëkurë…) dhe më s’ka vija mbetjesh përgjatë kufijve.",
+  "news.190": "Futje e pjesëve me dorë (ose ngjitje nga fletëllogaritësja), rendi i prerjeve me sharrë për metodën Drejtkëndësha (me trashësinë e tehut tënd), materiale dhe vlera lazeri të tuat, vlera orientuese nga Thunder Laser dhe GWK (kompensatë, MDF, akrilik, karton, lëkurë…) dhe më s’ka vija mbetjesh përgjatë kufijve.",
   "news.181": "Në telefon, butonat Projektet dhe Cilësimet tani dalin nën logo në vend që ta mbulojnë.",
   "news.180": "Skedë e re Lazer (makinat e tua, pika e nisjes sipas librave Trotec, rrjetë prove), PDF për shtyp nën çdo pllakë ose për gjithë planin, numrat e pjesëve për gdhendje, projekte të ruajtura (butoni Projektet) dhe shkurtore tastiere (tasti ?).",
   "news.170": "Skedë e re Kosto (kostoja e prodhimit të planit: material, mbetje, makinë, për pjesë) dhe skedë Materialet (biblioteka e pllakave tuaja me çmimin e tyre). Materiali i zgjedhur është i njëjti te Vendosja, Frezimi dhe Kosto.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabela e GWK Laser",
   "lz.thGweike": "Dru i butë dhe kompensatë e zakonshme, MDF dhe akrilik nga 3 deri në 10 mm: vlera nga tabela që GWK Laser (Gweike) publikon për tubat e saj CO2 nga 40 deri në 150 W me fuqi 90 %. Nestor merr shpejtësinë për buzë të pastër, jo më të lartën.",
   "saw.option": "Rendi i prerjeve me sharrë",
-  "saw.hint": "Prerje të numëruara në pllakë, me listën e tyre poshtë dhe në PDF: çdo prerje shkon nga një buzë e copës në tjetrën, masa merret nga buza e saj e majtë ose e sipërme.",
+  "saw.hint": "Prerje të numëruara në pllakë, me listën e tyre poshtë dhe në PDF: çdo prerje shkon nga një buzë e copës në tjetrën, masa merret nga buza e saj e majtë ose e sipërme. Tehu heq trashësinë e tij pas çdo prerjeje; i lënë bosh, është i barabartë me hapësirën midis pjesëve.",
   "saw.title": "Rendi i prerjeve ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Prerja",
   "saw.colAt": "Masa",
   "saw.colPiece": "Në copë",
   "saw.along": "Për së gjati",
-  "saw.across": "Tërthorazi"
+  "saw.across": "Tërthorazi",
+  "saw.kerf": "Trashësia e tehut",
+  "saw.blade": "teh {k}",
+  "saw.kerfWarn": "Hapësira midis pjesëve ({g}) është më e hollë se tehu ({k}): pjesët do të humbnin material gjatë prerjes.",
+  "saw.gapFromKerf": "Vendos hapësirën {k}"
 }

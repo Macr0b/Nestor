@@ -188,7 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
-  "news.190": "Elementy wpisywane ręcznie (lub wklejane z arkusza), kolejność cięć piłą dla metody Prostokąty, własne materiały i wartości laserowe, wartości orientacyjne Thunder Laser i GWK (sklejka, MDF, akryl, tektura, skóra…) i koniec z liniami odpadów wzdłuż marginesów.",
+  "news.190": "Elementy wpisywane ręcznie (lub wklejane z arkusza), kolejność cięć piłą dla metody Prostokąty (z grubością twojej piły), własne materiały i wartości laserowe, wartości orientacyjne Thunder Laser i GWK (sklejka, MDF, akryl, tektura, skóra…) i koniec z liniami odpadów wzdłuż marginesów.",
   "news.181": "Na telefonie przyciski Projekty i Ustawienia są teraz pod logo, zamiast je zasłaniać.",
   "news.180": "Nowa zakładka Laser (twoje maszyny, punkt wyjścia z książek Trotec, siatka testowa), PDF do druku pod każdą płytą lub dla całego rozkroju, numery elementów do grawerowania, zapisane projekty (przycisk Projekty) i skróty klawiszowe (klawisz ?).",
   "news.170": "Nowa zakładka Koszt (koszt własny rozkroju: materiał, odpad, maszyna, na element) i zakładka Materiały (biblioteka Twoich płyt z ceną). Wybrany materiał jest ten sam w zakładkach Rozkrój, Frezowanie i Koszt.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabela GWK Laser",
   "lz.thGweike": "Drewno miękkie i zwykła sklejka, MDF i akryl od 3 do 10 mm: wartości z tabeli publikowanej przez GWK Laser (Gweike) dla jego tub CO2 od 40 do 150 W, przy 90 % mocy. Nestor bierze prędkość dla czystej krawędzi, nie najszybszą.",
   "saw.option": "Kolejność cięć piłą",
-  "saw.hint": "Ponumerowane cięcia na płycie, z ich listą poniżej i w PDF: każde cięcie biegnie od jednej krawędzi kawałka do drugiej, wymiar mierzy się od jego lewej lub górnej krawędzi.",
+  "saw.hint": "Ponumerowane cięcia na płycie, z ich listą poniżej i w PDF: każde cięcie biegnie od jednej krawędzi kawałka do drugiej, wymiar mierzy się od jego lewej lub górnej krawędzi. Piła zabiera swoją grubość po każdym cięciu; pozostawiona pusta, równa się odstępowi między elementami.",
   "saw.title": "Kolejność cięć ({n})",
   "saw.colNumber": "Nr",
   "saw.colCut": "Cięcie",
   "saw.colAt": "Wymiar",
   "saw.colPiece": "W kawałku",
   "saw.along": "Wzdłuż",
-  "saw.across": "W poprzek"
+  "saw.across": "W poprzek",
+  "saw.kerf": "Grubość piły",
+  "saw.blade": "piła {k}",
+  "saw.kerfWarn": "Odstęp między elementami ({g}) jest cieńszy niż piła ({k}): elementy straciłyby materiał przy cięciu.",
+  "saw.gapFromKerf": "Ustaw odstęp na {k}"
 }

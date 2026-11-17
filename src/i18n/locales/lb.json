@@ -188,7 +188,7 @@
   "calc.cancelled": "Berechnung ofgebrach.",
   "calc.many": "{n} Deeler ze placéieren: dat ka laang daueren.",
   "news.121": "D’Quantitéite sinn net méi op 500 limitéiert, ze grouss Deeler ginn direkt gemellt, an e Knäppchen Ofbriechen erschéngt bei laange Berechnungen.",
-  "news.190": "Deeler mat der Hand aginn (oder aus enger Tabell agepecht), Reiefolleg vun de Seeschnëtter fir d’Method Rechtecker, eegen Laser-Materialien a -Wäerter, Richtwäerter vun Thunder Laser a GWK (Sperrholz, MDF, Akryl, Kartong, Lieder …), a keng Reschtlinne méi laanscht d’Rännere.",
+  "news.190": "Deeler mat der Hand aginn (oder aus enger Tabell agepecht), Reiefolleg vun de Seeschnëtter fir d’Method Rechtecker (mat der Déckt vun dengem Seeblat), eegen Laser-Materialien a -Wäerter, Richtwäerter vun Thunder Laser a GWK (Sperrholz, MDF, Akryl, Kartong, Lieder …), a keng Reschtlinne méi laanscht d’Rännere.",
   "news.181": "Um Handy stinn d’Knäppercher Projeten an Astellungen elo ënnert dem Logo, amplaz et ze verdecken.",
   "news.180": "Neien Tab Laser (deng Maschinnen, Ausgangswäerter aus den Trotec-Bicher, Testraster), PDF zum Drécken ënner all Plack oder fir de ganze Plang, Deelnummeren zum Gravéieren, gespäichert Projeten (Knäppchen Projeten) an Tastekombinatiounen (Tast ?).",
   "news.170": "Neien Tab Käschten (Käschtepräis vum Plang: Material, Offall, Maschinn, pro Deel) an Tab Materialien (Bibliothéik vun Äre Placke mat hirem Präis). Dat gewielt Material ass datselwecht an der Verschachtelung, beim Fräsen an an de Käschten.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK-Laser-Tabell",
   "lz.thGweike": "Mëllt Holz a gewéinlecht Sperrholz, MDF an Akryl vun 3 bis 10 mm: Wäerter aus der Tabell, déi GWK Laser (Gweike) fir seng CO2-Röhre vu 40 bis 150 W bei 90 % Leeschtung publizéiert. Nestor hëlt d’Geschwindegkeet fir eng propper Kant, net déi séierst.",
   "saw.option": "Reiefolleg vun de Seeschnëtter",
-  "saw.hint": "Nummeréiert Schnëtter op der Plack, mat hirer Lëscht drënner an am PDF: all Schnëtt geet vun engem Rand vum Stéck bis zum aneren, d’Mooss gëtt vu sengem lénken oder ieweschte Rand geholl.",
+  "saw.hint": "Nummeréiert Schnëtter op der Plack, mat hirer Lëscht drënner an am PDF: all Schnëtt geet vun engem Rand vum Stéck bis zum aneren, d’Mooss gëtt vu sengem lénken oder ieweschte Rand geholl. D’Seeblat hëlt no all Schnëtt seng Déckt ewech; eidel gelooss entsprécht se dem Ofstand tëscht den Deeler.",
   "saw.title": "Reiefolleg vun de Schnëtter ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Schnëtt",
   "saw.colAt": "Mooss",
   "saw.colPiece": "Am Stéck",
   "saw.along": "Laanscht",
-  "saw.across": "Quer"
+  "saw.across": "Quer",
+  "saw.kerf": "Déckt vum Seeblat",
+  "saw.blade": "Seeblat {k}",
+  "saw.kerfWarn": "Den Ofstand tëscht den Deeler ({g}) ass méi dënn wéi d’Seeblat ({k}): d’Deeler géifen beim Schneiden Material verléieren.",
+  "saw.gapFromKerf": "Ofstand op {k} setzen"
 }

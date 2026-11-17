@@ -188,7 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
-  "news.190": "Kappaleiden syöttö käsin (tai liittäminen taulukosta), sahausjärjestys Suorakulmiot-menetelmälle, omat lasermateriaalit ja -arvot, Thunder Laserin ja GWK:n suuntaa-antavat arvot (vaneri, MDF, akryyli, pahvi, nahka…) eikä enää hukkapalaviivoja reunusten suuntaisesti.",
+  "news.190": "Kappaleiden syöttö käsin (tai liittäminen taulukosta), sahausjärjestys Suorakulmiot-menetelmälle (oman teräsi paksuudella), omat lasermateriaalit ja -arvot, Thunder Laserin ja GWK:n suuntaa-antavat arvot (vaneri, MDF, akryyli, pahvi, nahka…) eikä enää hukkapalaviivoja reunusten suuntaisesti.",
   "news.181": "Puhelimessa Projektit- ja Asetukset-painikkeet ovat nyt logon alla eivätkä peitä sitä.",
   "news.180": "Uusi Laser-välilehti (koneesi, lähtöarvot Trotecin kirjoista, testiruudukko), tulostettava PDF jokaisen levyn alla tai koko suunnitelmasta, kaiverrettavat osien numerot, tallennetut projektit (Projektit-painike) ja pikanäppäimet (?-näppäin).",
   "news.170": "Uusi Kustannus-välilehti (suunnitelman omakustannus: materiaali, hukka, kone, osaa kohden) ja Materiaalit-välilehti (levyjesi kirjasto hintoineen). Valittu materiaali on sama Sijoittelussa, Jyrsinnässä ja Kustannuksessa.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Laserin taulukko",
   "lz.thGweike": "Pehmeä puu ja tavallinen vaneri, MDF ja akryyli 3–10 mm: arvot taulukosta, jonka GWK Laser (Gweike) julkaisee 40–150 W:n CO2-putkilleen 90 %:n teholla. Nestor käyttää siistin reunan nopeutta, ei nopeinta.",
   "saw.option": "Sahausjärjestys",
-  "saw.hint": "Numeroidut sahaukset levyssä ja niiden luettelo alla sekä PDF:ssä: jokainen sahaus kulkee palan reunasta toiseen, mitta otetaan sen vasemmasta tai yläreunasta.",
+  "saw.hint": "Numeroidut sahaukset levyssä ja niiden luettelo alla sekä PDF:ssä: jokainen sahaus kulkee palan reunasta toiseen, mitta otetaan sen vasemmasta tai yläreunasta. Terä vie paksuutensa jokaisen sahauksen jälkeen; tyhjänä se on sama kuin kappaleiden välinen rako.",
   "saw.title": "Sahausjärjestys ({n})",
   "saw.colNumber": "Nro",
   "saw.colCut": "Sahaus",
   "saw.colAt": "Mitta",
   "saw.colPiece": "Palassa",
   "saw.along": "Pituussuunnassa",
-  "saw.across": "Poikittain"
+  "saw.across": "Poikittain",
+  "saw.kerf": "Terän paksuus",
+  "saw.blade": "terä {k}",
+  "saw.kerfWarn": "Kappaleiden välinen rako ({g}) on terää ({k}) ohuempi: kappaleista lähtisi materiaalia sahatessa.",
+  "saw.gapFromKerf": "Aseta raoksi {k}"
 }

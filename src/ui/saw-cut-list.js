@@ -1,9 +1,19 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Liste des coupes à la scie d'un panneau, dans l'ordre : sous le plan à l'écran et dans le PDF. */
 
+import { sawKerf } from "../export/export-files.js";
 import { translate } from "../i18n/i18n.js";
 import { escapeHtml } from "../util/dom.js";
 import { showLength } from "./lengths.js";
+
+/* Titre de la liste : nombre de coupes et épaisseur de lame prise en compte. */
+export function sawCutTitle(count) {
+  return (
+    translate("saw.title", { n: count }) +
+    " · " +
+    translate("saw.blade", { k: showLength(sawKerf(), { digits: 2 }) + " " + translate("mill.unitLength") })
+  );
+}
 
 export function sawCutColumns() {
   return [translate("saw.colNumber"), translate("saw.colCut"), translate("saw.colAt"), translate("saw.colPiece")];
@@ -25,10 +35,8 @@ export function sawCutTableHtml(cuts) {
   if (!cuts.length) return "";
   return (
     '<details class="saw-list" open><summary>' +
-    escapeHtml(translate("saw.title", { n: cuts.length })) +
-    " <small>(" +
-    escapeHtml(translate("mill.unitLength")) +
-    ")</small></summary><table><thead><tr>" +
+    escapeHtml(sawCutTitle(cuts.length)) +
+    "</summary><table><thead><tr>" +
     sawCutColumns()
       .map(function (t) {
         return "<th>" + escapeHtml(t) + "</th>";

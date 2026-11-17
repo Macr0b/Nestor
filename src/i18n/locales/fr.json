@@ -188,7 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
-  "news.190": "Saisie de pièces à la main (ou collées d’un tableur), ordre des coupes à la scie pour la méthode Rectangles, matières et valeurs laser à toi, valeurs indicatives Thunder Laser et GWK (contreplaqué, MDF, acrylique, carton, cuir…), et plus de traits de chutes le long des marges.",
+  "news.190": "Saisie de pièces à la main (ou collées d’un tableur), ordre des coupes à la scie pour la méthode Rectangles (avec l’épaisseur de ta lame), matières et valeurs laser à toi, valeurs indicatives Thunder Laser et GWK (contreplaqué, MDF, acrylique, carton, cuir…), et plus de traits de chutes le long des marges.",
   "news.181": "Sur téléphone, les boutons Projets et Réglages passent sous le logo au lieu de le recouvrir.",
   "news.180": "Nouvel onglet Laser (tes machines, point de départ d’après les livrets Trotec, grille de test), PDF à imprimer sous chaque panneau ou pour tout le plan, numéros des pièces à graver, projets enregistrés (bouton Projets) et raccourcis clavier (touche ?).",
   "news.170": "Nouveaux onglets Coût (coût de revient du plan : matière, chute, machine, par pièce) et Matières (bibliothèque de tes panneaux avec leur prix). La matière choisie est la même dans Imbrication, Fraisage et Coût.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tableau GWK Laser",
   "lz.thGweike": "Bois tendre et contreplaqué courant, MDF et acrylique de 3 à 10 mm : valeurs du tableau publié par GWK Laser (Gweike) pour ses tubes CO2 de 40 à 150 W, à 90 % de puissance. Nestor reprend la vitesse pour un bord propre, pas la plus rapide.",
   "saw.option": "Ordre des coupes à la scie",
-  "saw.hint": "Coupes numérotées sur le panneau, et leur liste dessous et dans le PDF : chaque coupe va d’un bord à l’autre du morceau, la cote se prend depuis son bord gauche ou haut.",
+  "saw.hint": "Coupes numérotées sur le panneau, et leur liste dessous et dans le PDF : chaque coupe va d’un bord à l’autre du morceau, la cote se prend depuis son bord gauche ou haut. La lame enlève son épaisseur après chaque coupe ; laissée vide, elle vaut l’espace entre pièces.",
   "saw.title": "Ordre des coupes ({n})",
   "saw.colNumber": "N°",
   "saw.colCut": "Coupe",
   "saw.colAt": "Cote",
   "saw.colPiece": "Dans le morceau",
   "saw.along": "Dans la longueur",
-  "saw.across": "En travers"
+  "saw.across": "En travers",
+  "saw.kerf": "Épaisseur de lame",
+  "saw.blade": "lame de {k}",
+  "saw.kerfWarn": "L’espace entre pièces ({g}) est plus fin que la lame ({k}) : les pièces perdraient de la matière à la coupe.",
+  "saw.gapFromKerf": "Mettre l’espace à {k}"
 }

@@ -33,17 +33,24 @@ function replay(L, W, parts, cuts, kerf = 0) {
         : c.y1 > b.y0 + 1e-6 && c.y1 < b.y1 - 1e-6 && b.x1 > r.x0 && b.x0 < r.x1;
       assert.ok(!inside, `coupe ${n + 1} traverse une pièce`);
     }
+    // la lame enlève son épaisseur au début du second morceau, sans jamais entamer une pièce
+    const a0 = across ? "x0" : "y0",
+      at = across ? c.x1 : c.y1,
+      held = boxes.filter(
+        (b) => b.x0 >= r.x0 - 1e-6 && b.x1 <= r.x1 + 1e-6 && b.y0 >= r.y0 - 1e-6 && b.y1 <= r.y1 + 1e-6
+      ),
+      start = Math.min(at + kerf, ...held.filter((b) => b[a0] >= at - 1e-6).map((b) => b[a0]));
     pieces.splice(
       i,
       1,
       ...(across
         ? [
-            { ...r, x1: c.x1 },
-            { ...r, x0: c.x1 }
+            { ...r, x1: at },
+            { ...r, x0: start }
           ]
         : [
-            { ...r, y1: c.y1 },
-            { ...r, y0: c.y1 }
+            { ...r, y1: at },
+            { ...r, y0: start }
           ])
     );
   });
@@ -118,6 +125,27 @@ describe("Ordre des coupes à la scie", () => {
     // puis la chute de droite d'un seul trait, puis deux coupes entre les trois pièces : 6 en tout
     assert.deepEqual([cuts[3].dir, cuts[3].x1, cuts[3].piece.l], ["along", 210, 308]);
     assert.equal(cuts.length, 6);
+  });
+
+  test("épaisseur de lame : le morceau suivant en est diminué, la cote reste au ras de la pièce", () => {
+    // trois pièces de 100 en colonne, espacées de 10 ; lame de 3,2
+    const parts = [0, 1, 2].map((k) => ({ x: 0, y: k * 110, w: 300, h: 100 }));
+    const cuts = computeSawCuts(300, 320, parts, 3.2);
+    assert.deepEqual(
+      cuts.map((c) => [Math.round(c.at * 10) / 10, Math.round(c.piece.l * 10) / 10]),
+      [
+        [100, 320],
+        // second morceau : 320 − 100 − 3,2 = 216,8 ; coupe entre les pièces 2 et 3, à 106,8 de son bord
+        [106.8, 216.8],
+        // puis la bande de 6,8 qui reste avant chacune des deux pièces
+        [6.8, 106.8],
+        [6.8, 106.8]
+      ]
+    );
+    // lame plus épaisse que l'espace : jamais de morceau qui entame une pièce
+    const thick = computeSawCuts(300, 320, parts, 15);
+    assert.ok(thick.every((c) => c.piece.l > 0));
+    assert.equal(thick.filter((c) => c.dir === "across").length, 2);
   });
 
   test("pièce qui remplit le panneau : aucune coupe", () => {

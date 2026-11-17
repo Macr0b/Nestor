@@ -16,7 +16,7 @@ import { isImperial } from "../util/units.js";
 import { showLength } from "./lengths.js";
 import { itemLabel, libraryItem } from "./materials-tab.js";
 import { cutTimeSummary, panelSizeLabel, planSummary } from "./plan-summary.js";
-import { sawCutColumns, sawCutRows } from "./saw-cut-list.js";
+import { sawCutColumns, sawCutRows, sawCutTitle } from "./saw-cut-list.js";
 
 // résolution des pages (points par pouce) : nette à l'impression, fichier raisonnable
 const DPI = 200;
@@ -338,7 +338,7 @@ function sheetPages(sheet, index, count) {
   next = 0;
   while (next < cuts.length) {
     page = newPage(false);
-    top = header(page, detail + " · " + translate("saw.title", { n: cuts.length }));
+    top = header(page, detail + " · " + sawCutTitle(cuts.length));
     next = table(page, columns, cuts, next, top, page.height - 14);
     pages.push(page);
   }

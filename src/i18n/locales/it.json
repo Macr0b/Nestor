@@ -188,7 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
-  "news.190": "Pezzi inseriti a mano (o incollati da un foglio di calcolo), ordine dei tagli con la sega per il metodo Rettangoli, materiali e valori laser tuoi, valori indicativi di Thunder Laser e GWK (compensato, MDF, acrilico, cartone, cuoio…), e niente più linee di sfrido lungo i margini.",
+  "news.190": "Pezzi inseriti a mano (o incollati da un foglio di calcolo), ordine dei tagli con la sega per il metodo Rettangoli (con lo spessore della tua lama), materiali e valori laser tuoi, valori indicativi di Thunder Laser e GWK (compensato, MDF, acrilico, cartone, cuoio…), e niente più linee di sfrido lungo i margini.",
   "news.181": "Sul telefono, i pulsanti Progetti e Impostazioni passano sotto il logo invece di coprirlo.",
   "news.180": "Nuova scheda Laser (le tue macchine, punto di partenza dai libretti Trotec, griglia di prova), PDF da stampare sotto ogni pannello o per tutto il piano, numeri dei pezzi da incidere, progetti salvati (pulsante Progetti) e scorciatoie da tastiera (tasto ?).",
   "news.170": "Nuove schede Costo (costo del piano: materiale, scarto, macchina, per pezzo) e Materiali (libreria dei tuoi pannelli con il prezzo). Il materiale scelto è lo stesso in Nesting, Fresatura e Costo.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "Tabella GWK Laser",
   "lz.thGweike": "Legno tenero e compensato comune, MDF e acrilico da 3 a 10 mm: valori della tabella pubblicata da GWK Laser (Gweike) per i suoi tubi CO2 da 40 a 150 W, al 90 % di potenza. Nestor usa la velocità per un bordo pulito, non la più veloce.",
   "saw.option": "Ordine dei tagli con la sega",
-  "saw.hint": "Tagli numerati sul pannello, con il loro elenco sotto e nel PDF: ogni taglio va da un bordo all’altro del pezzo, la quota si misura dal suo bordo sinistro o superiore.",
+  "saw.hint": "Tagli numerati sul pannello, con il loro elenco sotto e nel PDF: ogni taglio va da un bordo all’altro del pezzo, la quota si misura dal suo bordo sinistro o superiore. La lama toglie il suo spessore dopo ogni taglio; se lasciato vuoto, vale lo spazio tra i pezzi.",
   "saw.title": "Ordine dei tagli ({n})",
   "saw.colNumber": "N.",
   "saw.colCut": "Taglio",
   "saw.colAt": "Quota",
   "saw.colPiece": "Nel pezzo",
   "saw.along": "Per lungo",
-  "saw.across": "Di traverso"
+  "saw.across": "Di traverso",
+  "saw.kerf": "Spessore della lama",
+  "saw.blade": "lama da {k}",
+  "saw.kerfWarn": "Lo spazio tra i pezzi ({g}) è più sottile della lama ({k}): i pezzi perderebbero materiale al taglio.",
+  "saw.gapFromKerf": "Porta lo spazio a {k}"
 }

@@ -188,7 +188,7 @@
   "calc.cancelled": "Skaičiavimas atšauktas.",
   "calc.many": "Reikia išdėstyti {n} detalių: tai gali užtrukti.",
   "news.121": "Kiekiai nebėra apriboti 500, per didelės detalės pažymimos iš karto, o ilgo skaičiavimo metu atsiranda mygtukas Atšaukti.",
-  "news.190": "Detalių įvedimas rankiniu būdu (ar įklijavimas iš skaičiuoklės), pjūvių pjūklu tvarka metodui Stačiakampiai, savos lazerio medžiagos ir vertės, orientacinės Thunder Laser ir GWK vertės (fanera, MDF, akrilas, kartonas, oda…) ir nebėra atraižų linijų palei paraštes.",
+  "news.190": "Detalių įvedimas rankiniu būdu (ar įklijavimas iš skaičiuoklės), pjūvių pjūklu tvarka metodui Stačiakampiai (su tavo pjūklo storiu), savos lazerio medžiagos ir vertės, orientacinės Thunder Laser ir GWK vertės (fanera, MDF, akrilas, kartonas, oda…) ir nebėra atraižų linijų palei paraštes.",
   "news.181": "Telefone mygtukai „Projektai“ ir „Nustatymai“ dabar yra po logotipu, o ne ant jo.",
   "news.180": "Nauja kortelė Lazeris (tavo staklės, pradinės vertės iš Trotec knygų, bandomasis tinklelis), spausdinamas PDF po kiekviena plokšte arba visam planui, graviruojami detalių numeriai, išsaugoti projektai (mygtukas Projektai) ir spartieji klavišai (klavišas ?).",
   "news.170": "Nauja kortelė Kaina (plano savikaina: medžiaga, atliekos, staklės, detalei) ir kortelė Medžiagos (jūsų plokščių biblioteka su kaina). Pasirinkta medžiaga ta pati skiltyse Išdėstymas, Frezavimas ir Kaina.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Laser lentelė",
   "lz.thGweike": "Minkšta mediena ir įprasta fanera, MDF ir akrilas nuo 3 iki 10 mm: vertės iš lentelės, kurią GWK Laser (Gweike) skelbia savo 40–150 W CO2 vamzdžiams esant 90 % galiai. Nestor ima greitį švariam kraštui, o ne didžiausią.",
   "saw.option": "Pjūvių pjūklu tvarka",
-  "saw.hint": "Sunumeruoti pjūviai ant plokštės ir jų sąrašas po ja bei PDF: kiekvienas pjūvis eina nuo vieno gabalo krašto iki kito, matmuo matuojamas nuo jo kairiojo ar viršutinio krašto.",
+  "saw.hint": "Sunumeruoti pjūviai ant plokštės ir jų sąrašas po ja bei PDF: kiekvienas pjūvis eina nuo vieno gabalo krašto iki kito, matmuo matuojamas nuo jo kairiojo ar viršutinio krašto. Pjūklas po kiekvieno pjūvio nuima savo storį; palikus tuščią, jis lygus tarpui tarp detalių.",
   "saw.title": "Pjūvių tvarka ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Pjūvis",
   "saw.colAt": "Matmuo",
   "saw.colPiece": "Gabale",
   "saw.along": "Išilgai",
-  "saw.across": "Skersai"
+  "saw.across": "Skersai",
+  "saw.kerf": "Pjūklo storis",
+  "saw.blade": "pjūklas {k}",
+  "saw.kerfWarn": "Tarpas tarp detalių ({g}) plonesnis už pjūklą ({k}): pjaunant detalės netektų medžiagos.",
+  "saw.gapFromKerf": "Nustatyti tarpą {k}"
 }

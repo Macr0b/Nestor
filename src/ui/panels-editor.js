@@ -1,6 +1,7 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Panneaux (taille, stock, origine), écart, marge, méthode et options. */
 
+import { sawKerf } from "../export/export-files.js";
 import { exportOptions } from "../export/export-options.js";
 import { translate } from "../i18n/i18n.js";
 import { validOrigin } from "../placement/origin.js";
@@ -11,6 +12,7 @@ import { scheduleCalculation } from "./parts-list.js";
 import { drawResult, renderResult } from "./result-view.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber } from "../util/numbers.js";
+import { lengthFieldValue } from "../util/units.js";
 import { lengthInputAttributes, readLengthField, setLengthField, showLength } from "./lengths.js";
 import { loadMillingInput } from "../machining/milling-store.js";
 import { onProjectMaterialChange, setProjectMaterial } from "../library/library-store.js";
@@ -120,6 +122,26 @@ export function renderToolGap() {
   });
 }
 
+/* Épaisseur de lame : champ (vide = espace entre pièces), et alerte si l'espace est plus fin que la lame. */
+function renderSawBlade() {
+  var rect = state.sheet.mode === "rect",
+    field = byId("sawKerf"),
+    gap = Math.max(0, parseNumber(state.sheet.gap, 0)),
+    kerf = sawKerf();
+  byId("sawOrderWrap").hidden = !rect;
+  byId("sawBladeWrap").hidden = !rect || !exportOptions.sawOrder;
+  if (document.activeElement !== field) setLengthField(field, exportOptions.sawKerf);
+  field.placeholder = lengthFieldValue(gap);
+  var tooThin = exportOptions.sawKerf > 0 && kerf > gap + 1e-6;
+  byId("sawKerfWarn").hidden = !tooThin;
+  if (!tooThin) return;
+  byId("sawKerfWarnText").textContent = translate("saw.kerfWarn", {
+    g: showLength(gap, { digits: 2 }),
+    k: showLength(kerf, { digits: 2 })
+  });
+  byId("btnGapFromKerf").textContent = translate("saw.gapFromKerf", { k: showLength(kerf, { digits: 2 }) });
+}
+
 export function renderSheetInputs() {
   fillMaterialSelect(byId("nestMaterial"), "lib.none");
   renderPanels();
@@ -132,7 +154,7 @@ export function renderSheetInputs() {
   byId("dlNumbers").checked = exportOptions.partNumbers;
   byId("cutSel").value = exportOptions.offcutMode;
   byId("sawOrder").checked = exportOptions.sawOrder;
-  byId("sawOrderWrap").hidden = state.sheet.mode !== "rect";
+  renderSawBlade();
 }
 
 export function bindPanelsEditor() {
@@ -195,9 +217,26 @@ export function bindPanelsEditor() {
       var length = readLengthField(e.target);
       if (Number.isNaN(length)) return;
       state.sheet[a[1]] = length;
+      renderSawBlade();
       schedulePreferencesSave();
       scheduleCalculation();
     });
+  });
+  byId("sawKerf").addEventListener("input", function (e) {
+    var length = readLengthField(e.target);
+    if (Number.isNaN(length)) return;
+    exportOptions.sawKerf = length > 0 && length <= 50 ? length : "";
+    renderSawBlade();
+    schedulePreferencesSave();
+    if (session.lastResult) drawResult(session.lastResult);
+  });
+  // espace entre pièces mis à l'épaisseur de la lame : les pièces gardent leurs cotes
+  byId("btnGapFromKerf").addEventListener("click", function () {
+    state.sheet.gap = sawKerf();
+    setLengthField(byId("sG"), state.sheet.gap);
+    renderSawBlade();
+    schedulePreferencesSave();
+    scheduleCalculation();
   });
   // matière de la bibliothèque : partagée avec Fraisage et Coût, et sa taille remplit le premier panneau
   byId("nestMaterial").addEventListener("change", function () {
@@ -223,6 +262,7 @@ export function bindPanelsEditor() {
     if (!tool) return;
     state.sheet.gap = Math.round(tool.gap * 1000) / 1000;
     setLengthField(byId("sG"), state.sheet.gap);
+    renderSawBlade();
     schedulePreferencesSave();
     scheduleCalculation();
   });
@@ -232,7 +272,7 @@ export function bindPanelsEditor() {
   });
   byId("sMode").addEventListener("change", function (e) {
     state.sheet.mode = e.target.value;
-    byId("sawOrderWrap").hidden = state.sheet.mode !== "rect";
+    renderSawBlade();
     schedulePreferencesSave();
     renderResult();
   });
@@ -247,6 +287,7 @@ export function bindPanelsEditor() {
   });
   byId("sawOrder").addEventListener("change", function (e) {
     exportOptions.sawOrder = e.target.checked;
+    renderSawBlade();
     schedulePreferencesSave();
     if (session.lastResult) drawResult(session.lastResult);
   });

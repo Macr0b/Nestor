@@ -56,16 +56,15 @@ export function sheetOffcutCuts(resultSheet) {
   );
 }
 
+/* Épaisseur de lame pour l'ordre des coupes : celle saisie, sinon l'espace entre pièces. */
+export function sawKerf() {
+  return exportOptions.sawKerf > 0 ? exportOptions.sawKerf : Math.max(0, parseNumber(state.sheet.gap, 0));
+}
+
 /* Ordre des coupes à la scie (option, méthode Rectangles seulement) : coupes numérotées dans l'ordre. */
 export function sheetSawCuts(resultSheet) {
   if (!exportOptions.sawOrder || state.sheet.mode !== "rect" || !resultSheet.parts.length) return [];
-  return computeSawCuts(
-    resultSheet.L,
-    resultSheet.W,
-    resultSheet.parts,
-    parseNumber(state.sheet.gap, 0),
-    parseNumber(state.sheet.margin, 0)
-  );
+  return computeSawCuts(resultSheet.L, resultSheet.W, resultSheet.parts, sawKerf(), parseNumber(state.sheet.margin, 0));
 }
 
 export function exportPaths(sheet) {

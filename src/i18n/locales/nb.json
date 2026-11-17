@@ -188,7 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
-  "news.190": "Deler skrevet inn for hånd (eller limt inn fra et regneark), rekkefølge for sagsnitt med metoden Rektangler, egne lasermaterialer og -verdier, veiledende verdier fra Thunder Laser og GWK (kryssfiner, MDF, akryl, kartong, lær …), og ingen flere restlinjer langs margene.",
+  "news.190": "Deler skrevet inn for hånd (eller limt inn fra et regneark), rekkefølge for sagsnitt med metoden Rektangler (med tykkelsen på sagbladet ditt), egne lasermaterialer og -verdier, veiledende verdier fra Thunder Laser og GWK (kryssfiner, MDF, akryl, kartong, lær …), og ingen flere restlinjer langs margene.",
   "news.181": "På telefonen står knappene Prosjekter og Innstillinger nå under logoen i stedet for å dekke den.",
   "news.180": "Ny fane Laser (maskinene dine, utgangspunkt fra Trotecs bøker, testrutenett), PDF for utskrift under hver plate eller for hele planen, delnumre til gravering, lagrede prosjekter (knappen Prosjekter) og hurtigtaster (tasten ?).",
   "news.170": "Ny fane Kostnad (planens selvkost: materiale, svinn, maskin, per del) og fane Materialer (bibliotek med platene dine og prisen deres). Det valgte materialet er det samme i Plassering, Fresing og Kostnad.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Lasers tabell",
   "lz.thGweike": "Mykt tre og vanlig kryssfiner, MDF og akryl fra 3 til 10 mm: verdier fra tabellen GWK Laser (Gweike) publiserer for sine CO2-rør på 40 til 150 W ved 90 % effekt. Nestor bruker hastigheten for en ren kant, ikke den raskeste.",
   "saw.option": "Rekkefølge for sagsnitt",
-  "saw.hint": "Nummererte snitt på platen, med listen under og i PDF-en: hvert snitt går fra den ene kanten av stykket til den andre, målt fra venstre eller øvre kant.",
+  "saw.hint": "Nummererte snitt på platen, med listen under og i PDF-en: hvert snitt går fra den ene kanten av stykket til den andre, målt fra venstre eller øvre kant. Sagbladet fjerner sin tykkelse etter hvert snitt; står feltet tomt, er den lik avstanden mellom delene.",
   "saw.title": "Rekkefølge for snitt ({n})",
   "saw.colNumber": "Nr.",
   "saw.colCut": "Snitt",
   "saw.colAt": "Mål",
   "saw.colPiece": "I stykket",
   "saw.along": "På langs",
-  "saw.across": "På tvers"
+  "saw.across": "På tvers",
+  "saw.kerf": "Sagbladtykkelse",
+  "saw.blade": "sagblad på {k}",
+  "saw.kerfWarn": "Avstanden mellom delene ({g}) er tynnere enn sagbladet ({k}): delene ville miste materiale i snittet.",
+  "saw.gapFromKerf": "Sett avstanden til {k}"
 }

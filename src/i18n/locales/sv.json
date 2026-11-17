@@ -188,7 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
-  "news.190": "Delar inmatade för hand (eller inklistrade från ett kalkylblad), sågordning för metoden Rektanglar, egna lasermaterial och -värden, riktvärden från Thunder Laser och GWK (plywood, MDF, akryl, kartong, läder …), och inga fler spillinjer längs marginalerna.",
+  "news.190": "Delar inmatade för hand (eller inklistrade från ett kalkylblad), sågordning för metoden Rektanglar (med din klingas tjocklek), egna lasermaterial och -värden, riktvärden från Thunder Laser och GWK (plywood, MDF, akryl, kartong, läder …), och inga fler spillinjer längs marginalerna.",
   "news.181": "På telefonen ligger knapparna Projekt och Inställningar nu under logotypen i stället för att täcka den.",
   "news.180": "Ny flik Laser (dina maskiner, utgångsvärden från Trotecs böcker, testrutnät), utskrivbar PDF under varje skiva eller för hela planen, delnummer att gravera, sparade projekt (knappen Projekt) och kortkommandon (tangenten ?).",
   "news.170": "Ny flik Kostnad (planens självkostnad: material, spill, maskin, per del) och flik Material (bibliotek med dina skivor och deras pris). Det valda materialet är detsamma i Utplacering, Fräsning och Kostnad.",
@@ -618,12 +618,16 @@
   "lz.thGweikeTitle": "GWK Lasers tabell",
   "lz.thGweike": "Mjukt trä och vanlig plywood, MDF och akryl från 3 till 10 mm: värden från tabellen som GWK Laser (Gweike) publicerar för sina CO2-rör på 40 till 150 W vid 90 % effekt. Nestor använder hastigheten för en ren kant, inte den snabbaste.",
   "saw.option": "Sågordning",
-  "saw.hint": "Numrerade snitt på skivan, med listan under och i PDF:en: varje snitt går från en kant av stycket till den andra, måttet tas från dess vänstra eller övre kant.",
+  "saw.hint": "Numrerade snitt på skivan, med listan under och i PDF:en: varje snitt går från en kant av stycket till den andra, måttet tas från dess vänstra eller övre kant. Klingan tar bort sin tjocklek efter varje snitt; lämnas fältet tomt är den lika med avståndet mellan delarna.",
   "saw.title": "Sågordning ({n})",
   "saw.colNumber": "Nr",
   "saw.colCut": "Snitt",
   "saw.colAt": "Mått",
   "saw.colPiece": "I stycket",
   "saw.along": "På längden",
-  "saw.across": "På tvären"
+  "saw.across": "På tvären",
+  "saw.kerf": "Sågklingans tjocklek",
+  "saw.blade": "klinga på {k}",
+  "saw.kerfWarn": "Avståndet mellan delarna ({g}) är tunnare än klingan ({k}): delarna skulle förlora material vid sågningen.",
+  "saw.gapFromKerf": "Sätt avståndet till {k}"
 }
