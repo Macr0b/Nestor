@@ -2,6 +2,8 @@
 /* Dessin des panneaux et des pièces à l'écran (SVG), et vignettes des pièces. */
 
 import { sheetOffcutCuts } from "../export/export-files.js";
+import { partNumberSpot, partNumberText } from "../export/part-numbers.js";
+import { labelHeight } from "../geometry/label-spot.js";
 import { translate } from "../i18n/i18n.js";
 import { showLength } from "./lengths.js";
 import { originPoint, sheetPartPaths } from "../placement/origin.js";
@@ -140,18 +142,25 @@ export function renderSheetSvg(resultSheet) {
     );
     var od = pathData(pp, false);
     if (od) svg.push('<path class="svg-open" stroke-width="' + strokeWidth + '" d="' + od + '"/>');
-    var fs = Math.min(Math.min(p.w, p.h) * 0.4, Math.max(panelWidth, panelHeight) * 0.03);
+    // numéro au même endroit que le numéro gravé : dans la matière, loin des traits (hors des trous et des creux)
+    var spot = partNumberSpot(p, resultSheet),
+      maxSize = Math.max(panelWidth, panelHeight) * 0.03,
+      fs = spot
+        ? Math.min(labelHeight(partNumberText(p), spot.radius, 0, Infinity) * 1.3, maxSize)
+        : Math.min(Math.min(p.w, p.h) * 0.4, maxSize),
+      nx = spot ? spot.x : p.x + p.w / 2,
+      ny = spot ? spot.y : p.y + p.h / 2;
     svg.push(
       '<text class="svg-num" x="' +
-        (p.x + p.w / 2) +
+        nx +
         '" y="' +
-        (p.y + p.h / 2 + fs * 0.35) +
+        (ny + fs * 0.35) +
         '" text-anchor="middle" font-size="' +
         fs +
         '" stroke-width="' +
         fs * 0.15 +
         '">' +
-        (p.i + 1) +
+        partNumberText(p) +
         "</text>"
     );
   });

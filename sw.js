@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.7.0";
+const VERSION = "1.8.0";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -8,6 +8,9 @@ const FILES = [
   "css/app.css",
   "css/blueprint.css",
   "css/cost.css",
+  "css/laser.css",
+  "css/projects.css",
+  "css/shortcuts.css",
   "css/fonts.css",
   "css/milling.css",
   "css/notebook.css",
@@ -59,6 +62,24 @@ const FILES = [
   "src/ui/lengths.js",
   "src/ui/materials-tab.js",
   "src/ui/milling-tab.js",
+  "src/ui/laser-tab.js",
+  "src/ui/value-box.js",
+  "src/laser/laser-settings.js",
+  "src/laser/laser-store.js",
+  "src/laser/test-grid.js",
+  "src/laser/trotec-books.js",
+  "src/text/stroke-font.js",
+  "src/geometry/label-spot.js",
+  "src/export/part-numbers.js",
+  "src/export/svg-writer.js",
+  "src/export/pdf-writer.js",
+  "src/ui/print-pages.js",
+  "src/ui/plan-summary.js",
+  "src/ui/projects-dialog.js",
+  "src/ui/shortcuts.js",
+  "src/ui/shortcut-keys.js",
+  "src/project/project-snapshot.js",
+  "src/project/projects-store.js",
   "src/ui/notebook-tab.js",
   "src/ui/panels-editor.js",
   "src/ui/parts-list.js",

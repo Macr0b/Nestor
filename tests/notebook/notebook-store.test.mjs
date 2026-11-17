@@ -5,6 +5,7 @@ import {
   cleanEntry,
   cleanEntries,
   filterEntries,
+  entryMachines,
   exportNotebook,
   importNotebook,
   MAX_IMPORT_BYTES
@@ -114,5 +115,38 @@ describe("Carnet de réglages", () => {
     assert.throws(() => importNotebook([], JSON.stringify({ entries: [mill] })), /pas un carnet/);
     assert.throws(() => importNotebook([], "{ pas du json"));
     assert.throws(() => importNotebook([], " ".repeat(MAX_IMPORT_BYTES + 1)), /trop gros/);
+  });
+});
+
+describe("filtre par machine", () => {
+  const list = cleanEntries([
+    { id: "a", process: "laser", machine: "Speedy 360 — 60 W", material: "Chêne" },
+    { id: "b", process: "laser", machine: "Speedy 400 — 120 W", material: "Chêne" },
+    { id: "c", process: "mill", machine: "", material: "MDF" }
+  ]);
+  test("seulement les fiches de la machine choisie", () => {
+    assert.deepEqual(
+      filterEntries(list, "", "", null, "Speedy 360 — 60 W").map((e) => e.id),
+      ["a"]
+    );
+    assert.equal(filterEntries(list, "chene", "laser", null, "").length, 2);
+  });
+  test("machines nommées, sans doublon ni nom vide", () => {
+    assert.deepEqual(entryMachines(list), ["Speedy 360 — 60 W", "Speedy 400 — 120 W"]);
+  });
+});
+
+describe("unité de vitesse laser", () => {
+  test("% par défaut, mm/s gardé, valeur inconnue remise en %", () => {
+    const [a, b, c] = cleanEntries([
+      { id: "a", process: "laser", values: { speed: 1 } },
+      { id: "b", process: "laser", values: { speed: 20, speedUnit: "mmps" } },
+      { id: "c", process: "laser", values: { speed: 20, speedUnit: "km/h" } }
+    ]);
+    assert.deepEqual([a.values.speedUnit, b.values.speedUnit, c.values.speedUnit].sort(), [
+      "mmps",
+      "percent",
+      "percent"
+    ]);
   });
 });

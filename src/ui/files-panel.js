@@ -13,6 +13,13 @@ import { byId, escapeHtml } from "../util/dom.js";
 
 let nextFileId = 0;
 
+/* Projet ouvert : les prochains fichiers importés prennent un numéro libre. */
+export function syncFileIds() {
+  nextFileId = (state.files || []).reduce(function (max, f) {
+    return Math.max(max, f.id || 0);
+  }, 0);
+}
+
 export let fileErrors = [];
 
 function sourceFileNames() {

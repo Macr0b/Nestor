@@ -1,9 +1,10 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Préparation des fichiers exportés (pièces, contour du panneau, traits de coupe) et enregistrement sur
+/* Préparation des fichiers exportés (pièces, contour du panneau, traits de coupe, numéros) et enregistrement sur
    l'appareil. */
 
 import { exportOptions } from "./export-options.js";
 import { computeOffcutCuts } from "./offcuts.js";
+import { partNumberPaths } from "./part-numbers.js";
 import { translate } from "../i18n/i18n.js";
 import { sheetPartPaths } from "../placement/origin.js";
 import { state } from "../project/state.js";
@@ -69,6 +70,11 @@ export function exportPaths(sheet) {
   sheet.parts.forEach(function (p) {
     polys = polys.concat(sheetPartPaths(p, sheet));
   });
+  // numéros à graver : après les pièces, sur leur propre calque
+  if (exportOptions.partNumbers)
+    sheet.parts.forEach(function (p) {
+      polys = polys.concat(partNumberPaths(p, sheet));
+    });
   return polys;
 }
 
@@ -99,13 +105,16 @@ export function saveFile(filename, blob) {
   return Promise.resolve("saved");
 }
 
-export function fileSlug(text) {
+// nom de fichier sans accents ni espaces ; fallback quand rien ne reste (écriture non latine)
+export function fileSlug(text, fallback) {
   return (
     (text || "")
       .normalize("NFD")
       .replace(/[̀-ͯ]/g, "")
       .replace(/[^a-zA-Z0-9]+/g, "-")
       .replace(/^-|-$/g, "")
-      .toLowerCase() || "plan"
+      .toLowerCase() ||
+    fallback ||
+    "plan"
   );
 }

@@ -1,0 +1,229 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Projet enregistré : tout ce qu'il faut pour le rouvrir à l'identique (fichiers importés, pièces et réglages
+   de chaque pièce, panneaux, options d'export, matière, réglages de fraisage, de laser et de coût).
+   Écrit en JSON (les fichiers en base64) ; relu champ par champ : un fichier abîmé ou trafiqué ne peut ni
+   planter l'appli ni glisser autre chose que du texte et des nombres. */
+
+export const PROJECT_FORMAT = { app: "Nestor", kind: "projet", version: 1 };
+export const MAX_PROJECT_BYTES = 80 * 1024 * 1024;
+const MAX_FILES = 50;
+const MAX_TYPES = 5000;
+const MAX_PATHS = 50000;
+const MAX_POINTS = 4000000;
+const MAX_PANELS = 50;
+const TEXT = 200;
+const EXAMPLE_KEYS = ["ex.facade", "ex.angle", "ex.disc", "ex.tab"];
+const ORIGINS = ["tl", "tc", "tr", "ml", "mc", "mr", "bl", "bc", "br"];
+
+/* ---- base64 (fichiers importés) ---- */
+
+export function bytesToBase64(bytes) {
+  var parts = [];
+  for (var i = 0; i < bytes.length; i += 0x8000)
+    parts.push(String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)));
+  return btoa(parts.join(""));
+}
+
+export function base64ToBytes(text) {
+  var binary = atob(text),
+    out = new Uint8Array(binary.length);
+  for (var i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i);
+  return out;
+}
+
+/* ---- petites vérifications ---- */
+
+function str(value, limit) {
+  return typeof value === "string" ? value.slice(0, limit || TEXT) : "";
+}
+
+function num(value, fallback, min, max) {
+  return typeof value === "number" &&
+    isFinite(value) &&
+    value >= (min == null ? -Infinity : min) &&
+    value <= (max == null ? Infinity : max)
+    ? value
+    : fallback;
+}
+
+function list(value, limit) {
+  return Array.isArray(value) ? value.slice(0, limit) : [];
+}
+
+function plainObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value) ? value : null;
+}
+
+// objet de réglages d'un autre onglet : seulement des textes, nombres, booléens et un niveau d'objets simples,
+// vérifié ensuite par le module de l'onglet
+function settingsObject(value, depth) {
+  var source = plainObject(value);
+  if (!source) return null;
+  var out = {};
+  Object.keys(source)
+    .slice(0, 100)
+    .forEach(function (key) {
+      if (!/^[\w.-]{1,40}$/.test(key)) return;
+      var v = source[key];
+      if (typeof v === "string") out[key] = v.slice(0, TEXT);
+      else if (typeof v === "boolean" || v === null) out[key] = v;
+      else if (typeof v === "number" && isFinite(v)) out[key] = v;
+      else if (!depth && plainObject(v)) out[key] = settingsObject(v, 1);
+    });
+  return out;
+}
+
+/* ---- pièces ---- */
+
+function cleanPoint(p) {
+  return Array.isArray(p) && typeof p[0] === "number" && typeof p[1] === "number" && isFinite(p[0]) && isFinite(p[1])
+    ? [p[0], p[1]]
+    : null;
+}
+
+function cleanType(raw, budget) {
+  var t = plainObject(raw);
+  if (!t) return null;
+  var paths = [];
+  list(t.paths, MAX_PATHS).forEach(function (p) {
+    if (!plainObject(p) || budget.points <= 0) return;
+    var pts = list(p.pts, budget.points).map(cleanPoint).filter(Boolean);
+    budget.points -= pts.length;
+    if (pts.length < 2) return;
+    paths.push({
+      pts: pts,
+      closed: p.closed === true,
+      layer: str(p.layer),
+      color: /^#[0-9a-f]{3,8}$/i.test(p.color) ? p.color : ""
+    });
+  });
+  if (!paths.length) return null;
+  var type = {
+    name: str(t.name),
+    layer: str(t.layer),
+    ord: num(t.ord, 0, 0),
+    qty: Math.floor(num(t.qty, 1, 0, 100000)),
+    rot: t.rot === "free" ? "free" : t.rot === true,
+    w: num(t.w, 0, 0),
+    h: num(t.h, 0, 0),
+    paths: paths
+  };
+  if (typeof t.fid === "number" && isFinite(t.fid)) type.fid = Math.floor(t.fid);
+  if (t.copy === true) type.copy = true;
+  if (t.on === false) type.on = false;
+  if (typeof t.scale === "number" || (typeof t.scale === "string" && t.scale.length <= 20)) type.scale = t.scale;
+  if (EXAMPLE_KEYS.includes(t.nameKey)) type.nameKey = t.nameKey;
+  return type;
+}
+
+function cleanPanel(raw) {
+  var p = plainObject(raw);
+  if (!p) return null;
+  var panel = {
+    L: num(p.L, 600, 0),
+    W: num(p.W, 400, 0),
+    qty: p.qty === "" || p.qty == null ? "" : Math.floor(num(p.qty, 0, 0, 100000))
+  };
+  if (ORIGINS.includes(p.origin)) panel.origin = p.origin;
+  return panel;
+}
+
+/* Projet relu et vérifié. Lève une erreur si ce n'est pas un projet Nestor. */
+export function cleanSnapshot(raw) {
+  var s = plainObject(raw);
+  if (!s || s.app !== PROJECT_FORMAT.app || s.kind !== PROJECT_FORMAT.kind) throw new Error("pas un projet Nestor");
+  var budget = { points: MAX_POINTS },
+    sheet = plainObject(s.sheet) || {},
+    exportOptions = plainObject(s.exportOptions) || {};
+  var panels = list(sheet.panels, MAX_PANELS).map(cleanPanel).filter(Boolean);
+  var files = list(s.files, MAX_FILES)
+    .map(function (f) {
+      f = plainObject(f);
+      if (!f || typeof f.data !== "string" || !/^[A-Za-z0-9+/]*={0,2}$/.test(f.data)) return null;
+      return { id: Math.floor(num(f.id, 0, 0)), name: str(f.name), data: f.data, info: settingsObject(f.info) };
+    })
+    .filter(Boolean);
+  return {
+    app: PROJECT_FORMAT.app,
+    kind: PROJECT_FORMAT.kind,
+    version: PROJECT_FORMAT.version,
+    name: str(s.name),
+    example: s.example === true,
+    source: str(s.source, 2000),
+    info: settingsObject(s.info),
+    files: files,
+    sheet: {
+      panels: panels.length ? panels : [{ L: 600, W: 400, qty: "" }],
+      gap: num(sheet.gap, 2, 0, 1000),
+      margin: num(sheet.margin, 5, 0, 1000),
+      mode: sheet.mode === "rect" ? "rect" : "nest"
+    },
+    types: list(s.types, MAX_TYPES)
+      .map(function (t) {
+        return cleanType(t, budget);
+      })
+      .filter(Boolean),
+    rotAll: ["fix", "quarter", "free"].includes(s.rotAll) ? s.rotAll : "quarter",
+    sort: ["file", "name", "layer", "src"].includes(s.sort) ? s.sort : "file",
+    exportOptions: {
+      includeBoard: exportOptions.includeBoard === true,
+      offcutMode:
+        exportOptions.offcutMode === "simple" || exportOptions.offcutMode === "detail" ? exportOptions.offcutMode : "",
+      partNumbers: exportOptions.partNumbers === true
+    },
+    material: typeof s.material === "string" && /^[\w-]{0,40}$/.test(s.material) ? s.material : "",
+    milling: settingsObject(s.milling),
+    laser: settingsObject(s.laser),
+    cost: settingsObject(s.cost)
+  };
+}
+
+/* Photo du projet en cours. project : l'état (pièces, panneaux…) ; extras : réglages des autres onglets. */
+export function takeSnapshot(project, extras) {
+  return cleanSnapshot({
+    app: PROJECT_FORMAT.app,
+    kind: PROJECT_FORMAT.kind,
+    version: PROJECT_FORMAT.version,
+    name: project.name,
+    example: project.example,
+    source: project.source,
+    info: project.info,
+    files: (project.files || []).map(function (f) {
+      return {
+        id: f.id,
+        name: f.name,
+        data: bytesToBase64(new Uint8Array(f.data)),
+        info: f.info
+      };
+    }),
+    sheet: project.sheet,
+    types: project.types,
+    rotAll: project.rotAll,
+    sort: project.sort,
+    exportOptions: extras.exportOptions,
+    material: extras.material,
+    milling: extras.milling,
+    laser: extras.laser,
+    cost: extras.cost
+  });
+}
+
+/* Résumé affiché dans la liste des projets. */
+export function snapshotSummary(snapshot) {
+  return {
+    parts: snapshot.types.reduce(function (a, t) {
+      return a + (t.on === false ? 0 : t.qty);
+    }, 0),
+    panels: snapshot.sheet.panels.length
+  };
+}
+
+/* Fichier de projet à partager (JSON). */
+export function exportProject(snapshot) {
+  return JSON.stringify(snapshot);
+}
+
+export function importProject(fileText) {
+  if (typeof fileText !== "string" || fileText.length > MAX_PROJECT_BYTES) throw new Error("trop gros");
+  return cleanSnapshot(JSON.parse(fileText));
+}

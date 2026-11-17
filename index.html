@@ -27,6 +27,9 @@
 <link rel="stylesheet" href="css/milling.css">
 <link rel="stylesheet" href="css/notebook.css">
 <link rel="stylesheet" href="css/cost.css">
+<link rel="stylesheet" href="css/laser.css">
+<link rel="stylesheet" href="css/projects.css">
+<link rel="stylesheet" href="css/shortcuts.css">
 </head>
 <body>
 <div class="bp-ruler-top" aria-hidden="true"><svg id="bpTop"></svg></div>
@@ -64,6 +67,10 @@
 </svg>
 <span class="sr-only" data-i18n="app.title">Nestor</span></h1>
     <div class="topr">
+      <button class="btn proj-btn" id="btnProjects" type="button" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span data-i18n="proj.title">Projets</span>
+      </button>
       <button class="icon-btn" id="btnSettings" type="button" data-i18n-aria="set.title" aria-label="Réglages">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button>
@@ -73,6 +80,7 @@
   <nav class="tabs" role="tablist" data-i18n-aria="tab.label" aria-label="Outils de Nestor">
     <button type="button" role="tab" id="tabNest" aria-controls="pageNest" aria-selected="true" data-i18n="tab.nest">Imbrication</button>
     <button type="button" role="tab" id="tabMill" aria-controls="pageMill" aria-selected="false" tabindex="-1" data-i18n="tab.mill">Fraisage</button>
+    <button type="button" role="tab" id="tabLaser" aria-controls="pageLaser" aria-selected="false" tabindex="-1" data-i18n="nb.laser">Laser</button>
     <button type="button" role="tab" id="tabNotebook" aria-controls="pageNotebook" aria-selected="false" tabindex="-1" data-i18n="tab.notebook">Carnet</button>
     <button type="button" role="tab" id="tabCost" aria-controls="pageCost" aria-selected="false" tabindex="-1" data-i18n="tab.cost">Coût</button>
     <button type="button" role="tab" id="tabMaterials" aria-controls="pageMaterials" aria-selected="false" tabindex="-1" data-i18n="tab.materials">Matières</button>
@@ -138,6 +146,8 @@
         </label>
         <p class="hint" data-i18n="cuts.hint">Traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l’espace entre pièces.</p>
         <label class="dlopt"><input type="checkbox" id="dlBoard"> <span data-i18n="dl.board">Inclure le contour du panneau dans les exports</span></label>
+        <label class="dlopt"><input type="checkbox" id="dlNumbers"> <span data-i18n="dl.numbers">Graver le numéro des pièces</span></label>
+        <p class="hint" data-i18n="dl.numbersHint">Calque « Numéros » à part, en trait simple, placé dans la matière de chaque pièce. Règle ce calque en gravure dans ton logiciel de découpe.</p>
 
         <p class="hint" id="calcMsg"></p>
       </section>
@@ -212,11 +222,75 @@
       <p class="hint"><span data-i18n="mill.thMetric">Calculs faits en millimètres, convertis à l’affichage.</span> <span data-i18n="mill.thSources"></span></p>
     </section>
   </div>
+  <div class="mill-page lz-page" id="pageLaser" role="tabpanel" aria-labelledby="tabLaser" hidden>
+    <section class="box mill-form" aria-labelledby="h-laser">
+      <h2 id="h-laser" data-i18n="lz.title">Paramètres laser</h2>
+      <div class="mill-grp">
+        <h3 data-i18n="lz.machines">Mes machines</h3>
+        <div class="lz-machine-row">
+          <label class="f"><span data-i18n="lz.machine">Machine</span><select id="lzMachine"></select></label>
+          <button type="button" class="btn sm" id="lzAdd" data-i18n="lz.add">＋ Ajouter</button>
+          <button type="button" class="btn sm" id="lzEdit" data-i18n="lz.edit">Modifier</button>
+          <button type="button" class="btn sm" id="lzDelete" data-i18n="lz.delete">Supprimer</button>
+        </div>
+        <form class="lz-form" id="lzForm" hidden>
+          <label class="f"><span data-i18n="lib.name">Nom</span><input type="text" id="lzName" maxlength="60" placeholder="Speedy 360"></label>
+          <label class="f"><span data-i18n="lz.kind">Type de laser</span><select id="lzKind">
+            <option value="co2" data-i18n="lz.kind.co2">CO2</option>
+            <option value="diode" data-i18n="lz.kind.diode">Diode</option>
+            <option value="fiber" data-i18n="lz.kind.fiber">Fibre</option>
+          </select></label>
+          <label class="f"><span data-i18n="lz.watts">Puissance (W)</span><input type="number" id="lzWatts" inputmode="decimal" min="1" step="any" required></label>
+          <label class="dlopt"><input type="checkbox" id="lzTrotec"> <span data-i18n="lz.trotec">Trotec (vitesse réglée en %)</span></label>
+          <div class="lz-form-buttons"><button type="submit" class="btn" data-i18n="lz.save">Enregistrer</button><button type="button" class="btn sm" id="lzCancel" data-i18n="nb.cancel">Annuler</button></div>
+        </form>
+        <p class="hint" id="lzMachineMsg" aria-live="polite"></p>
+      </div>
+      <div class="mill-grp">
+        <h3 data-i18n="mill.material">Matière</h3>
+        <div class="g4">
+          <label class="f"><span data-i18n="mill.material">Matière</span><select id="lzMaterial"></select></label>
+          <label class="f"><span data-i18n="nb.operation">Opération</span><select id="lzOp">
+            <option value="cut" data-i18n="nb.opCut">Découpe</option>
+            <option value="engrave" data-i18n="nb.opEngrave">Gravure</option>
+            <option value="engraveDark" data-i18n="lz.opDark">Gravure foncée</option>
+          </select></label>
+          <label class="f" id="lzThicknessField"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="lzThickness" inputmode="decimal" min="0" step="any"></label>
+        </div>
+        <p class="hint" id="lzThicknessHint"></p>
+      </div>
+    </section>
+    <section class="box mill-results" aria-labelledby="h-lzRes" aria-live="polite">
+      <h2 id="h-lzRes" data-i18n="lz.results">Point de départ</h2>
+      <div class="mill-values" id="lzValues"></div>
+      <p class="hint" id="lzSource"></p>
+      <div class="nb-from"><button type="button" class="btn" id="btnKeepLaser" data-i18n="nb.keep">＋ Garder dans le carnet</button><span class="hint" data-i18n="nb.keepHint">Tu pourras corriger les valeurs vraiment utilisées et ajouter une note.</span></div>
+      <div class="lz-grid">
+        <h3 data-i18n="lz.grid">Grille de test</h3>
+        <p class="hint" data-i18n="lz.gridHint">16 carrés : 4 puissances × 4 vitesses autour du point de départ, une couleur par carré. Donne à chaque couleur la puissance et la vitesse écrites à côté, lance la grille sur une chute et garde le meilleur carré.</p>
+        <div class="dl"><button type="button" class="btn sm" data-grid="svg" data-i18n="dl.svg">SVG</button><button type="button" class="btn sm" data-grid="dxf" data-i18n="dl.dxf">DXF</button><span class="hint" id="lzGridMsg"></span></div>
+      </div>
+      <p class="hint" data-i18n="lz.prudent">Valeurs de départ à tester sur une chute. Ne laisse jamais un laser sans surveillance.</p>
+    </section>
+    <section class="box mill-theory" aria-labelledby="h-lzTheory">
+      <h2 id="h-lzTheory" data-i18n="mill.theory">Comprendre le calcul</h2>
+      <div class="mill-theory-items">
+        <div><h3 data-i18n="lz.thSourceTitle">Livrets Trotec</h3><p data-i18n="lz.thSource"></p></div>
+        <div><h3 data-i18n="lz.thEnergyTitle">Énergie par millimètre (E)</h3><code class="formula">E = P × p ÷ v</code><p data-i18n="lz.thEnergy"></p></div>
+        <div><h3 data-i18n="lz.thPowerTitle">Autre puissance</h3><code class="formula">v = P × p ÷ E</code><p data-i18n="lz.thPower"></p></div>
+        <div><h3 data-i18n="lz.thThicknessTitle">Autre épaisseur</h3><code class="formula">v₂ = v₁ × e₁ ÷ e₂</code><p data-i18n="lz.thThickness"></p></div>
+        <div><h3 data-i18n="lz.thSpeedTitle">Vitesse en % ou en mm/s</h3><code class="formula">100 % = 3550 mm/s</code><p data-i18n="lz.thSpeed"></p></div>
+        <div><h3 data-i18n="lz.thOtherTitle">Diode et fibre</h3><p data-i18n="lz.thOther"></p></div>
+      </div>
+      <p class="hint lz-links"><a href="https://www.troteclaser.com/laser-parameter-files/Speedy400-60W-TroLase.pdf" target="_blank" rel="noopener">Trotec 60 W</a> · <a href="https://www.troteclaser.com/laser-parameter-files/Speedy360-80W-TroLase.pdf" target="_blank" rel="noopener">Trotec 80 W</a> · <a href="https://www.troteclaser.com/laser-parameter-files/Speedy360-120W-TroLase.pdf" target="_blank" rel="noopener">Trotec 120 W</a></p>
+    </section>
+  </div>
   <div class="nb-page" id="pageNotebook" role="tabpanel" aria-labelledby="tabNotebook" hidden>
     <section class="box nb-listbox" aria-labelledby="h-nb">
       <h2 id="h-nb" data-i18n="nb.title">Carnet de réglages</h2>
       <div class="nb-top">
         <label class="f nb-search"><span data-i18n="nb.search">Rechercher</span><input type="search" id="nbSearch" data-i18n-ph="nb.searchPh" placeholder="matière, machine, note…"></label>
+        <label class="f nb-machine"><span data-i18n="lz.machine">Machine</span><select id="nbMachineFilter"></select></label>
         <div class="nb-chips" id="nbFilter" role="group" data-i18n-aria="nb.filter" aria-label="Procédé">
           <button type="button" data-process="" aria-pressed="true" data-i18n="nb.all">Tout</button>
           <button type="button" data-process="mill" aria-pressed="false" data-i18n="nb.mill">Fraisage</button>
@@ -263,7 +337,7 @@
             <option value="mark" data-i18n="nb.opMark">Marquage</option>
           </select></label>
           <label class="f"><span data-i18n="nb.optics">Optique, accessoire</span><input type="text" id="nbOptics" maxlength="120"></label>
-          <label class="f"><span data-i18n="nb.speed">Vitesse (%)</span><input id="nbSpeed" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="f"><span data-i18n="nb.speedShort">Vitesse</span><span class="unit-pair"><input id="nbSpeed" type="number" inputmode="decimal" min="0" step="any"><select id="nbSpeedUnit" aria-label="Unité de la vitesse" data-i18n-aria="nb.speedUnit"><option value="percent">%</option><option value="mmps">mm/s</option></select></span></label>
           <label class="f"><span data-i18n="nb.power">Puissance (%)</span><input id="nbPower" type="number" inputmode="decimal" min="0" step="any"></label>
           <label class="f"><span data-i18n="nb.frequency">Fréquence (Hz) ou PPI</span><input id="nbFrequency" type="number" inputmode="numeric" min="0" step="any"></label>
           <label class="f"><span data-i18n="mill.passes">Nombre de passes</span><input id="nbLaserPasses" type="number" inputmode="numeric" min="0" step="1"></label>
@@ -391,6 +465,31 @@
   <div><small data-i18n="cart.scale">Éch.</small>1:1</div>
   <div><small data-i18n="cart.rev">Rév.</small><span id="cartVer"></span></div>
 </footer>
+<div class="overlay" id="projects" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="proj-h">
+    <header><h2 id="proj-h" data-i18n="proj.title">Projets</h2><button class="btn sm" id="btnCloseProj" type="button" data-i18n="set.close">Fermer</button></header>
+    <div class="grp">
+      <p class="proj-current"><span data-i18n="proj.current">Projet en cours</span> <b id="projCurrent"></b></p>
+      <div class="row"><button class="btn primary" id="projSave" type="button" data-i18n="proj.save">Enregistrer</button><button class="btn" id="projSaveCopy" type="button" data-i18n="proj.saveCopy">Enregistrer une copie</button><button class="btn" id="projNew" type="button" data-i18n="proj.new">Nouveau projet</button></div>
+      <div class="row"><button class="btn sm" id="projExport" type="button" data-i18n="proj.export">Exporter le fichier</button><button class="btn sm" id="projImport" type="button" data-i18n="proj.import">Importer un fichier</button><input type="file" id="projFile" accept=".nestor,.json,application/json" hidden></div>
+      <p class="hint" id="projMsg" aria-live="polite"></p>
+    </div>
+    <div class="grp">
+      <h2 data-i18n="proj.listTitle">Projets enregistrés</h2>
+      <div class="proj-list" id="projList"></div>
+      <p class="hint" data-i18n="proj.hint">Gardés dans ce navigateur, sur cet appareil. Pour passer à un autre ordinateur : Exporter le fichier, puis Importer un fichier.</p>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="shortcuts" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sc-h">
+    <header><h2 id="sc-h" data-i18n="sc.title">Raccourcis clavier</h2><button class="btn sm" id="btnCloseSc" type="button" data-i18n="set.close">Fermer</button></header>
+    <div class="grp">
+      <table class="sc-table" id="scTable"></table>
+      <p class="hint" data-i18n="sc.hint">Ctrl (⌘ sur Mac) marche aussi pendant la saisie ; « ? » et Alt + chiffre attendent que tu sortes du champ.</p>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="settings" hidden>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="set-h">
     <header><h2 id="set-h" data-i18n="set.title">Réglages</h2><button class="btn sm" id="btnCloseSet" type="button" data-i18n="set.close">Fermer</button></header>
@@ -414,6 +513,9 @@
           <option value="64">1/64 in</option>
         </select></label>
       </div>
+    </div>
+    <div class="grp">
+      <div class="row" style="align-items:center"><button class="btn" id="btnShortcuts" type="button" data-i18n="sc.title">Raccourcis clavier</button></div>
     </div>
     <div class="grp" id="updGrp">
       <h2 data-i18n="set.updates">Mises à jour</h2>

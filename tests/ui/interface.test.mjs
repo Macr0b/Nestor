@@ -499,8 +499,13 @@ describe("Interface", { skip }, () => {
         await idle(page);
       }
       await page.check("#dlBoard");
+      await page.check("#dlNumbers");
       await page.selectOption("#cutSel", "detail");
-      const formats = await page.$$eval('[data-dl][data-s="0"]', (v) => v.map((b) => b.dataset.dl));
+      // le PDF est une page à imprimer (image), vérifié à part ; tous les autres formats sont des tracés
+      const PRINT_ONLY = ["pdf"];
+      const formats = (await page.$$eval('[data-dl][data-s="0"]', (v) => v.map((b) => b.dataset.dl))).filter(
+        (f) => !PRINT_ONLY.includes(f)
+      );
       assert.ok(formats.length >= 2, `formats trouvés : ${formats}`);
       for (const f of formats)
         assert.ok(READERS[f], `pas de lecteur de test pour le format « ${f} » : l'ajouter dans export-readers.mjs`);
@@ -515,7 +520,10 @@ describe("Interface", { skip }, () => {
         for (const f of formats) {
           const [d] = await Promise.all([page.waitForEvent("download"), page.click(`[data-dl=${f}][data-s="0"]`)]);
           const text = await readFile(await d.path(), "utf8");
-          const layers = READERS[f](text);
+          // noms de calques sans accents : le DXF n'en garde pas (« Numéros » devient « Numeros »)
+          const layers = Object.fromEntries(
+            Object.entries(READERS[f](text)).map(([k, v]) => [k.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), v])
+          );
           const where = `${f} ${units}, origine ${o}`;
           assert.equal(fileUnit(text), units === "mm" ? "mm" : "in", `${where} : unité écrite dans le fichier`);
           // contour du panneau : un rectangle fermé, exactement le panneau autour du zéro choisi
@@ -533,9 +541,16 @@ describe("Interface", { skip }, () => {
               `${where} : trait hors du panneau`
             );
           }
+          // numéros gravés : sur leur calque, à l'intérieur du panneau, au moins un trait par pièce
+          assert.ok((layers.Numeros?.length || 0) >= 14, `${where} : numéros gravés (${layers.Numeros?.length || 0})`);
+          const nb = bounds(layers.Numeros);
+          assert.ok(
+            nb[0] >= expect[o][0] && nb[2] <= expect[o][2] && nb[1] >= expect[o][1] && nb[3] <= expect[o][3],
+            `${where} : numéros hors du panneau`
+          );
           // pièces : tout le reste, dans le panneau
           const p = Object.entries(layers)
-            .filter(([k]) => k !== "Panneau" && k !== "Coupes")
+            .filter(([k]) => k !== "Panneau" && k !== "Coupes" && k !== "Numeros")
             .flatMap(([, v]) => v);
           assert.ok(p.length > 0, `${where} : pièces`);
           const b = bounds(p);
@@ -831,7 +846,7 @@ describe("Interface", { skip }, () => {
     await page.click("#tabMill");
     assert.equal(await page.inputValue("#millDiameter"), "0.2362");
     assert.match(await page.textContent("#millValues"), /in\/min/);
-    assert.equal(await page.locator(".mill-theory .formula").count(), 6);
+    assert.equal(await page.locator("#pageMill .mill-theory .formula").count(), 6);
     assert.equal(await page.locator("#millTheoryTable tbody tr").count(), 4);
     // le choix d'unités est gardé
     await page.reload();
@@ -1071,6 +1086,262 @@ describe("Interface", { skip }, () => {
       "le style du fichier ne touche pas la page"
     );
     assert.equal(await page.locator("#svgScratch image, #svgScratch a, #svgScratch style").count(), 0);
+    await page.context().close();
+  });
+});
+
+describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
+  // ajoute une machine depuis l'onglet Laser
+  async function addMachine(page, name, watts, trotec, kind = "co2") {
+    await page.click("#lzAdd");
+    await page.fill("#lzName", name);
+    await page.selectOption("#lzKind", kind);
+    await page.fill("#lzWatts", String(watts));
+    if (trotec) await page.check("#lzTrotec");
+    else await page.uncheck("#lzTrotec");
+    await page.click("#lzForm [type=submit]");
+  }
+  const lzValues = (page) => page.$$eval("#lzValues b", (v) => v.map((b) => b.textContent));
+
+  test("laser : deux machines (60 et 120 W), valeurs Trotec, estimation, grille de test, carnet par machine", async () => {
+    const page = await open();
+    await page.click("#tabLaser");
+    assert.match(await page.textContent("#lzSource"), /Ajoute ta machine/);
+    await addMachine(page, "Speedy 360", 60, true);
+    await addMachine(page, "Speedy 400", 120, true);
+    assert.equal(await page.locator("#lzMachine option").count(), 2);
+    await page.selectOption("#lzMaterial", "oak");
+    await page.fill("#lzThickness", "3");
+    // 120 W : valeurs publiées (chêne 3 mm : 100 % et 0,6 %)
+    assert.deepEqual((await lzValues(page)).slice(0, 2), ["100", "0,6"]);
+    assert.match(await page.textContent("#lzSource"), /publiées par Trotec pour 120 W/);
+    // 60 W : autre livret
+    await page.selectOption("#lzMachine", { label: "Speedy 360 — 60 W" });
+    assert.deepEqual((await lzValues(page)).slice(0, 2), ["100", "0,2"]);
+    // 100 W sans livret : estimation signalée
+    await addMachine(page, "Atelier", 100, true);
+    assert.match(await page.textContent("#lzSource"), /Estimation à partir du livret Trotec/);
+    // machine non Trotec : vitesse en mm/s
+    await addMachine(page, "Chinoise", 80, false);
+    assert.match(await page.textContent("#lzValues"), /mm\/s/);
+    // diode : pas de livret, message clair
+    await addMachine(page, "Diode", 20, false, "diode");
+    assert.match(await page.textContent("#lzSource"), /ne couvrent que les lasers CO2/);
+    assert.equal(await page.textContent("#lzValues"), "");
+    // suppression en deux clics
+    await page.click("#lzDelete");
+    assert.equal(await page.locator("#lzMachine option").count(), 5);
+    await page.click("#lzDelete");
+    assert.equal(await page.locator("#lzMachine option").count(), 4);
+    // grille de test autour du point de départ (60 W), en SVG et en DXF
+    await page.selectOption("#lzMachine", { label: "Speedy 360 — 60 W" });
+    for (const kind of ["svg", "dxf"]) {
+      const [d] = await Promise.all([page.waitForEvent("download"), page.click(`[data-grid=${kind}]`)]);
+      const text = await readFile(await d.path(), "utf8");
+      const layers = READERS[kind](text);
+      const squares = Object.values(layers)
+        .flat()
+        .filter((p) => p.closed);
+      assert.equal(squares.length, 16, `${kind} : 16 carrés`);
+      assert.match(d.suggestedFilename(), new RegExp("^grille-test-chene-speedy-360-60-w\\." + kind + "$"));
+    }
+    // carnet : fiche pré-remplie avec la machine, puis filtre par machine
+    await page.click("#tabLaser");
+    await page.click("#btnKeepLaser");
+    assert.equal(await page.inputValue("#nbMachine"), "Speedy 360 — 60 W");
+    assert.equal(await page.inputValue("#nbSpeedUnit"), "percent");
+    assert.equal(await page.inputValue("#nbSpeed"), "0.2");
+    await page.click("#nbForm [type=submit]");
+    await page.click("#tabLaser");
+    await page.selectOption("#lzMachine", { label: "Chinoise — 80 W" });
+    await page.click("#btnKeepLaser");
+    assert.equal(await page.inputValue("#nbSpeedUnit"), "mmps");
+    await page.click("#nbForm [type=submit]");
+    assert.equal(await page.locator("#nbList article").count(), 2);
+    await page.selectOption("#nbMachineFilter", "Speedy 360 — 60 W");
+    assert.equal(await page.locator("#nbList article").count(), 1);
+    assert.match(await page.textContent("#nbList"), /0,2 %/);
+    await page.selectOption("#nbMachineFilter", "Chinoise — 80 W");
+    assert.match(await page.textContent("#nbList"), /mm\/s/);
+    // tout est gardé au rechargement
+    await page.click("#tabLaser");
+    await page.reload();
+    await page.waitForSelector("#lzMachine option", { state: "attached" });
+    assert.equal(await page.locator("#lzMachine option").count(), 4);
+    assert.equal(await page.inputValue("#lzMaterial"), "oak");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("laser : matière du projet partagée (chêne 3 mm de la bibliothèque)", async () => {
+    const page = await open();
+    await page.click("#tabMaterials");
+    await page.click("#btnLibNew");
+    await page.fill("#libName", "Chêne massif");
+    await page.selectOption("#libMill", "oak");
+    await page.fill("#libThickness", "5");
+    await page.fill("#libL", "1000");
+    await page.fill("#libW", "500");
+    await page.fill("#libPrice", "80");
+    await page.click("#libForm [type=submit]");
+    await page.click("#tabNest");
+    await page.selectOption("#nestMaterial", { label: "Chêne massif 5 mm — 1 000 × 500" });
+    await page.click("#tabLaser");
+    assert.equal(await page.inputValue("#lzMaterial"), "oak");
+    assert.equal(await page.inputValue("#lzThickness"), "5");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  // pages du PDF : nombre et format de papier lus dans le fichier
+  const pdfPages = (bytes) => (bytes.toString("latin1").match(/\/Type \/Page\b/g) || []).length;
+  const pdfBox = (bytes) =>
+    bytes
+      .toString("latin1")
+      .match(/\/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]/)
+      .slice(1)
+      .map(Number);
+
+  for (const units of ["mm", "inch"])
+    test(`PDF à imprimer (${units}) : un panneau, ou le plan entier avec son résumé`, async () => {
+      const page = await open();
+      if (units !== "mm") {
+        await page.click("#btnSettings");
+        await page.selectOption("#unitsSel", units);
+        await page.click("#btnCloseSet");
+        await idle(page);
+      }
+      for (const [selector, pages, name] of [
+        ['[data-dl="pdf"][data-s="0"]', 1, "plan-1.pdf"],
+        ['[data-dl="pdfall"]', 2, "plan-complet.pdf"]
+      ]) {
+        const [d] = await Promise.all([page.waitForEvent("download", { timeout: 30000 }), page.click(selector)]);
+        const bytes = await readFile(await d.path());
+        assert.equal(d.suggestedFilename(), name);
+        assert.equal(bytes.subarray(0, 8).toString("latin1"), "%PDF-1.4");
+        assert.equal(pdfPages(bytes), pages, `${name} : pages`);
+        // A4 en métrique, Letter en impérial (en points)
+        const box = pdfBox(bytes);
+        if (units === "mm") assert.ok(Math.abs(box[0] - 595.28) < 0.1 && Math.abs(box[1] - 841.89) < 0.1, `${box}`);
+        else assert.ok(Math.abs(box[0] - 612) < 0.1 && Math.abs(box[1] - 792) < 0.1, `${box}`);
+        assert.match(await page.textContent("#result"), new RegExp(name.replace(".", "\\.")));
+      }
+      assert.deepEqual(page.errors, []);
+      await page.context().close();
+    });
+
+  test("projets : enregistrer, protéger les changements, rouvrir à l'identique, exporter, importer, supprimer", async () => {
+    const page = await open();
+    // réglages du projet dans plusieurs onglets
+    await page.fill("#projName", "Étagère");
+    await page.fill("#sG", "12");
+    await page.check("#dlNumbers");
+    await page.fill('.trow[data-i="0"] [data-k="qty"]', "3");
+    await page.click("#tabMill");
+    await page.fill("#millDiameter", "8");
+    await page.click("#tabLaser");
+    await page.selectOption("#lzMaterial", "walnut");
+    await page.click("#tabCost");
+    await page.fill("#costRate", "55");
+    await page.click("#tabNest");
+    await idle(page);
+    await page.click("#btnProjects");
+    await page.click("#projSave");
+    await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    assert.match(await page.textContent("#projList"), /Étagère.*en cours/);
+    await page.click("#btnCloseProj");
+    // le projet change : ouvrir demande un second clic
+    await page.fill("#projName", "Autre chose");
+    await page.fill("#sG", "3");
+    await page.uncheck("#dlNumbers");
+    await page.click("#tabMill");
+    await page.fill("#millDiameter", "3");
+    await page.click("#btnProjects");
+    assert.match(await page.textContent("#projCurrent"), /non enregistré/);
+    await page.click('#projList [data-act="open"]');
+    await page.waitForFunction(() =>
+      /sans enregistrer/.test(document.querySelector('#projList [data-act="open"]').textContent)
+    );
+    await page.click('#projList [data-act="open"]');
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+    await page.click("#btnCloseProj");
+    await page.click("#tabNest");
+    await idle(page);
+    assert.equal(await page.inputValue("#projName"), "Étagère");
+    assert.equal(await page.inputValue("#sG"), "12");
+    assert.equal(await page.isChecked("#dlNumbers"), true);
+    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="qty"]'), "3");
+    await page.click("#tabMill");
+    assert.equal(await page.inputValue("#millDiameter"), "8");
+    await page.click("#tabLaser");
+    assert.equal(await page.inputValue("#lzMaterial"), "walnut");
+    await page.click("#tabCost");
+    assert.equal(await page.inputValue("#costRate"), "55");
+    // fichier à partager, puis réimporté : deux projets dans la liste
+    await page.click("#btnProjects");
+    const [d] = await Promise.all([page.waitForEvent("download"), page.click("#projExport")]);
+    assert.equal(d.suggestedFilename(), "etagere.nestor");
+    await page.setInputFiles("#projFile", await d.path());
+    await page.waitForFunction(() => /importé et ouvert/.test(document.querySelector("#projMsg").textContent));
+    await page.waitForFunction(() => document.querySelectorAll(".proj-row").length === 2);
+    // fichier qui n'est pas un projet : refusé sans rien casser
+    const bad = join(await mkdtemp(join(tmpdir(), "nestor-")), "faux.nestor");
+    await writeFile(bad, '{"app":"Autre"}');
+    await page.setInputFiles("#projFile", bad);
+    await page.waitForFunction(() => /pas un projet Nestor/.test(document.querySelector("#projMsg").textContent));
+    // suppression en deux clics
+    await page.click('.proj-row:last-child [data-act="delete"]');
+    await page.waitForFunction(() =>
+      document.querySelector(".proj-row:last-child [data-act=delete]").classList.contains("confirm")
+    );
+    await page.click('.proj-row:last-child [data-act="delete"]');
+    await page.waitForFunction(() => document.querySelectorAll(".proj-row").length === 1);
+    // gardé après rechargement ; nouveau projet : l'exemple, panneaux gardés
+    await page.reload();
+    // le dernier onglet ouvert est gardé (Coût) : le panneau est dessiné mais caché
+    await page.waitForSelector(".sheet", { state: "attached" });
+    await page.click("#btnProjects");
+    await page.waitForFunction(() => document.querySelectorAll(".proj-row").length === 1);
+    await page.click("#projNew");
+    await page.waitForFunction(() => /Nouveau projet\./.test(document.querySelector("#projMsg").textContent));
+    await page.click("#btnCloseProj");
+    assert.equal(await page.inputValue("#projName"), "");
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("raccourcis : onglets, aide, enregistrer, ouvrir ; rien pendant la saisie", async () => {
+    const page = await open();
+    await page.locator("body").click({ position: { x: 5, y: 300 } });
+    await page.keyboard.press("Alt+Digit3");
+    assert.equal(await page.getAttribute("#tabLaser", "aria-selected"), "true");
+    await page.keyboard.press("Alt+Digit1");
+    assert.equal(await page.getAttribute("#tabNest", "aria-selected"), "true");
+    // « ? » : aide ; Échap la ferme
+    await page.keyboard.type("?");
+    assert.equal(await page.isVisible("#shortcuts"), true);
+    assert.equal(await page.locator("#scTable tr").count(), 8);
+    await page.keyboard.press("Escape");
+    assert.equal(await page.isVisible("#shortcuts"), false);
+    // pendant la saisie, « ? » s'écrit dans le champ
+    await page.click("#projName");
+    await page.keyboard.type("?");
+    assert.equal(await page.inputValue("#projName"), "?");
+    assert.equal(await page.isVisible("#shortcuts"), false);
+    // Ctrl+S marche même dans un champ : la fenêtre Projets s'ouvre et montre l'enregistrement
+    await page.keyboard.press("Control+s");
+    await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    assert.equal(await page.locator(".proj-row").count(), 1);
+    await page.keyboard.press("Escape");
+    await page.keyboard.press("Control+o");
+    assert.equal(await page.isVisible("#projects"), true);
+    await page.keyboard.press("Escape");
+    // depuis les Réglages aussi
+    await page.click("#btnSettings");
+    await page.click("#btnShortcuts");
+    assert.equal(await page.isVisible("#shortcuts"), true);
+    assert.equal(await page.isVisible("#settings"), false);
+    assert.deepEqual(page.errors, []);
     await page.context().close();
   });
 });

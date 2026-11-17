@@ -129,6 +129,7 @@ export function renderSheetInputs() {
   byId("projName").value = state.name || "";
   byId("sMode").value = state.sheet.mode === "rect" ? "rect" : "nest";
   byId("dlBoard").checked = exportOptions.includeBoard;
+  byId("dlNumbers").checked = exportOptions.partNumbers;
   byId("cutSel").value = exportOptions.offcutMode;
 }
 
@@ -235,6 +236,10 @@ export function bindPanelsEditor() {
   // options d'export et de coupe (sous « Méthode ») : elles ne changent pas le calcul, seulement le dessin
   byId("dlBoard").addEventListener("change", function (e) {
     exportOptions.includeBoard = e.target.checked;
+    schedulePreferencesSave();
+  });
+  byId("dlNumbers").addEventListener("change", function (e) {
+    exportOptions.partNumbers = e.target.checked;
     schedulePreferencesSave();
   });
   byId("cutSel").addEventListener("change", function (e) {

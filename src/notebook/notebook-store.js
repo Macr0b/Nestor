@@ -7,6 +7,8 @@ const NOTEBOOK_KEY = "nestor.carnet.v1";
 export const PROCESSES = ["mill", "laser", "other"];
 export const STATUSES = ["ok", "review"];
 export const LASER_OPERATIONS = ["cut", "engrave", "mark"];
+// vitesse laser : en % de la machine (Trotec, Epilog…) ou en mm/s (LightBurn…)
+export const SPEED_UNITS = ["percent", "mmps"];
 export const MAX_IMPORT_BYTES = 2 * 1024 * 1024;
 const MAX_ENTRIES = 2000;
 const TEXT_LIMITS = { machine: 120, material: 120, note: 2000, optics: 120, settings: 2000, tool: 40 };
@@ -67,6 +69,7 @@ export function cleanEntry(raw) {
       operation: oneOf(values.operation, LASER_OPERATIONS, "cut"),
       optics: text(values.optics, TEXT_LIMITS.optics),
       speed: number(values.speed),
+      speedUnit: oneOf(values.speedUnit, SPEED_UNITS, "percent"),
       power: number(values.power),
       frequency: number(values.frequency),
       passes: number(values.passes)
@@ -121,10 +124,12 @@ function plain(value) {
     .toLowerCase();
 }
 
-export function filterEntries(entries, query, process, labels) {
+export function filterEntries(entries, query, process, labels, machine) {
   const words = plain(query).split(/\s+/).filter(Boolean);
   return entries.filter(function (entry) {
     if (process && entry.process !== process) return false;
+    // machine choisie : seulement ses fiches (les réglages d'un laser 60 W ne valent pas pour un 120 W)
+    if (machine && entry.machine !== machine) return false;
     if (!words.length) return true;
     const haystack = plain(
       [entry.machine, entry.material, entry.note, entry.values.optics, entry.values.settings]
@@ -134,6 +139,17 @@ export function filterEntries(entries, query, process, labels) {
     return words.every(function (word) {
       return haystack.includes(word);
     });
+  });
+}
+
+/* Machines nommées dans les fiches, sans doublon, dans l'ordre alphabétique. */
+export function entryMachines(entries) {
+  const names = {};
+  entries.forEach(function (entry) {
+    if (entry.machine) names[entry.machine] = true;
+  });
+  return Object.keys(names).sort(function (a, b) {
+    return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
   });
 }
 

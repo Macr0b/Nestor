@@ -5,6 +5,7 @@ import { applyLanguage, currentLanguage, languageSelect } from "../i18n/i18n.js"
 import { bugReportUrl } from "./bug-report.js";
 import { refreshInstallButton } from "./install.js";
 import { renderMilling } from "./milling-tab.js";
+import { renderLaser } from "./laser-tab.js";
 import { renderNotebook } from "./notebook-tab.js";
 import { renderLibrary } from "./materials-tab.js";
 import { refreshCostTab } from "./cost-tab.js";
@@ -25,6 +26,7 @@ function closeSettings() {
 function refreshAll() {
   renderAll();
   renderMilling();
+  renderLaser();
   renderNotebook();
   renderLibrary();
   refreshCostTab();

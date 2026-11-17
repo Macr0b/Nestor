@@ -1,0 +1,33 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Fenêtre des raccourcis clavier : touches à gauche, action à droite. */
+
+.sc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.sc-table td {
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+}
+.sc-table tr:first-child td {
+  border-top: 0;
+}
+.sc-table td:first-child {
+  white-space: nowrap;
+  padding-inline-end: 16px;
+  width: 1%;
+}
+.sc-table kbd {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 2px 7px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.sc-table kbd + kbd {
+  margin-inline-start: 4px;
+}

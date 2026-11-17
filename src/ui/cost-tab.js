@@ -51,16 +51,23 @@ const CURRENCIES = [
 // réglages de l'onglet, gardés sur l'appareil ; prices : prix saisis à la main, par taille de panneau
 let settings = { currency: "EUR", lastSheet: "full", rate: null, prep: null, prices: {} };
 
+// réglages relus et vérifiés (appareil ou projet ouvert) : une valeur absente ou abîmée reprend sa valeur de départ
+function cleanCostSettings(saved) {
+  const clean = { currency: "EUR", lastSheet: "full", rate: null, prep: null, prices: {} };
+  saved = saved && typeof saved === "object" ? saved : {};
+  if (CURRENCIES.includes(saved.currency)) clean.currency = saved.currency;
+  if (saved.lastSheet === "used") clean.lastSheet = "used";
+  if (typeof saved.rate === "number" && saved.rate >= 0) clean.rate = saved.rate;
+  if (typeof saved.prep === "number" && saved.prep >= 0) clean.prep = saved.prep;
+  if (saved.prices && typeof saved.prices === "object")
+    for (const [key, value] of Object.entries(saved.prices))
+      if (/^[\d.]+x[\d.]+$/.test(key) && typeof value === "number" && value >= 0) clean.prices[key] = value;
+  return clean;
+}
+
 function loadSettings() {
   try {
-    const saved = JSON.parse(localStorage.getItem(COST_KEY) || "null") || {};
-    if (CURRENCIES.includes(saved.currency)) settings.currency = saved.currency;
-    if (saved.lastSheet === "used") settings.lastSheet = "used";
-    if (saved.rate >= 0) settings.rate = saved.rate;
-    if (saved.prep >= 0) settings.prep = saved.prep;
-    if (saved.prices && typeof saved.prices === "object")
-      for (const [key, value] of Object.entries(saved.prices))
-        if (/^[\d.]+x[\d.]+$/.test(key) && value >= 0) settings.prices[key] = value;
+    settings = cleanCostSettings(JSON.parse(localStorage.getItem(COST_KEY) || "null"));
   } catch (e) {}
 }
 
@@ -303,13 +310,29 @@ export function refreshCostTab() {
   renderCost();
 }
 
-export function bindCostTab() {
-  loadSettings();
+function fillSettingFields() {
   setLibraryCurrency(settings.currency);
   fillCurrencySelect();
   byId("costLastSheet").value = settings.lastSheet;
   byId("costRate").value = settings.rate == null ? "" : String(settings.rate);
   byId("costPrep").value = settings.prep == null ? "" : String(settings.prep);
+}
+
+/* Réglages du coût gardés dans un projet. */
+export function costSettings() {
+  return JSON.parse(JSON.stringify(settings));
+}
+
+export function applyCostSettings(saved) {
+  settings = cleanCostSettings(saved);
+  saveSettings();
+  fillSettingFields();
+  renderCost();
+}
+
+export function bindCostTab() {
+  loadSettings();
+  fillSettingFields();
   byId("costMaterial").addEventListener("change", function () {
     setProjectMaterial(this.value, "cost");
     renderCost();

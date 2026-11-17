@@ -8,6 +8,7 @@ import { saveFile } from "../export/export-files.js";
 import {
   cleanEntry,
   exportNotebook,
+  entryMachines,
   filterEntries,
   importNotebook,
   loadEntries,
@@ -75,7 +76,10 @@ function entryValues(entry) {
         )
       );
   } else if (entry.process === "laser") {
-    if (v.speed != null) parts.push(value(translate("nb.speedShort"), formatNumber(v.speed, 2) + " %"));
+    if (v.speed != null)
+      parts.push(
+        value(translate("nb.speedShort"), formatNumber(v.speed, 2) + (v.speedUnit === "mmps" ? " mm/s" : " %"))
+      );
     if (v.power != null) parts.push(value(translate("nb.powerShort"), formatNumber(v.power, 2) + " %"));
     if (v.frequency != null) parts.push(value(translate("nb.frequencyShort"), formatNumber(v.frequency, 0)));
     if (v.passes != null) parts.push(value(translate("mill.passes"), formatNumber(v.passes, 0)));
@@ -153,8 +157,32 @@ function card(entry) {
   );
 }
 
+/* Menu des machines nommées dans le carnet ; le choix en cours est gardé s'il existe encore. */
+function fillMachineFilter() {
+  const select = byId("nbMachineFilter"),
+    current = select.value,
+    names = entryMachines(entries);
+  select.innerHTML =
+    '<option value="">' +
+    escapeHtml(translate("nb.allMachines")) +
+    "</option>" +
+    names
+      .map(function (name) {
+        return '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + "</option>";
+      })
+      .join("");
+  select.value = names.includes(current) ? current : "";
+}
+
 function renderList() {
-  const shown = filterEntries(entries, byId("nbSearch").value, filterProcess, entryLabels);
+  fillMachineFilter();
+  const shown = filterEntries(
+    entries,
+    byId("nbSearch").value,
+    filterProcess,
+    entryLabels,
+    byId("nbMachineFilter").value
+  );
   byId("nbList").innerHTML = shown.length
     ? shown.map(card).join("")
     : '<p class="nb-empty">' + escapeHtml(translate(entries.length ? "nb.noMatch" : "nb.empty")) + "</p>";
@@ -226,6 +254,7 @@ function openForm(entry) {
   setFeedField(byId("nbFeed"), v.feed);
   setLengthField(byId("nbDepth"), v.depth);
   byId("nbOperation").value = v.operation || "cut";
+  byId("nbSpeedUnit").value = v.speedUnit === "mmps" ? "mmps" : "percent";
   byId("nbOptics").value = v.optics || "";
   byId("nbSettings").value = v.settings || "";
   for (const process of ["mill", "laser"])
@@ -269,6 +298,7 @@ function formEntry() {
     }
   } else if (process === "laser") {
     values.operation = byId("nbOperation").value;
+    values.speedUnit = byId("nbSpeedUnit").value;
     values.optics = byId("nbOptics").value;
   } else values.settings = byId("nbSettings").value;
   for (const [id, key] of NUMBER_FIELDS[process] || []) values[key] = readNumber(id);
@@ -325,6 +355,11 @@ function openNotebookForm(entry) {
   openForm(entry);
 }
 
+/* Nouvelle fiche pré-remplie depuis un autre onglet (Laser), à vérifier avant d'enregistrer. */
+export function keepInNotebook(entry) {
+  openNotebookForm(entry);
+}
+
 /* À appeler après un changement de langue ou d'unités. */
 export function renderNotebook() {
   renderList();
@@ -339,6 +374,7 @@ export function renderNotebook() {
 export function bindNotebookTab() {
   entries = loadEntries();
   byId("nbSearch").addEventListener("input", renderList);
+  byId("nbMachineFilter").addEventListener("change", renderList);
   byId("nbFilter").addEventListener("click", function (e) {
     const button = e.target.closest("[data-process]");
     if (!button) return;

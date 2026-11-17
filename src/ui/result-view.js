@@ -5,27 +5,21 @@ import { buildDxfFile } from "../export/dxf.js";
 import { exportPaths, fileSlug, saveFile } from "../export/export-files.js";
 import { buildSvgFile } from "../export/svg.js";
 import { formatNumber, translate } from "../i18n/i18n.js";
-import { showDistance, showFeed, showLength } from "./lengths.js";
+import { showLength } from "./lengths.js";
+import { cutTimeSummary, panelSizeLabel, planSummary } from "./plan-summary.js";
 import { isImperial } from "../util/units.js";
 import { renderCost } from "./cost-tab.js";
-import { outerContourLength } from "../geometry/polylines.js";
-import { estimateCutTime, splitDuration } from "../machining/cut-time.js";
-import { loadMillingInput } from "../machining/milling-store.js";
-import { millingSettings } from "../machining/milling.js";
 import { applyOrigin, nestingFrame, originPoint, panelList, panelOrigin } from "../placement/origin.js";
 import { packRectangles } from "../placement/rectangles.js";
 import { buildNestInput, nestPanelByPanel, nestWithOrigin, stopNesting } from "../placement/run-nesting.js";
-import { partArea, partDisplayName, scaledPart } from "../project/parts.js";
+import { partDisplayName, scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { renderSheetSvg } from "./sheet-drawing.js";
+import { buildPlanPdf } from "./print-pages.js";
 import { byId, escapeHtml } from "../util/dom.js";
 
 let currentJob = 0;
-
-function panelSizeLabel(sheet) {
-  return showLength(sheet.W) + " × " + showLength(sheet.L);
-}
 
 // annulation d'un calcul long demandée par l'utilisateur
 function cancelNesting() {
@@ -109,26 +103,14 @@ export function renderResult() {
 
 /* Case « Découpe estimée » : contours extérieurs des pièces placées, avec l'avance et les passes de l'onglet Fraisage. */
 function cutTimeStat(contourLength) {
-  var settings = millingSettings(loadMillingInput()),
-    time = estimateCutTime(contourLength, settings),
-    value = "–",
-    detail = translate(settings && !settings.passes ? "res.timeNoThickness" : "res.timeNone");
-  if (time) {
-    var d = splitDuration(time.minutes);
-    value = "≈ " + translate(d.hours ? "res.timeHours" : "res.timeMinutes", { h: d.hours, m: d.minutes });
-    detail = translate("res.timeDetail", {
-      l: showDistance(time.length),
-      f: showFeed(time.feed),
-      p: time.passes
-    });
-  }
+  var time = cutTimeSummary(contourLength);
   return (
     '<div class="stat" id="cutTime"><div class="v">' +
-    escapeHtml(value) +
+    escapeHtml(time.value) +
     '</div><div class="k">' +
     escapeHtml(translate("res.timeLabel")) +
     '</div><div class="bd">' +
-    escapeHtml(detail) +
+    escapeHtml(time.detail) +
     "</div></div>"
   );
 }
@@ -136,35 +118,12 @@ function cutTimeStat(contourLength) {
 export function drawResult(res) {
   session.lastResult = res;
   byId("result").classList.remove("busy");
-  var n = res.sheets.length,
-    used = 0,
-    total = 0,
-    h = [],
-    groups = {},
-    order = [];
-  var contourLength = 0;
-  res.sheets.forEach(function (s) {
-    s.area = 0;
-    s.parts.forEach(function (p) {
-      var part = scaledPart(state.types[p.i]);
-      s.area += partArea(part);
-      contourLength += outerContourLength(part);
-    });
-    used += s.area;
-    total += s.L * s.W;
-    var key = panelSizeLabel(s);
-    if (!groups[key]) {
-      groups[key] = 0;
-      order.push(key);
-    }
-    groups[key]++;
-  });
-  var pct = n ? Math.round(1000 * (1 - used / total)) / 10 : 0;
-  var breakdown = order
-    .map(function (k) {
-      return groups[k] + " × " + k;
-    })
-    .join(" · ");
+  var summary = planSummary(res),
+    n = summary.panels,
+    pct = summary.wastePercent,
+    breakdown = summary.breakdown,
+    contourLength = summary.contourLength,
+    h = [];
   h.push(
     '<div class="summary">' +
       '<div class="stat"><div class="v">' +
@@ -234,11 +193,22 @@ export function drawResult(res) {
         si +
         '">' +
         escapeHtml(translate("dl.dxf")) +
+        '</button><button type="button" class="btn sm" data-dl="pdf" data-s="' +
+        si +
+        '">' +
+        escapeHtml(translate("dl.pdf")) +
         '</button><span class="hint" id="dlmsg' +
         si +
         '"></span></div></article>'
     );
   });
+  // le plan entier en un seul PDF : résumé puis un panneau par page
+  if (n)
+    h.push(
+      '<div class="dl dl-all"><button type="button" class="btn" data-dl="pdfall" data-s="all">' +
+        escapeHtml(translate("dl.pdfAll")) +
+        '</button><span class="hint" id="dlmsgall"></span></div>'
+    );
   if (!n && !res.unplaced.length) h.push('<p class="hint">' + escapeHtml(translate("res.empty")) + "</p>");
   // les fichiers suivent les unités choisies : en pouces si l'appli est en pouces
   if (n) h.push('<p class="hint">' + escapeHtml(translate(isImperial() ? "res.noteInch" : "res.note")) + "</p>");
@@ -247,15 +217,37 @@ export function drawResult(res) {
   renderCost();
 }
 
+/* PDF à imprimer : d'un panneau (index) ou du plan entier ("all"). Le dessin des pages prend un instant. */
+function downloadPdf(which, projectSlug) {
+  var all = which === "all",
+    index = all ? null : +which,
+    msg = byId("dlmsg" + which),
+    name = projectSlug + "-" + (all ? fileSlug(translate("pdf.fileAll"), "all") : index + 1) + ".pdf";
+  msg.textContent = translate("pdf.preparing");
+  buildPlanPdf(session.lastResult, index)
+    .then(function (bytes) {
+      return saveFile(name, new Blob([bytes], { type: "application/pdf" }));
+    })
+    .then(function () {
+      msg.textContent = translate("dl.done", { f: name });
+    })
+    .catch(function (err) {
+      if (err && err.name === "AbortError") return;
+      msg.textContent = translate("dl.fail");
+    });
+}
+
 export function bindResultView() {
   byId("result").addEventListener("click", function (e) {
     var b = e.target.closest("[data-dl]");
     if (!b || !session.lastResult) return;
+    var kind = b.dataset.dl,
+      projectSlug = fileSlug(state.name || state.source.replace(/\.\w+$/, ""));
+    if (kind === "pdf" || kind === "pdfall") return downloadPdf(b.dataset.s, projectSlug);
     var si = +b.dataset.s,
       s = session.lastResult.sheets[si],
       msg = byId("dlmsg" + si),
-      kind = b.dataset.dl,
-      base = fileSlug(state.name || state.source.replace(/\.\w+$/, "")) + "-" + (si + 1);
+      base = projectSlug + "-" + (si + 1);
     var data, type;
     if (kind === "svg") {
       data = buildSvgFile(s, isImperial());

@@ -30,6 +30,7 @@ function savePreferences() {
         rot: state.rotAll,
         sort: state.sort,
         board: exportOptions.includeBoard,
+        numbers: exportOptions.partNumbers,
         cuts: exportOptions.offcutMode
       })
     );
@@ -50,6 +51,7 @@ export function loadPreferences() {
         };
       });
     exportOptions.includeBoard = saved.board === true;
+    exportOptions.partNumbers = saved.numbers === true;
     exportOptions.offcutMode = saved.cuts === "simple" || saved.cuts === "detail" ? saved.cuts : "";
     if (saved.gap != null) state.sheet.gap = parseNumber(saved.gap, 2);
     if (saved.margin != null) state.sheet.margin = parseNumber(saved.margin, 5);

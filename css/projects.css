@@ -1,0 +1,72 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Projets : bouton de l'en-tête et fenêtre (projet en cours, actions, liste des projets enregistrés). */
+
+.proj-btn {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.proj-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+.proj-current {
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+}
+.proj-current b {
+  color: var(--ink);
+  font-size: 16px;
+}
+.proj-current em {
+  font-style: normal;
+  font-size: 12px;
+}
+.proj-list {
+  display: grid;
+}
+.proj-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.proj-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.proj-row .proj-info {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.proj-row b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proj-row small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.proj-row .tag {
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.proj-row .btn.confirm {
+  border-color: var(--danger);
+  color: var(--danger);
+}

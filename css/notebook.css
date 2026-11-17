@@ -28,6 +28,10 @@
 .nb-search {
   flex: 1 1 220px;
 }
+.nb-machine {
+  flex: 0 1 200px;
+  min-width: 0;
+}
 .nb-chips {
   display: flex;
   flex-wrap: wrap;
@@ -224,4 +228,18 @@
   .nb-act {
     justify-items: start;
   }
+}
+
+/* vitesse laser : valeur et unité (% ou mm/s) côte à côte */
+.unit-pair {
+  display: flex;
+  gap: 6px;
+}
+.unit-pair input {
+  flex: 1;
+  min-width: 0;
+}
+.unit-pair select {
+  width: auto;
+  flex: 0 0 auto;
 }

@@ -2,16 +2,17 @@
 /* Onglet Fraisage : champs de la fraise, de la matière et de la machine, et affichage des réglages conseillés.
    Le calcul lui-même est dans src/machining/milling.js. */
 
-import { languageLocale, translate } from "../i18n/i18n.js";
+import { translate } from "../i18n/i18n.js";
 import { FAMILIES, MATERIALS, materialById } from "../machining/materials.js";
 import { millingSettings, TOOL_TYPES } from "../machining/milling.js";
-import { loadMillingInput, saveMillingInput } from "../machining/milling-store.js";
+import { cleanMillingInput, loadMillingInput, saveMillingInput } from "../machining/milling-store.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { readFeedField, readLengthField, setFeedField, setLengthField, showFeed, showLength } from "./lengths.js";
 import { renderToolGap } from "./panels-editor.js";
 import { drawResult } from "./result-view.js";
 import { session } from "../session.js";
 import { toolIcon } from "./tool-icons.js";
+import { formatValue, valueBox } from "./value-box.js";
 import { findItem, onProjectMaterialChange, projectMaterialId, setProjectMaterial } from "../library/library-store.js";
 import { libraryItem, libraryItems } from "./materials-tab.js";
 import { renderCost } from "./cost-tab.js";
@@ -36,10 +37,6 @@ const NUMBER_FIELDS = [
 // notes du calcul : les valeurs à mettre en forme selon leur sorte
 const NOTE_KINDS = { n: "plain", d: "length", e: "length" };
 const FEED_NOTES = ["mill.noteFeedMax", "mill.noteThinChip"];
-
-function formatValue(value, digits) {
-  return new Intl.NumberFormat(languageLocale(), { maximumFractionDigits: digits }).format(value);
-}
 
 function familyName(id) {
   return translate("mill.fam." + id);
@@ -120,18 +117,6 @@ function materialInfo(material) {
   if (material.hardness) parts.push(translate("mill.hardness", { c: material.hardness }));
   parts.push(translate("mill.asFamily", { f: familyName(material.family) }));
   return "<b>" + escapeHtml(translate("mill.mat." + material.id)) + "</b> · " + escapeHtml(parts.join(" · "));
-}
-
-function valueBox(label, value, unit) {
-  return (
-    "<div><small>" +
-    escapeHtml(label) +
-    "</small><b>" +
-    escapeHtml(value) +
-    "</b><em>" +
-    escapeHtml(unit) +
-    "</em></div>"
-  );
 }
 
 /* Met la page à jour d'après les réglages en cours (sans toucher aux champs que l'on est en train de taper). */
@@ -285,6 +270,17 @@ export function openInMilling(entry) {
   preciseOpen = !!input.material;
   fillFields();
   changed();
+}
+
+/* Réglages de fraisage d'un projet ouvert : repris tels quels (vérifiés), puis la page est refaite. */
+export function applyMillingSettings(saved) {
+  input = cleanMillingInput(saved);
+  saveMillingInput(input);
+  preciseOpen = !!input.material;
+  fillFields();
+  renderChoices();
+  renderState();
+  renderToolGap();
 }
 
 /* À appeler après un changement de langue ou d'unités : champs, listes et textes calculés sont refaits. */

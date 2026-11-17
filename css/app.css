@@ -872,3 +872,8 @@ button:focus-visible,
 .gap-tool .linkbtn::before {
   content: none;
 }
+
+/* plan entier en PDF : sous le dernier panneau */
+.dl-all {
+  margin-top: 4px;
+}
