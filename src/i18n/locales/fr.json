@@ -597,5 +597,17 @@
   "lz.thOwn": "Toutes ces valeurs sont indicatives. « Modifier ces valeurs » enregistre les tiennes pour la machine, l’opération et l’épaisseur choisies ; elles passent alors avant les indicatives. Tes matières (« ＋ Nouvelle matière ») n’ont que tes valeurs : à une autre épaisseur ou sur une autre machine du même type, Nestor les estime à partir des plus proches.",
   "lz.thLimitTitle": "Découpe jusqu’à 10 mm",
   "lz.thLimit": "Au-delà de 10 mm, le laser sert à graver : la découpe se fait à la fraiseuse (onglet Fraisage).",
-  "lz.thOtherOwn": "Les livrets et le tableau ne couvrent que le CO2. Pour un laser diode ou fibre, saisis tes valeurs éprouvées : elles sont gardées pour cette machine."
+  "lz.thOtherOwn": "Les livrets et le tableau ne couvrent que le CO2. Pour un laser diode ou fibre, saisis tes valeurs éprouvées : elles sont gardées pour cette machine.",
+  "manual.source": "Saisie à la main",
+  "manual.tabFile": "Importer un fichier",
+  "manual.tabManual": "Saisir à la main",
+  "manual.name": "Pièce",
+  "manual.namePh": "Côté",
+  "manual.add": "Ajouter",
+  "manual.hint": "Colle aussi des lignes d’un tableur dans un champ : nom, longueur, largeur, quantité. Les pièces ajoutées rejoignent la liste des pièces, où tu changes leur nom, leurs cotes, leur quantité et leur sens.",
+  "manual.needSize": "Indique la longueur et la largeur de la pièce.",
+  "manual.added": "{n} pièce(s) ajoutée(s) à la liste.",
+  "manual.pasteNone": "Aucune pièce lue dans ce collage : il faut au moins une longueur et une largeur par ligne.",
+  "manual.skipped": "{n} ligne(s) ignorée(s) (cotes ou quantité illisibles).",
+  "manual.sourceChoice": "Origine des pièces"
 }

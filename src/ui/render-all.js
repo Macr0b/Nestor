@@ -2,6 +2,7 @@
 /* Redessine toute l'interface à partir de l'état du projet. */
 
 import { renderFileInfo } from "./files-panel.js";
+import { renderManualPartsPanel } from "./manual-parts-panel.js";
 import { renderSheetInputs } from "./panels-editor.js";
 import { renderPartsList } from "./parts-list.js";
 import { renderResult } from "./result-view.js";
@@ -9,6 +10,7 @@ import { renderResult } from "./result-view.js";
 export function renderAll() {
   renderSheetInputs();
   renderFileInfo();
+  renderManualPartsPanel();
   renderPartsList();
   renderResult();
 }

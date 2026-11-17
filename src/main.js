@@ -6,6 +6,7 @@ import { applyLanguage, detectLanguage, fillLanguageSelect, languageSelect } fro
 import { bindPreferences, loadPreferences } from "./project/preferences.js";
 import { startBlueprintDecor } from "./ui/blueprint-decor.js";
 import { bindFilesPanel } from "./ui/files-panel.js";
+import { bindManualPartsPanel } from "./ui/manual-parts-panel.js";
 import { bindInstall, refreshInstallButton } from "./ui/install.js";
 import { bindMillingTab, renderMilling } from "./ui/milling-tab.js";
 import { bindLaserTab, renderLaser } from "./ui/laser-tab.js";
@@ -29,6 +30,7 @@ async function start() {
   bindTabs();
   fillLanguageSelect();
   bindFilesPanel();
+  bindManualPartsPanel();
   bindResultView();
   bindPartsList();
   bindPanelsEditor();

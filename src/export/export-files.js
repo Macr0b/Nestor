@@ -50,7 +50,8 @@ export function sheetOffcutCuts(resultSheet) {
     resultSheet.W,
     boxes,
     parseNumber(state.sheet.gap, 0),
-    exportOptions.offcutMode
+    exportOptions.offcutMode,
+    parseNumber(state.sheet.margin, 0)
   );
 }
 

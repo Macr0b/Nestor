@@ -3,7 +3,9 @@
    chutes rectangulaires. Chaque trait va d'un bord à l'autre de la zone qu'il coupe (faisable à la scie) et passe
    à « gap » mm des pièces les plus proches.
      mode "simple" : une seule série de traits parallèles, d'un bord à l'autre du panneau ;
-     mode "detail" : on recoupe ensuite les zones restantes pour suivre à peu près le contour du groupe. */
+     mode "detail" : on recoupe ensuite les zones restantes pour suivre à peu près le contour du groupe.
+   Jamais de trait parallèle au bord du panneau dans sa marge : une bande qui touche le bord n'est coupée que si
+   elle dépasse la marge d'au moins une chute utile (sinon la scie passerait trop près du bord). */
 
 export const MIN_OFFCUT_SIZE = 30;
 
@@ -26,17 +28,18 @@ function boundsOfBoxes(boxes) {
   return bounds;
 }
 
-// chutes possibles sur les 4 côtés de la zone R : épaisseur de chaque bande libre (0 si trop fine)
-function freeStrips(region, boxes, gap) {
+// chutes possibles sur les 4 côtés de la zone : épaisseur de chaque bande libre (0 si trop fine) ;
+// edge : { w, h, margin } du panneau, pour ne pas couper dans la marge le long d'un bord
+function freeStrips(region, boxes, gap, edge) {
   var bounds = boundsOfBoxes(boxes);
-  function ok(v) {
-    return v >= MIN_OFFCUT_SIZE ? v : 0;
+  function ok(v, onEdge) {
+    return v >= MIN_OFFCUT_SIZE + (onEdge ? edge.margin : 0) ? v : 0;
   }
   return {
-    top: ok(bounds.y0 - gap - region.y0),
-    bottom: ok(region.y1 - (bounds.y1 + gap)),
-    left: ok(bounds.x0 - gap - region.x0),
-    right: ok(region.x1 - (bounds.x1 + gap))
+    top: ok(bounds.y0 - gap - region.y0, region.y0 <= 1e-6),
+    bottom: ok(region.y1 - (bounds.y1 + gap), region.y1 >= edge.h - 1e-6),
+    left: ok(bounds.x0 - gap - region.x0, region.x0 <= 1e-6),
+    right: ok(region.x1 - (bounds.x1 + gap), region.x1 >= edge.w - 1e-6)
   };
 }
 
@@ -83,10 +86,11 @@ function freeStripArea(region, strips, direction) {
 
 // détoure une zone : d'abord l'orientation qui libère le plus, puis (si both) la perpendiculaire
 function trimRegion(region, boxes, gap, bothDirections, out) {
-  var strips = freeStrips(region, boxes, gap),
+  var strips = freeStrips(region, boxes, gap, out.edge),
     first = freeStripArea(region, strips, "h") >= freeStripArea(region, strips, "v") ? "h" : "v";
   var rest = cutFreeStrips(region, strips, first, out);
-  if (bothDirections) rest = cutFreeStrips(rest, freeStrips(rest, boxes, gap), first === "h" ? "v" : "h", out);
+  if (bothDirections)
+    rest = cutFreeStrips(rest, freeStrips(rest, boxes, gap, out.edge), first === "h" ? "v" : "h", out);
   return rest;
 }
 
@@ -123,8 +127,8 @@ function splitHalves(region, split) {
 }
 
 // aire que libérerait un détourage d'une zone (sans rien enregistrer)
-function trimmedArea(region, boxes, gap) {
-  var tmp = { cuts: [], chutes: [] };
+function trimmedArea(region, boxes, gap, edge) {
+  var tmp = { cuts: [], chutes: [], edge: edge };
   trimRegion(region, boxes, gap, true, tmp);
   return tmp.chutes.reduce(function (a, c) {
     return a + c.w * c.h;
@@ -140,7 +144,7 @@ function splitRegion(region, boxes, gap, depth, out) {
       gain = 0;
     hs.forEach(function (h) {
       var inside = boxesInside(h, boxes);
-      if (inside.length) gain += trimmedArea(h, inside, gap);
+      if (inside.length) gain += trimmedArea(h, inside, gap, out.edge);
     });
     if (gain > 0 && (!best || gain > best.gain)) best = { c: c, gain: gain };
   });
@@ -157,16 +161,15 @@ function splitRegion(region, boxes, gap, depth, out) {
   });
 }
 
-export function computeOffcutCuts(panelWidth, panelHeight, boxes, gap, mode) {
+/* margin : marge au bord du panneau (mm) ; aucune coupe parallèle au bord n'y tombe. */
+export function computeOffcutCuts(panelWidth, panelHeight, boxes, gap, mode, margin) {
   var out = { cuts: [], chutes: [] };
   if (!boxes.length || (mode !== "simple" && mode !== "detail")) return out;
   gap = Math.max(0, gap || 0);
+  out.edge = { w: panelWidth, h: panelHeight, margin: Math.max(0, margin || 0) };
   var panel = { x0: 0, y0: 0, x1: panelWidth, y1: panelHeight };
-  if (mode === "simple") {
-    trimRegion(panel, boxes, gap, false, out);
-    return out;
-  }
-  var rest = trimRegion(panel, boxes, gap, true, out);
-  splitRegion(rest, boxes, gap, 0, out);
+  if (mode === "simple") trimRegion(panel, boxes, gap, false, out);
+  else splitRegion(trimRegion(panel, boxes, gap, true, out), boxes, gap, 0, out);
+  delete out.edge;
   return out;
 }

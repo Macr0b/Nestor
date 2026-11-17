@@ -327,6 +327,73 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("saisie à la main : une pièce, collage d'un tableur, mélange avec un fichier, cotes, suppression, pouces", async () => {
+    const page = await open();
+    await page.click('[data-src="manual"]');
+    assert.ok(await page.isHidden("#drop"));
+    // cotes manquantes : message, rien d'ajouté
+    await page.click("#manualForm [type=submit]");
+    assert.match(await page.textContent("#manualMsg"), /longueur et la largeur/);
+    // une pièce : l'exemple laisse la place
+    await page.fill("#manName", "Côté");
+    await page.fill("#manL", "720");
+    await page.fill("#manW", "560");
+    await page.fill("#manQty", "2");
+    await page.check("#manFixed");
+    await page.press("#manW", "Enter");
+    await idle(page);
+    assert.equal(await page.locator(".trow").count(), 1);
+    assert.equal(await page.inputValue("#t0-n"), "Côté");
+    assert.equal(await page.inputValue("#t0-q"), "2");
+    assert.equal(await page.inputValue("#t0-r"), "fix");
+    assert.deepEqual(await page.$$eval(".trow .sz", (v) => v.map((i) => i.value)), ["560", "720"]);
+    assert.equal(await page.inputValue("#manName"), "");
+    // collage depuis un tableur (en-tête, une ligne illisible)
+    await page.$eval("#manName", (el) => {
+      const dt = new DataTransfer();
+      dt.setData("text/plain", "Pièce\tLongueur\tLargeur\tQté\nTablette\t520\t300\t3\nDos\t700\t500\t1\nBof\tx\t\t\n");
+      el.dispatchEvent(new ClipboardEvent("paste", { clipboardData: dt, bubbles: true, cancelable: true }));
+    });
+    await idle(page);
+    assert.equal(await page.locator(".trow").count(), 3);
+    assert.match(await page.textContent("#manualMsg"), /2 pièce\(s\) ajoutée\(s\).*1 ligne\(s\) ignorée\(s\)/);
+    // longueur et largeur changent chacune de leur côté
+    await page.fill('.trow[data-i="1"] [data-k="sw"]', "320");
+    await idle(page);
+    assert.deepEqual(await page.$$eval('.trow[data-i="1"] .sz', (v) => v.map((i) => i.value)), ["320", "520"]);
+    assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="sp"]'), "100");
+    // un fichier importé ensuite ne remplace pas les pièces saisies
+    await page.click('[data-src="file"]');
+    await load(page, "plaque-trou.dxf");
+    assert.equal(await page.locator('.trow .nm[value="Côté"]').count(), 1);
+    assert.match(await page.textContent("#types"), /Saisie à la main/);
+    await page.selectOption("#sortSel", "src");
+    assert.equal(await page.locator("#types .lhead").last().textContent(), "Saisie à la main");
+    // tout est placé, puis suppression d'une pièce saisie
+    assert.doesNotMatch(await page.textContent("#result"), /non placée/);
+    const before = await page.locator(".trow").count();
+    await page.click('.trow:has(.nm[value="Dos"]) [data-act="del"]');
+    await idle(page);
+    assert.equal(await page.locator(".trow").count(), before - 1);
+    // pouces en fractions : « 23 1/2 » lu comme 596,9 mm
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "fraction");
+    await page.click("#btnCloseSet");
+    await page.click('[data-src="manual"]');
+    assert.equal(await page.getAttribute("#manL", "type"), "text");
+    await page.fill("#manL", "23 1/2");
+    await page.fill("#manW", "10");
+    await page.click("#manualForm [type=submit]");
+    await idle(page);
+    await page.click("#btnSettings");
+    await page.selectOption("#unitsSel", "mm");
+    await page.click("#btnCloseSet");
+    await idle(page);
+    assert.equal(await page.locator('.trow .sz[value="596.9"]').count(), 1);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("échelle : 150 % et cote en mm restent liées", async () => {
     const page = await open();
     const row = '.trow[data-i="0"] ';

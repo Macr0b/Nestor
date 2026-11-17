@@ -34,7 +34,12 @@ function sourceFileNames() {
 async function importFiles(list, append) {
   if (!append || state.example) {
     state.files = [];
-    state.types = [];
+    // les pièces saisies à la main restent (sauf celles de l'exemple, qui n'en a pas)
+    state.types = state.example
+      ? []
+      : state.types.filter(function (t) {
+          return t.manual;
+        });
     state.example = false;
     state.name = append ? state.name : "";
   }

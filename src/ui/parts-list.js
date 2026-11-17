@@ -2,6 +2,7 @@
 /* Liste des pièces : tri, rotation, échelle, quantités, copies, sélection. */
 
 import { languageLocale, translate } from "../i18n/i18n.js";
+import { resizeManualPart } from "../project/manual-parts.js";
 import { partDisplayName, partScale, rotationChoice, rotationFromChoice } from "../project/parts.js";
 import { schedulePreferencesSave } from "../project/preferences.js";
 import { state } from "../project/state.js";
@@ -23,8 +24,19 @@ function hasLayers() {
   });
 }
 
+function hasManualParts() {
+  return state.types.some(function (t) {
+    return t.manual;
+  });
+}
+
+// plusieurs origines : plusieurs fichiers, ou un fichier et des pièces saisies à la main
 function hasSeveralFiles() {
-  return (state.files || []).length > 1;
+  return (state.files || []).length + (hasManualParts() ? 1 : 0) > 1;
+}
+
+function sourceNameOf(part) {
+  return part.manual ? translate("manual.source") : fileNameOf(part.fid);
 }
 
 function fileNameOf(fid) {
@@ -60,8 +72,12 @@ function sortedPartIndexes() {
     (state.files || []).forEach(function (f, k) {
       ord[f.id] = k;
     });
+    // pièces saisies à la main après les fichiers
+    var rank = function (t) {
+      return t.manual ? Infinity : ord[t.fid] || 0;
+    };
     idx.sort(function (a, b) {
-      return (ord[state.types[a].fid] || 0) - (ord[state.types[b].fid] || 0) || a - b;
+      return rank(state.types[a]) - rank(state.types[b]) || a - b;
     });
   }
   return { idx: idx, mode: mode };
@@ -102,7 +118,7 @@ export function renderPartsList() {
             }
           }
           if (sortedIndexes.mode === "src") {
-            var F = fileNameOf(t.fid);
+            var F = sourceNameOf(t);
             if (F !== lastL) {
               lastL = F;
               head = '<div class="lhead">' + escapeHtml(F) + "</div>";
@@ -139,7 +155,7 @@ export function renderPartsList() {
             '" aria-label="' +
             escapeHtml(translate("piece.dup")) +
             '">⧉</button>' +
-            (t.copy
+            (t.copy || t.manual
               ? '<button class="mini tb" type="button" data-act="del" title="' +
                 escapeHtml(translate("piece.del")) +
                 '" aria-label="' +
@@ -203,7 +219,7 @@ export function renderPartsList() {
                   ? '<span class="laytag">' + escapeHtml(translate("piece.layer", { l: t.layer })) + "</span>"
                   : "") +
                 (sortedIndexes.mode !== "src" && hasSeveralFiles()
-                  ? '<span class="laytag">' + escapeHtml(translate("piece.file", { f: fileNameOf(t.fid) })) + "</span>"
+                  ? '<span class="laytag">' + escapeHtml(translate("piece.file", { f: sourceNameOf(t) })) + "</span>"
                   : "") +
                 "</div>"
               : "") +
@@ -305,6 +321,17 @@ export function bindPartsList() {
     if (k === "sw" || k === "sh" || k === "sp") {
       // taille dans les unités choisies (gardée en mm) ou échelle en %
       var v = k === "sp" ? parseNumber(e.target.value, NaN) : readLengthField(e.target);
+      // pièce saisie à la main : longueur et largeur changent chacune de leur côté
+      if (t.manual && k !== "sp") {
+        var k100 = partScale(t) / 100;
+        if (resizeManualPart(t, k === "sw" ? v / k100 : t.w, k === "sh" ? v / k100 : t.h)) {
+          row.querySelector(".thumb").innerHTML =
+            '<span class="n">' + (+row.dataset.i + 1) + "</span>" + partThumbnail(t);
+          schedulePreferencesSave();
+          scheduleCalculation();
+        }
+        return;
+      }
       if (k === "sw") v = (v / t.w) * 100;
       else if (k === "sh") v = (v / t.h) * 100;
       setPartScale(t, row, v, k);
@@ -349,7 +376,7 @@ export function bindPartsList() {
         _effK: null
       });
       state.types.splice(i + 1, 0, c);
-    } else if (b.dataset.act === "del" && t.copy) {
+    } else if (b.dataset.act === "del" && (t.copy || t.manual)) {
       state.types.splice(i, 1);
     } else return;
     session.lastResult = null;

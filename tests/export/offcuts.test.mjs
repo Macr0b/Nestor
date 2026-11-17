@@ -76,6 +76,41 @@ describe("Coupes de chutes (computeOffcutCuts)", () => {
     assert.ok(big, `chute en haut à droite attendue : ${JSON.stringify(plain(r.chutes))}`);
   });
 
+  test("marge au bord : aucun trait parallèle au bord dans la marge, seulement des traits qui la traversent", () => {
+    // cas signalé : 1200 × 2500, groupe dans le coin haut gauche, marge de 35 mm, espace de 2 mm
+    const boxes = [box(35, 35, 300, 230), box(35, 240, 160, 330)];
+    for (const mode of ["simple", "detail"]) {
+      const r = computeOffcutCuts(1200, 2500, boxes, 2, mode, 35);
+      check(r, boxes, 2);
+      for (const [x1, y1, x2, y2] of r.cuts) {
+        // un trait vertical près du bord gauche ou droit, ou horizontal près du haut ou du bas, est interdit
+        if (x1 === x2) assert.ok(x1 > 35 + 30 && x1 < 1200 - 35 - 30, `${mode} : trait vertical à ${x1}`);
+        else assert.ok(y1 > 35 + 30 && y1 < 2500 - 35 - 30, `${mode} : trait horizontal à ${y1}`);
+      }
+      // la grande chute du bas et celle de droite sont bien récupérées
+      assert.ok(
+        r.chutes.some((c) => c.w === 1200 && c.h > 2100),
+        `${mode} : chute du bas`
+      );
+    }
+    const detail = computeOffcutCuts(1200, 2500, boxes, 2, "detail", 35);
+    assert.ok(
+      detail.chutes.some((c) => c.w > 850),
+      "chute à droite du groupe"
+    );
+    // sans marge déclarée, l'ancien comportement reste possible (bande de 33 mm coupée)
+    assert.ok(computeOffcutCuts(1200, 2500, boxes, 2, "detail").cuts.some(([x1, , x2]) => x1 === x2 && x1 === 33));
+  });
+
+  test("marge large : une vraie chute entre le bord et les pièces reste coupée", () => {
+    const boxes = [box(200, 35, 500, 300)];
+    const r = computeOffcutCuts(1200, 600, boxes, 2, "detail", 35);
+    assert.ok(
+      r.cuts.some(([x1, , x2]) => x1 === x2 && x1 === 198),
+      JSON.stringify(plain(r.cuts))
+    );
+  });
+
   test("aucune pièce ou mode inconnu : rien", () => {
     assert.deepEqual(plain(computeOffcutCuts(400, 600, [], 5, "detail")), { cuts: [], chutes: [] });
     assert.deepEqual(plain(computeOffcutCuts(400, 600, [box(0, 0, 10, 10)], 5, "")), { cuts: [], chutes: [] });

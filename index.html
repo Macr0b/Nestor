@@ -97,6 +97,21 @@
 
       <section class="box" aria-labelledby="h-file">
         <h2 id="h-file" data-i18n="file.title">Fichier des pièces</h2>
+        <div class="chips src-chips" id="srcChoice" role="group" data-i18n-aria="manual.sourceChoice" aria-label="Origine des pièces">
+          <button type="button" data-src="file" aria-pressed="true" data-i18n="manual.tabFile">Importer un fichier</button>
+          <button type="button" data-src="manual" aria-pressed="false" data-i18n="manual.tabManual">Saisir à la main</button>
+        </div>
+        <form class="manual-form" id="manualForm" hidden>
+          <label class="f m-name"><span data-i18n="manual.name">Pièce</span><input type="text" id="manName" maxlength="200" data-i18n-ph="manual.namePh" placeholder="Côté"></label>
+          <label class="f"><span data-i18n="panel.L">Longueur (↑)</span><input id="manL" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="f"><span data-i18n="panel.W">Largeur (→)</span><input id="manW" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="f m-qty"><span data-i18n="piece.qty">Qté</span><input id="manQty" type="number" inputmode="numeric" min="1" step="1" value="1"></label>
+          <label class="m-fixed"><input type="checkbox" id="manFixed"> <span data-i18n="piece.rotFix">Sens fixe</span></label>
+          <button type="submit" class="btn" data-i18n="manual.add">Ajouter</button>
+          <p class="hint m-msg" id="manualMsg" aria-live="polite"></p>
+          <p class="hint m-hint" data-i18n="manual.hint">Colle aussi des lignes d’un tableur dans un champ : nom, longueur, largeur, quantité. Les pièces ajoutées rejoignent la liste des pièces, où tu changes leur nom, leurs cotes, leur quantité et leur sens.</p>
+        </form>
+        <div id="srcFilePane">
         <label class="drop" id="drop">
           <strong data-i18n="file.drop">Importer un DXF, SVG, AI ou PDF</strong>
           <span class="hint" data-i18n="file.dropHint">Touche pour choisir, ou glisse le fichier ici</span>
@@ -116,6 +131,7 @@
           </select>
         </label>
         <p class="hint" data-i18n="file.unitsHint">Vérifie la taille détectée ci-dessus. Si elle est fausse, change les unités.</p>
+        </div>
       </section>
 
       <section class="box" aria-labelledby="h-panel">
@@ -318,7 +334,7 @@
       <div class="nb-top">
         <label class="f nb-search"><span data-i18n="nb.search">Rechercher</span><input type="search" id="nbSearch" data-i18n-ph="nb.searchPh" placeholder="matière, machine, note…"></label>
         <label class="f nb-machine"><span data-i18n="lz.machine">Machine</span><select id="nbMachineFilter"></select></label>
-        <div class="nb-chips" id="nbFilter" role="group" data-i18n-aria="nb.filter" aria-label="Procédé">
+        <div class="chips" id="nbFilter" role="group" data-i18n-aria="nb.filter" aria-label="Procédé">
           <button type="button" data-process="" aria-pressed="true" data-i18n="nb.all">Tout</button>
           <button type="button" data-process="mill" aria-pressed="false" data-i18n="nb.mill">Fraisage</button>
           <button type="button" data-process="laser" aria-pressed="false" data-i18n="nb.laser">Laser</button>
@@ -334,7 +350,7 @@
     <section class="box nb-formbox" id="nbFormBox" aria-labelledby="h-nbForm" hidden>
       <h2 id="h-nbForm"></h2>
       <form class="nb-form" id="nbForm">
-        <div class="nb-chips" id="nbProcess" role="group" data-i18n-aria="nb.process" aria-label="Procédé">
+        <div class="chips" id="nbProcess" role="group" data-i18n-aria="nb.process" aria-label="Procédé">
           <button type="button" data-process="mill" data-i18n="nb.mill">Fraisage</button>
           <button type="button" data-process="laser" data-i18n="nb.laser">Laser</button>
           <button type="button" data-process="other" data-i18n="nb.other">Autre</button>

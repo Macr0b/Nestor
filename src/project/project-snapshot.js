@@ -110,6 +110,7 @@ function cleanType(raw, budget) {
   };
   if (typeof t.fid === "number" && isFinite(t.fid)) type.fid = Math.floor(t.fid);
   if (t.copy === true) type.copy = true;
+  if (t.manual === true) type.manual = true;
   if (t.on === false) type.on = false;
   if (typeof t.scale === "number" || (typeof t.scale === "string" && t.scale.length <= 20)) type.scale = t.scale;
   if (EXAMPLE_KEYS.includes(t.nameKey)) type.nameKey = t.nameKey;

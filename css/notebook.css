@@ -32,29 +32,6 @@
   flex: 0 1 200px;
   min-width: 0;
 }
-.nb-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.nb-chips button {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--ink);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-.nb-chips button:hover {
-  border-color: var(--accent);
-}
-.nb-chips button[aria-pressed="true"] {
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-color: var(--accent);
-}
 .nb-import {
   cursor: pointer;
 }

@@ -890,3 +890,61 @@ button:focus-visible,
 .dl-all {
   margin-top: 4px;
 }
+
+/* boutons à bascule (Carnet, Saisir à la main…) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chips button {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.chips button:hover {
+  border-color: var(--accent);
+}
+.chips button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+/* Saisir des pièces à la main */
+.src-chips {
+  margin-bottom: 10px;
+}
+.manual-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 0.7fr);
+  gap: 8px 10px;
+  align-items: end;
+}
+.manual-form .m-name,
+.manual-form .m-msg,
+.manual-form .m-hint {
+  grid-column: 1 / -1;
+}
+.manual-form .m-msg,
+.manual-form .m-hint {
+  margin: 0;
+}
+.manual-form .m-msg:empty {
+  display: none;
+}
+.manual-form .m-fixed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  min-height: 40px;
+}
+.manual-form [type="submit"] {
+  grid-column: 2 / -1;
+}
