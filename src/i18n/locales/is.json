@@ -188,7 +188,7 @@
   "calc.cancelled": "Hætt var við útreikning.",
   "calc.many": "{n} hlutum á að raða: það getur tekið tíma.",
   "news.121": "Magn er ekki lengur takmarkað við 500, of stórir hlutar eru tilkynntir strax og hnappurinn Hætta við birtist í löngum útreikningi.",
-  "news.192": "Fræsing: „Mesta skurðdýpt“ og „Umferðir“ eru útskýrðar á skýran hátt, og minnsta spássía eftir fræsitönninni (Ø + 1 mm) bætist við minnsta bilið milli hluta.",
+  "news.192": "Fræsing: „Mesta skurðdýpt“ og „Umferðir“ eru útskýrðar á skýran hátt, og minnsta spássía eftir fræsitönninni (Ø + 1 mm) bætist við minnsta bilið milli hluta. Flipar í nýrri röð: Röðun, Fræsing, Leysir, Efni, Minnisbók, Kostnaður.",
   "news.191": "Röð sagarskurða: stóri afgangurinn fer af í einum skurði í stað þess að vera skorinn í ræmur, og númerin raðast þar sem þau hylja hvorki hluti né önnur númer (minni í PDF).",
   "news.190": "Hlutir slegnir inn í höndunum (eða límdir úr töflureikni), röð sagarskurða fyrir aðferðina Rétthyrningar (með þykkt blaðsins þíns), þín eigin leysiefni og gildi, leiðbeinandi gildi frá Thunder Laser og GWK (krossviður, MDF, akrýl, pappi, leður…), og engar afgangslínur lengur meðfram jaðrinum.",
   "news.181": "Í síma eru hnapparnir Verkefni og Stillingar nú undir merkinu í stað þess að hylja það.",

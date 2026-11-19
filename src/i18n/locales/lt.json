@@ -188,7 +188,7 @@
   "calc.cancelled": "Skaičiavimas atšauktas.",
   "calc.many": "Reikia išdėstyti {n} detalių: tai gali užtrukti.",
   "news.121": "Kiekiai nebėra apriboti 500, per didelės detalės pažymimos iš karto, o ilgo skaičiavimo metu atsiranda mygtukas Atšaukti.",
-  "news.192": "Frezavimas: „Didžiausias pjovimo gylis“ ir „Atliekami praėjimai“ aiškiai paaiškinti, o šalia mažiausio tarpo tarp detalių atsirado mažiausia paraštė pagal frezą (Ø + 1 mm).",
+  "news.192": "Frezavimas: „Didžiausias pjovimo gylis“ ir „Atliekami praėjimai“ aiškiai paaiškinti, o šalia mažiausio tarpo tarp detalių atsirado mažiausia paraštė pagal frezą (Ø + 1 mm). Skirtukai nauja tvarka: Išdėstymas, Frezavimas, Lazeris, Medžiagos, Užrašų knyga, Kaina.",
   "news.191": "Pjūvių pjūklu tvarka: didelė atraiža nupjaunama vienu pjūviu, o ne supjaustoma juostomis, o numeriai dedami ten, kur neuždengia nei detalių, nei kitų numerių (PDF mažesni).",
   "news.190": "Detalių įvedimas rankiniu būdu (ar įklijavimas iš skaičiuoklės), pjūvių pjūklu tvarka metodui Stačiakampiai (su tavo pjūklo storiu), savos lazerio medžiagos ir vertės, orientacinės Thunder Laser ir GWK vertės (fanera, MDF, akrilas, kartonas, oda…) ir nebėra atraižų linijų palei paraštes.",
   "news.181": "Telefone mygtukai „Projektai“ ir „Nustatymai“ dabar yra po logotipu, o ne ant jo.",

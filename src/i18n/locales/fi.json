@@ -188,7 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
-  "news.192": "Jyrsintä: ”Suurin lastuamissyvyys” ja ”Ajokerrat” selitetään selkeästi, ja kappaleiden vähimmäisvälin rinnalle tulee terän mukainen vähimmäisreunus (Ø + 1 mm).",
+  "news.192": "Jyrsintä: ”Suurin lastuamissyvyys” ja ”Ajokerrat” selitetään selkeästi, ja kappaleiden vähimmäisvälin rinnalle tulee terän mukainen vähimmäisreunus (Ø + 1 mm). Välilehdet uudessa järjestyksessä: Sijoittelu, Jyrsintä, Laser, Materiaalit, Muistikirja, Kustannus.",
   "news.191": "Sahausjärjestys: suuri hukkapala irtoaa yhdellä sahauksella sen sijaan, että se pilkottaisiin suikaleiksi, ja numerot sijoittuvat niin, etteivät ne peitä kappaleita eivätkä toisia numeroita (pienempinä PDF:ssä).",
   "news.190": "Kappaleiden syöttö käsin (tai liittäminen taulukosta), sahausjärjestys Suorakulmiot-menetelmälle (oman teräsi paksuudella), omat lasermateriaalit ja -arvot, Thunder Laserin ja GWK:n suuntaa-antavat arvot (vaneri, MDF, akryyli, pahvi, nahka…) eikä enää hukkapalaviivoja reunusten suuntaisesti.",
   "news.181": "Puhelimessa Projektit- ja Asetukset-painikkeet ovat nyt logon alla eivätkä peitä sitä.",

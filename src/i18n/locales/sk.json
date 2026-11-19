@@ -188,7 +188,7 @@
   "calc.cancelled": "Výpočet zrušený.",
   "calc.many": "{n} dielov na rozmiestnenie: môže to chvíľu trvať.",
   "news.121": "Množstvá už nie sú obmedzené na 500, príliš veľké diely sa ohlásia hneď a pri dlhom výpočte sa objaví tlačidlo Zrušiť.",
-  "news.192": "Frézovanie: „Maximálna hĺbka triesky“ a „Prechody“ sú zrozumiteľne vysvetlené a k minimálnej medzere medzi dielmi pribudol minimálny okraj podľa frézy (Ø + 1 mm).",
+  "news.192": "Frézovanie: „Maximálna hĺbka triesky“ a „Prechody“ sú zrozumiteľne vysvetlené a k minimálnej medzere medzi dielmi pribudol minimálny okraj podľa frézy (Ø + 1 mm). Karty v novom poradí: Rozmiestnenie, Frézovanie, Laser, Materiály, Zápisník, Náklady.",
   "news.191": "Poradie rezov pílou: veľký odrezok odpadne jediným rezom namiesto rozrezania na pásy a čísla sa umiestnia tam, kde nezakrývajú diely ani iné čísla (v PDF menšie).",
   "news.190": "Ručné zadanie dielov (alebo vloženie z tabuľky), poradie rezov pílou pre metódu Obdĺžniky (s hrúbkou tvojho kotúča), vlastné laserové materiály a hodnoty, orientačné hodnoty Thunder Laser a GWK (preglejka, MDF, akrylát, kartón, koža…) a už žiadne čiary odrezkov pozdĺž okrajov.",
   "news.181": "Na telefóne sú tlačidlá Projekty a Nastavenia teraz pod logom, namiesto toho, aby ho zakrývali.",

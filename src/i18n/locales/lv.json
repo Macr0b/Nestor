@@ -188,7 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
-  "news.192": "Frēzēšana: “Lielākais griešanas dziļums” un “Veicamie gājieni” ir skaidri izskaidroti, un blakus mazākajai atstarpei starp detaļām nāk mazākā mala pēc frēzes (Ø + 1 mm).",
+  "news.192": "Frēzēšana: “Lielākais griešanas dziļums” un “Veicamie gājieni” ir skaidri izskaidroti, un blakus mazākajai atstarpei starp detaļām nāk mazākā mala pēc frēzes (Ø + 1 mm). Cilnes jaunā secībā: Izkārtojums, Frēzēšana, Lāzers, Materiāli, Piezīmju grāmata, Izmaksas.",
   "news.191": "Zāģēšanas secība: lielais atgriezums nāk nost ar vienu griezumu, nevis tiek sagriezts strēmelēs, un numuri novietojas tur, kur tie neaizsedz ne detaļas, ne citus numurus (PDF mazāki).",
   "news.190": "Detaļu ievade manuāli (vai ielīmēšana no izklājlapas), zāģēšanas secība metodei Taisnstūri (ar tava asmens biezumu), savi lāzera materiāli un vērtības, Thunder Laser un GWK orientējošās vērtības (saplāksnis, MDF, akrils, kartons, āda…) un vairs nav atgriezumu līniju gar malām.",
   "news.181": "Tālrunī pogas “Projekti” un “Iestatījumi” tagad ir zem logotipa, nevis to aizsedz.",

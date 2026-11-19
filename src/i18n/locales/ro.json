@@ -188,7 +188,7 @@
   "calc.cancelled": "Calcul anulat.",
   "calc.many": "{n} piese de așezat: poate dura ceva timp.",
   "news.121": "Cantitățile nu mai sunt limitate la 500, piesele prea mari sunt semnalate imediat, iar în timpul unui calcul lung apare butonul Anulează.",
-  "news.192": "Frezare: „Adâncime maximă de trecere” și „Treceri de făcut” sunt explicate clar, iar lângă spațiul minim dintre piese apare o margine minimă după freză (Ø + 1 mm).",
+  "news.192": "Frezare: „Adâncime maximă de trecere” și „Treceri de făcut” sunt explicate clar, iar lângă spațiul minim dintre piese apare o margine minimă după freză (Ø + 1 mm). File într-o ordine nouă: Așezare, Frezare, Laser, Materiale, Caiet, Cost.",
   "news.191": "Ordinea tăieturilor cu fierăstrăul: restul mare se desprinde dintr-o singură tăietură în loc să fie tăiat în fâșii, iar numerele se așază acolo unde nu acoperă nici piesele, nici alte numere (mai discrete în PDF).",
   "news.190": "Piese introduse manual (sau lipite dintr-o foaie de calcul), ordinea tăieturilor cu fierăstrăul pentru metoda Dreptunghiuri (cu grosimea pânzei tale), materiale și valori laser proprii, valori orientative Thunder Laser și GWK (placaj, MDF, acril, carton, piele…) și nu mai apar linii de resturi de-a lungul marginilor.",
   "news.181": "Pe telefon, butoanele Proiecte și Setări stau acum sub logo, în loc să-l acopere.",

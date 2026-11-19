@@ -188,7 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
-  "news.192": "Frézování: „Maximální hloubka třísky“ a „Průchody“ jsou srozumitelně vysvětlené a k minimální mezeře mezi díly přibyl minimální okraj podle frézy (Ø + 1 mm).",
+  "news.192": "Frézování: „Maximální hloubka třísky“ a „Průchody“ jsou srozumitelně vysvětlené a k minimální mezeře mezi díly přibyl minimální okraj podle frézy (Ø + 1 mm). Karty v novém pořadí: Rozmístění, Frézování, Laser, Materiály, Zápisník, Náklady.",
   "news.191": "Pořadí řezů pilou: velký odřezek odpadne jediným řezem, místo aby se rozřezal na pruhy, a čísla se umístí tam, kde nezakrývají díly ani jiná čísla (v PDF menší).",
   "news.190": "Ruční zadání dílů (nebo vložení z tabulky), pořadí řezů pilou pro metodu Obdélníky (s tloušťkou tvého kotouče), vlastní laserové materiály a hodnoty, orientační hodnoty Thunder Laser a GWK (překližka, MDF, akrylát, karton, kůže…) a už žádné čáry odřezků podél okrajů.",
   "news.181": "Na telefonu jsou tlačítka Projekty a Nastavení nyní pod logem, místo aby ho zakrývala.",

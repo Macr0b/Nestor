@@ -1583,6 +1583,19 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.locator("body").click({ position: { x: 5, y: 300 } });
     await page.keyboard.press("Alt+Digit3");
     assert.equal(await page.getAttribute("#tabLaser", "aria-selected"), "true");
+    // ordre des onglets : Imbrication, Fraisage, Laser, Matières, Carnet, Coût ; Alt+4 = Matières, Alt+6 = Coût
+    assert.deepEqual(await page.$$eval('[role="tablist"] [role="tab"]', (v) => v.map((t) => t.id)), [
+      "tabNest",
+      "tabMill",
+      "tabLaser",
+      "tabMaterials",
+      "tabNotebook",
+      "tabCost"
+    ]);
+    await page.keyboard.press("Alt+Digit4");
+    assert.equal(await page.getAttribute("#tabMaterials", "aria-selected"), "true");
+    await page.keyboard.press("Alt+Digit6");
+    assert.equal(await page.getAttribute("#tabCost", "aria-selected"), "true");
     await page.keyboard.press("Alt+Digit1");
     assert.equal(await page.getAttribute("#tabNest", "aria-selected"), "true");
     // « ? » : aide ; Échap la ferme

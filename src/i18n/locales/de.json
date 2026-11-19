@@ -188,7 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
-  "news.192": "Fräsen: „Maximale Zustellung“ und „Durchgänge“ werden klar erklärt, und ein Mindestrand nach dem Fräser (Ø + 1 mm) kommt zum Mindestabstand zwischen den Teilen hinzu.",
+  "news.192": "Fräsen: „Maximale Zustellung“ und „Durchgänge“ werden klar erklärt, und ein Mindestrand nach dem Fräser (Ø + 1 mm) kommt zum Mindestabstand zwischen den Teilen hinzu. Tabs in neuer Reihenfolge: Verschachtelung, Fräsen, Laser, Materialien, Notizbuch, Kosten.",
   "news.191": "Schnittreihenfolge für die Säge: Das große Reststück fällt mit einem einzigen Schnitt ab, statt in Streifen zerschnitten zu werden, und die Nummern stehen dort, wo sie weder Teile noch andere Nummern verdecken (dezenter im PDF).",
   "news.190": "Teile von Hand eingeben (oder aus einer Tabelle einfügen), Schnittreihenfolge für die Säge bei der Methode Rechtecke (mit deiner Sägeblattstärke), eigene Lasermaterialien und -werte, Richtwerte von Thunder Laser und GWK (Sperrholz, MDF, Acryl, Karton, Leder …) und keine Restestücklinien mehr entlang der Ränder.",
   "news.181": "Auf dem Handy stehen die Schaltflächen Projekte und Einstellungen jetzt unter dem Logo, statt es zu verdecken.",

@@ -188,7 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
-  "news.192": "Fresing: «Maksimal skjæredybde» og «Passeringer å gjøre» forklares tydelig, og en minste marg etter fresen (Ø + 1 mm) kommer i tillegg til minste avstand mellom deler.",
+  "news.192": "Fresing: «Maksimal skjæredybde» og «Passeringer å gjøre» forklares tydelig, og en minste marg etter fresen (Ø + 1 mm) kommer i tillegg til minste avstand mellom deler. Faner i ny rekkefølge: Plassering, Fresing, Laser, Materialer, Notatbok, Kostnad.",
   "news.191": "Rekkefølge for sagsnitt: det store reststykket kommer av med ett enkelt snitt i stedet for å bli kuttet i strimler, og numrene plasseres der de verken skjuler deler eller andre numre (mindre i PDF-en).",
   "news.190": "Deler skrevet inn for hånd (eller limt inn fra et regneark), rekkefølge for sagsnitt med metoden Rektangler (med tykkelsen på sagbladet ditt), egne lasermaterialer og -verdier, veiledende verdier fra Thunder Laser og GWK (kryssfiner, MDF, akryl, kartong, lær …), og ingen flere restlinjer langs margene.",
   "news.181": "På telefonen står knappene Prosjekter og Innstillinger nå under logoen i stedet for å dekke den.",

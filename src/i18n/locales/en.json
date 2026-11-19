@@ -188,7 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
-  "news.192": "Milling: “Maximum depth of cut” and “Passes to make” are explained in plain words, and a minimum margin based on the bit (Ø + 1 mm) joins the minimum gap between parts.",
+  "news.192": "Milling: “Maximum depth of cut” and “Passes to make” are explained in plain words, and a minimum margin based on the bit (Ø + 1 mm) joins the minimum gap between parts. Tabs in a new order: Nesting, Milling, Laser, Materials, Notebook, Cost.",
   "news.191": "Saw cutting order: the large offcut comes off in a single cut instead of being sliced into strips, and the numbers go where they hide neither the parts nor other numbers (smaller in the PDF).",
   "news.190": "Parts entered by hand (or pasted from a spreadsheet), saw cutting order for the Rectangles method (with your blade thickness), your own laser materials and values, indicative values from Thunder Laser and GWK (plywood, MDF, acrylic, cardboard, leather…), and no more offcut lines along the margins.",
   "news.181": "On phones, the Projects and Settings buttons now sit below the logo instead of covering it.",

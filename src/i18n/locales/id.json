@@ -188,7 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
-  "news.192": "Frais: “Kedalaman potong maksimum” dan “Lintasan yang dibuat” dijelaskan dengan jelas, dan margin minimum menurut mata frais (Ø + 1 mm) ditambahkan di samping jarak minimum antarkomponen.",
+  "news.192": "Frais: “Kedalaman potong maksimum” dan “Lintasan yang dibuat” dijelaskan dengan jelas, dan margin minimum menurut mata frais (Ø + 1 mm) ditambahkan di samping jarak minimum antarkomponen. Tab dengan urutan baru: Penataan, Frais, Laser, Bahan, Buku catatan, Biaya.",
   "news.191": "Urutan potongan gergaji: sisa besar terlepas dengan satu potongan, bukan dipotong menjadi lajur-lajur, dan nomor ditempatkan di tempat yang tidak menutupi komponen maupun nomor lain (lebih kecil di PDF).",
   "news.190": "Komponen dimasukkan manual (atau ditempel dari spreadsheet), urutan potongan gergaji untuk metode Persegi panjang (dengan tebal mata gergajimu), bahan dan nilai laser milikmu, nilai acuan dari Thunder Laser dan GWK (kayu lapis, MDF, akrilik, karton, kulit…), dan tak ada lagi garis sisa di sepanjang margin.",
   "news.181": "Di ponsel, tombol Proyek dan Pengaturan kini berada di bawah logo, tidak lagi menutupinya.",
