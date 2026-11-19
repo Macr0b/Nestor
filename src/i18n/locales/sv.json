@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.193": "Fräsning: spindelns varvtal förklaras (var de förifyllda värdena kommer ifrån, vad de ändrar, var du hittar dina). AI-import: namn som getts åt banor i Illustrator används för delarna.",
   "news.192": "Fräsning: ”Maximalt skärdjup” och ”Pass att göra” förklaras tydligt, och en minsta marginal efter fräsen (Ø + 1 mm) läggs till bredvid minsta avståndet mellan delar. Flikar i ny ordning: Utplacering, Fräsning, Laser, Material, Anteckningsbok, Kostnad.",
   "news.191": "Sågordning: den stora spillbiten kommer loss med ett enda snitt i stället för att sågas i remsor, och numren hamnar där de varken döljer delar eller andra nummer (mindre i PDF:en).",
   "news.190": "Delar inmatade för hand (eller inklistrade från ett kalkylblad), sågordning för metoden Rektanglar (med din klingas tjocklek), egna lasermaterial och -värden, riktvärden från Thunder Laser och GWK (plywood, MDF, akryl, kartong, läder …), och inga fler spillinjer längs marginalerna.",
@@ -231,8 +232,6 @@
   "mill.hardness": "hårdhetsklass {c}",
   "mill.asFamily": "inställt som ”{f}”",
   "mill.machine": "Maskin och arbete",
-  "mill.spindleMin": "Spindel min (v/min)",
-  "mill.spindleMax": "Spindel max (v/min)",
   "mill.feedMax": "Max matning ({u}/min)",
   "mill.thickness": "Tjocklek att skära ({u})",
   "mill.results": "Rekommenderade värden",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minsta avstånd {g} {u}",
   "panel.marginMin": "Minsta marginal {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Spindelns lägsta varvtal (v/min)",
+  "mill.spindleMaxYour": "Spindelns högsta varvtal (v/min)",
+  "mill.spindleFrom": "Var värdena kommer ifrån: 6 000–24 000 v/min är det vanligaste området för CNC-spindlar (till exempel en vattenkyld spindel på 2,2 kW). Det är inte nödvändigtvis din maskin.",
+  "mill.spindleEffect": "Vad de ändrar: Nestor föreslår aldrig ett varvtal utanför dem. Kräver beräkningen mer än max begränsas varvtalet och matningen sänks i samma mån, så att spånet förblir detsamma (och tvärtom under min).",
+  "mill.spindleWhere": "Så anger du dina: läs dem på spindelns typskylt, i handboken till din handöverfräs (ofta 10 000–30 000 v/min) eller i frekvensomriktarens inställningar (2-polig spindel: v/min = frekvens × 60, alltså 400 Hz = 24 000 v/min)."
 }

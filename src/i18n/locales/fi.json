@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.193": "Jyrsintä: karasi pyörimisnopeudet selitetään (mistä esitäytetyt arvot tulevat, mitä ne muuttavat, mistä löydät omasi). AI-tuonti: Illustratorissa poluille annetut nimet käytetään kappaleille.",
   "news.192": "Jyrsintä: ”Suurin lastuamissyvyys” ja ”Ajokerrat” selitetään selkeästi, ja kappaleiden vähimmäisvälin rinnalle tulee terän mukainen vähimmäisreunus (Ø + 1 mm). Välilehdet uudessa järjestyksessä: Sijoittelu, Jyrsintä, Laser, Materiaalit, Muistikirja, Kustannus.",
   "news.191": "Sahausjärjestys: suuri hukkapala irtoaa yhdellä sahauksella sen sijaan, että se pilkottaisiin suikaleiksi, ja numerot sijoittuvat niin, etteivät ne peitä kappaleita eivätkä toisia numeroita (pienempinä PDF:ssä).",
   "news.190": "Kappaleiden syöttö käsin (tai liittäminen taulukosta), sahausjärjestys Suorakulmiot-menetelmälle (oman teräsi paksuudella), omat lasermateriaalit ja -arvot, Thunder Laserin ja GWK:n suuntaa-antavat arvot (vaneri, MDF, akryyli, pahvi, nahka…) eikä enää hukkapalaviivoja reunusten suuntaisesti.",
@@ -231,8 +232,6 @@
   "mill.hardness": "kovuusluokka {c}",
   "mill.asFamily": "asetettu kuin ”{f}”",
   "mill.machine": "Kone ja työ",
-  "mill.spindleMin": "Kara min (r/min)",
-  "mill.spindleMax": "Kara max (r/min)",
   "mill.feedMax": "Suurin syöttö ({u}/min)",
   "mill.thickness": "Leikattava paksuus ({u})",
   "mill.results": "Suositellut arvot",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Vähimmäisväli {g} {u}",
   "panel.marginMin": "Vähimmäisreunus {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Karasi pienin pyörimisnopeus (r/min)",
+  "mill.spindleMaxYour": "Karasi suurin pyörimisnopeus (r/min)",
+  "mill.spindleFrom": "Mistä arvot tulevat: 6 000–24 000 r/min on CNC-karojen yleisin alue (esimerkiksi 2,2 kW:n vesijäähdytteinen kara). Se ei välttämättä ole sinun koneesi.",
+  "mill.spindleEffect": "Mitä ne muuttavat: Nestor ei koskaan ehdota nopeutta niiden ulkopuolelta. Jos laskelma vaatii enemmän kuin suurimman nopeuden, nopeus rajataan ja syöttöä lasketaan samassa suhteessa, jotta lastu pysyy samana (ja päinvastoin pienimmän alapuolella).",
+  "mill.spindleWhere": "Omien arvojen asettaminen: lue ne karan arvokilvestä, yläjyrsimen käyttöohjeesta (usein 10 000–30 000 r/min) tai taajuusmuuttajan asetuksista (2-napainen kara: r/min = taajuus × 60, eli 400 Hz = 24 000 r/min)."
 }

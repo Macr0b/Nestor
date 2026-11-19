@@ -188,6 +188,7 @@
   "calc.cancelled": "Hesaplama iptal edildi.",
   "calc.many": "Yerleştirilecek {n} parça var: bu biraz sürebilir.",
   "news.121": "Miktarlar artık 500 ile sınırlı değil, fazla büyük parçalar hemen bildiriliyor ve uzun hesaplamalarda bir İptal düğmesi çıkıyor.",
+  "news.193": "Frezeleme: iş milinin devirleri açıklanıyor (hazır değerler nereden geliyor, neyi değiştiriyor, kendi değerlerini nerede bulacağın). AI içe aktarma: Illustrator’da yollara verilen adlar parçalar için kullanılıyor.",
   "news.192": "Frezeleme: “En fazla paso derinliği” ve “Yapılacak pasolar” açıkça anlatılıyor; parçalar arası en az boşluğun yanına frezeye göre en az kenar payı (Ø + 1 mm) eklendi. Sekmeler yeni sırada: Yerleşim, Frezeleme, Lazer, Malzemeler, Defter, Maliyet.",
   "news.191": "Testere kesim sırası: büyük artık parça şeritlere bölünmek yerine tek kesimle ayrılır ve numaralar ne parçaları ne de diğer numaraları kapatacak yerlere konur (PDF’te daha küçük).",
   "news.190": "Parçaları elle girme (ya da tablodan yapıştırma), Dikdörtgenler yöntemi için testere kesim sırası (bıçak kalınlığınla), kendi lazer malzemelerin ve değerlerin, Thunder Laser ve GWK’dan yol gösterici değerler (kontrplak, MDF, akrilik, karton, deri…) ve artık kenar boşlukları boyunca artık parça çizgisi yok.",
@@ -231,8 +232,6 @@
   "mill.hardness": "sertlik sınıfı {c}",
   "mill.asFamily": "“{f}” olarak ayarlandı",
   "mill.machine": "Makine ve iş",
-  "mill.spindleMin": "İş mili min (dev/dk)",
-  "mill.spindleMax": "İş mili maks (dev/dk)",
   "mill.feedMax": "Maks. ilerleme ({u}/dk)",
   "mill.thickness": "Kesilecek kalınlık ({u})",
   "mill.results": "Önerilen ayarlar",
@@ -639,5 +638,10 @@
   "panel.gapMin": "En az boşluk {g} {u}",
   "panel.marginMin": "En az kenar payı {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "İş milinin en düşük devri (dev/dk)",
+  "mill.spindleMaxYour": "İş milinin en yüksek devri (dev/dk)",
+  "mill.spindleFrom": "Bu değerler nereden geliyor: 6.000–24.000 dev/dk, CNC iş millerinin en yaygın aralığıdır (örneğin 2,2 kW su soğutmalı iş mili). Senin makinen olmayabilir.",
+  "mill.spindleEffect": "Neyi değiştirirler: Nestor bunların dışında bir devir asla önermez. Hesap en yüksekten fazlasını isterse devir sınırlanır ve ilerleme aynı oranda düşürülür, böylece talaş aynı kalır (en düşüğün altında da tersi).",
+  "mill.spindleWhere": "Kendi değerlerini girmek için: iş milinin etiketinden, el freze makinenin kılavuzundan (çoğunlukla 10.000–30.000 dev/dk) ya da frekans çeviricinin ayarlarından oku (2 kutuplu iş mili: dev/dk = frekans × 60, yani 400 Hz = 24.000 dev/dk)."
 }

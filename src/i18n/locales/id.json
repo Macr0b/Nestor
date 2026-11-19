@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.193": "Frais: kecepatan spindelmu kini dijelaskan (dari mana nilai bawaan, apa yang diubahnya, di mana menemukan milikmu). Impor AI: nama yang diberikan pada path di Illustrator dipakai untuk komponen.",
   "news.192": "Frais: “Kedalaman potong maksimum” dan “Lintasan yang dibuat” dijelaskan dengan jelas, dan margin minimum menurut mata frais (Ø + 1 mm) ditambahkan di samping jarak minimum antarkomponen. Tab dengan urutan baru: Penataan, Frais, Laser, Bahan, Buku catatan, Biaya.",
   "news.191": "Urutan potongan gergaji: sisa besar terlepas dengan satu potongan, bukan dipotong menjadi lajur-lajur, dan nomor ditempatkan di tempat yang tidak menutupi komponen maupun nomor lain (lebih kecil di PDF).",
   "news.190": "Komponen dimasukkan manual (atau ditempel dari spreadsheet), urutan potongan gergaji untuk metode Persegi panjang (dengan tebal mata gergajimu), bahan dan nilai laser milikmu, nilai acuan dari Thunder Laser dan GWK (kayu lapis, MDF, akrilik, karton, kulit…), dan tak ada lagi garis sisa di sepanjang margin.",
@@ -231,8 +232,6 @@
   "mill.hardness": "kelas kekerasan {c}",
   "mill.asFamily": "diatur sebagai “{f}”",
   "mill.machine": "Mesin dan pekerjaan",
-  "mill.spindleMin": "Spindel min (rpm)",
-  "mill.spindleMax": "Spindel maks (rpm)",
   "mill.feedMax": "Pemakanan maks ({u}/menit)",
   "mill.thickness": "Tebal yang dipotong ({u})",
   "mill.results": "Setelan yang disarankan",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Jarak minimum {g} {u}",
   "panel.marginMin": "Margin minimum {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Kecepatan minimum spindelmu (rpm)",
+  "mill.spindleMaxYour": "Kecepatan maksimum spindelmu (rpm)",
+  "mill.spindleFrom": "Dari mana nilai ini: 6.000–24.000 rpm adalah rentang paling umum spindel CNC (misalnya spindel 2,2 kW berpendingin air). Belum tentu mesinmu.",
+  "mill.spindleEffect": "Apa yang diubahnya: Nestor tidak pernah menyarankan kecepatan di luar batas itu. Jika perhitungan meminta lebih dari maksimum, kecepatan dibatasi dan laju makan diturunkan sebanding agar serpihan tetap sama (dan sebaliknya di bawah minimum).",
+  "mill.spindleWhere": "Untuk memasukkan milikmu: baca di pelat spindel, di buku panduan router tanganmu (sering 10.000–30.000 rpm), atau di pengaturan inverter (spindel 2 kutub: rpm = frekuensi × 60, jadi 400 Hz = 24.000 rpm)."
 }

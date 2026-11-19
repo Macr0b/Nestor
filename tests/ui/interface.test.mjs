@@ -172,6 +172,17 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("import AI : noms des tracés donnés dans Illustrator (données internes ZStandard et zlib)", async () => {
+    for (const file of ["noms-zstd.ai", "noms-zlib.ai"]) {
+      const page = await open();
+      await load(page, file);
+      const names = await page.$$eval(".trow .nm", (v) => v.map((i) => i.value).sort());
+      assert.deepEqual(names, ["BGM_12", "Côté gauche", "Étagère", "Étagère"].sort(), file);
+      assert.deepEqual(page.errors, []);
+      await page.context().close();
+    }
+  });
+
   // Chaque format que l'appli déclare savoir ouvrir (manifest.webmanifest) doit avoir un fichier d'essai qui s'importe
   // sans erreur. Un format ajouté au manifeste sans fichier d'essai fait échouer ce test.
   test("tous les formats d'import déclarés : un fichier d'essai chacun, lu sans erreur", async () => {

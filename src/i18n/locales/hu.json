@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.193": "Marás: a főorsód fordulatszámai el vannak magyarázva (honnan jönnek az előre kitöltött értékek, mit változtatnak, hol találod a sajátjaidat). AI-import: az Illustratorban a görbéknek adott nevek az alkatrészekhez kerülnek.",
   "news.192": "Marás: a „Legnagyobb fogásmélység” és az „Elvégzendő fogások” érthetően el van magyarázva, és az alkatrészek közti legkisebb hézag mellé bekerült a maró szerinti legkisebb margó (Ø + 1 mm). Lapok új sorrendben: Elrendezés, Marás, Lézer, Anyagok, Jegyzetfüzet, Költség.",
   "news.191": "Fűrészvágások sorrendje: a nagy hulladék egyetlen vágással válik le ahelyett, hogy csíkokra vágnánk, a számok pedig oda kerülnek, ahol sem az alkatrészeket, sem más számokat nem takarják (kisebbek a PDF-ben).",
   "news.190": "Alkatrészek kézi megadása (vagy beillesztése táblázatból), fűrészvágások sorrendje a Téglalapok módszerhez (a fűrészlapod vastagságával), saját lézeranyagok és -értékek, tájékoztató értékek a Thunder Lasertől és a GWK-tól (rétegelt lemez, MDF, akril, karton, bőr…), és nincs több hulladékvonal a margók mentén.",
@@ -231,8 +232,6 @@
   "mill.hardness": "keménységi osztály: {c}",
   "mill.asFamily": "„{f}” szerint beállítva",
   "mill.machine": "Gép és munka",
-  "mill.spindleMin": "Orsó min. (ford/perc)",
-  "mill.spindleMax": "Orsó max. (ford/perc)",
   "mill.feedMax": "Max. előtolás ({u}/perc)",
   "mill.thickness": "Vágandó vastagság ({u})",
   "mill.results": "Javasolt beállítások",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Legkisebb hézag {g} {u}",
   "panel.marginMin": "Legkisebb margó {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "A főorsód legkisebb fordulatszáma (ford./perc)",
+  "mill.spindleMaxYour": "A főorsód legnagyobb fordulatszáma (ford./perc)",
+  "mill.spindleFrom": "Honnan jönnek az értékek: 6000–24 000 ford./perc a CNC-főorsók leggyakoribb tartománya (például egy 2,2 kW-os, vízhűtéses orsó). Nem feltétlenül a te géped.",
+  "mill.spindleEffect": "Mit változtatnak: a Nestor sosem javasol ezen kívül eső fordulatszámot. Ha a számítás többet kér a legnagyobbnál, a fordulatszám korlátozódik, az előtolás pedig arányosan csökken, hogy a forgács ugyanolyan maradjon (és fordítva a legkisebb alatt).",
+  "mill.spindleWhere": "A sajátjaid megadása: olvasd le őket az orsó adattáblájáról, a felsőmaród kézikönyvéből (gyakran 10 000–30 000 ford./perc) vagy a frekvenciaváltó beállításaiból (2 pólusú orsó: ford./perc = frekvencia × 60, tehát 400 Hz = 24 000 ford./perc)."
 }

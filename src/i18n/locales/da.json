@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
+  "news.193": "Fræsning: din spindels omdrejningstal forklares (hvor de forudfyldte værdier kommer fra, hvad de ændrer, hvor du finder dine). AI-import: navne givet til stier i Illustrator bruges til emnerne.",
   "news.192": "Fræsning: „Maksimal skæredybde“ og „Gennemløb“ forklares tydeligt, og en mindste margen efter fræseren (Ø + 1 mm) kommer med ved siden af den mindste afstand mellem emner. Faner i ny rækkefølge: Placering, Fræsning, Laser, Materialer, Notesbog, Omkostninger.",
   "news.191": "Rækkefølge for savsnit: det store reststykke kommer af med ét snit i stedet for at blive skåret i strimler, og numrene placeres, hvor de hverken dækker emner eller andre numre (mindre i PDF’en).",
   "news.190": "Emner indtastet i hånden (eller indsat fra et regneark), rækkefølge for savsnit med metoden Rektangler (med din klinges tykkelse), dine egne lasermaterialer og -værdier, vejledende værdier fra Thunder Laser og GWK (krydsfiner, MDF, akryl, karton, læder …), og ikke flere restlinjer langs margenerne.",
@@ -231,8 +232,6 @@
   "mill.hardness": "hårdhedsklasse {c}",
   "mill.asFamily": "sat som »{f}«",
   "mill.machine": "Maskine og arbejde",
-  "mill.spindleMin": "Spindel min (o/min)",
-  "mill.spindleMax": "Spindel maks (o/min)",
   "mill.feedMax": "Maks. tilspænding ({u}/min)",
   "mill.thickness": "Tykkelse at skære ({u})",
   "mill.results": "Anbefalede indstillinger",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Mindste afstand {g} {u}",
   "panel.marginMin": "Mindste margen {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Din spindels mindste omdrejningstal (o/min)",
+  "mill.spindleMaxYour": "Din spindels højeste omdrejningstal (o/min)",
+  "mill.spindleFrom": "Hvor værdierne kommer fra: 6.000–24.000 o/min er det mest almindelige område for CNC-spindler (for eksempel en vandkølet spindel på 2,2 kW). Det er ikke nødvendigvis din maskine.",
+  "mill.spindleEffect": "Hvad de ændrer: Nestor foreslår aldrig et omdrejningstal uden for dem. Beder beregningen om mere end maksimum, begrænses omdrejningstallet, og tilspændingen sænkes tilsvarende, så spånen forbliver den samme (og omvendt under minimum).",
+  "mill.spindleWhere": "Sådan sætter du dine egne: læs dem på spindlens typeskilt, i manualen til din overfræser (ofte 10.000–30.000 o/min) eller i frekvensomformerens indstillinger (2-polet spindel: o/min = frekvens × 60, altså 400 Hz = 24.000 o/min)."
 }

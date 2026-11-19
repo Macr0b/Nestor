@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.193": "Fresado: las velocidades de tu husillo se explican (de dónde vienen los valores predefinidos, qué cambian, dónde encontrar los tuyos). Importación AI: los nombres dados a los trazados en Illustrator se usan para las piezas.",
   "news.192": "Fresado: «Pasada máxima» y «Pasadas a hacer» se explican con claridad, y se añade un margen mínimo según la fresa (Ø + 1 mm) junto a la separación mínima entre piezas. Pestañas en un nuevo orden: Anidado, Fresado, Láser, Materiales, Cuaderno, Coste.",
   "news.191": "Orden de cortes con sierra: el retal grande sale de un solo corte en lugar de trocearse en tiras, y los números se colocan donde no tapan ni las piezas ni otros números (más discretos en el PDF).",
   "news.190": "Piezas introducidas a mano (o pegadas desde una hoja de cálculo), orden de cortes con sierra para el método Rectángulos (con el grosor de tu hoja), materiales y valores láser propios, valores orientativos de Thunder Laser y GWK (contrachapado, MDF, acrílico, cartón, cuero…), y ya no hay líneas de retales a lo largo de los márgenes.",
@@ -231,8 +232,6 @@
   "mill.hardness": "clase de dureza {c}",
   "mill.asFamily": "ajustado como «{f}»",
   "mill.machine": "Máquina y trabajo",
-  "mill.spindleMin": "Husillo mín. (rpm)",
-  "mill.spindleMax": "Husillo máx. (rpm)",
   "mill.feedMax": "Avance máx. ({u}/min)",
   "mill.thickness": "Espesor a cortar ({u})",
   "mill.results": "Ajustes recomendados",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Separación mínima {g} {u}",
   "panel.marginMin": "Margen mínimo {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Velocidad mínima de tu husillo (rpm)",
+  "mill.spindleMaxYour": "Velocidad máxima de tu husillo (rpm)",
+  "mill.spindleFrom": "De dónde vienen estos valores: 6000–24 000 rpm es el rango más habitual de los husillos de CNC (por ejemplo, un husillo de 2,2 kW refrigerado por agua). No es necesariamente tu máquina.",
+  "mill.spindleEffect": "Qué cambian: Nestor nunca propone una velocidad fuera de ellos. Si el cálculo pide más que el máximo, la velocidad se limita y el avance baja en proporción para mantener la misma viruta (y al revés por debajo del mínimo).",
+  "mill.spindleWhere": "Para poner los tuyos: léelos en la placa del husillo, en el manual de tu fresadora de mano (a menudo 10 000–30 000 rpm) o en los ajustes del variador (husillo de 2 polos: rpm = frecuencia × 60, así que 400 Hz = 24 000 rpm)."
 }

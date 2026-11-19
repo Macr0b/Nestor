@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.193": "Frezowanie: prędkości twojego wrzeciona są objaśnione (skąd wartości domyślne, co zmieniają, gdzie znaleźć swoje). Import AI: nazwy nadane ścieżkom w Illustratorze są używane dla elementów.",
   "news.192": "Frezowanie: „Maksymalna głębokość przejścia” i „Przejścia do wykonania” są jasno wyjaśnione, a obok minimalnego odstępu między elementami pojawia się minimalny margines wg frezu (Ø + 1 mm). Karty w nowej kolejności: Rozkrój, Frezowanie, Laser, Materiały, Notatnik, Koszt.",
   "news.191": "Kolejność cięć piłą: duży odpad odchodzi jednym cięciem zamiast być pocięty na paski, a numery trafiają tam, gdzie nie zasłaniają ani elementów, ani innych numerów (mniejsze w PDF).",
   "news.190": "Elementy wpisywane ręcznie (lub wklejane z arkusza), kolejność cięć piłą dla metody Prostokąty (z grubością twojej piły), własne materiały i wartości laserowe, wartości orientacyjne Thunder Laser i GWK (sklejka, MDF, akryl, tektura, skóra…) i koniec z liniami odpadów wzdłuż marginesów.",
@@ -231,8 +232,6 @@
   "mill.hardness": "klasa twardości {c}",
   "mill.asFamily": "ustawione jak „{f}”",
   "mill.machine": "Maszyna i praca",
-  "mill.spindleMin": "Wrzeciono min (obr/min)",
-  "mill.spindleMax": "Wrzeciono maks. (obr/min)",
   "mill.feedMax": "Maks. posuw ({u}/min)",
   "mill.thickness": "Grubość do cięcia ({u})",
   "mill.results": "Zalecane ustawienia",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minimalny odstęp {g} {u}",
   "panel.marginMin": "Minimalny margines {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Minimalna prędkość twojego wrzeciona (obr./min)",
+  "mill.spindleMaxYour": "Maksymalna prędkość twojego wrzeciona (obr./min)",
+  "mill.spindleFrom": "Skąd te wartości: 6000–24 000 obr./min to najczęstszy zakres wrzecion CNC (na przykład wrzeciono 2,2 kW chłodzone wodą). To niekoniecznie twoja maszyna.",
+  "mill.spindleEffect": "Co zmieniają: Nestor nigdy nie proponuje prędkości spoza nich. Jeśli obliczenie wymaga więcej niż maksimum, prędkość zostaje ograniczona, a posuw proporcjonalnie obniżony, by wiór był taki sam (i odwrotnie poniżej minimum).",
+  "mill.spindleWhere": "Aby wpisać swoje: odczytaj je z tabliczki wrzeciona, z instrukcji frezarki górnowrzecionowej (często 10 000–30 000 obr./min) lub z ustawień falownika (wrzeciono 2-biegunowe: obr./min = częstotliwość × 60, więc 400 Hz = 24 000 obr./min)."
 }

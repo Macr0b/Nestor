@@ -188,6 +188,7 @@
   "calc.cancelled": "Hætt var við útreikning.",
   "calc.many": "{n} hlutum á að raða: það getur tekið tíma.",
   "news.121": "Magn er ekki lengur takmarkað við 500, of stórir hlutar eru tilkynntir strax og hnappurinn Hætta við birtist í löngum útreikningi.",
+  "news.193": "Fræsing: hraðar snældunnar eru útskýrðir (hvaðan forstilltu gildin koma, hverju þau breyta, hvar þín eru). AI-innflutningur: nöfn sem slóðum voru gefin í Illustrator eru notuð fyrir hlutina.",
   "news.192": "Fræsing: „Mesta skurðdýpt“ og „Umferðir“ eru útskýrðar á skýran hátt, og minnsta spássía eftir fræsitönninni (Ø + 1 mm) bætist við minnsta bilið milli hluta. Flipar í nýrri röð: Röðun, Fræsing, Leysir, Efni, Minnisbók, Kostnaður.",
   "news.191": "Röð sagarskurða: stóri afgangurinn fer af í einum skurði í stað þess að vera skorinn í ræmur, og númerin raðast þar sem þau hylja hvorki hluti né önnur númer (minni í PDF).",
   "news.190": "Hlutir slegnir inn í höndunum (eða límdir úr töflureikni), röð sagarskurða fyrir aðferðina Rétthyrningar (með þykkt blaðsins þíns), þín eigin leysiefni og gildi, leiðbeinandi gildi frá Thunder Laser og GWK (krossviður, MDF, akrýl, pappi, leður…), og engar afgangslínur lengur meðfram jaðrinum.",
@@ -231,8 +232,6 @@
   "mill.hardness": "hörkuflokkur {c}",
   "mill.asFamily": "stillt sem „{f}“",
   "mill.machine": "Vél og verk",
-  "mill.spindleMin": "Spindill lágm. (sn/mín)",
-  "mill.spindleMax": "Spindill hám. (sn/mín)",
   "mill.feedMax": "Hám. færsla ({u}/mín)",
   "mill.thickness": "Þykkt sem á að skera ({u})",
   "mill.results": "Ráðlagðar stillingar",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minnsta bil {g} {u}",
   "panel.marginMin": "Minnsta spássía {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Lágmarkshraði snælduvélarinnar (sn./mín.)",
+  "mill.spindleMaxYour": "Hámarkshraði snælduvélarinnar (sn./mín.)",
+  "mill.spindleFrom": "Hvaðan gildin koma: 6.000–24.000 sn./mín. er algengasta bil CNC-snælda (til dæmis 2,2 kW vatnskæld snælda). Þetta er ekki endilega þín vél.",
+  "mill.spindleEffect": "Hverju þau breyta: Nestor stingur aldrei upp á hraða utan þeirra. Ef útreikningurinn biður um meira en hámarkið er hraðinn takmarkaður og færslan lækkuð að sama skapi, svo spónninn haldist eins (og öfugt undir lágmarkinu).",
+  "mill.spindleWhere": "Til að setja þín gildi: lestu þau á merkiplötu snældunnar, í handbók yfirfræsarans (oft 10.000–30.000 sn./mín.) eða í stillingum tíðnibreytisins (2-póla snælda: sn./mín. = tíðni × 60, svo 400 Hz = 24.000 sn./mín.)."
 }

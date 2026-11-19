@@ -188,6 +188,7 @@
   "calc.cancelled": "Cealaíodh an ríomh.",
   "calc.many": "{n} píosa le socrú: d’fhéadfadh sé seal a thógáil.",
   "news.121": "Níl teorainn 500 ar chainníochtaí a thuilleadh, tuairiscítear píosaí rómhóra láithreach, agus taispeántar cnaipe Cealaigh le linn ríomh fada.",
+  "news.193": "Muilleáil: mínítear luasanna do fhearsaide (cá as a dtagann na luachanna réamhshocraithe, cad a athraíonn siad, cá bhfaighidh tú do chuid féin). Iompórtáil AI: úsáidtear na hainmneacha a tugadh do chosáin in Illustrator do na píosaí.",
   "news.192": "Muilleáil: míníonn Nestor go soiléir «Uasdoimhneacht an phas» agus «Pasanna le déanamh», agus tá imeall íosta de réir an ghiotáin (Ø + 1 mm) curtha le hais na bearna íosta idir píosaí. Cluaisíní in ord nua: Neadú, Muilleáil, Léasar, Ábhair, Leabhar nótaí, Costas.",
   "news.191": "Ord na ngearrthacha sábha: tagann an fuíoll mór amach le gearradh amháin seachas é a ghearradh ina stiallacha, agus cuirtear na huimhreacha san áit nach gclúdaíonn siad píosaí ná uimhreacha eile (níos lú sa PDF).",
   "news.190": "Píosaí curtha isteach de láimh (nó greamaithe ó scarbhileog), ord na ngearrthacha sábha don mhodh Dronuilleoga (le tiús do lanna), do chuid ábhar agus luachanna léasair féin, luachanna táscacha ó Thunder Laser agus GWK (sraithadhmad, MDF, aicrileach, cairtchlár, leathar…), agus gan línte fuíll feasta feadh na n-imeall.",
@@ -231,8 +232,6 @@
   "mill.hardness": "aicme chruais {c}",
   "mill.asFamily": "socraithe mar “{f}”",
   "mill.machine": "Meaisín agus obair",
-  "mill.spindleMin": "Fearsaid íos. (cas/nóim)",
-  "mill.spindleMax": "Fearsaid uas. (cas/nóim)",
   "mill.feedMax": "Fotha uas. ({u}/nóim)",
   "mill.thickness": "Tiús le gearradh ({u})",
   "mill.results": "Socruithe molta",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Bearna íosta {g} {u}",
   "panel.marginMin": "Imeall íosta {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Íosluas do fhearsaide (cas/nóim)",
+  "mill.spindleMaxYour": "Uasluas do fhearsaide (cas/nóim)",
+  "mill.spindleFrom": "Cá as a dtagann na luachanna seo: is é 6,000–24,000 cas/nóim an raon is coitianta d’fhearsaidí CNC (mar shampla fearsaid 2.2 kW fuaraithe le huisce). Ní gá gurb é do mheaisín é.",
+  "mill.spindleEffect": "Cad a athraíonn siad: ní mholann Nestor luas lasmuigh díobh choíche. Má iarrann an ríomh níos mó ná an t-uasluas, cuirtear teorainn leis an luas agus íslítear an fotha dá réir, ionas go bhfanann an slis mar an gcéanna (agus a mhalairt faoin íosluas).",
+  "mill.spindleWhere": "Chun do luachanna féin a chur: léigh iad ar phláta na fearsaide, i lámhleabhar do ródaire láimhe (go minic 10,000–30,000 cas/nóim) nó i socruithe an tiontaire minicíochta (fearsaid 2 phol: cas/nóim = minicíocht × 60, mar sin 400 Hz = 24,000 cas/nóim)."
 }

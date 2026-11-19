@@ -1,0 +1,3 @@
+fzstd 0.1.1, Arjun Barrett, licence MIT.
+Source : paquet npm fzstd@0.1.1, fichier esm/index.mjs, sans modification.
+Sert à décompresser les données internes des fichiers Illustrator (.ai), pour y lire les noms des tracés.

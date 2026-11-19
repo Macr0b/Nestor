@@ -188,6 +188,7 @@
   "calc.cancelled": "Arvutus tühistati.",
   "calc.many": "{n} detaili paigutamiseks: see võib aega võtta.",
   "news.121": "Kogused pole enam 500-ga piiratud, liiga suured detailid märgitakse kohe ja pika arvutuse ajal ilmub nupp Tühista.",
+  "news.193": "Freesimine: sinu spindli kiirused on lahti seletatud (kust eeltäidetud väärtused tulevad, mida need muudavad, kust leida enda omad). AI import: Illustratoris kontuuridele antud nimed võetakse detailide nimedeks.",
   "news.192": "Freesimine: „Suurim lõikesügavus“ ja „Tehtavad läbimid“ on selgelt lahti seletatud ning detailide väikseima vahe kõrvale tuli freesi järgi väikseim veeris (Ø + 1 mm). Vahekaardid uues järjekorras: Paigutus, Freesimine, Laser, Materjalid, Märkmik, Kulu.",
   "news.191": "Saagimise järjekord: suur jääk tuleb ära ühe lõikega, selle asemel et seda ribadeks lõigata, ja numbrid paigutuvad sinna, kus nad ei kata ei detaile ega teisi numbreid (PDF-is väiksemad).",
   "news.190": "Detailide sisestamine käsitsi (või kleepimine tabelist), saagimise järjekord meetodi Ristkülikud jaoks (sinu saeketta paksusega), omad lasermaterjalid ja -väärtused, Thunder Laseri ja GWK soovituslikud väärtused (vineer, MDF, akrüül, papp, nahk…) ning enam pole jäägijooni piki veeriseid.",
@@ -231,8 +232,6 @@
   "mill.hardness": "kõvadusklass {c}",
   "mill.asFamily": "seatud kui „{f}”",
   "mill.machine": "Masin ja töö",
-  "mill.spindleMin": "Spindel min (p/min)",
-  "mill.spindleMax": "Spindel max (p/min)",
   "mill.feedMax": "Max ettenihe ({u}/min)",
   "mill.thickness": "Lõigatav paksus ({u})",
   "mill.results": "Soovitatud seaded",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Väikseim vahe {g} {u}",
   "panel.marginMin": "Väikseim veeris {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Sinu spindli väikseim kiirus (p/min)",
+  "mill.spindleMaxYour": "Sinu spindli suurim kiirus (p/min)",
+  "mill.spindleFrom": "Kust väärtused tulevad: 6000–24 000 p/min on CNC-spindlite kõige tavalisem vahemik (näiteks 2,2 kW vesijahutusega spindel). See ei pruugi olla sinu masin.",
+  "mill.spindleEffect": "Mida need muudavad: Nestor ei soovita kunagi kiirust väljaspool neid. Kui arvutus nõuab rohkem kui suurim, kiirus piiratakse ja ettenihet vähendatakse samas mahus, et laast jääks samaks (ja vastupidi alla väikseima).",
+  "mill.spindleWhere": "Oma väärtuste sisestamiseks: loe need spindli andmesildilt, oma ülafreesi juhendist (sageli 10 000–30 000 p/min) või sagedusmuunduri seadetest (2-pooluseline spindel: p/min = sagedus × 60, seega 400 Hz = 24 000 p/min)."
 }

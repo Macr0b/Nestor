@@ -188,6 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
+  "news.193": "Milling: your spindle speeds are explained (where the preset values come from, what they change, where to find yours). AI import: names given to paths in Illustrator are used for the parts.",
   "news.192": "Milling: “Maximum depth of cut” and “Passes to make” are explained in plain words, and a minimum margin based on the bit (Ø + 1 mm) joins the minimum gap between parts. Tabs in a new order: Nesting, Milling, Laser, Materials, Notebook, Cost.",
   "news.191": "Saw cutting order: the large offcut comes off in a single cut instead of being sliced into strips, and the numbers go where they hide neither the parts nor other numbers (smaller in the PDF).",
   "news.190": "Parts entered by hand (or pasted from a spreadsheet), saw cutting order for the Rectangles method (with your blade thickness), your own laser materials and values, indicative values from Thunder Laser and GWK (plywood, MDF, acrylic, cardboard, leather…), and no more offcut lines along the margins.",
@@ -231,8 +232,6 @@
   "mill.hardness": "hardness class {c}",
   "mill.asFamily": "set as “{f}”",
   "mill.machine": "Machine and job",
-  "mill.spindleMin": "Spindle min (rpm)",
-  "mill.spindleMax": "Spindle max (rpm)",
   "mill.feedMax": "Max feed ({u}/min)",
   "mill.thickness": "Thickness to cut ({u})",
   "mill.results": "Suggested settings",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minimum gap {g} {u}",
   "panel.marginMin": "Minimum margin {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Your spindle’s minimum speed (rpm)",
+  "mill.spindleMaxYour": "Your spindle’s maximum speed (rpm)",
+  "mill.spindleFrom": "Where these values come from: 6,000–24,000 rpm is the most common range for CNC spindles (for example a 2.2 kW water-cooled spindle). It isn’t necessarily your machine.",
+  "mill.spindleEffect": "What they change: Nestor never suggests a speed outside them. If the calculation asks for more than the maximum, the speed is capped and the feed lowered to match, to keep the same chip (and the reverse below the minimum).",
+  "mill.spindleWhere": "To set yours: read them on the spindle’s plate, in your router’s manual (often 10,000–30,000 rpm), or in the VFD settings (2-pole spindle: rpm = frequency × 60, so 400 Hz = 24,000 rpm)."
 }

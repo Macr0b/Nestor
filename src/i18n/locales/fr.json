@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
+  "news.193": "Fraisage : les vitesses de ta broche sont expliquées (d’où viennent les valeurs préremplies, ce qu’elles changent, où trouver les tiennes). Import AI : les noms donnés aux tracés dans Illustrator sont repris pour les pièces.",
   "news.192": "Fraisage : « Passe maximale » et « Passes à faire » sont expliquées en clair, et la marge minimale d’après la fraise (Ø + 1 mm) s’ajoute à l’espace minimal entre pièces. Onglets dans un nouvel ordre : Imbrication, Fraisage, Laser, Matières, Carnet, Coût.",
   "news.191": "Ordre des coupes à la scie : la grande chute part d’un seul trait au lieu d’être recoupée en lanières, et les numéros se placent là où ils ne cachent ni les pièces ni les autres numéros (plus discrets dans le PDF).",
   "news.190": "Saisie de pièces à la main (ou collées d’un tableur), ordre des coupes à la scie pour la méthode Rectangles (avec l’épaisseur de ta lame), matières et valeurs laser à toi, valeurs indicatives Thunder Laser et GWK (contreplaqué, MDF, acrylique, carton, cuir…), et plus de traits de chutes le long des marges.",
@@ -231,8 +232,6 @@
   "mill.hardness": "dureté classe {c}",
   "mill.asFamily": "réglé comme « {f} »",
   "mill.machine": "Machine et travail",
-  "mill.spindleMin": "Broche min (tr/min)",
-  "mill.spindleMax": "Broche max (tr/min)",
   "mill.feedMax": "Avance max ({u}/min)",
   "mill.thickness": "Épaisseur à couper ({u})",
   "mill.results": "Réglages conseillés",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Espace minimal {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
   "panel.marginMin": "Marge minimale {g} {u}",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Vitesse mini de ta broche (tr/min)",
+  "mill.spindleMaxYour": "Vitesse maxi de ta broche (tr/min)",
+  "mill.spindleFrom": "D’où viennent ces valeurs : 6 000 – 24 000 tr/min est la plage la plus courante des broches de CNC (par exemple une broche de 2,2 kW refroidie à eau). Ce n’est pas forcément ta machine.",
+  "mill.spindleEffect": "Ce qu’elles changent : Nestor ne conseille jamais une vitesse en dehors. Si le calcul demande plus que le maxi, la vitesse est plafonnée et l’avance baissée d’autant, pour garder le même copeau (et l’inverse sous le mini).",
+  "mill.spindleWhere": "Pour mettre les tiennes : lis-les sur la plaque de la broche, dans la notice de ta défonceuse (souvent 10 000 – 30 000 tr/min), ou dans les réglages du variateur (broche à 2 pôles : tr/min = fréquence × 60, donc 400 Hz = 24 000 tr/min)."
 }

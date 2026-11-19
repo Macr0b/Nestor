@@ -317,3 +317,12 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* aide sous les vitesses de la broche : d'où viennent les valeurs, ce qu'elles changent, où trouver les siennes */
+.mill-spindle-help {
+  margin: 6px 0 12px;
+  padding-left: 18px;
+}
+.mill-spindle-help li + li {
+  margin-top: 4px;
+}

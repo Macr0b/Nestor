@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.193": "Fresagem: as velocidades do teu mandril passam a ser explicadas (de onde vêm os valores predefinidos, o que mudam, onde encontrar os teus). Importação AI: os nomes dados aos traçados no Illustrator são usados para as peças.",
   "news.192": "Fresagem: «Passe máximo» e «Passes a fazer» passam a ser explicados com clareza, e junta-se uma margem mínima segundo a fresa (Ø + 1 mm) ao espaço mínimo entre peças. Separadores numa nova ordem: Encaixe, Fresagem, Laser, Materiais, Caderno, Custo.",
   "news.191": "Ordem dos cortes com serra: a sobra grande sai num só corte em vez de ser cortada em tiras, e os números ficam onde não tapam nem as peças nem outros números (mais discretos no PDF).",
   "news.190": "Peças introduzidas à mão (ou coladas de uma folha de cálculo), ordem dos cortes com serra para o método Retângulos (com a espessura da tua lâmina), materiais e valores laser teus, valores indicativos da Thunder Laser e da GWK (contraplacado, MDF, acrílico, cartão, couro…), e deixa de haver linhas de sobras ao longo das margens.",
@@ -231,8 +232,6 @@
   "mill.hardness": "classe de dureza {c}",
   "mill.asFamily": "ajustado como «{f}»",
   "mill.machine": "Máquina e trabalho",
-  "mill.spindleMin": "Fuso mín. (rpm)",
-  "mill.spindleMax": "Fuso máx. (rpm)",
   "mill.feedMax": "Avanço máx. ({u}/min)",
   "mill.thickness": "Espessura a cortar ({u})",
   "mill.results": "Ajustes recomendados",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Espaço mínimo {g} {u}",
   "panel.marginMin": "Margem mínima {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Velocidade mínima do teu mandril (rpm)",
+  "mill.spindleMaxYour": "Velocidade máxima do teu mandril (rpm)",
+  "mill.spindleFrom": "De onde vêm estes valores: 6000–24 000 rpm é a gama mais comum dos mandris de CNC (por exemplo, um mandril de 2,2 kW arrefecido a água). Não é forçosamente a tua máquina.",
+  "mill.spindleEffect": "O que mudam: o Nestor nunca propõe uma velocidade fora deles. Se o cálculo pedir mais do que o máximo, a velocidade fica limitada e o avanço baixa na mesma proporção, para manter a mesma apara (e o inverso abaixo do mínimo).",
+  "mill.spindleWhere": "Para pores os teus: lê-os na chapa do mandril, no manual da tua tupia (muitas vezes 10 000–30 000 rpm) ou nas definições do variador (mandril de 2 polos: rpm = frequência × 60, logo 400 Hz = 24 000 rpm)."
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
+  "news.193": "Frēzēšana: tavas vārpstas ātrumi ir izskaidroti (no kurienes nāk iestatītās vērtības, ko tās maina, kur atrast savējās). AI imports: Illustrator kontūrām dotie nosaukumi tiek izmantoti detaļām.",
   "news.192": "Frēzēšana: “Lielākais griešanas dziļums” un “Veicamie gājieni” ir skaidri izskaidroti, un blakus mazākajai atstarpei starp detaļām nāk mazākā mala pēc frēzes (Ø + 1 mm). Cilnes jaunā secībā: Izkārtojums, Frēzēšana, Lāzers, Materiāli, Piezīmju grāmata, Izmaksas.",
   "news.191": "Zāģēšanas secība: lielais atgriezums nāk nost ar vienu griezumu, nevis tiek sagriezts strēmelēs, un numuri novietojas tur, kur tie neaizsedz ne detaļas, ne citus numurus (PDF mazāki).",
   "news.190": "Detaļu ievade manuāli (vai ielīmēšana no izklājlapas), zāģēšanas secība metodei Taisnstūri (ar tava asmens biezumu), savi lāzera materiāli un vērtības, Thunder Laser un GWK orientējošās vērtības (saplāksnis, MDF, akrils, kartons, āda…) un vairs nav atgriezumu līniju gar malām.",
@@ -231,8 +232,6 @@
   "mill.hardness": "cietības klase {c}",
   "mill.asFamily": "iestatīts kā “{f}”",
   "mill.machine": "Mašīna un darbs",
-  "mill.spindleMin": "Vārpsta min (apgr/min)",
-  "mill.spindleMax": "Vārpsta maks (apgr/min)",
   "mill.feedMax": "Maks. padeve ({u}/min)",
   "mill.thickness": "Griežamais biezums ({u})",
   "mill.results": "Ieteicamie iestatījumi",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Mazākā atstarpe {g} {u}",
   "panel.marginMin": "Mazākā mala {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Tavas vārpstas mazākais ātrums (apgr./min)",
+  "mill.spindleMaxYour": "Tavas vārpstas lielākais ātrums (apgr./min)",
+  "mill.spindleFrom": "No kurienes šīs vērtības: 6000–24 000 apgr./min ir CNC vārpstu visbiežākais diapazons (piemēram, ar ūdeni dzesēta 2,2 kW vārpsta). Tā ne vienmēr ir tava iekārta.",
+  "mill.spindleEffect": "Ko tās maina: Nestor nekad neiesaka ātrumu ārpus tām. Ja aprēķins prasa vairāk par lielāko, ātrums tiek ierobežots un padeve samazināta tādā pašā mērā, lai skaida paliktu tāda pati (un otrādi zem mazākā).",
+  "mill.spindleWhere": "Kā ievadīt savējās: nolasi tās uz vārpstas datu plāksnītes, savas rokas frēzes instrukcijā (bieži 10 000–30 000 apgr./min) vai frekvences pārveidotāja iestatījumos (2 polu vārpsta: apgr./min = frekvence × 60, tātad 400 Hz = 24 000 apgr./min)."
 }

@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.9.2
+Version : 1.9.3
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -50,7 +50,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 
 - **Utilisation** : nom, fichier (DXF, SVG ou AI), réglages, export. Tes derniers réglages de panneaux (tailles, stock, espacement, marge, méthode) sont mémorisés sur chaque appareil ; un projet complet s'enregistre avec le bouton « Projets ».
 - **Fichiers AI** : enregistrer depuis Illustrator avec l'option « Créer un fichier compatible PDF » (activée par défaut).
-- **Formats lus** : DXF, SVG et SVGZ (Illustrator, Inkscape…), AI, PDF, LightBurn (.lbrn, .lbrn2), VectorCraft (.vectorcraft), HPGL (.plt, .hpgl). Les noms des tracés deviennent les noms des pièces, les calques sont affichés et conservés à l'export.
+- **Formats lus** : DXF, SVG et SVGZ (Illustrator, Inkscape…), AI, PDF, LightBurn (.lbrn, .lbrn2), VectorCraft (.vectorcraft), HPGL (.plt, .hpgl). Les noms des tracés deviennent les noms des pièces, les calques sont affichés et conservés à l'export. Pour un fichier AI, les noms donnés aux tracés dans le panneau Calques d'Illustrator sont lus dans les données internes du fichier (la partie PDF ne les garde pas), et repris seulement si leurs tracés correspondent un à un à ceux du dessin.
 - **Pièces** : échelle en % ou cote en mm pour chaque pièce, duplication pour tester une variante, rotation fixe, par quart de tour ou libre par 5°.
 - **Langues** : 45 langues. L'application démarre dans la langue de l'appareil, changement dans ⚙ › Langue. Les textes sont dans `src/i18n/locales/`, un fichier par langue ; seule la langue utilisée est chargée.
 - **Panneaux** : la longueur est verticale et la largeur horizontale (panneau en portrait).
@@ -62,7 +62,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Espace et marge minimaux d'après la fraise** : sous l'espace entre pièces et la marge au bord, deux liens reprennent la fraise de l'onglet Fraisage : espace minimal 2 × Ø + 1 mm (la fraise passe deux fois entre deux pièces), marge minimale Ø + 1 mm (une fois au bord).
 - **Coupes de chutes** (option sous « Méthode ») : traits droits pour récupérer les chutes à la scie, à la même distance des pièces que l'espace entre pièces. « Simples » : d'un bord à l'autre du panneau. « Détaillées » : la découpe suit à peu près le contour du groupe de pièces. Les traits sont exportés sur un calque « Coupes ». Aucun trait parallèle au bord ne tombe dans la marge.
 - **Ordre des coupes à la scie** (option de la méthode Rectangles) : coupes numérotées sur le panneau, d'un bord à l'autre du morceau coupé, avec leur liste (sens, cote depuis le bord gauche ou haut, morceau coupé) sous le panneau et dans le PDF. Les bords de marge sont délignés d'abord, les grandes chutes (avant ou après les pièces) partent d'un seul trait sans être recoupées, et l'épaisseur de lame (par défaut l'espace entre pièces) est retirée après chaque coupe. Les numéros se placent là où ils ne cachent ni les pièces ni les autres numéros.
-- **Onglet Fraisage** : rotation de la broche, avance, passe maximale et passes à faire (l'épaisseur répartie en passes égales, chacune sous la passe maximale, avec le calcul écrit en clair) selon la fraise (type, diamètre, nombre de dents), la matière (quatre familles, ou une matière précise : essences de bois, contreplaqués, plastiques, métaux) et les limites de la machine. Valeurs de départ prudentes, d'après les méthodes d'id-conception.fr et de cncfraises.fr. Les réglages sont mémorisés.
+- **Onglet Fraisage** : rotation de la broche, avance, passe maximale et passes à faire (l'épaisseur répartie en passes égales, chacune sous la passe maximale, avec le calcul écrit en clair) selon la fraise (type, diamètre, nombre de dents), la matière (quatre familles, ou une matière précise : essences de bois, contreplaqués, plastiques, métaux) et les limites de la machine (vitesses mini et maxi de ta broche : préremplies à 6 000 – 24 000 tr/min, la plage la plus courante, avec une aide pour trouver les tiennes ; la vitesse conseillée reste toujours dedans). Valeurs de départ prudentes, d'après les méthodes d'id-conception.fr et de cncfraises.fr. Les réglages sont mémorisés.
 - **Onglet Laser** : tes machines (plusieurs puissances possibles), et pour chacune un point de départ par matière et épaisseur, tiré des livrets de paramètres publiés par Trotec (60, 80 et 120 W), du tableau de Thunder Laser (contreplaqué bouleau, carton, cuir, papier, placage, tissu ; 40 à 130 W) et du tableau de GWK Laser (bois tendre et contreplaqué courant, MDF, acrylique ; 40 à 150 W) ; autre puissance ou autre épaisseur : estimation signalée. Ce sont des valeurs indicatives : « Modifier ces valeurs » enregistre les tiennes pour la machine, et « ＋ Nouvelle matière » ajoute tes propres matières. Au-delà de 10 mm, le laser ne sert qu'à graver. Vitesse en % pour une Trotec, en mm/s pour les autres. Grille de test (16 carrés puissance × vitesse) en SVG ou DXF.
 - **Onglet Carnet** : tes réglages éprouvés (fraisage, laser, autre) avec machine, matière, épaisseur, valeurs utilisées, note et état (validé / à revoir). Recherche, filtre par procédé et par machine, « Garder dans le carnet » depuis Fraisage et Laser, « Ouvrir dans Fraisage », sauvegarde et import d'un fichier.
 - **Onglet Coût** : prix de revient du plan d'après les panneaux utilisés : matière, chute (dernier panneau compté entier ou seulement la partie utilisée), machine (taux horaire, temps de préparation, temps de découpe estimé) et coût par pièce, réparti selon la surface. C'est une estimation.
@@ -95,6 +95,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `manifest.webmanifest` | Nom, icônes, installation, formats ouverts par l'appli |
 | `icons/`, `fonts/` | Icônes et polices (Barlow, IBM Plex Mono — licence OFL) |
 | `vendor/pdfjs/` | Lecteur PDF/AI de Mozilla, pdf.js 6.5.438 version « legacy » (licence Apache 2.0) |
+| `vendor/fzstd/` | Décodeur ZStandard fzstd 0.1.1 (licence MIT), pour lire les noms des tracés dans les données internes des .ai |
 | `tests/` | Tests automatiques, rangés comme `src/`, relancés par GitHub à chaque mise à jour |
 | `tools/build-claude.mjs` | Fabrique la version Claude (une seule page) à partir de l'appli |
 

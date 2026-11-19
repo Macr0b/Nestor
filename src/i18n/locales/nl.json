@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.193": "Frezen: de toerentallen van je spindel worden uitgelegd (waar de vooraf ingevulde waarden vandaan komen, wat ze veranderen, waar je de jouwe vindt). AI-import: namen die je in Illustrator aan paden gaf, worden voor de onderdelen gebruikt.",
   "news.192": "Frezen: „Maximale snedediepte” en „Te maken gangen” worden duidelijk uitgelegd, en een minimale marge volgens de frees (Ø + 1 mm) komt bij de minimale ruimte tussen onderdelen. Tabbladen in een nieuwe volgorde: Nesten, Frezen, Laser, Materialen, Notitieboek, Kosten.",
   "news.191": "Zaagvolgorde: het grote reststuk komt er in één snede af in plaats van in stroken te worden gezaagd, en de nummers staan waar ze geen onderdelen of andere nummers bedekken (kleiner in de PDF).",
   "news.190": "Onderdelen met de hand invoeren (of plakken uit een spreadsheet), zaagvolgorde voor de methode Rechthoeken (met de dikte van je zaagblad), eigen lasermaterialen en -waarden, richtwaarden van Thunder Laser en GWK (multiplex, MDF, acryl, karton, leer…), en geen restlijnen meer langs de marges.",
@@ -231,8 +232,6 @@
   "mill.hardness": "hardheidsklasse {c}",
   "mill.asFamily": "ingesteld als „{f}”",
   "mill.machine": "Machine en werk",
-  "mill.spindleMin": "Spindel min (tpm)",
-  "mill.spindleMax": "Spindel max (tpm)",
   "mill.feedMax": "Max. voeding ({u}/min)",
   "mill.thickness": "Te snijden dikte ({u})",
   "mill.results": "Aanbevolen instellingen",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minimale ruimte {g} {u}",
   "panel.marginMin": "Minimale marge {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Minimaal toerental van je spindel (t/min)",
+  "mill.spindleMaxYour": "Maximaal toerental van je spindel (t/min)",
+  "mill.spindleFrom": "Waar deze waarden vandaan komen: 6000–24.000 t/min is het meest gangbare bereik van CNC-spindels (bijvoorbeeld een watergekoelde spindel van 2,2 kW). Het is niet per se jouw machine.",
+  "mill.spindleEffect": "Wat ze veranderen: Nestor stelt nooit een toerental daarbuiten voor. Vraagt de berekening meer dan het maximum, dan wordt het toerental begrensd en de voeding evenredig verlaagd, zodat de spaan gelijk blijft (en omgekeerd onder het minimum).",
+  "mill.spindleWhere": "Je eigen waarden invullen: ze staan op het typeplaatje van de spindel, in de handleiding van je bovenfrees (vaak 10.000–30.000 t/min) of in de instellingen van de frequentieregelaar (2-polige spindel: t/min = frequentie × 60, dus 400 Hz = 24.000 t/min)."
 }

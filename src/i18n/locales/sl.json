@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun preklican.",
   "calc.many": "{n} delov za razporeditev: to lahko traja.",
   "news.121": "Količine niso več omejene na 500, preveliki deli so takoj označeni, med dolgim izračunom pa se pojavi gumb Prekliči.",
+  "news.193": "Rezkanje: hitrosti tvojega vretena so razložene (od kod prednastavljene vrednosti, kaj spremenijo, kje najdeš svoje). Uvoz AI: imena, dana potem v Illustratorju, se uporabijo za kose.",
   "news.192": "Rezkanje: »Največja globina prehoda« in »Prehodi« sta jasno razložena, poleg najmanjšega razmika med kosi pa je dodan najmanjši rob glede na rezkar (Ø + 1 mm). Zavihki v novem vrstnem redu: Razporejanje, Rezkanje, Laser, Materiali, Beležnica, Stroški.",
   "news.191": "Vrstni red rezov z žago: velik ostanek odpade z enim samim rezom, namesto da bi ga razrezali na trakove, številke pa se postavijo tja, kjer ne prekrivajo ne kosov ne drugih številk (v PDF manjše).",
   "news.190": "Ročni vnos kosov (ali lepljenje iz preglednice), vrstni red rezov z žago za metodo Pravokotniki (z debelino tvojega lista), lastni laserski materiali in vrednosti, okvirne vrednosti Thunder Laser in GWK (vezana plošča, MDF, akril, karton, usnje …) in nič več črt ostankov ob robovih.",
@@ -231,8 +232,6 @@
   "mill.hardness": "razred trdote {c}",
   "mill.asFamily": "nastavljeno kot »{f}«",
   "mill.machine": "Stroj in delo",
-  "mill.spindleMin": "Vreteno min (vrt/min)",
-  "mill.spindleMax": "Vreteno maks (vrt/min)",
   "mill.feedMax": "Maks. podajanje ({u}/min)",
   "mill.thickness": "Debelina rezanja ({u})",
   "mill.results": "Priporočene nastavitve",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Najmanjši razmik {g} {u}",
   "panel.marginMin": "Najmanjši rob {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Najmanjša hitrost tvojega vretena (vrt./min)",
+  "mill.spindleMaxYour": "Največja hitrost tvojega vretena (vrt./min)",
+  "mill.spindleFrom": "Od kod vrednosti: 6000–24 000 vrt./min je najpogostejši razpon vreten CNC (na primer vodno hlajeno vreteno 2,2 kW). Ni nujno tvoj stroj.",
+  "mill.spindleEffect": "Kaj spremenita: Nestor nikoli ne predlaga hitrosti zunaj njiju. Če izračun zahteva več od največje, se hitrost omeji in podajanje sorazmerno zmanjša, da ostane odrezek enak (in obratno pod najmanjšo).",
+  "mill.spindleWhere": "Kako vneseš svoje: preberi jih na tablici vretena, v navodilih za svoj ročni rezkar (pogosto 10 000–30 000 vrt./min) ali v nastavitvah frekvenčnika (2-polno vreteno: vrt./min = frekvenca × 60, torej 400 Hz = 24 000 vrt./min)."
 }

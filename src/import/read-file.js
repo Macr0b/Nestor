@@ -8,6 +8,7 @@ import { translate } from "../i18n/i18n.js";
 import { parseDxf } from "./dxf.js";
 import { parseHpgl } from "./hpgl.js";
 import { parseLightBurn } from "./lightburn.js";
+import { aiNativePaths, aiNativeText, attachAiNames } from "./ai-names.js";
 import { parsePdf } from "./pdf.js";
 import { parseSvg } from "./svg.js";
 import { nameFromTexts } from "./text-names.js";
@@ -31,6 +32,14 @@ export async function parseImportedFile(name, data) {
   if (/\.(ai|pdf)$/i.test(name) || head.indexOf("%PDF") >= 0) {
     kind = /\.pdf$/i.test(name) ? "PDF" : "AI";
     res = await parsePdf(data, unit, kind);
+    // .ai : noms des tracés lus dans les données internes d'Illustrator (la partie PDF ne les a pas)
+    if (kind === "AI") {
+      try {
+        attachAiNames(res.paths, aiNativePaths(await aiNativeText(data)));
+      } catch (e) {
+        // données internes illisibles : le fichier s'importe comme avant, sans ces noms
+      }
+    }
   } else {
     var text = new TextDecoder("utf-8").decode(bytes),
       tt = text.replace(/^﻿/, "").trimStart();

@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.193": "Fresatura: le velocità del tuo mandrino sono spiegate (da dove vengono i valori predefiniti, cosa cambiano, dove trovare i tuoi). Importazione AI: i nomi dati ai tracciati in Illustrator vengono usati per i pezzi.",
   "news.192": "Fresatura: «Passata massima» e «Passate da fare» sono spiegate chiaramente, e si aggiunge un margine minimo secondo la fresa (Ø + 1 mm) allo spazio minimo tra i pezzi. Schede in un nuovo ordine: Nesting, Fresatura, Laser, Materiali, Taccuino, Costo.",
   "news.191": "Ordine dei tagli con la sega: lo sfrido grande si stacca con un solo taglio invece di essere tagliato a strisce, e i numeri si mettono dove non coprono né i pezzi né altri numeri (più discreti nel PDF).",
   "news.190": "Pezzi inseriti a mano (o incollati da un foglio di calcolo), ordine dei tagli con la sega per il metodo Rettangoli (con lo spessore della tua lama), materiali e valori laser tuoi, valori indicativi di Thunder Laser e GWK (compensato, MDF, acrilico, cartone, cuoio…), e niente più linee di sfrido lungo i margini.",
@@ -231,8 +232,6 @@
   "mill.hardness": "classe di durezza {c}",
   "mill.asFamily": "impostato come «{f}»",
   "mill.machine": "Macchina e lavoro",
-  "mill.spindleMin": "Mandrino min (giri/min)",
-  "mill.spindleMax": "Mandrino max (giri/min)",
   "mill.feedMax": "Avanzamento max ({u}/min)",
   "mill.thickness": "Spessore da tagliare ({u})",
   "mill.results": "Impostazioni consigliate",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Spazio minimo {g} {u}",
   "panel.marginMin": "Margine minimo {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Velocità minima del tuo mandrino (giri/min)",
+  "mill.spindleMaxYour": "Velocità massima del tuo mandrino (giri/min)",
+  "mill.spindleFrom": "Da dove vengono questi valori: 6000–24 000 giri/min è l’intervallo più comune dei mandrini CNC (per esempio un mandrino da 2,2 kW raffreddato ad acqua). Non è per forza la tua macchina.",
+  "mill.spindleEffect": "Cosa cambiano: Nestor non propone mai una velocità al di fuori. Se il calcolo chiede più del massimo, la velocità viene limitata e l’avanzamento abbassato in proporzione, per mantenere lo stesso truciolo (e il contrario sotto il minimo).",
+  "mill.spindleWhere": "Per inserire i tuoi: leggili sulla targhetta del mandrino, nel manuale della tua fresatrice verticale (spesso 10 000–30 000 giri/min) o nelle impostazioni dell’inverter (mandrino a 2 poli: giri/min = frequenza × 60, quindi 400 Hz = 24 000 giri/min)."
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul anulat.",
   "calc.many": "{n} piese de așezat: poate dura ceva timp.",
   "news.121": "Cantitățile nu mai sunt limitate la 500, piesele prea mari sunt semnalate imediat, iar în timpul unui calcul lung apare butonul Anulează.",
+  "news.193": "Frezare: turațiile arborelui tău sunt explicate (de unde vin valorile presetate, ce schimbă, unde le găsești pe ale tale). Import AI: numele date traseelor în Illustrator sunt folosite pentru piese.",
   "news.192": "Frezare: „Adâncime maximă de trecere” și „Treceri de făcut” sunt explicate clar, iar lângă spațiul minim dintre piese apare o margine minimă după freză (Ø + 1 mm). File într-o ordine nouă: Așezare, Frezare, Laser, Materiale, Caiet, Cost.",
   "news.191": "Ordinea tăieturilor cu fierăstrăul: restul mare se desprinde dintr-o singură tăietură în loc să fie tăiat în fâșii, iar numerele se așază acolo unde nu acoperă nici piesele, nici alte numere (mai discrete în PDF).",
   "news.190": "Piese introduse manual (sau lipite dintr-o foaie de calcul), ordinea tăieturilor cu fierăstrăul pentru metoda Dreptunghiuri (cu grosimea pânzei tale), materiale și valori laser proprii, valori orientative Thunder Laser și GWK (placaj, MDF, acril, carton, piele…) și nu mai apar linii de resturi de-a lungul marginilor.",
@@ -231,8 +232,6 @@
   "mill.hardness": "clasa de duritate {c}",
   "mill.asFamily": "setat ca „{f}”",
   "mill.machine": "Mașină și lucru",
-  "mill.spindleMin": "Ax min. (rot/min)",
-  "mill.spindleMax": "Ax max. (rot/min)",
   "mill.feedMax": "Avans max. ({u}/min)",
   "mill.thickness": "Grosime de tăiat ({u})",
   "mill.results": "Setări recomandate",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Spațiu minim {g} {u}",
   "panel.marginMin": "Margine minimă {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Turația minimă a arborelui tău (rot/min)",
+  "mill.spindleMaxYour": "Turația maximă a arborelui tău (rot/min)",
+  "mill.spindleFrom": "De unde vin aceste valori: 6000–24 000 rot/min este intervalul cel mai obișnuit al arborilor CNC (de exemplu un arbore de 2,2 kW răcit cu apă). Nu e neapărat mașina ta.",
+  "mill.spindleEffect": "Ce schimbă: Nestor nu propune niciodată o turație în afara lor. Dacă calculul cere mai mult decât maximul, turația e limitată și avansul scade proporțional, ca șpanul să rămână același (și invers sub minim).",
+  "mill.spindleWhere": "Ca să le pui pe ale tale: citește-le pe plăcuța arborelui, în manualul frezei tale de mână (adesea 10 000–30 000 rot/min) sau în setările convertizorului de frecvență (arbore cu 2 poli: rot/min = frecvență × 60, deci 400 Hz = 24 000 rot/min)."
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Il-kalkolu ġie kkanċellat.",
   "calc.many": "{n} biċċiet x’tqiegħed: jista’ jieħu ftit ħin.",
   "news.121": "Il-kwantitajiet m’għadhomx limitati għal 500, il-biċċiet kbar wisq jiġu indikati mill-ewwel, u buttuna Ikkanċella tidher waqt kalkolu twil.",
+  "news.193": "Tħin: il-veloċitajiet tal-ispindle tiegħek huma spjegati (minn fejn ġejjin il-valuri predefiniti, x’jibdlu, fejn issib tiegħek). Importazzjoni AI: l-ismijiet mogħtija lill-mogħdijiet f’Illustrator jintużaw għall-biċċiet.",
   "news.192": "Tħin: «Fond massimu tal-passata» u «Passati li jridu jsiru» huma spjegati b’mod ċar, u maġenb l-ispazju minimu bejn il-biċċiet hemm marġni minimu skont il-freża (Ø + 1 mm). It-tabs f’ordni ġdida: Tqegħid, Tħin, Laser, Materjali, Notamentu, Spiża.",
   "news.191": "Ordni tal-qtugħ bis-serrieq: il-fdal il-kbir joħroġ b’qatgħa waħda minflok jinqata’ f’strixxi, u n-numri jitqiegħdu fejn ma jgħattu la l-biċċiet u lanqas numri oħra (iżgħar fil-PDF).",
   "news.190": "Biċċiet imdaħħla bl-idejn (jew ippejstjati minn spreadsheet), ordni tal-qtugħ bis-serrieq għall-metodu Rettangoli (bil-ħxuna tax-xafra tiegħek), materjali u valuri tal-lejżer tiegħek, valuri indikattivi minn Thunder Laser u GWK (plywood, MDF, akriliku, kartun, ġilda…), u m’hemmx aktar linji tal-fdal mal-marġini.",
@@ -231,8 +232,6 @@
   "mill.hardness": "klassi tal-ebusija {c}",
   "mill.asFamily": "issettjat bħala “{f}”",
   "mill.machine": "Magna u xogħol",
-  "mill.spindleMin": "Spindle min (dawriet/min)",
-  "mill.spindleMax": "Spindle mass (dawriet/min)",
   "mill.feedMax": "Avvanz mass ({u}/min)",
   "mill.thickness": "Ħxuna li trid taqta’ ({u})",
   "mill.results": "Settings rakkomandati",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Spazju minimu {g} {u}",
   "panel.marginMin": "Marġni minimu {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Il-veloċità minima tal-ispindle tiegħek (rpm)",
+  "mill.spindleMaxYour": "Il-veloċità massima tal-ispindle tiegħek (rpm)",
+  "mill.spindleFrom": "Minn fejn ġejjin dawn il-valuri: 6,000–24,000 rpm hija l-firxa l-aktar komuni tal-ispindles CNC (pereżempju spindle ta’ 2.2 kW imkessaħ bl-ilma). Mhux bilfors il-magna tiegħek.",
+  "mill.spindleEffect": "X’jibdlu: Nestor qatt ma jissuġġerixxi veloċità barra minnhom. Jekk il-kalkolu jitlob aktar mill-massimu, il-veloċità tiġi limitata u l-avvanz jitbaxxa bl-istess proporzjon, biex iċ-ċippa tibqa’ l-istess (u bil-maqlub taħt il-minimu).",
+  "mill.spindleWhere": "Biex tpoġġi tiegħek: aqrahom fuq il-pjanċa tal-ispindle, fil-manwal tar-router tal-idejn tiegħek (ħafna drabi 10,000–30,000 rpm) jew fis-settings tal-VFD (spindle b’2 poli: rpm = frekwenza × 60, mela 400 Hz = 24,000 rpm)."
 }

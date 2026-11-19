@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.193": "Fresatge: s’expliquen les velocitats del teu capçal (d’on surten els valors predefinits, què canvien, on trobar els teus). Importació AI: els noms donats als traçats a l’Illustrator s’usen per a les peces.",
   "news.192": "Fresatge: «Passada màxima» i «Passades a fer» s’expliquen amb claredat, i s’hi afegeix un marge mínim segons la fresa (Ø + 1 mm) al costat de l’espai mínim entre peces. Pestanyes en un ordre nou: Encaix, Fresatge, Làser, Materials, Quadern, Cost.",
   "news.191": "Ordre dels talls amb serra: el retall gran surt d’un sol tall en lloc de tallar-se a tires, i els números es col·loquen on no tapen ni les peces ni altres números (més discrets al PDF).",
   "news.190": "Peces introduïdes a mà (o enganxades d’un full de càlcul), ordre dels talls amb serra per al mètode Rectangles (amb el gruix de la teva fulla), materials i valors làser teus, valors orientatius de Thunder Laser i GWK (contraxapat, MDF, acrílic, cartró, cuir…), i ja no hi ha línies de retalls al llarg dels marges.",
@@ -231,8 +232,6 @@
   "mill.hardness": "classe de duresa {c}",
   "mill.asFamily": "ajustat com a «{f}»",
   "mill.machine": "Màquina i treball",
-  "mill.spindleMin": "Capçal mín. (rpm)",
-  "mill.spindleMax": "Capçal màx. (rpm)",
   "mill.feedMax": "Avanç màx. ({u}/min)",
   "mill.thickness": "Gruix a tallar ({u})",
   "mill.results": "Ajustos recomanats",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Espai mínim {g} {u}",
   "panel.marginMin": "Marge mínim {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Velocitat mínima del teu capçal (rpm)",
+  "mill.spindleMaxYour": "Velocitat màxima del teu capçal (rpm)",
+  "mill.spindleFrom": "D’on surten aquests valors: 6000–24 000 rpm és el rang més habitual dels capçals de CNC (per exemple, un capçal de 2,2 kW refrigerat per aigua). No és per força la teva màquina.",
+  "mill.spindleEffect": "Què canvien: Nestor mai no proposa una velocitat fora d’aquest rang. Si el càlcul en demana més que el màxim, la velocitat queda limitada i l’avanç baixa en proporció, per mantenir el mateix encenall (i al revés per sota del mínim).",
+  "mill.spindleWhere": "Per posar els teus: llegeix-los a la placa del capçal, al manual de la teva fresadora de mà (sovint 10 000–30 000 rpm) o als ajustos del variador (capçal de 2 pols: rpm = freqüència × 60, per tant 400 Hz = 24 000 rpm)."
 }

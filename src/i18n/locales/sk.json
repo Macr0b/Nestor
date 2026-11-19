@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušený.",
   "calc.many": "{n} dielov na rozmiestnenie: môže to chvíľu trvať.",
   "news.121": "Množstvá už nie sú obmedzené na 500, príliš veľké diely sa ohlásia hneď a pri dlhom výpočte sa objaví tlačidlo Zrušiť.",
+  "news.193": "Frézovanie: otáčky tvojho vretena sú vysvetlené (odkiaľ sú predvyplnené hodnoty, čo menia, kde nájsť svoje). Import AI: názvy ciest zadané v Illustratore sa použijú pre diely.",
   "news.192": "Frézovanie: „Maximálna hĺbka triesky“ a „Prechody“ sú zrozumiteľne vysvetlené a k minimálnej medzere medzi dielmi pribudol minimálny okraj podľa frézy (Ø + 1 mm). Karty v novom poradí: Rozmiestnenie, Frézovanie, Laser, Materiály, Zápisník, Náklady.",
   "news.191": "Poradie rezov pílou: veľký odrezok odpadne jediným rezom namiesto rozrezania na pásy a čísla sa umiestnia tam, kde nezakrývajú diely ani iné čísla (v PDF menšie).",
   "news.190": "Ručné zadanie dielov (alebo vloženie z tabuľky), poradie rezov pílou pre metódu Obdĺžniky (s hrúbkou tvojho kotúča), vlastné laserové materiály a hodnoty, orientačné hodnoty Thunder Laser a GWK (preglejka, MDF, akrylát, kartón, koža…) a už žiadne čiary odrezkov pozdĺž okrajov.",
@@ -231,8 +232,6 @@
   "mill.hardness": "trieda tvrdosti {c}",
   "mill.asFamily": "nastavené ako „{f}“",
   "mill.machine": "Stroj a práca",
-  "mill.spindleMin": "Vreteno min (ot/min)",
-  "mill.spindleMax": "Vreteno max (ot/min)",
   "mill.feedMax": "Max. posuv ({u}/min)",
   "mill.thickness": "Hrúbka rezu ({u})",
   "mill.results": "Odporúčané hodnoty",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minimálna medzera {g} {u}",
   "panel.marginMin": "Minimálny okraj {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Minimálne otáčky tvojho vretena (ot./min)",
+  "mill.spindleMaxYour": "Maximálne otáčky tvojho vretena (ot./min)",
+  "mill.spindleFrom": "Odkiaľ hodnoty sú: 6 000–24 000 ot./min je najbežnejší rozsah vretien CNC (napríklad vodou chladené vreteno 2,2 kW). Nemusí to byť tvoj stroj.",
+  "mill.spindleEffect": "Čo menia: Nestor nikdy nenavrhne otáčky mimo nich. Keď výpočet žiada viac ako maximum, otáčky sa obmedzia a posuv sa úmerne zníži, aby trieska ostala rovnaká (a naopak pod minimom).",
+  "mill.spindleWhere": "Ako zadať svoje: nájdeš ich na štítku vretena, v návode k svojej hornej fréze (často 10 000–30 000 ot./min) alebo v nastaveniach frekvenčného meniča (2-pólové vreteno: ot./min = frekvencia × 60, teda 400 Hz = 24 000 ot./min)."
 }

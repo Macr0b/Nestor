@@ -215,8 +215,15 @@
       <div class="mill-grp">
         <h3 data-i18n="mill.machine">Machine et travail</h3>
         <div class="g4">
-          <label class="f"><span data-i18n="mill.spindleMin">Broche min (tr/min)</span><input type="number" id="millSpindleMin" inputmode="numeric" min="0" step="100"></label>
-          <label class="f"><span data-i18n="mill.spindleMax">Broche max (tr/min)</span><input type="number" id="millSpindleMax" inputmode="numeric" min="0" step="100"></label>
+          <label class="f"><span data-i18n="mill.spindleMinYour">Vitesse mini de ta broche (tr/min)</span><input type="number" id="millSpindleMin" inputmode="numeric" min="0" step="100" aria-describedby="millSpindleHint"></label>
+          <label class="f"><span data-i18n="mill.spindleMaxYour">Vitesse maxi de ta broche (tr/min)</span><input type="number" id="millSpindleMax" inputmode="numeric" min="0" step="100" aria-describedby="millSpindleHint"></label>
+        </div>
+        <ul class="hint mill-spindle-help" id="millSpindleHint">
+          <li data-i18n="mill.spindleFrom"></li>
+          <li data-i18n="mill.spindleEffect"></li>
+          <li data-i18n="mill.spindleWhere"></li>
+        </ul>
+        <div class="g4">
           <label class="f"><span data-i18n="mill.feedMax">Avance max (mm/min)</span><input type="number" id="millFeedMax" inputmode="numeric" min="0" step="100"></label>
           <label class="f" id="millThicknessField"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="millThickness" inputmode="decimal" min="0" step="any"></label>
         </div>

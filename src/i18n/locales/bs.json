@@ -188,6 +188,7 @@
   "calc.cancelled": "Proračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tokom dugog proračuna pojavljuje se dugme Odustani.",
+  "news.193": "Glodanje: brzine tvog vretena su objašnjene (odakle unaprijed upisane vrijednosti, šta mijenjaju, gdje pronaći svoje). Uvoz AI: imena data putanjama u Illustratoru koriste se za dijelove.",
   "news.192": "Glodanje: „Najveća dubina prolaza” i „Prolazi” su jasno objašnjeni, a uz najmanji razmak između dijelova dodan je najmanji rub prema glodalu (Ø + 1 mm). Kartice novim redoslijedom: Raspoređivanje, Glodanje, Laser, Materijali, Bilježnica, Trošak.",
   "news.191": "Redoslijed rezova pilom: veliki otpadak otpada jednim rezom umjesto da se reže na trake, a brojevi se postavljaju tamo gdje ne prekrivaju ni dijelove ni druge brojeve (manji u PDF-u).",
   "news.190": "Ručni unos dijelova (ili lijepljenje iz tabele), redoslijed rezova pilom za metodu Pravougaonici (s debljinom tvog lista pile), vlastiti laserski materijali i vrijednosti, okvirne vrijednosti Thunder Laser i GWK (šperploča, MDF, akril, karton, koža…) i više nema linija otpadaka uz rubove.",
@@ -231,8 +232,6 @@
   "mill.hardness": "klasa tvrdoće {c}",
   "mill.asFamily": "postavljeno kao „{f}”",
   "mill.machine": "Mašina i rad",
-  "mill.spindleMin": "Vreteno min (o/min)",
-  "mill.spindleMax": "Vreteno maks (o/min)",
   "mill.feedMax": "Maks. pomak ({u}/min)",
   "mill.thickness": "Debljina rezanja ({u})",
   "mill.results": "Preporučene postavke",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Najmanji razmak {g} {u}",
   "panel.marginMin": "Najmanji rub {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Najmanja brzina tvog vretena (o/min)",
+  "mill.spindleMaxYour": "Najveća brzina tvog vretena (o/min)",
+  "mill.spindleFrom": "Odakle vrijednosti: 6000–24 000 o/min je najčešći raspon CNC vretena (na primjer vodom hlađeno vreteno od 2,2 kW). To nije nužno tvoja mašina.",
+  "mill.spindleEffect": "Šta mijenjaju: Nestor nikad ne predlaže brzinu izvan njih. Ako proračun traži više od najveće, brzina se ograničava, a pomak srazmjerno smanjuje kako bi strugotina ostala ista (i obrnuto ispod najmanje).",
+  "mill.spindleWhere": "Kako upisati svoje: pročitaj ih na pločici vretena, u uputstvu svoje ručne glodalice (često 10 000–30 000 o/min) ili u postavkama frekventnog pretvarača (vreteno s 2 pola: o/min = frekvencija × 60, dakle 400 Hz = 24 000 o/min)."
 }

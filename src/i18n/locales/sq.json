@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.193": "Frezimi: shpejtësitë e boshtit tënd shpjegohen (nga vijnë vlerat e paracaktuara, çfarë ndryshojnë, ku t’i gjesh tuajat). Importi AI: emrat e dhënë shtigjeve në Illustrator përdoren për pjesët.",
   "news.192": "Frezimi: «Thellësia maksimale e kalimit» dhe «Kalimet për t’u bërë» shpjegohen qartë, dhe pranë hapësirës minimale midis pjesëve shtohet kufiri minimal sipas frezës (Ø + 1 mm). Skedat në një rend të ri: Vendosja, Frezimi, Lazer, Materialet, Fletore, Kosto.",
   "news.191": "Rendi i prerjeve me sharrë: mbetja e madhe del me një prerje të vetme në vend që të pritet në rripa, dhe numrat vendosen aty ku nuk mbulojnë as pjesët as numrat e tjerë (më të vegjël në PDF).",
   "news.190": "Futje e pjesëve me dorë (ose ngjitje nga fletëllogaritësja), rendi i prerjeve me sharrë për metodën Drejtkëndësha (me trashësinë e tehut tënd), materiale dhe vlera lazeri të tuat, vlera orientuese nga Thunder Laser dhe GWK (kompensatë, MDF, akrilik, karton, lëkurë…) dhe më s’ka vija mbetjesh përgjatë kufijve.",
@@ -231,8 +232,6 @@
   "mill.hardness": "klasa e fortësisë {c}",
   "mill.asFamily": "vendosur si «{f}»",
   "mill.machine": "Makina dhe puna",
-  "mill.spindleMin": "Boshti min (rr/min)",
-  "mill.spindleMax": "Boshti maks (rr/min)",
   "mill.feedMax": "Përparimi maks ({u}/min)",
   "mill.thickness": "Trashësia për prerje ({u})",
   "mill.results": "Cilësimet e këshilluara",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Hapësira minimale {g} {u}",
   "panel.marginMin": "Kufiri minimal {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Shpejtësia minimale e boshtit tënd (rr/min)",
+  "mill.spindleMaxYour": "Shpejtësia maksimale e boshtit tënd (rr/min)",
+  "mill.spindleFrom": "Nga vijnë këto vlera: 6000–24 000 rr/min është diapazoni më i zakonshëm i boshteve CNC (për shembull një bosht 2,2 kW i ftohur me ujë). Nuk është domosdoshmërisht makina jote.",
+  "mill.spindleEffect": "Çfarë ndryshojnë: Nestor nuk propozon kurrë një shpejtësi jashtë tyre. Nëse llogaritja kërkon më shumë se maksimumi, shpejtësia kufizohet dhe ushqimi ulet në të njëjtin raport, që ashkla të mbetet e njëjtë (dhe e kundërta nën minimumin).",
+  "mill.spindleWhere": "Për të vendosur tuajat: lexoji në etiketën e boshtit, në manualin e frezës tënde të dorës (shpesh 10 000–30 000 rr/min) ose në cilësimet e invertorit (bosht me 2 pole: rr/min = frekuenca × 60, pra 400 Hz = 24 000 rr/min)."
 }

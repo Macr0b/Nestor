@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.9.2";
+const VERSION = "1.9.3";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -28,6 +28,7 @@ const FILES = [
   "src/geometry/svg-path.js",
   "src/i18n/i18n.js",
   "src/i18n/languages.js",
+  "src/import/ai-names.js",
   "src/import/dxf.js",
   "src/import/hpgl.js",
   "src/import/lightburn.js",
@@ -159,6 +160,7 @@ const FILES = [
   "icons/maskable-512-v3.png",
   "icons/apple-touch-icon-v3.png",
   "icons/favicon-32-v3.png",
+  "vendor/fzstd/fzstd.mjs",
   "vendor/pdfjs/pdf.min.mjs",
   "vendor/pdfjs/pdf.worker.min.mjs",
   "fonts/barlow-latin-400-normal.woff2",

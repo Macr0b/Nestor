@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung ofgebrach.",
   "calc.many": "{n} Deeler ze placéieren: dat ka laang daueren.",
   "news.121": "D’Quantitéite sinn net méi op 500 limitéiert, ze grouss Deeler ginn direkt gemellt, an e Knäppchen Ofbriechen erschéngt bei laange Berechnungen.",
+  "news.193": "Fräsen: d’Dréizuelen vun denger Spindel ginn erkläert (wou déi virgefëllt Wäerter hierkommen, wat se änneren, wou s du deng fënns). AI-Import: Nimm, déi Pfaden an Illustrator kruten, ginn fir d’Deeler iwwerholl.",
   "news.192": "Fräsen: „Maximal Zoustellung“ an „Passagen ze maachen“ ginn däitlech erkläert, an e Mindestrand no der Fräs (Ø + 1 mm) kënnt nieft de Mindestofstand tëscht den Deeler. Tabs an enger neier Reiefolleg: Verschachtelung, Fräsen, Laser, Materialien, Notizbuch, Käschten.",
   "news.191": "Reiefolleg vun de Seeschnëtter: dat grousst Reschtstéck fält mat engem eenzege Schnëtt of amplaz a Sträife geschnidden ze ginn, an d’Nummere stinn do, wou se weder Deeler nach aner Nummeren zoudecken (méi kleng am PDF).",
   "news.190": "Deeler mat der Hand aginn (oder aus enger Tabell agepecht), Reiefolleg vun de Seeschnëtter fir d’Method Rechtecker (mat der Déckt vun dengem Seeblat), eegen Laser-Materialien a -Wäerter, Richtwäerter vun Thunder Laser a GWK (Sperrholz, MDF, Akryl, Kartong, Lieder …), a keng Reschtlinne méi laanscht d’Rännere.",
@@ -231,8 +232,6 @@
   "mill.hardness": "Häertklass {c}",
   "mill.asFamily": "agestallt wéi „{f}“",
   "mill.machine": "Maschinn an Aarbecht",
-  "mill.spindleMin": "Spindel min (U/min)",
-  "mill.spindleMax": "Spindel max (U/min)",
   "mill.feedMax": "Max. Viraschub ({u}/min)",
   "mill.thickness": "Déckt fir ze schneiden ({u})",
   "mill.results": "Recommandéiert Wäerter",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Mindestofstand {g} {u}",
   "panel.marginMin": "Mindestrand {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Mindestdréizuel vun denger Spindel (U/min)",
+  "mill.spindleMaxYour": "Maximal Dréizuel vun denger Spindel (U/min)",
+  "mill.spindleFrom": "Wou dës Wäerter hierkommen: 6 000–24 000 U/min ass de gängegste Beräich vu CNC-Spindelen (zum Beispill eng waassergekillte 2,2-kW-Spindel). Et ass net onbedéngt deng Maschinn.",
+  "mill.spindleEffect": "Wat se änneren: Nestor proposéiert ni eng Dréizuel dobaussen. Freet d’Rechnung méi wéi de Maximum, gëtt d’Dréizuel begrenzt an de Virschub am selwechte Mooss erofgesat, fir datt de Spoun gläich bleift (an ëmgedréint ënner dem Minimum).",
+  "mill.spindleWhere": "Fir deng anzeginn: lies se um Typeschëld vun der Spindel, an der Uleedung vun denger Uewerfräs (dacks 10 000–30 000 U/min) oder an den Astellunge vum Frequenzëmriichter (2-poleg Spindel: U/min = Frequenz × 60, also 400 Hz = 24 000 U/min)."
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.193": "Fräsen: Die Drehzahlen deiner Spindel werden erklärt (woher die vorgegebenen Werte kommen, was sie ändern, wo du deine findest). AI-Import: In Illustrator vergebene Pfadnamen werden für die Teile übernommen.",
   "news.192": "Fräsen: „Maximale Zustellung“ und „Durchgänge“ werden klar erklärt, und ein Mindestrand nach dem Fräser (Ø + 1 mm) kommt zum Mindestabstand zwischen den Teilen hinzu. Tabs in neuer Reihenfolge: Verschachtelung, Fräsen, Laser, Materialien, Notizbuch, Kosten.",
   "news.191": "Schnittreihenfolge für die Säge: Das große Reststück fällt mit einem einzigen Schnitt ab, statt in Streifen zerschnitten zu werden, und die Nummern stehen dort, wo sie weder Teile noch andere Nummern verdecken (dezenter im PDF).",
   "news.190": "Teile von Hand eingeben (oder aus einer Tabelle einfügen), Schnittreihenfolge für die Säge bei der Methode Rechtecke (mit deiner Sägeblattstärke), eigene Lasermaterialien und -werte, Richtwerte von Thunder Laser und GWK (Sperrholz, MDF, Acryl, Karton, Leder …) und keine Restestücklinien mehr entlang der Ränder.",
@@ -231,8 +232,6 @@
   "mill.hardness": "Härteklasse {c}",
   "mill.asFamily": "eingestellt wie „{f}“",
   "mill.machine": "Maschine und Arbeit",
-  "mill.spindleMin": "Spindel min (U/min)",
-  "mill.spindleMax": "Spindel max (U/min)",
   "mill.feedMax": "Max. Vorschub ({u}/min)",
   "mill.thickness": "Zu schneidende Dicke ({u})",
   "mill.results": "Empfohlene Werte",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Mindestabstand {g} {u}",
   "panel.marginMin": "Mindestrand {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Mindestdrehzahl deiner Spindel (U/min)",
+  "mill.spindleMaxYour": "Höchstdrehzahl deiner Spindel (U/min)",
+  "mill.spindleFrom": "Woher diese Werte kommen: 6 000–24 000 U/min ist der häufigste Bereich bei CNC-Spindeln (zum Beispiel eine wassergekühlte 2,2-kW-Spindel). Das ist nicht unbedingt deine Maschine.",
+  "mill.spindleEffect": "Was sie ändern: Nestor schlägt nie eine Drehzahl außerhalb vor. Verlangt die Rechnung mehr als das Maximum, wird die Drehzahl begrenzt und der Vorschub entsprechend gesenkt, damit der Span gleich bleibt (und umgekehrt unter dem Minimum).",
+  "mill.spindleWhere": "Deine eigenen eintragen: Sie stehen auf dem Typenschild der Spindel, in der Anleitung deiner Oberfräse (oft 10 000–30 000 U/min) oder in den Einstellungen des Frequenzumrichters (2-polige Spindel: U/min = Frequenz × 60, also 400 Hz = 24 000 U/min)."
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.193": "Fresing: turtallene til spindelen din forklares (hvor de forhåndsutfylte verdiene kommer fra, hva de endrer, hvor du finner dine). AI-import: navn gitt til baner i Illustrator brukes for delene.",
   "news.192": "Fresing: «Maksimal skjæredybde» og «Passeringer å gjøre» forklares tydelig, og en minste marg etter fresen (Ø + 1 mm) kommer i tillegg til minste avstand mellom deler. Faner i ny rekkefølge: Plassering, Fresing, Laser, Materialer, Notatbok, Kostnad.",
   "news.191": "Rekkefølge for sagsnitt: det store reststykket kommer av med ett enkelt snitt i stedet for å bli kuttet i strimler, og numrene plasseres der de verken skjuler deler eller andre numre (mindre i PDF-en).",
   "news.190": "Deler skrevet inn for hånd (eller limt inn fra et regneark), rekkefølge for sagsnitt med metoden Rektangler (med tykkelsen på sagbladet ditt), egne lasermaterialer og -verdier, veiledende verdier fra Thunder Laser og GWK (kryssfiner, MDF, akryl, kartong, lær …), og ingen flere restlinjer langs margene.",
@@ -231,8 +232,6 @@
   "mill.hardness": "hardhetsklasse {c}",
   "mill.asFamily": "satt som «{f}»",
   "mill.machine": "Maskin og arbeid",
-  "mill.spindleMin": "Spindel min (o/min)",
-  "mill.spindleMax": "Spindel maks (o/min)",
   "mill.feedMax": "Maks mating ({u}/min)",
   "mill.thickness": "Tykkelse å skjære ({u})",
   "mill.results": "Anbefalte innstillinger",
@@ -639,5 +638,10 @@
   "panel.gapMin": "Minste avstand {g} {u}",
   "panel.marginMin": "Minste marg {g} {u}",
   "panel.gapMinHow": "(2 × Ø + {m} {u})",
-  "panel.marginMinHow": "(Ø + {m} {u})"
+  "panel.marginMinHow": "(Ø + {m} {u})",
+  "mill.spindleMinYour": "Minste turtall for spindelen din (o/min)",
+  "mill.spindleMaxYour": "Høyeste turtall for spindelen din (o/min)",
+  "mill.spindleFrom": "Hvor verdiene kommer fra: 6000–24 000 o/min er det vanligste området for CNC-spindler (for eksempel en vannkjølt spindel på 2,2 kW). Det er ikke nødvendigvis maskinen din.",
+  "mill.spindleEffect": "Hva de endrer: Nestor foreslår aldri et turtall utenfor dem. Krever beregningen mer enn maksimum, begrenses turtallet og matingen senkes tilsvarende, slik at sponet blir det samme (og omvendt under minimum).",
+  "mill.spindleWhere": "Slik setter du dine: les dem på typeskiltet på spindelen, i bruksanvisningen til overfresen din (ofte 10 000–30 000 o/min) eller i innstillingene på frekvensomformeren (2-polet spindel: o/min = frekvens × 60, altså 400 Hz = 24 000 o/min)."
 }
