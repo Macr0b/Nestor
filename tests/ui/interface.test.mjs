@@ -776,7 +776,21 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.getAttribute("#tabMill", "aria-selected"), "true");
     // valeurs de départ : fraise Ø 6 à 2 dents, famille intermédiaire, 18 mm en ébauche
     assert.deepEqual((await digits("#millValues b")).slice(0, 3), ["15900", "1910", "3"]);
-    assert.match(await page.textContent("#millValues"), /6 × 3 mm/);
+    // passe maximale (fraise et matière), puis passes à faire : l'épaisseur en passes égales
+    assert.deepEqual(await page.$$eval("#millValues small", (v) => v.slice(2).map((x) => x.textContent)), [
+      "Passe maximale",
+      "Passes à faire"
+    ]);
+    assert.match(await page.textContent("#millValues"), /selon la fraise et la matière/);
+    assert.match(await page.textContent("#millValues"), /de 3 mm chacune/);
+    assert.equal(
+      await page.textContent("#millPassPlan"),
+      "18 mm ÷ passe max 3 mm → 6 passes égales de 3 mm. Nestor répartit l’épaisseur en passes égales, chacune sans dépasser la passe maximale."
+    );
+    // 19 mm : 7 passes de 2,71 mm, sous la passe maximale de 3 mm
+    await page.fill("#millThickness", "19");
+    assert.match(await page.textContent("#millPassPlan"), /^19 mm ÷ passe max 3 mm → 7 passes égales de 2,71 mm\./);
+    await page.fill("#millThickness", "18");
     // petite fraise : la broche plafonne, l'avance suit et un message l'explique
     await page.fill("#millDiameter", "3");
     assert.equal((await digits("#millValues b"))[0], "24000");
@@ -791,7 +805,8 @@ describe("Interface", { skip }, () => {
     await page.fill("#millAngle", "60");
     await page.fill("#millEngraveDepth", "1.5");
     assert.match(await page.textContent("#millNotes"), /1,5 mm de profondeur.*1,73 mm de large/);
-    assert.match(await page.textContent("#millValues"), /1 × 1,5 mm pour 1,5 mm/);
+    assert.match(await page.textContent("#millValues"), /de 1,5 mm chacune/);
+    assert.match(await page.textContent("#millPassPlan"), /^1,5 mm ≤ passe max .* → une seule passe\.$/);
     await page.fill("#millAngle", "");
     assert.match(await page.textContent("#millRule"), /angle/);
     await page.fill("#millAngle", "60");
@@ -868,8 +883,21 @@ describe("Interface", { skip }, () => {
     const before = await stats(page);
     const panelL = () => page.inputValue("#pl0-L");
     assert.equal(await panelL(), "600");
-    // écart d'après la fraise (Ø 6 de l'onglet Fraisage) : 2 × 6 + 1 = 13 mm
-    assert.match(await page.textContent("#btnGapFromTool"), /13 mm/);
+    // minimums d'après la fraise (Ø 6 de l'onglet Fraisage) : espace 2 × 6 + 1 = 13 mm, marge 6 + 1 = 7 mm
+    assert.match(await page.textContent("#toolIntro"), /fraise Ø 6 mm de l’onglet Fraisage/);
+    assert.equal(await page.textContent("#btnGapFromTool"), "Espace minimal 13 mm");
+    assert.equal(await page.textContent("#gapFromToolHow"), "(2 × Ø + 1 mm)");
+    assert.equal(await page.textContent("#btnMarginFromTool"), "Marge minimale 7 mm");
+    assert.equal(await page.textContent("#marginFromToolHow"), "(Ø + 1 mm)");
+    await page.click("#btnMarginFromTool");
+    await page.waitForSelector(".sheet");
+    assert.equal(await page.inputValue("#sM"), "7");
+    await page.click("#btnGapFromTool");
+    await page.waitForSelector(".sheet");
+    assert.equal(await page.inputValue("#sG"), "13");
+    await page.fill("#sG", "4");
+    await page.fill("#sM", "10");
+    await page.waitForSelector(".sheet");
     // temps estimé : contours extérieurs, avec la mention d'estimation
     assert.match(await page.textContent("#cutTime .v"), /^≈ \d+ (min|h \d+ min)$/);
     assert.match(await page.textContent("#result"), /Estimation : seulement le contour extérieur/);

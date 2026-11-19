@@ -991,3 +991,8 @@ button:focus-visible,
   font-weight: 700;
   color: #2f8fff;
 }
+
+/* morceau de texte à ne pas couper en fin de ligne */
+.nowrap {
+  white-space: nowrap;
+}

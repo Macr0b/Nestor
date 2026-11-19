@@ -101,25 +101,29 @@ const ORIGIN_CHOICES = [
   ["br", "↘"]
 ];
 
-// écart conseillé entre pièces pour la fraise de l'onglet Fraisage : 2 × Ø + un peu de matière (doc. Vectric)
+// minimums d'après la fraise de l'onglet Fraisage (doc. Vectric) : entre deux pièces, la fraise passe deux fois
+// (2 × Ø) ; au bord, une fois (Ø) ; plus un peu de matière qui tient dans les deux cas
 const GAP_EXTRA_MM = 1;
 
 function toolGap() {
   var diameter = loadMillingInput().diameter;
-  return diameter > 0 ? { gap: 2 * diameter + GAP_EXTRA_MM, diameter: diameter } : null;
+  return diameter > 0
+    ? { gap: 2 * diameter + GAP_EXTRA_MM, margin: diameter + GAP_EXTRA_MM, diameter: diameter }
+    : null;
 }
 
-/* Lien « Écart d'après la fraise » sous l'espace entre pièces (refait quand la fraise change). */
+/* Liens « Espace minimal » et « Marge minimale » d'après la fraise (refaits quand la fraise change). */
 export function renderToolGap() {
   var tool = toolGap(),
-    button = byId("btnGapFromTool");
+    button = byId("btnGapFromTool"),
+    extra = showLength(GAP_EXTRA_MM, { digits: 2 });
   button.closest("p").hidden = !tool;
   if (!tool) return;
-  button.textContent = translate("panel.gapFromTool", { g: showLength(tool.gap, { digits: 2 }) });
-  byId("gapFromToolHow").textContent = translate("panel.gapFromToolHow", {
-    d: showLength(tool.diameter, { digits: 2 }),
-    m: showLength(GAP_EXTRA_MM, { digits: 2 })
-  });
+  byId("toolIntro").textContent = translate("panel.toolIntro", { d: showLength(tool.diameter, { digits: 2 }) });
+  button.textContent = translate("panel.gapMin", { g: showLength(tool.gap, { digits: 2 }) });
+  byId("gapFromToolHow").textContent = translate("panel.gapMinHow", { m: extra });
+  byId("btnMarginFromTool").textContent = translate("panel.marginMin", { g: showLength(tool.margin, { digits: 2 }) });
+  byId("marginFromToolHow").textContent = translate("panel.marginMinHow", { m: extra });
 }
 
 /* Épaisseur de lame : champ (vide = espace entre pièces), et alerte si l'espace est plus fin que la lame. */
@@ -256,6 +260,14 @@ export function bindPanelsEditor() {
   });
   onLibraryChange(function () {
     fillMaterialSelect(byId("nestMaterial"), "lib.none");
+  });
+  byId("btnMarginFromTool").addEventListener("click", function () {
+    var tool = toolGap();
+    if (!tool) return;
+    state.sheet.margin = Math.round(tool.margin * 1000) / 1000;
+    setLengthField(byId("sM"), state.sheet.margin);
+    schedulePreferencesSave();
+    scheduleCalculation();
   });
   byId("btnGapFromTool").addEventListener("click", function () {
     var tool = toolGap();

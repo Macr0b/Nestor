@@ -155,21 +155,32 @@ function renderState() {
   if (!result) {
     values.innerHTML = "";
     byId("millRule").textContent = translate(isVBit ? "mill.invalidVBit" : "mill.invalid");
+    byId("millPassPlan").textContent = "";
     byId("millNotes").innerHTML = "";
     return;
   }
-  const passes = result.passes
-    ? translate("mill.passesFor", {
-        p: formatValue(result.passes, 0),
-        d: showLength(result.passDepth, { digits: 2 }),
-        t: showLength(isVBit ? input.engraveDepth : input.thickness, { digits: 2 })
-      })
-    : translate("mill.noThickness");
+  // passe maximale (fraise et matière), puis l'épaisseur répartie en passes égales qui ne la dépassent pas
+  const unit = translate("mill.unitLength");
   values.innerHTML =
     valueBox(translate("mill.rpm"), formatValue(result.rpm, 0), translate("mill.unitRpm")) +
     valueBox(translate("mill.feed"), showFeed(result.feed), translate("mill.unitFeed")) +
-    valueBox(translate("mill.depth"), showLength(result.depth, { digits: 2 }), translate("mill.unitLength")) +
-    valueBox(translate("mill.passes"), result.passes ? formatValue(result.passes, 0) : "–", passes);
+    valueBox(translate("mill.maxPass"), showLength(result.depth, { digits: 2 }), translate("mill.maxPassSub")) +
+    valueBox(
+      translate("mill.passesTodo"),
+      result.passes ? formatValue(result.passes, 0) : "–",
+      result.passes
+        ? translate("mill.passesEach", { d: showLength(result.passDepth, { digits: 2 }) })
+        : translate("mill.noThickness")
+    );
+  const total = showLength(isVBit ? input.engraveDepth : input.thickness, { digits: 2 });
+  byId("millPassPlan").textContent = !result.passes
+    ? ""
+    : translate(result.passes === 1 ? "mill.passPlanOne" : "mill.passPlan", {
+        t: total,
+        m: showLength(result.depth, { digits: 2 }),
+        p: formatValue(result.passes, 0),
+        d: showLength(result.passDepth, { digits: 2 })
+      });
   byId("millRule").textContent = translate(isVBit ? "mill.ruleVBit" : "mill.rule", {
     c: showLength(result.chipLoad, { decimal: true, digits: 4 }),
     k: formatValue(result.chipDivisor, 0),

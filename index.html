@@ -146,7 +146,7 @@
           <label class="f"><span data-i18n="panel.gap">Espace entre pièces</span><input type="number" id="sG" inputmode="decimal" min="0" step="0.5"></label>
           <label class="f"><span data-i18n="panel.margin">Marge au bord</span><input type="number" id="sM" inputmode="decimal" min="0" step="0.5"></label>
         </div>
-        <p class="hint gap-tool"><button type="button" class="linkbtn" id="btnGapFromTool"></button> <span id="gapFromToolHow"></span></p>
+        <p class="hint gap-tool"><span id="toolIntro"></span><br><span class="nowrap"><button type="button" class="linkbtn" id="btnGapFromTool"></button> <span id="gapFromToolHow"></span></span><br><span class="nowrap"><button type="button" class="linkbtn" id="btnMarginFromTool"></button> <span id="marginFromToolHow"></span></span></p>
         <label class="f"><span data-i18n="panel.method">Méthode</span>
           <select id="sMode">
             <option value="nest" data-i18n="method.nest">Imbrication selon la forme (laser, CNC)</option>
@@ -225,6 +225,7 @@
     <section class="box mill-results" aria-labelledby="h-millRes" aria-live="polite">
       <h2 id="h-millRes" data-i18n="mill.results">Réglages conseillés</h2>
       <div class="mill-values" id="millValues"></div>
+      <p class="hint" id="millPassPlan"></p>
       <div class="nb-from"><button type="button" class="btn" id="btnKeepMilling" data-i18n="nb.keep">＋ Garder dans le carnet</button><span class="hint" data-i18n="nb.keepHint">Tu pourras corriger les valeurs vraiment utilisées et ajouter une note.</span></div>
       <p class="hint" id="millRule"></p>
       <ul class="mill-notes" id="millNotes"></ul>
