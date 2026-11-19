@@ -188,6 +188,7 @@
   "calc.cancelled": "Arvutus tühistati.",
   "calc.many": "{n} detaili paigutamiseks: see võib aega võtta.",
   "news.121": "Kogused pole enam 500-ga piiratud, liiga suured detailid märgitakse kohe ja pika arvutuse ajal ilmub nupp Tühista.",
+  "news.194": "Import: kui joonise detailid on üksteise sees, jääb iga sisejoon oma detailile (naaberdetail ei vii seda enam kaasa).",
   "news.193": "Paigutus: detail, mis ei mahu, on detailide loendis punasega märgitud koos põhjusega ja punane teade viib selleni. „Lähtepunkt“ on nüüd „Paigutuspunkt“. Valitud materjal paneb oma formaadi plaadireale ja „Lisa jääk“ paneb jäägid selle ette. Saag: vali esimeste lõigete suund. „Kogu plaan DXF-ina“ laadib iga plaadi kohta ühe DXF-i. Kulu: masina ja töö eraldi tunnihind, alustatud tunnid soovi korral täistundidena, jäägid vaikimisi 0. Freesimine: spindli kiirused on lahti seletatud. Freesimine ja laser: soovitatud seaded ei liigu enam kerimisega kaasa. Laser: tootjate paksused on välja all selgitatud. AI import: Illustratoris kontuuridele antud nimed võetakse detailide nimedeks.",
   "news.192": "Freesimine: „Suurim lõikesügavus“ ja „Tehtavad läbimid“ on selgelt lahti seletatud ning detailide väikseima vahe kõrvale tuli freesi järgi väikseim veeris (Ø + 1 mm). Vahekaardid uues järjekorras: Paigutus, Freesimine, Laser, Materjalid, Märkmik, Kulu.",
   "news.191": "Saagimise järjekord: suur jääk tuleb ära ühe lõikega, selle asemel et seda ribadeks lõigata, ja numbrid paigutuvad sinna, kus nad ei kata ei detaile ega teisi numbreid (PDF-is väiksemad).",

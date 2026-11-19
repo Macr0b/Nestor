@@ -2,7 +2,7 @@
 /* Regroupement : segments chaînés en contours, trous rangés dans leur pièce, pièces identiques fusionnées
    en types de pièces (avec quantité). */
 
-import { boundingBox, closeIfNearlyClosed, simplifyPolyline } from "./polylines.js";
+import { boundingBox, closeIfNearlyClosed, pointInPolygon, simplifyPolyline } from "./polylines.js";
 
 export function groupPieces(paths) {
   paths.forEach(function (p, i) {
@@ -104,20 +104,91 @@ export function groupPieces(paths) {
     var tops = [],
       e = 0.01;
     cls.forEach(function (c) {
-      var host = null;
-      for (var t = 0; t < tops.length; t++) {
-        var h = tops[t].b;
-        if (c.b[0] >= h[0] - e && c.b[1] >= h[1] - e && c.b[2] <= h[2] + e && c.b[3] <= h[3] + e) {
-          host = tops[t];
-          break;
-        }
-      }
+      // hôte possible : la pièce dont le cadre contient le tracé, ou dont le contour en contient la plupart des points
+      // (un trait qui déborde à peine du cadre, comme une semelle dessinée jusqu'au bord)
+      var hosts = tops.filter(function (top) {
+        var h = top.b;
+        if (c.b[0] >= h[0] - e && c.b[1] >= h[1] - e && c.b[2] <= h[2] + e && c.b[3] <= h[3] + e) return true;
+        if (c.b[0] > h[2] || c.b[2] < h[0] || c.b[1] > h[3] || c.b[3] < h[1]) return false;
+        return insideShare(c, top) > 0.5;
+      });
+      // plusieurs pièces dont les cadres se chevauchent (formes imbriquées) : celle dont le contour contient
+      // le plus de points du tracé, à égalité la plus proche de lui
+      var host = hosts.length > 1 ? closestHost(c, hosts) : hosts[0] || null;
       if (host) {
         host.paths = host.paths.concat(c.paths);
         host.kids++;
+        // le cadre de la pièce englobe aussi un trait qui déborde un peu
+        host.b = [
+          Math.min(host.b[0], c.b[0]),
+          Math.min(host.b[1], c.b[1]),
+          Math.max(host.b[2], c.b[2]),
+          Math.max(host.b[3], c.b[3])
+        ];
       } else tops.push({ paths: c.paths.slice(), b: c.b, kids: 0, outer: c });
     });
     return tops;
+  }
+  // contour fermé le plus grand d'un groupe, et part des points d'un autre groupe qui tombent dedans
+  function outline(cluster) {
+    var best = null,
+      area = -1;
+    cluster.paths.forEach(function (p) {
+      if (!p.closed) return;
+      var b = boundingBox([p]),
+        a = (b[2] - b[0]) * (b[3] - b[1]);
+      if (a > area) {
+        area = a;
+        best = p.pts;
+      }
+    });
+    return best;
+  }
+  function samplePoints(cluster) {
+    var pts = [];
+    cluster.paths.forEach(function (p) {
+      var step = Math.max(1, Math.floor(p.pts.length / 8));
+      for (var i = 0; i < p.pts.length; i += step) pts.push(p.pts[i]);
+    });
+    return pts;
+  }
+  function hostOutline(top) {
+    return top.outer.poly || (top.outer.poly = outline(top.outer));
+  }
+  function insideShare(cluster, top) {
+    var poly = hostOutline(top),
+      pts = samplePoints(cluster);
+    if (!poly || !pts.length) return 0;
+    return (
+      pts.filter(function (pt) {
+        return pointInPolygon(pt, poly);
+      }).length / pts.length
+    );
+  }
+  function closestHost(cluster, hosts) {
+    var pts = samplePoints(cluster),
+      best = hosts[0],
+      bestInside = -1,
+      bestGap = Infinity;
+    hosts.forEach(function (top) {
+      var poly = hostOutline(top);
+      if (!poly) return;
+      var inside = 0,
+        gap = Infinity;
+      pts.forEach(function (pt) {
+        if (pointInPolygon(pt, poly)) inside++;
+        poly.forEach(function (q) {
+          var d = Math.hypot(q[0] - pt[0], q[1] - pt[1]);
+          if (d < gap) gap = d;
+        });
+      });
+      if (inside > bestInside || (inside === bestInside && gap < bestGap)) {
+        best = top;
+        bestInside = inside;
+        bestGap = gap;
+      }
+    });
+    return best;
   }
   var tops = build(clusters.slice()),
     frame = false;

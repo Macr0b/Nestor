@@ -102,3 +102,15 @@ export function outerContourLength(part) {
   }
   return length;
 }
+
+/* Point dans un polygone fermé (règle pair-impair). */
+export function pointInPolygon(pt, poly) {
+  var inside = false;
+  for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    var a = poly[i],
+      b = poly[j];
+    if (a[1] > pt[1] !== b[1] > pt[1] && pt[0] < ((b[0] - a[0]) * (pt[1] - a[1])) / (b[1] - a[1]) + a[0])
+      inside = !inside;
+  }
+  return inside;
+}

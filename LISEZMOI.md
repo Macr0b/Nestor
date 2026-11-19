@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.9.3
+Version : 1.9.4
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -55,7 +55,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Langues** : 45 langues. L'application démarre dans la langue de l'appareil, changement dans ⚙ › Langue. Les textes sont dans `src/i18n/locales/`, un fichier par langue ; seule la langue utilisée est chargée.
 - **Panneaux** : la longueur est verticale et la largeur horizontale (panneau en portrait). La matière choisie (dans n'importe quel onglet) met son format sur une ligne marquée « Format de la matière », qui la suit tant que sa taille n'est pas changée à la main ; « Ajouter une chute » place une chute devant elle (stock 1), puisque les panneaux sont utilisés dans l'ordre de la liste. Une pièce qui ne rentre pas est marquée en rouge dans la liste des pièces, avec la raison (trop grande pour la zone utile, ou pas assez de panneaux en stock), et le message rouge du résultat mène à elle.
 - **Origine** : le petit carré à 9 points choisit le zéro machine. Les pièces se regroupent à partir de ce point (coin, bord ou centre) et c'est le zéro des fichiers exportés.
-- **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours.
+- **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours. Chaque contour fermé extérieur est une pièce ; les traits qui sont dedans (gravure, trous) partent avec elle. Quand des pièces s'emboîtent (leurs cadres se chevauchent), un trait va à la pièce dont le contour le contient vraiment, même s'il déborde un peu du cadre.
 - **Saisir à la main** : pièces rectangulaires (nom, longueur, largeur, quantité, sens fixe), une par une ou collées depuis un tableur (colonnes nom, longueur, largeur, quantité). Elles rejoignent la liste des pièces, restent quand on importe un fichier ensuite, et sont gardées dans les projets.
 - **Export** : fichiers en mm, zéro sur le repère de placement choisi. « Tout le plan en DXF » télécharge un DXF par panneau d'un coup. En option (sous « Méthode ») : le contour du panneau sur un calque « Panneau », et le numéro de chaque pièce à graver sur un calque « Numéros » (trait simple, placé dans la matière de la pièce).
 - **PDF à imprimer** : sous chaque panneau, son plan numéroté avec ses cotes, le zéro machine et la liste de ses pièces ; « Tout le plan en PDF » ajoute une page de résumé. A4 en métrique, Letter en impérial.

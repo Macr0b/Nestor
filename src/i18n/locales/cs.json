@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
+  "news.194": "Import: když do sebe dílce výkresu zapadají, každá vnitřní čára zůstane na svém dílci (už ji neodnese sousední).",
   "news.193": "Rozmístění: dílec, který se nevejde, je v seznamu dílců označen červeně i s důvodem a červená zpráva k němu vede. „Počátek“ se nyní jmenuje „Bod umístění“. Zvolený materiál zapíše svůj formát do řádku desky a „Přidat odřezek“ dá odřezky před něj. Pila: volba směru prvních řezů. „Celý plán v DXF“ stáhne jeden DXF na desku. Náklady: oddělené sazby stroje a práce, započaté hodiny podle přání celé, odřezky výchozí 0. Frézování: otáčky vřetena jsou vysvětleny. Frézování a laser: doporučené nastavení se už neposouvá se stránkou. Laser: tloušťky výrobců jsou vysvětleny pod polem. Import AI: názvy cest z Illustratoru se použijí pro dílce.",
   "news.192": "Frézování: „Maximální hloubka třísky“ a „Průchody“ jsou srozumitelně vysvětlené a k minimální mezeře mezi díly přibyl minimální okraj podle frézy (Ø + 1 mm). Karty v novém pořadí: Rozmístění, Frézování, Laser, Materiály, Zápisník, Náklady.",
   "news.191": "Pořadí řezů pilou: velký odřezek odpadne jediným řezem, místo aby se rozřezal na pruhy, a čísla se umístí tam, kde nezakrývají díly ani jiná čísla (v PDF menší).",

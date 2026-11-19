@@ -188,6 +188,7 @@
   "calc.cancelled": "Proračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tokom dugog proračuna pojavljuje se dugme Odustani.",
+  "news.194": "Uvoz: kad se dijelovi crteža uklapaju jedan u drugi, svaka unutrašnja linija ostaje na svom dijelu (više je ne odnosi susjedni).",
   "news.193": "Raspored: dio koji ne stane označen je crveno u spisku dijelova, s razlogom, a crvena poruka vodi do njega. „Ishodište” je sada „Tačka postavljanja”. Odabrani materijal upisuje svoj format u red ploče, a „Dodaj ostatak” stavlja ostatke ispred. Pila: odabir smjera prvih rezova. „Cijeli plan u DXF” preuzima jedan DXF po ploči. Trošak: odvojene satnice mašine i rada, započeti sati po želji naplaćeni cijeli, ostaci zadano 0. Glodanje: objašnjene su brzine vretena. Glodanje i laser: preporučene postavke više ne prate pomicanje. Laser: debljine proizvođača objašnjene su ispod polja. Uvoz AI: imena putanja iz Illustratora koriste se za dijelove.",
   "news.192": "Glodanje: „Najveća dubina prolaza” i „Prolazi” su jasno objašnjeni, a uz najmanji razmak između dijelova dodan je najmanji rub prema glodalu (Ø + 1 mm). Kartice novim redoslijedom: Raspoređivanje, Glodanje, Laser, Materijali, Bilježnica, Trošak.",
   "news.191": "Redoslijed rezova pilom: veliki otpadak otpada jednim rezom umjesto da se reže na trake, a brojevi se postavljaju tamo gdje ne prekrivaju ni dijelove ni druge brojeve (manji u PDF-u).",
