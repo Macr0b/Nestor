@@ -64,7 +64,14 @@ export function sawKerf() {
 /* Ordre des coupes à la scie (option, méthode Rectangles seulement) : coupes numérotées dans l'ordre. */
 export function sheetSawCuts(resultSheet) {
   if (!exportOptions.sawOrder || state.sheet.mode !== "rect" || !resultSheet.parts.length) return [];
-  return computeSawCuts(resultSheet.L, resultSheet.W, resultSheet.parts, sawKerf(), parseNumber(state.sheet.margin, 0));
+  return computeSawCuts(
+    resultSheet.L,
+    resultSheet.W,
+    resultSheet.parts,
+    sawKerf(),
+    parseNumber(state.sheet.margin, 0),
+    exportOptions.sawFirst
+  );
 }
 
 export function exportPaths(sheet) {

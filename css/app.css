@@ -996,3 +996,63 @@ button:focus-visible,
 .nowrap {
   white-space: nowrap;
 }
+/* pièce non placée : barre et pastille rouges, raison écrite sous la ligne */
+.trow.unplaced {
+  box-shadow: inset 3px 0 0 var(--danger);
+  background: color-mix(in srgb, var(--danger) 7%, transparent);
+  padding-inline: 6px;
+}
+.trow.unplaced .thumb .n {
+  background: var(--danger);
+  color: var(--bg);
+}
+.trow .unfit {
+  grid-column: 3;
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--danger);
+}
+.trow .unfit::before {
+  content: "⚠ ";
+}
+.part-link {
+  all: unset;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.part-link:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.trow.flash {
+  animation: row-flash 1.2s ease-out;
+}
+@keyframes row-flash {
+  from {
+    background: color-mix(in srgb, var(--danger) 25%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trow.flash {
+    animation: none;
+  }
+}
+/* scie : épaisseur de lame et sens des premières coupes côte à côte */
+.saw-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+/* panneau qui suit la matière choisie */
+.pnl-tag {
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}

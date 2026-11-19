@@ -33,6 +33,7 @@ function savePreferences() {
         numbers: exportOptions.partNumbers,
         cuts: exportOptions.offcutMode,
         saw: exportOptions.sawOrder,
+        sawFirst: exportOptions.sawFirst,
         kerf: exportOptions.sawKerf
       })
     );
@@ -49,12 +50,14 @@ export function loadPreferences() {
           L: parseNumber(x.L, 600),
           W: parseNumber(x.W, 400),
           qty: x.qty === "" || x.qty == null ? "" : Math.max(0, Math.floor(parseNumber(x.qty, 0))),
-          origin: validOrigin(x.origin || saved.origin)
+          origin: validOrigin(x.origin || saved.origin),
+          ...(x.fromMaterial === true ? { fromMaterial: true } : {})
         };
       });
     exportOptions.includeBoard = saved.board === true;
     exportOptions.partNumbers = saved.numbers === true;
     exportOptions.sawOrder = saved.saw === true;
+    exportOptions.sawFirst = saved.sawFirst === "along" || saved.sawFirst === "across" ? saved.sawFirst : "";
     exportOptions.sawKerf = saved.kerf > 0 && saved.kerf <= 50 ? saved.kerf : "";
     exportOptions.offcutMode = saved.cuts === "simple" || saved.cuts === "detail" ? saved.cuts : "";
     if (saved.gap != null) state.sheet.gap = parseNumber(saved.gap, 2);

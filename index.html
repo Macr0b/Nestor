@@ -137,10 +137,10 @@
       <section class="box" aria-labelledby="h-panel">
         <h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2>
         <label class="f mat-pick"><span data-i18n="lib.projectMaterial">Matière</span><select id="nestMaterial"></select></label>
-        <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Origine</span><span></span><span></span></div>
+        <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Repère</span><span></span><span></span></div>
         <div class="pnls" id="panels"></div>
         <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button></div>
-        <p class="hint"><strong data-i18n="origin.title">Origine (zéro machine)</strong> · <span data-i18n="origin.hint">Les pièces se regroupent à partir de ce point, et c’est le zéro des fichiers exportés.</span></p>
+        <p class="hint"><strong data-i18n="origin.title">Repère de placement (zéro machine)</strong> · <span data-i18n="origin.hint">Les pièces se regroupent à partir de ce point, et c’est le zéro des fichiers exportés.</span></p>
         <p class="hint" data-i18n="panel.hint">Les panneaux sont utilisés dans l’ordre de la liste. Stock vide = illimité.</p>
         <div class="g4">
           <label class="f"><span data-i18n="panel.gap">Espace entre pièces</span><input type="number" id="sG" inputmode="decimal" min="0" step="0.5"></label>
@@ -164,7 +164,14 @@
         <div id="sawOrderWrap" hidden>
           <label class="dlopt"><input type="checkbox" id="sawOrder"> <span data-i18n="saw.option">Ordre des coupes à la scie</span></label>
           <div id="sawBladeWrap" hidden>
-            <label class="f saw-blade"><span data-i18n="saw.kerf">Épaisseur de lame</span><input id="sawKerf" type="number" inputmode="decimal" min="0" step="any"></label>
+            <div class="saw-fields">
+              <label class="f saw-blade"><span data-i18n="saw.kerf">Épaisseur de lame</span><input id="sawKerf" type="number" inputmode="decimal" min="0" step="any"></label>
+              <label class="f"><span data-i18n="saw.first">Premières coupes</span><select id="sawFirst">
+                <option value="" data-i18n="saw.firstAuto">Au mieux</option>
+                <option value="along" data-i18n="saw.firstAlong">Dans la longueur (↑)</option>
+                <option value="across" data-i18n="saw.firstAcross">Dans la largeur (→)</option>
+              </select></label>
+            </div>
             <p class="warn" id="sawKerfWarn" hidden><span id="sawKerfWarnText"></span> <button type="button" class="linkbtn" id="btnGapFromKerf"></button></p>
           </div>
           <p class="hint" data-i18n="saw.hint">Coupes numérotées sur le panneau, et leur liste dessous et dans le PDF : chaque coupe va d’un bord à l’autre du morceau, la cote se prend depuis son bord gauche ou haut.</p>
@@ -287,8 +294,9 @@
             <option value="engrave" data-i18n="nb.opEngrave">Gravure</option>
             <option value="engraveDark" data-i18n="lz.opDark">Gravure foncée</option>
           </select></label>
-          <label class="f" id="lzThicknessField"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="lzThickness" inputmode="decimal" min="0" step="any"></label>
+          <label class="f" id="lzThicknessField"><span data-i18n="mill.thickness">Épaisseur à couper (mm)</span><input type="number" id="lzThickness" inputmode="decimal" min="0" step="any" aria-describedby="lzThicknessHint"></label>
         </div>
+        <p class="hint" id="lzThicknessHint"></p>
         <div class="lz-mat-actions">
           <button type="button" class="btn sm" id="lzMatNew" data-i18n="lz.matNew">＋ Nouvelle matière</button>
           <button type="button" class="btn sm" id="lzMatEdit" data-i18n="lz.matEdit">Modifier la matière</button>
@@ -299,7 +307,6 @@
           <label class="f"><span data-i18n="lib.millMaterial">Matière pour le fraisage</span><select id="lzMatMill"></select></label>
           <div class="lz-form-buttons"><button type="submit" class="btn" data-i18n="lz.save">Enregistrer</button><button type="button" class="btn sm" id="lzMatCancel" data-i18n="nb.cancel">Annuler</button></div>
         </form>
-        <p class="hint" id="lzThicknessHint"></p>
         <p class="hint" id="lzMatMsg" aria-live="polite"></p>
       </div>
     </section>
@@ -444,15 +451,34 @@
       <div class="ct-grp">
         <h3 data-i18n="cost.machine">Machine et main-d’œuvre</h3>
         <div class="ct-g2">
-          <label class="f"
-            ><span id="costRateLabel" data-i18n="cost.rate">Taux horaire</span
-            ><input type="number" id="costRate" inputmode="decimal" min="0" step="any"
-          /></label>
+          <div class="ct-rate">
+            <label class="f"
+              ><span id="costRateLabel" data-i18n="cost.rate">Taux horaire machine</span
+              ><input type="number" id="costRate" inputmode="decimal" min="0" step="any"
+            /></label>
+            <label class="ct-check"
+              ><input type="checkbox" id="costRoundMachine" /><span data-i18n="cost.roundMachine"
+                >Compter toute heure machine commencée</span
+              ></label
+            >
+          </div>
+          <div class="ct-rate">
+            <label class="f"
+              ><span id="costLaborRateLabel" data-i18n="cost.laborRate">Taux horaire main-d’œuvre</span
+              ><input type="number" id="costLaborRate" inputmode="decimal" min="0" step="any"
+            /></label>
+            <label class="ct-check"
+              ><input type="checkbox" id="costRoundLabor" /><span data-i18n="cost.roundLabor"
+                >Compter toute heure de main-d’œuvre commencée</span
+              ></label
+            >
+          </div>
           <label class="f"
             ><span data-i18n="cost.prep">Temps de préparation (min)</span
-            ><input type="number" id="costPrep" inputmode="numeric" min="0" step="1"
+            ><input type="number" id="costPrep" inputmode="numeric" min="0" step="1" aria-describedby="costPrepHint"
           /></label>
         </div>
+        <p class="hint" id="costPrepHint" data-i18n="cost.prepHint"></p>
         <p class="hint" id="costTimeHint"></p>
       </div>
     </section>

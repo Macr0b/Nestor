@@ -14,7 +14,14 @@ import {
 import { createExampleProject } from "../../src/project/example.js";
 
 const extras = {
-  exportOptions: { includeBoard: true, offcutMode: "detail", partNumbers: true, sawOrder: true, sawKerf: 3.2 },
+  exportOptions: {
+    includeBoard: true,
+    offcutMode: "detail",
+    partNumbers: true,
+    sawOrder: true,
+    sawFirst: "across",
+    sawKerf: 3.2
+  },
   material: "p18",
   milling: { toolType: "upcut", diameter: 6, material: "plyPoplar", thickness: 18 },
   laser: { material: "oak", op: "cut", thickness: 3 },

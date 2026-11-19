@@ -33,7 +33,7 @@ export function bugReportUrl() {
               })
               .join(" ; ")
           : "aucun"),
-    "- Origine : " +
+    "- Repère de placement : " +
       (state.sheet.panels || [])
         .map(function (p, i) {
           return panelOrigin(i);

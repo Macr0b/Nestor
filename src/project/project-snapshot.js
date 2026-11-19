@@ -4,7 +4,7 @@
    Écrit en JSON (les fichiers en base64) ; relu champ par champ : un fichier abîmé ou trafiqué ne peut ni
    planter l'appli ni glisser autre chose que du texte et des nombres. */
 
-export const PROJECT_FORMAT = { app: "Nestor", kind: "projet", version: 1 };
+const PROJECT_FORMAT = { app: "Nestor", kind: "projet", version: 1 };
 export const MAX_PROJECT_BYTES = 80 * 1024 * 1024;
 const MAX_FILES = 50;
 const MAX_TYPES = 5000;
@@ -117,6 +117,9 @@ function cleanType(raw, budget) {
   return type;
 }
 
+// sens des premières coupes à la scie (vide : au mieux)
+const SAW_FIRST = ["along", "across"];
+
 function cleanPanel(raw) {
   var p = plainObject(raw);
   if (!p) return null;
@@ -126,6 +129,7 @@ function cleanPanel(raw) {
     qty: p.qty === "" || p.qty == null ? "" : Math.floor(num(p.qty, 0, 0, 100000))
   };
   if (ORIGINS.includes(p.origin)) panel.origin = p.origin;
+  if (p.fromMaterial === true) panel.fromMaterial = true;
   return panel;
 }
 
@@ -172,6 +176,7 @@ export function cleanSnapshot(raw) {
         exportOptions.offcutMode === "simple" || exportOptions.offcutMode === "detail" ? exportOptions.offcutMode : "",
       partNumbers: exportOptions.partNumbers === true,
       sawOrder: exportOptions.sawOrder === true,
+      sawFirst: SAW_FIRST.includes(exportOptions.sawFirst) ? exportOptions.sawFirst : "",
       sawKerf: exportOptions.sawKerf > 0 && exportOptions.sawKerf <= 50 ? exportOptions.sawKerf : ""
     },
     material: typeof s.material === "string" && /^[\w-]{0,40}$/.test(s.material) ? s.material : "",

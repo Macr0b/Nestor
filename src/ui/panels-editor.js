@@ -17,9 +17,12 @@ import { lengthInputAttributes, readLengthField, setLengthField, showLength } fr
 import { loadMillingInput } from "../machining/milling-store.js";
 import { onProjectMaterialChange, setProjectMaterial } from "../library/library-store.js";
 import { fillMaterialSelect, libraryItem, onLibraryChange } from "./materials-tab.js";
+import { applyMaterialFormat, insertOffcut, materialPanelIndex } from "../project/material-panels.js";
 
 function renderPanels() {
-  var ps = state.sheet.panels;
+  var ps = state.sheet.panels,
+    linked = materialPanelIndex(ps);
+  byId("btnAddPanel").textContent = translate(linked >= 0 ? "panel.addOffcut" : "panel.add");
   byId("panels").innerHTML = ps
     .map(function (p, i) {
       return (
@@ -83,10 +86,24 @@ function renderPanels() {
         escapeHtml(translate("panel.remove")) +
         '" title="' +
         escapeHtml(translate("panel.remove")) +
-        '">×</button></div>'
+        '">×</button>' +
+        (i === linked ? '<span class="pnl-tag">' + escapeHtml(materialTag()) + "</span>" : "") +
+        "</div>"
       );
     })
     .join("");
+}
+
+function materialTag() {
+  var item = libraryItem(byId("nestMaterial").value);
+  return translate("panel.fromMaterial", { m: item && item.name ? item.name : "" });
+}
+
+function followMaterial(id) {
+  if (!applyMaterialFormat(state.sheet.panels, libraryItem(id))) return renderPanels();
+  renderPanels();
+  schedulePreferencesSave();
+  scheduleCalculation();
 }
 
 const ORIGIN_CHOICES = [
@@ -158,6 +175,7 @@ export function renderSheetInputs() {
   byId("dlNumbers").checked = exportOptions.partNumbers;
   byId("cutSel").value = exportOptions.offcutMode;
   byId("sawOrder").checked = exportOptions.sawOrder;
+  byId("sawFirst").value = exportOptions.sawFirst || "";
   renderSawBlade();
 }
 
@@ -174,6 +192,13 @@ export function bindPanelsEditor() {
       var length = readLengthField(e.target);
       if (Number.isNaN(length)) return;
       p[k] = length;
+      // taille changée à la main : la ligne ne suit plus la matière
+      if (p.fromMaterial) {
+        delete p.fromMaterial;
+        var tag = row.querySelector(".pnl-tag");
+        if (tag) tag.remove();
+        byId("btnAddPanel").textContent = translate("panel.add");
+      }
     }
     schedulePreferencesSave();
     scheduleCalculation();
@@ -203,14 +228,13 @@ export function bindPanelsEditor() {
     schedulePreferencesSave();
     scheduleCalculation();
   });
+  // « Ajouter une chute » quand une ligne suit la matière : la chute passe devant elle
   byId("btnAddPanel").addEventListener("click", function () {
-    var ps = state.sheet.panels,
-      l = ps[ps.length - 1] || { L: 600, W: 400 };
-    ps.push({ L: l.L, W: l.W, qty: "", origin: validOrigin(l.origin) });
+    var at = insertOffcut(state.sheet.panels);
     renderPanels();
     schedulePreferencesSave();
     scheduleCalculation();
-    var el = byId("pl" + (ps.length - 1) + "-L");
+    var el = byId("pl" + at + "-L");
     if (el) el.focus();
   });
   [
@@ -242,24 +266,20 @@ export function bindPanelsEditor() {
     schedulePreferencesSave();
     scheduleCalculation();
   });
-  // matière de la bibliothèque : partagée avec Fraisage et Coût, et sa taille remplit le premier panneau
+  // matière de la bibliothèque, choisie ici ou dans un autre onglet : son format va sur la ligne qui la suit
   byId("nestMaterial").addEventListener("change", function () {
-    var item = libraryItem(this.value),
-      first = state.sheet.panels[0];
     setProjectMaterial(this.value, "nest");
-    if (item && item.L && item.W && first) {
-      first.L = item.L;
-      first.W = item.W;
-      renderPanels();
-      schedulePreferencesSave();
-      scheduleCalculation();
-    }
+    followMaterial(this.value);
   });
-  onProjectMaterialChange("nest", function () {
+  // un projet ouvert garde ses panneaux tels qu'enregistrés
+  onProjectMaterialChange("nest", function (id, source) {
     fillMaterialSelect(byId("nestMaterial"), "lib.none");
+    if (source === "projects") renderPanels();
+    else followMaterial(id);
   });
   onLibraryChange(function () {
     fillMaterialSelect(byId("nestMaterial"), "lib.none");
+    followMaterial(byId("nestMaterial").value);
   });
   byId("btnMarginFromTool").addEventListener("click", function () {
     var tool = toolGap();
@@ -300,6 +320,11 @@ export function bindPanelsEditor() {
   byId("sawOrder").addEventListener("change", function (e) {
     exportOptions.sawOrder = e.target.checked;
     renderSawBlade();
+    schedulePreferencesSave();
+    if (session.lastResult) drawResult(session.lastResult);
+  });
+  byId("sawFirst").addEventListener("change", function (e) {
+    exportOptions.sawFirst = e.target.value;
     schedulePreferencesSave();
     if (session.lastResult) drawResult(session.lastResult);
   });

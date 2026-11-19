@@ -140,7 +140,7 @@ export function setProjectMaterial(id, source) {
   try {
     localStorage.setItem(PROJECT_KEY, projectItemId);
   } catch (e) {}
-  for (const listener of listeners) if (listener.source !== source) listener.callback(projectItemId);
+  for (const listener of listeners) if (listener.source !== source) listener.callback(projectItemId, source);
 }
 
 export function onProjectMaterialChange(source, callback) {

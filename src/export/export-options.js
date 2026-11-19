@@ -3,4 +3,11 @@
 
 // options d'export : contour du panneau, traits de coupe des chutes ("" aucun, "simple" bord à bord, "detail" autour des pièces),
 // numéros des pièces à graver
-export const exportOptions = { includeBoard: false, offcutMode: "", partNumbers: false, sawOrder: false, sawKerf: "" };
+export const exportOptions = {
+  includeBoard: false,
+  offcutMode: "",
+  partNumbers: false,
+  sawOrder: false,
+  sawFirst: "",
+  sawKerf: ""
+};

@@ -21,6 +21,7 @@ import { byId, escapeHtml } from "../util/dom.js";
 import { isImperial, MM_PER_INCH } from "../util/units.js";
 import { fillMaterialSelect, formatMoney, libraryItem, onLibraryChange, setLibraryCurrency } from "./materials-tab.js";
 import { showLength } from "./lengths.js";
+import { isOffcutPanel } from "../project/material-panels.js";
 
 const COST_KEY = "nestor.cout.v1";
 const CURRENCIES = [
@@ -49,19 +50,32 @@ const CURRENCIES = [
 ];
 
 // réglages de l'onglet, gardés sur l'appareil ; prices : prix saisis à la main, par taille de panneau
-let settings = { currency: "EUR", lastSheet: "full", rate: null, prep: null, prices: {} };
+// rate : taux machine ; laborRate : taux main-d'œuvre ; roundMachine, roundLabor : toute heure commencée comptée
+let settings = cleanCostSettings(null);
 
 // réglages relus et vérifiés (appareil ou projet ouvert) : une valeur absente ou abîmée reprend sa valeur de départ
 function cleanCostSettings(saved) {
-  const clean = { currency: "EUR", lastSheet: "full", rate: null, prep: null, prices: {} };
+  const clean = {
+    currency: "EUR",
+    lastSheet: "full",
+    rate: null,
+    laborRate: null,
+    roundMachine: false,
+    roundLabor: false,
+    prep: null,
+    prices: {}
+  };
   saved = saved && typeof saved === "object" ? saved : {};
   if (CURRENCIES.includes(saved.currency)) clean.currency = saved.currency;
   if (saved.lastSheet === "used") clean.lastSheet = "used";
   if (typeof saved.rate === "number" && saved.rate >= 0) clean.rate = saved.rate;
+  if (typeof saved.laborRate === "number" && saved.laborRate >= 0) clean.laborRate = saved.laborRate;
   if (typeof saved.prep === "number" && saved.prep >= 0) clean.prep = saved.prep;
+  clean.roundMachine = saved.roundMachine === true;
+  clean.roundLabor = saved.roundLabor === true;
   if (saved.prices && typeof saved.prices === "object")
     for (const [key, value] of Object.entries(saved.prices))
-      if (/^[\d.]+x[\d.]+$/.test(key) && typeof value === "number" && value >= 0) clean.prices[key] = value;
+      if (/^c?[\d.]+x[\d.]+$/.test(key) && typeof value === "number" && value >= 0) clean.prices[key] = value;
   return clean;
 }
 
@@ -79,6 +93,11 @@ function saveSettings() {
 
 function sizeKey(L, W) {
   return Math.round(L * 10) / 10 + "x" + Math.round(W * 10) / 10;
+}
+
+// prix d'une chute, gardé à part du prix d'un panneau de même taille sans matière choisie
+function offcutKey(L, W) {
+  return "c" + sizeKey(L, W);
 }
 
 function readNumber(id) {
@@ -106,7 +125,7 @@ function planSheets(result) {
     const extent = sheet.parts.length
       ? { w: Math.min(sheet.L, x1 - x0 + margin), h: Math.min(sheet.W, y1 - y0 + margin) }
       : null;
-    return { L: sheet.L, W: sheet.W, area: area, extent: extent };
+    return { L: sheet.L, W: sheet.W, area: area, extent: extent, offcut: isOffcutPanel(state.sheet.panels, sheet.pi) };
   });
 }
 
@@ -119,8 +138,14 @@ function cutMinutes(result) {
   return time ? time.minutes : null;
 }
 
-function priceFor(L, W) {
+/* Prix d'un panneau : celui de la bibliothèque pour la matière choisie ; une chute (ligne qui ne suit pas la matière)
+   vaut 0 sauf prix saisi ; sans matière, le prix saisi. */
+function priceFor(L, W, offcut) {
   const item = libraryItem(projectMaterialId());
+  if (item && offcut) {
+    const own = settings.prices[offcutKey(L, W)];
+    return own >= 0 ? own : 0;
+  }
   if (item) {
     const p = panelPrice(item, L, W);
     return p ? p.price : null;
@@ -142,24 +167,25 @@ function renderPanels(sheets) {
   const item = libraryItem(projectMaterialId());
   const sizes = [];
   for (const s of sheets) {
-    const key = sizeKey(s.L, s.W);
+    const offcut = !!(item && s.offcut),
+      key = offcut ? offcutKey(s.L, s.W) : sizeKey(s.L, s.W);
     const found = sizes.find((x) => x.key === key);
     if (found) found.count++;
-    else sizes.push({ key: key, L: s.L, W: s.W, count: 1 });
+    else sizes.push({ key: key, L: s.L, W: s.W, count: 1, offcut: offcut });
   }
   let prorata = false;
   byId("costPanels").innerHTML = sizes
     .map(function (size) {
       const label =
         escapeHtml(
-          translate("cost.panelLine", {
+          translate(size.offcut ? "cost.offcutLine" : "cost.panelLine", {
             // même ordre que le résultat de l'imbrication
             w: showLength(size.W),
             h: showLength(size.L),
             n: size.count
           })
         ) + "";
-      if (item) {
+      if (item && !size.offcut) {
         const p = panelPrice(item, size.L, size.W);
         if (p && p.prorata) prorata = true;
         return "<div><span>" + label + "</span><b>" + (p ? escapeHtml(formatMoney(p.price)) : "–") + "</b></div>";
@@ -172,17 +198,18 @@ function renderPanels(sheets) {
         size.key +
         '" aria-label="' +
         escapeHtml(translate("cost.panelPrice")) +
-        '" value="' +
+        '"' +
+        (size.offcut ? ' placeholder="0"' : "") +
+        ' value="' +
         (value >= 0 ? value : "") +
         '"></div>'
       );
     })
     .join("");
-  byId("costPanelsHint").textContent = item
-    ? prorata
-      ? translate("cost.prorata")
-      : ""
-    : translate(sizes.length ? "cost.manualHint" : "");
+  const hints = item
+    ? [prorata ? translate("cost.prorata") : "", sizes.some((x) => x.offcut) ? translate("cost.offcutHint") : ""]
+    : [sizes.length ? translate("cost.manualHint") : ""];
+  byId("costPanelsHint").textContent = hints.filter(Boolean).join(" ");
 }
 
 function stat(label, value, detail, big) {
@@ -204,6 +231,7 @@ export function renderCost(onlyResult) {
   if (!byId("costResult")) return;
   if (onlyResult !== true) fillMaterialSelect(byId("costMaterial"), "cost.manual");
   byId("costRateLabel").textContent = translate("cost.rate", { c: settings.currency });
+  byId("costLaborRateLabel").textContent = translate("cost.laborRate", { c: settings.currency });
   const result = session.lastResult;
   if (!result || !result.sheets.length) {
     byId("costPanels").innerHTML = "";
@@ -220,6 +248,9 @@ export function renderCost(onlyResult) {
   const cost = planCost(sheets, priceFor, {
     lastSheet: settings.lastSheet,
     rate: settings.rate,
+    laborRate: settings.laborRate,
+    roundMachine: settings.roundMachine,
+    roundLabor: settings.roundLabor,
     prepMinutes: settings.prep,
     cutMinutes: minutes
   });
@@ -267,7 +298,12 @@ export function renderCost(onlyResult) {
     stat(
       translate("cost.machineCost"),
       formatMoney(cost.machine),
-      cost.minutes ? durationText(cost.minutes) : translate("cost.noRate")
+      timeDetail(cost.machineTime, settings.rate, "cost.noCutTime")
+    ) +
+    stat(
+      translate("cost.laborCost"),
+      formatMoney(cost.labor),
+      timeDetail(cost.laborTime, settings.laborRate, "cost.noPrep")
     ) +
     stat(translate("cost.total"), formatMoney(cost.total), translate("cost.totalHint"), true) +
     "</div>" +
@@ -288,8 +324,19 @@ export function renderCost(onlyResult) {
     "</p>";
 }
 
+/* Sous un coût machine ou main-d'œuvre : le temps compté (« 1 h 8 min → 2 h » si l'heure commencée est comptée). */
+function timeDetail(time, rate, noTimeKey) {
+  if (!(rate > 0)) return translate("cost.noRate");
+  if (!time.minutes) return translate(noTimeKey);
+  if (time.billed !== time.minutes)
+    return translate("cost.billed", { t: durationText(time.minutes), b: durationText(time.billed) });
+  return durationText(time.minutes);
+}
+
 function durationText(minutes) {
   const d = splitDuration(minutes);
+  // heure pile (souvent après « toute heure commencée ») : « 2 h », pas « 2 h 0 min »
+  if (d.hours && !d.minutes) return translate("cost.hoursOnly", { h: d.hours });
   return translate(d.hours ? "res.timeHours" : "res.timeMinutes", { h: d.hours, m: d.minutes });
 }
 
@@ -316,6 +363,9 @@ function fillSettingFields() {
   byId("costLastSheet").value = settings.lastSheet;
   byId("costRate").value = settings.rate == null ? "" : String(settings.rate);
   byId("costPrep").value = settings.prep == null ? "" : String(settings.prep);
+  byId("costLaborRate").value = settings.laborRate == null ? "" : String(settings.laborRate);
+  byId("costRoundMachine").checked = settings.roundMachine;
+  byId("costRoundLabor").checked = settings.roundLabor;
 }
 
 /* Réglages du coût gardés dans un projet. */
@@ -350,10 +400,20 @@ export function bindCostTab() {
   });
   for (const [id, key] of [
     ["costRate", "rate"],
+    ["costLaborRate", "laborRate"],
     ["costPrep", "prep"]
   ])
     byId(id).addEventListener("input", function () {
       settings[key] = readNumber(id);
+      saveSettings();
+      renderCost();
+    });
+  for (const [id, key] of [
+    ["costRoundMachine", "roundMachine"],
+    ["costRoundLabor", "roundLabor"]
+  ])
+    byId(id).addEventListener("change", function () {
+      settings[key] = this.checked;
       saveSettings();
       renderCost();
     });

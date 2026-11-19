@@ -338,6 +338,39 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("pièces qui ne rentrent pas : repère rouge dans la liste, raison écrite, lien depuis le message rouge", async () => {
+    const page = await open();
+    await page.click('[data-src="manual"]');
+    await page.$eval("#manName", (el) => {
+      const dt = new DataTransfer();
+      dt.setData("text/plain", "Tablette\t520\t300\t3\nPlateau\t3200\t900\t1\n");
+      el.dispatchEvent(new ClipboardEvent("paste", { clipboardData: dt, bubbles: true, cancelable: true }));
+    });
+    await idle(page);
+    await page.waitForSelector(".trow.unplaced");
+    assert.deepEqual(await page.$$eval(".trow.unplaced", (rows) => rows.map((r) => r.dataset.i)), ["1"]);
+    assert.match(await page.textContent(".trow.unplaced .unfit"), /Ne rentre dans aucun panneau.*zone utile \(\d/);
+    assert.equal(await page.locator('.trow[data-i="0"] .unfit').count(), 0);
+    // le lien du message rouge mène au nom de la pièce
+    await page.click('#result .part-link[data-part="1"]');
+    assert.equal(await page.evaluate(() => document.activeElement.id), "t1-n");
+    // pas assez de panneaux en stock : nombre d'exemplaires non placés
+    await page.click('.trow[data-i="1"] [data-act="del"]');
+    await page.fill("#pl0-q", "1");
+    await idle(page);
+    await page.waitForSelector(".trow.unplaced .unfit");
+    assert.match(
+      await page.textContent(".trow.unplaced .unfit"),
+      /^2 sur 3 non placée\(s\) : pas assez de panneaux en stock/
+    );
+    // tout rentre : plus aucun repère
+    await page.fill("#pl0-q", "");
+    await idle(page);
+    await page.waitForFunction(() => !document.querySelector(".trow.unplaced"));
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("saisie à la main : une pièce, collage d'un tableur, mélange avec un fichier, cotes, suppression, pouces", async () => {
     const page = await open();
     await page.click('[data-src="manual"]');
@@ -1079,11 +1112,13 @@ describe("Interface", { skip }, () => {
     assert.match(await page.textContent("#libTable"), /13,77\s?€\/m²/);
     assert.equal(await page.textContent("#libMsg"), "Matière enregistrée.");
     const ids = await page.$$eval("#libTable tbody tr", (r) => r.map((x) => x.dataset.id));
-    // Imbrication : la matière remplit la taille du premier panneau
+    // Imbrication : la matière met son format sur le panneau, qui la suit (étiquette) ; bouton « Ajouter une chute »
     await page.click("#tabNest");
     await page.selectOption("#nestMaterial", { label: "CP peuplier 18 mm — 2 500 × 1 220" });
     assert.equal(await page.inputValue("#pl0-L"), "2500");
     assert.equal(await page.inputValue("#pl0-W"), "1220");
+    assert.match(await page.textContent('.pnl[data-i="0"] .pnl-tag'), /Format de la matière : CP peuplier/);
+    assert.equal(await page.textContent("#btnAddPanel"), "+ Ajouter une chute");
     await idle(page);
     // Fraisage : même matière et même épaisseur
     await page.click("#tabMill");
@@ -1096,13 +1131,21 @@ describe("Interface", { skip }, () => {
     // même ordre des côtés que le résultat de l'imbrication et la bibliothèque
     assert.match(await page.textContent("#costPanels"), /2\s?500 × 1\s?220/);
     assert.match(await page.textContent("#costResult .big"), /42,00\s?€/);
-    // Fraisage → bouleau : le projet suit, partout (la taille du panneau ne bouge pas : prix au prorata)
+    // Fraisage → bouleau : le projet suit, partout, et le panneau lié prend le format du bouleau
     await page.click("#tabMill");
     await page.click("[data-material=plyBirch]");
     await page.click("#tabCost");
     assert.equal(await page.inputValue("#costMaterial"), ids[0]);
-    assert.match(await page.textContent("#costPanelsHint"), /prorata/);
     assert.equal(await page.inputValue("#nestMaterial"), ids[0]);
+    await page.click("#tabNest");
+    assert.equal(await page.inputValue("#pl0-W"), "1250");
+    // taille changée à la main : le panneau ne suit plus la matière, son prix se fait au prorata
+    await page.fill("#pl0-W", "1220");
+    assert.equal(await page.locator(".pnl-tag").count(), 0);
+    assert.equal(await page.textContent("#btnAddPanel"), "+ Ajouter un panneau");
+    await idle(page);
+    await page.click("#tabCost");
+    assert.match(await page.textContent("#costPanelsHint"), /prorata/);
     // Fraisage → MDF, absent de la bibliothèque : plus de matière, prix à la main
     await page.click("#tabMill");
     await page.click("[data-material=mdf]");
@@ -1111,10 +1154,16 @@ describe("Interface", { skip }, () => {
     await page.fill("#costPanels input", "20");
     assert.match(await page.textContent("#costResult .big"), /20,00\s?€/);
     assert.equal(await page.evaluate(() => document.activeElement.matches("#costPanels input")), true, "saisie gardée");
-    // machine : taux et préparation
+    // machine (temps de découpe) et main-d'œuvre (temps de préparation), chacun son taux
     await page.fill("#costRate", "60");
     await page.fill("#costPrep", "30");
     assert.match(await page.textContent("#costResult"), /Machine\s*\d/);
+    assert.match(await page.textContent("#costResult"), /Main-d’œuvre\s*0,00\s?€\s*indique un taux horaire/);
+    await page.fill("#costLaborRate", "40");
+    assert.match(await page.textContent("#costResult"), /Main-d’œuvre\s*20,00\s?€\s*30 min/);
+    await page.check("#costRoundLabor");
+    assert.match(await page.textContent("#costResult"), /Main-d’œuvre\s*40,00\s?€\s*30 min, compté 1 h/);
+    await page.uncheck("#costRoundLabor");
     const total = await page.textContent("#costResult .big b");
     assert.notEqual(total.replace(/\D/g, ""), "2000", "la machine s'ajoute");
     // dernier panneau : partie utilisée seulement, moins cher
@@ -1129,6 +1178,8 @@ describe("Interface", { skip }, () => {
     await page.waitForSelector("#costResult .ct-tot");
     assert.equal(await page.getAttribute("#tabCost", "aria-selected"), "true");
     assert.equal(await page.inputValue("#costRate"), "60");
+    assert.equal(await page.inputValue("#costLaborRate"), "40");
+    assert.equal(await page.isChecked("#costRoundLabor"), false);
     assert.equal(await page.inputValue("#costLastSheet"), "used");
     await page.click("#tabMaterials");
     assert.equal(await page.locator("#libTable tbody tr").count(), 2);
@@ -1429,6 +1480,51 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
       await page.context().close();
     });
 
+  test("chutes devant le format de la matière : stock 1, comptées 0 dans Coût sauf prix saisi ; tout le plan en DXF", async () => {
+    const page = await open();
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "nestor.matieres.v1",
+        JSON.stringify([{ id: "cp18", name: "CP 18", thickness: 18, L: 1000, W: 600, price: 30 }])
+      );
+    });
+    await page.reload();
+    await idle(page);
+    await page.selectOption("#nestMaterial", "cp18");
+    await page.click("#btnAddPanel");
+    await page.fill("#pl0-L", "500");
+    await page.fill("#pl0-W", "400");
+    await idle(page);
+    assert.equal(await page.inputValue("#pl0-q"), "1");
+    assert.equal(await page.locator('.pnl[data-i="1"] .pnl-tag').count(), 1);
+    // la chute est utilisée d'abord : elle est dans le coût, à 0
+    await page.click("#tabCost");
+    assert.match(await page.textContent("#costPanels"), /Chute 500 × 400\smm · 1 utilisée\(s\)/);
+    assert.equal(await page.getAttribute('#costPanels input[data-size^="c"]', "placeholder"), "0");
+    assert.match(await page.textContent("#costPanelsHint"), /chute est comptée 0/);
+    const before = await page.textContent("#costResult .big b");
+    await page.fill('#costPanels input[data-size^="c"]', "5");
+    const after = await page.textContent("#costResult .big b");
+    const money = (t) => parseFloat(t.replace(/[^\d,]/g, "").replace(",", "."));
+    assert.ok(Math.abs(money(after) - money(before) - 5) < 0.01, `${before} → ${after}`);
+    // un DXF par panneau, d'un coup
+    await page.click("#tabNest");
+    const sheets = await page.locator(".sheet").count();
+    const names = [];
+    page.on("download", (d) => names.push(d.suggestedFilename()));
+    await page.click('[data-dl="dxfall"]');
+    await page.waitForFunction(
+      (n) => /fichier\(s\) prêt/.test(document.querySelector("#dlmsgall").textContent),
+      sheets
+    );
+    assert.deepEqual(
+      names,
+      Array.from({ length: sheets }, (_, i) => `plan-${i + 1}.dxf`)
+    );
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("ordre des coupes à la scie : méthode Rectangles seulement, numéros, liste, PDF, gardé", async () => {
     const page = await open();
     assert.ok(await page.isHidden("#sawOrderWrap"));
@@ -1476,6 +1572,15 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.ok(await page.isChecked("#sawOrder"));
     assert.equal(await page.locator(".saw-list").count(), 1);
     assert.equal(await page.inputValue("#sawKerf"), "3.2");
+    // premières coupes : en travers ou dans la longueur d'abord, gardé
+    const firstDir = () => page.textContent(".saw-list tbody tr:first-child td:nth-child(2)");
+    await page.selectOption("#sawFirst", "across");
+    assert.equal(await firstDir(), "En travers");
+    await page.selectOption("#sawFirst", "along");
+    assert.equal(await firstDir(), "Dans la longueur");
+    await page.reload();
+    await idle(page);
+    assert.equal(await page.inputValue("#sawFirst"), "along");
     await page.selectOption("#sMode", "nest");
     await idle(page);
     assert.equal(await page.locator(".saw-list").count(), 0);

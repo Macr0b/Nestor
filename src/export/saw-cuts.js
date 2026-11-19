@@ -60,13 +60,14 @@ function halves(region, axis, at) {
       ];
 }
 
-/* Une seule pièce dans le morceau : coupes au ras de ses côtés, les plus longues d'abord. */
-function trim(region, box, list, minStrip) {
+/* Une seule pièce dans le morceau : coupes au ras de ses côtés, dans le sens choisi d'abord, sinon les plus longues. */
+function trim(region, box, list, minStrip, prefer) {
   var r = { x0: region.x0, y0: region.y0, x1: region.x1, y1: region.y1 };
   var sides = [
     { axis: "y", len: r.x1 - r.x0, gapStart: box.y0 - r.y0, gapEnd: r.y1 - box.y1 },
     { axis: "x", len: r.y1 - r.y0, gapStart: box.x0 - r.x0, gapEnd: r.x1 - box.x1 }
   ].sort(function (a, b) {
+    if (prefer && a.axis !== b.axis) return a.axis === prefer ? -1 : 1;
     return b.len - a.len;
   });
   sides.forEach(function (s) {
@@ -83,10 +84,10 @@ function trim(region, box, list, minStrip) {
   });
 }
 
-function splitRegion(region, boxes, list, minStrip) {
+function splitRegion(region, boxes, list, minStrip, prefer) {
   if (!boxes.length) return;
   if (boxes.length === 1) {
-    trim(region, boxes[0], list, minStrip);
+    trim(region, boxes[0], list, minStrip, prefer);
     return;
   }
   // une chute avant la première pièce ou après la dernière part d'abord, d'un seul trait (la plus grande),
@@ -110,21 +111,27 @@ function splitRegion(region, boxes, list, minStrip) {
     tail.push({ axis: axis, at: last, keep: 0, strip: region[axis + "1"] - last, width: width });
     tail.push({ axis: axis, at: first, keep: 1, strip: first - region[axis + "0"], width: width });
   });
-  tail = tail
-    .filter(function (t) {
-      return t.strip > minStrip;
-    })
-    .sort(function (a, b) {
-      return b.strip * b.width - a.strip * a.width;
-    })[0];
+  tail = tail.filter(function (t) {
+    return t.strip > minStrip;
+  });
+  // sens choisi : ses chutes passent d'abord, s'il y en a
+  if (prefer) {
+    var preferred = tail.filter(function (t) {
+      return t.axis === prefer;
+    });
+    if (preferred.length) tail = preferred;
+  }
+  tail = tail.sort(function (a, b) {
+    return b.strip * b.width - a.strip * a.width;
+  })[0];
   if (tail) {
     cut(region, tail.axis, tail.at, list);
-    splitRegion(halves(region, tail.axis, tail.at)[tail.keep], boxes, list, minStrip);
+    splitRegion(halves(region, tail.axis, tail.at)[tail.keep], boxes, list, minStrip, prefer);
     return;
   }
-  // puis entre les pièces : d'abord dans le sens de la plus grande dimension du morceau, sinon l'autre
-  var long = region.x1 - region.x0 >= region.y1 - region.y0 ? "y" : "x",
-    axes = [long, long === "y" ? "x" : "y"];
+  // puis entre les pièces : d'abord dans le sens choisi, sinon dans celui de la plus grande dimension du morceau
+  var first = prefer || (region.x1 - region.x0 >= region.y1 - region.y0 ? "y" : "x"),
+    axes = [first, first === "y" ? "x" : "y"];
   for (var k = 0; k < axes.length; k++) {
     var at = firstGap(region, boxes, axes[k]);
     if (at == null) continue;
@@ -144,7 +151,7 @@ function splitRegion(region, boxes, list, minStrip) {
       );
     parts[1][a0] = Math.min(at + (minStrip - STRIP_SLACK), next);
     parts.forEach(function (h) {
-      splitRegion(h, boxesIn(h, boxes), list, minStrip);
+      splitRegion(h, boxesIn(h, boxes), list, minStrip, prefer);
     });
     return;
   }
@@ -153,9 +160,12 @@ function splitRegion(region, boxes, list, minStrip) {
 
 /* width × height : panneau sur le plan ; parts : [{ x, y, w, h }] placées ; kerf : trait de scie (l'espace entre
    pièces), retiré par la coupe posée au ras de la pièce ; margin : marge au bord, délignée d'abord.
+   first : sens à privilégier, « along » (traits dans la longueur d'abord), « across » (en travers d'abord),
+   ou rien (au mieux, selon la forme de chaque morceau).
    Rend les coupes dans l'ordre :
    [{ x1, y1, x2, y2, dir: "along" | "across", at, piece: { l, w } }]. */
-export function computeSawCuts(width, height, parts, kerf, margin) {
+export function computeSawCuts(width, height, parts, kerf, margin, first) {
+  var prefer = first === "along" ? "x" : first === "across" ? "y" : null;
   var list = [],
     boxes = parts.map(function (p) {
       return { x0: p.x, y0: p.y, x1: p.x + p.w, y1: p.y + p.h };
@@ -182,19 +192,22 @@ export function computeSawCuts(width, height, parts, kerf, margin) {
         boxes.map((b) => b.y1)
       )
     };
-  // délignage : bandes de marge le long des bords (dans la longueur d'abord), pas les vraies chutes
-  [
+  // délignage : bandes de marge le long des bords (dans la longueur d'abord, sauf choix « en travers »),
+  // pas les vraies chutes
+  var sides = [
     ["x", "0"],
     ["x", "1"],
     ["y", "0"],
     ["y", "1"]
-  ].forEach(function (side) {
+  ];
+  if (prefer === "y") sides = sides.slice(2).concat(sides.slice(0, 2));
+  sides.forEach(function (side) {
     var a = side[0] + side[1],
       strip = side[1] === "0" ? bounds[a] - region[a] : region[a] - bounds[a];
     if (strip <= minStrip || strip > edge) return;
     cut(region, side[0], bounds[a], list);
     region[a] = bounds[a];
   });
-  splitRegion(region, boxes, list, minStrip);
+  splitRegion(region, boxes, list, minStrip, prefer);
   return list;
 }

@@ -18,6 +18,7 @@ import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { renderSheetSvg } from "./sheet-drawing.js";
 import { buildPlanPdf } from "./print-pages.js";
+import { markUnplacedParts, showPartRow, unplacedByPart } from "./unplaced-marks.js";
 import { byId, escapeHtml } from "../util/dom.js";
 
 let currentJob = 0;
@@ -152,22 +153,34 @@ export function drawResult(res) {
       escapeHtml(translate("res.timeNote")) +
       "</p>"
   );
-  function names(why) {
-    var o = {};
-    res.unplaced.forEach(function (u) {
-      if ((u.why || "size") !== why) return;
-      var t = state.types[u.i],
-        te = scaledPart(t);
-      o[u.i + 1 + " · " + partDisplayName(t, u.i) + " (" + showLength(te.w) + " × " + showLength(te.h) + ")"] = 1;
-    });
-    return Object.keys(o);
+  // pièces citées dans le message rouge : chacune est un lien vers sa ligne dans la liste des pièces
+  function partLinks(why) {
+    var marks = unplacedByPart(res);
+    return Object.keys(marks)
+      .filter(function (i) {
+        return marks[i].why === why;
+      })
+      .map(function (i) {
+        var t = state.types[i],
+          te = scaledPart(t);
+        return (
+          '<button type="button" class="part-link" data-part="' +
+          i +
+          '">' +
+          escapeHtml(
+            +i + 1 + " · " + partDisplayName(t, +i) + " (" + showLength(te.w) + " × " + showLength(te.h) + ")"
+          ) +
+          "</button>"
+        );
+      });
   }
-  var big = names("size"),
-    stock = names("stock");
-  if (big.length)
-    h.push('<div class="alert">' + escapeHtml(translate("res.tooBig", { list: big.join(", ") })) + "</div>");
-  if (stock.length)
-    h.push('<div class="alert">' + escapeHtml(translate("res.noStock", { list: stock.join(", ") })) + "</div>");
+  function alertWithLinks(key, links) {
+    if (!links.length) return;
+    var parts = translate(key, { list: "\u0000" }).split("\u0000");
+    h.push('<div class="alert">' + parts.map(escapeHtml).join(links.join(", ")) + "</div>");
+  }
+  alertWithLinks("res.tooBig", partLinks("size"));
+  alertWithLinks("res.noStock", partLinks("stock"));
   res.sheets.forEach(function (s, si) {
     var fr = s.free && s.free[0];
     var meta =
@@ -204,17 +217,20 @@ export function drawResult(res) {
         '"></span></div></article>'
     );
   });
-  // le plan entier en un seul PDF : résumé puis un panneau par page
+  // le plan entier : un seul PDF (résumé puis un panneau par page), ou un DXF par panneau d'un coup
   if (n)
     h.push(
       '<div class="dl dl-all"><button type="button" class="btn" data-dl="pdfall" data-s="all">' +
         escapeHtml(translate("dl.pdfAll")) +
+        '</button><button type="button" class="btn" data-dl="dxfall" data-s="all">' +
+        escapeHtml(translate("dl.dxfAll")) +
         '</button><span class="hint" id="dlmsgall"></span></div>'
     );
   if (!n && !res.unplaced.length) h.push('<p class="hint">' + escapeHtml(translate("res.empty")) + "</p>");
   // les fichiers suivent les unités choisies : en pouces si l'appli est en pouces
   if (n) h.push('<p class="hint">' + escapeHtml(translate(isImperial() ? "res.noteInch" : "res.note")) + "</p>");
   byId("result").innerHTML = h.join("");
+  markUnplacedParts();
   // l'onglet Coût suit le dernier plan calculé
   renderCost();
 }
@@ -239,29 +255,63 @@ function downloadPdf(which, projectSlug) {
     });
 }
 
+/* Fichier SVG ou DXF d'un panneau du dernier plan : { name, blob }. */
+function sheetFile(si, kind, projectSlug) {
+  var s = session.lastResult.sheets[si],
+    name = projectSlug + "-" + (si + 1) + "." + kind;
+  if (kind === "svg") return { name: name, blob: new Blob([buildSvgFile(s, isImperial())], { type: "image/svg+xml" }) };
+  var op = originPoint(s);
+  return {
+    name: name,
+    blob: new Blob([buildDxfFile(exportPaths(s), op[0], op[1], isImperial())], { type: "application/dxf" })
+  };
+}
+
+/* Un DXF par panneau, l'un après l'autre (un court délai laisse le navigateur accepter chaque téléchargement). */
+function downloadAllDxf(projectSlug) {
+  var msg = byId("dlmsgall"),
+    count = session.lastResult.sheets.length,
+    names = [],
+    chain = Promise.resolve();
+  for (let si = 0; si < count; si++)
+    chain = chain.then(function () {
+      var file = sheetFile(si, "dxf", projectSlug);
+      names.push(file.name);
+      return saveFile(file.name, file.blob).then(function () {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, 350);
+        });
+      });
+    });
+  chain
+    .then(function () {
+      msg.textContent = translate("dl.doneAll", {
+        n: names.length,
+        f: names[0] + (names.length > 1 ? " … " + names[names.length - 1] : "")
+      });
+    })
+    .catch(function (err) {
+      if (err && err.name === "AbortError") return;
+      msg.textContent = translate("dl.fail");
+    });
+}
+
 export function bindResultView() {
   byId("result").addEventListener("click", function (e) {
+    var link = e.target.closest("[data-part]");
+    if (link) return showPartRow(+link.dataset.part);
     var b = e.target.closest("[data-dl]");
     if (!b || !session.lastResult) return;
     var kind = b.dataset.dl,
       projectSlug = fileSlug(state.name || state.source.replace(/\.\w+$/, ""));
     if (kind === "pdf" || kind === "pdfall") return downloadPdf(b.dataset.s, projectSlug);
+    if (kind === "dxfall") return downloadAllDxf(projectSlug);
     var si = +b.dataset.s,
-      s = session.lastResult.sheets[si],
       msg = byId("dlmsg" + si),
-      base = projectSlug + "-" + (si + 1);
-    var data, type;
-    if (kind === "svg") {
-      data = buildSvgFile(s, isImperial());
-      type = "image/svg+xml";
-    } else {
-      var op = originPoint(s);
-      data = buildDxfFile(exportPaths(s), op[0], op[1], isImperial());
-      type = "application/dxf";
-    }
-    saveFile(base + "." + kind, new Blob([data], { type: type }))
+      file = sheetFile(si, kind, projectSlug);
+    saveFile(file.name, file.blob)
       .then(function () {
-        msg.textContent = translate("dl.done", { f: base + "." + kind });
+        msg.textContent = translate("dl.done", { f: file.name });
       })
       .catch(function (err) {
         if (err && err.name === "AbortError") return;

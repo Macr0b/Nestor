@@ -9,6 +9,7 @@ import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { renderResult } from "./result-view.js";
 import { partThumbnail } from "./sheet-drawing.js";
+import { markUnplacedParts } from "./unplaced-marks.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber, round1, round2 } from "../util/numbers.js";
 import { lengthFieldValue } from "../util/units.js";
@@ -229,6 +230,7 @@ export function renderPartsList() {
         .join("")
     : '<p class="hint">' + escapeHtml(translate("pieces.empty")) + "</p>";
   updateSelectionCount();
+  markUnplacedParts();
 }
 
 const ROTATION_CHOICES = [

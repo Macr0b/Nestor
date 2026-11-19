@@ -160,6 +160,23 @@ describe("Ordre des coupes à la scie", () => {
     assert.ok(cuts.length <= 2 + 1 + 3 + 4, `${cuts.length} coupes`);
   });
 
+  test("sens privilégié : en travers d'abord ou dans la longueur d'abord, toujours faisable", () => {
+    // panneau 1200 × 2500 (comme la capture de Robin), une pièce en bas à gauche, marge 9
+    const parts = [{ x: 9, y: 1690, w: 560, h: 801 }];
+    const kinds = (cuts) => cuts.map((c) => c.dir);
+    const auto = computeSawCuts(1200, 2500, parts, 20, 9);
+    const along = computeSawCuts(1200, 2500, parts, 20, 9, "along");
+    const across = computeSawCuts(1200, 2500, parts, 20, 9, "across");
+    for (const cuts of [auto, along, across]) replay(1200, 2500, parts, cuts, 20);
+    // marge plus fine que le trait : pas de délignage ; deux coupes, dans un sens puis dans l'autre
+    assert.deepEqual(kinds(along), ["along", "across"]);
+    assert.deepEqual(kinds(across), ["across", "along"]);
+    // en travers : la chute du haut part en premier, sur toute la largeur du panneau
+    assert.deepEqual([across[0].y1, across[0].x1, across[0].x2], [1690, 0, 1200]);
+    // valeur inconnue : comme « auto »
+    assert.deepEqual(computeSawCuts(1200, 2500, parts, 20, 9, "?"), auto);
+  });
+
   test("pièce qui remplit le panneau : aucune coupe", () => {
     assert.deepEqual(computeSawCuts(500, 300, [{ x: 0, y: 0, w: 500, h: 300 }]), []);
     assert.deepEqual(computeSawCuts(500, 300, []), []);
@@ -187,10 +204,12 @@ describe("Ordre des coupes à la scie", () => {
           w: p.w,
           h: p.h
         }));
-        const cuts = computeSawCuts(s.L, s.W, parts, 4, 10);
-        replay(s.L, s.W, parts, cuts, 4);
-        // pas de coupe pour un simple trait de scie : au plus une séparation et deux bords par pièce, environ
-        assert.ok(cuts.length >= parts.length && cuts.length <= 3 * parts.length, `${cuts.length} coupes`);
+        for (const first of [undefined, "along", "across"]) {
+          const cuts = computeSawCuts(s.L, s.W, parts, 4, 10, first);
+          replay(s.L, s.W, parts, cuts, 4);
+          // pas de coupe pour un simple trait de scie : au plus une séparation et deux bords par pièce, environ
+          assert.ok(cuts.length >= parts.length && cuts.length <= 3 * parts.length, `${cuts.length} coupes`);
+        }
       }
     });
 });

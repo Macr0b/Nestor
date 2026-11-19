@@ -93,14 +93,38 @@ describe("Coût d'un plan", () => {
   ];
   const price = (L, W) => panelPrice(poplar, L, W)?.price ?? null;
 
-  test("matière, chute et machine", () => {
-    const c = planCost(sheets, price, { lastSheet: "full", rate: 45, prepMinutes: 15, cutMinutes: 45 });
+  test("matière, chute, machine (temps de découpe) et main-d'œuvre (temps de préparation)", () => {
+    const c = planCost(sheets, price, { lastSheet: "full", rate: 45, laborRate: 36, prepMinutes: 15, cutMinutes: 45 });
     near(c.material, 84);
     near(c.wasteShare, 1 - 3110000 / 6100000);
     near(c.waste, 84 * c.wasteShare);
-    near(c.machine, 45);
-    near(c.total, 129);
+    near(c.machine, 33.75);
+    near(c.labor, 9);
+    near(c.total, 84 + 33.75 + 9);
+    assert.deepEqual(c.machineTime, { minutes: 45, billed: 45 });
     assert.equal(c.missingPrice, false);
+  });
+
+  test("toute heure commencée : chacun sa case, une heure pile reste une heure", () => {
+    const c = planCost(sheets, price, {
+      rate: 45,
+      laborRate: 36,
+      cutMinutes: 68,
+      prepMinutes: 15,
+      roundMachine: true
+    });
+    assert.deepEqual(c.machineTime, { minutes: 68, billed: 120 });
+    near(c.machine, 90);
+    assert.deepEqual(c.laborTime, { minutes: 15, billed: 15 });
+    near(c.labor, 9);
+    const d = planCost(sheets, price, { rate: 45, laborRate: 36, cutMinutes: 60, prepMinutes: 15, roundLabor: true });
+    assert.deepEqual(d.machineTime, { minutes: 60, billed: 60 });
+    assert.deepEqual(d.laborTime, { minutes: 15, billed: 60 });
+    near(d.labor, 36);
+    // pas de temps : rien à arrondir
+    const e = planCost(sheets, price, { rate: 45, roundMachine: true, roundLabor: true });
+    assert.equal(e.machine, 0);
+    assert.equal(e.labor, 0);
   });
 
   test("dernier panneau compté seulement pour la partie utilisée", () => {
@@ -114,6 +138,7 @@ describe("Coût d'un plan", () => {
     assert.equal(c.missingPrice, true);
     assert.equal(c.material, 0);
     assert.equal(c.machine, 0);
+    assert.equal(c.labor, 0);
   });
 
   test("réparti sur les pièces au prorata de leur surface", () => {

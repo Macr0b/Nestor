@@ -11,10 +11,6 @@
     grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
     align-items: start;
   }
-  .mill-results {
-    position: sticky;
-    top: 16px;
-  }
 }
 /* champs propres à un type de fraise (conique) : cachés quand ils ne servent pas */
 .mill-page [hidden] {

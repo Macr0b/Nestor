@@ -44,6 +44,27 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
+/* taux horaire et sa case « toute heure commencée » */
+.ct-rate {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.ct-check {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+.ct-check input {
+  margin: 1px 0 0;
+  width: 16px;
+  height: 16px;
+  flex: none;
+  accent-color: var(--accent);
+}
 
 /* panneaux utilisés et leur prix */
 .ct-panels {
@@ -66,8 +87,13 @@
 /* résultat */
 .ct-tot {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+}
+@media (min-width: 1100px) {
+  .ct-tot {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 .ct-tot div {
   border: 1px solid var(--line);
