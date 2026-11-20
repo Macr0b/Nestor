@@ -188,6 +188,7 @@
   "calc.cancelled": "Skaičiavimas atšauktas.",
   "calc.many": "Reikia išdėstyti {n} detalių: tai gali užtrukti.",
   "news.121": "Kiekiai nebėra apriboti 500, per didelės detalės pažymimos iš karto, o ilgo skaičiavimo metu atsiranda mygtukas Atšaukti.",
+  "news.195": "Pataisymai po išsamios peržiūros: langai Projektai, Nustatymai ir Spartieji klavišai laiko klaviatūrą viduje ir uždarant grąžina ją tinkamam mygtukui; plokštė be matmenų aiškiai pažymima; kito formato failas (pvz., paveikslėlis) nurodomas kaip „formatas neatpažintas“; medžiaga su nuliniu ar neigiamu matmeniu nebeišsaugoma tyliai; „Numatomas pjovimas“ nebemini frezos, kai niekas neišdėstyta.",
   "news.194": "Importas: kai brėžinio detalės įsiterpia viena į kitą, kiekviena vidinė linija lieka savo detalėje (kaimyninė jos nebepasiima).",
   "news.193": "Išdėstymas: detalė, kuri netelpa, detalių sąraše pažymima raudonai su priežastimi, o raudonas pranešimas nuveda prie jos. „Pradžios taškas“ dabar vadinamas „Išdėstymo tašku“. Pasirinkta medžiaga įrašo savo formatą į plokštės eilutę, o „Pridėti atraižą“ deda atraižas prieš ją. Pjūklas: pasirink pirmųjų pjūvių kryptį. „Visas planas DXF“ atsisiunčia po vieną DXF kiekvienai plokštei. Kaina: atskiri staklių ir darbo tarifai, pradėtos valandos pageidaujant skaičiuojamos visos, atraižos pagal nutylėjimą 0. Frezavimas: paaiškinti suklio greičiai. Frezavimas ir lazeris: rekomenduojami nustatymai nebeslenka su puslapiu. Lazeris: gamintojų storiai paaiškinti po lauku. AI importas: Illustrator kontūrams duoti pavadinimai naudojami detalėms.",
   "news.192": "Frezavimas: „Didžiausias pjovimo gylis“ ir „Atliekami praėjimai“ aiškiai paaiškinti, o šalia mažiausio tarpo tarp detalių atsirado mažiausia paraštė pagal frezą (Ø + 1 mm). Skirtukai nauja tvarka: Išdėstymas, Frezavimas, Lazeris, Medžiagos, Užrašų knyga, Kaina.",
@@ -385,7 +386,7 @@
   "nb.delete": "Ištrinti",
   "nb.confirmDelete": "Ištrinti?",
   "nb.noMatch": "Joks nustatymas neatitinka paieškos.",
-  "nb.empty": "Užrašų knyga tuščia. Išsaugok nustatymą iš skirtuko Frezavimas arba pridėk jį mygtuku „Naujas nustatymas“.",
+  "nb.empty": "Tavo užrašų knygelė tuščia. Išsaugok nustatymą iš kortelės Frezavimas arba Lazeris arba pridėk jį mygtuku „Naujas nustatymas“.",
   "nb.saveFailed": "Užrašų knygos nepavyko išsaugoti šiame įrenginyje (pilna atmintis arba privatus naršymas).",
   "nb.editTitle": "Redaguoti nustatymą",
   "nb.newTitle": "Naujas nustatymas",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Skersai (→)",
   "dl.dxfAll": "Visas planas DXF",
   "dl.doneAll": "Paruošta failų: {n} ({f})",
-  "cost.hoursOnly": "{h} val."
+  "cost.hoursOnly": "{h} val.",
+  "res.noPanel": "Nurodyk bent vienos plokštės ilgį ir plotį, kad galėtum išdėstyti detales.",
+  "lib.badSize": "„{f}“ turi būti skaičius, didesnis už 0.",
+  "err.unknownFormat": "Formatas neatpažintas."
 }

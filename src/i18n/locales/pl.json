@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.195": "Poprawki po pełnym przeglądzie: okna Projekty, Ustawienia i Skróty trzymają klawiaturę w środku i po zamknięciu oddają ją właściwemu przyciskowi; płyta bez wymiarów jest wyraźnie zgłaszana; plik w innym formacie (np. obraz) jest zgłaszany jako „nierozpoznany format”; materiał o wymiarze zerowym lub ujemnym nie jest już zapisywany po cichu; „Szacowany czas cięcia” nie wspomina już o frezie, gdy nic nie jest rozmieszczone.",
   "news.194": "Import: gdy elementy rysunku zachodzą na siebie, każda linia wewnętrzna zostaje na swoim elemencie (nie zabiera jej już sąsiedni).",
   "news.193": "Rozkrój: element, który się nie mieści, jest oznaczony na czerwono na liście elementów wraz z przyczyną, a czerwony komunikat prowadzi do niego. „Początek” to teraz „Punkt rozmieszczenia”. Wybrany materiał wpisuje swój format w wiersz płyty, a „Dodaj ścinek” stawia ścinki przed nim. Piła: wybór kierunku pierwszych cięć. „Cały plan w DXF” pobiera jeden DXF na płytę. Koszt: osobne stawki maszyny i robocizny, rozpoczęte godziny liczone w całości na życzenie, ścinki domyślnie 0. Frezowanie: wyjaśniono obroty wrzeciona. Frezowanie i laser: zalecane ustawienia nie przewijają się już ze stroną. Laser: grubości producentów objaśnione pod polem. Import AI: nazwy ścieżek z Illustratora są używane dla elementów.",
   "news.192": "Frezowanie: „Maksymalna głębokość przejścia” i „Przejścia do wykonania” są jasno wyjaśnione, a obok minimalnego odstępu między elementami pojawia się minimalny margines wg frezu (Ø + 1 mm). Karty w nowej kolejności: Rozkrój, Frezowanie, Laser, Materiały, Notatnik, Koszt.",
@@ -385,7 +386,7 @@
   "nb.delete": "Usuń",
   "nb.confirmDelete": "Usunąć?",
   "nb.noMatch": "Żadne ustawienie nie pasuje do wyszukiwania.",
-  "nb.empty": "Notatnik jest pusty. Zachowaj ustawienie z karty Frezowanie albo dodaj je przyciskiem „Nowe ustawienie”.",
+  "nb.empty": "Twój notatnik jest pusty. Zachowaj ustawienie z karty Frezowanie lub Laser albo dodaj je przyciskiem „Nowe ustawienie”.",
   "nb.saveFailed": "Nie udało się zapisać notatnika na tym urządzeniu (pełna pamięć lub tryb prywatny).",
   "nb.editTitle": "Edytuj ustawienie",
   "nb.newTitle": "Nowe ustawienie",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "W poprzek (→)",
   "dl.dxfAll": "Cały plan w DXF",
   "dl.doneAll": "Gotowe pliki ({n}): {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Podaj długość i szerokość co najmniej jednej płyty, aby rozmieścić elementy.",
+  "lib.badSize": "„{f}” musi być liczbą większą od 0.",
+  "err.unknownFormat": "Nierozpoznany format."
 }

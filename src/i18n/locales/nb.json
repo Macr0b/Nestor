@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.195": "Rettelser etter en full gjennomgang: vinduene Prosjekter, Innstillinger og Snarveier holder tastaturet inne og gir det tilbake til riktig knapp når de lukkes; en plate uten mål markeres tydelig; en fil i et annet format (for eksempel et bilde) meldes som «formatet ble ikke gjenkjent»; et materiale med mål null eller negativt lagres ikke lenger i det stille; «Anslått kuttetid» nevner ikke lenger freseren når ingenting er plassert.",
   "news.194": "Import: når delene i en tegning griper inn i hverandre, blir hver indre strek på sin egen del (den følger ikke lenger med nabodelen).",
   "news.193": "Nesting: en del som ikke passer, markeres med rødt i delelisten med årsaken, og den røde meldingen tar deg dit. «Origo» heter nå «Plasseringspunkt». Valgt materiale setter formatet sitt på en platelinje, og «Legg til en restplate» legger restplater foran. Sag: velg retning for de første kuttene. «Hele planen som DXF» laster ned én DXF per plate. Kostnad: egne satser for maskin og arbeid, påbegynte timer belastet hele om du vil, restplater 0 som standard. Fresing: spindelens turtall forklares. Fresing og Laser: de anbefalte innstillingene følger ikke lenger med når du ruller. Laser: produsentenes tykkelser forklares under feltet. AI-import: navn gitt til baner i Illustrator brukes for delene.",
   "news.192": "Fresing: «Maksimal skjæredybde» og «Passeringer å gjøre» forklares tydelig, og en minste marg etter fresen (Ø + 1 mm) kommer i tillegg til minste avstand mellom deler. Faner i ny rekkefølge: Plassering, Fresing, Laser, Materialer, Notatbok, Kostnad.",
@@ -385,7 +386,7 @@
   "nb.delete": "Slett",
   "nb.confirmDelete": "Slette?",
   "nb.noMatch": "Ingen innstilling passer til søket.",
-  "nb.empty": "Notatboken er tom. Lagre en innstilling fra fanen Fresing, eller legg til en med «Ny innstilling».",
+  "nb.empty": "Notatboken din er tom. Lagre en innstilling fra fanen Fresing eller Laser, eller legg den til med «Ny innstilling».",
   "nb.saveFailed": "Notatboken kunne ikke lagres på denne enheten (minnet er fullt eller privat surfing).",
   "nb.editTitle": "Rediger innstilling",
   "nb.newTitle": "Ny innstilling",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "På tvers (→)",
   "dl.dxfAll": "Hele planen som DXF",
   "dl.doneAll": "{n} fil(er) klar: {f}",
-  "cost.hoursOnly": "{h} t"
+  "cost.hoursOnly": "{h} t",
+  "res.noPanel": "Oppgi lengde og bredde for minst én plate for å plassere delene.",
+  "lib.badSize": "«{f}» må være et tall større enn 0.",
+  "err.unknownFormat": "Formatet ble ikke gjenkjent."
 }

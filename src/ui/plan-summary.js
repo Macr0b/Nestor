@@ -54,6 +54,8 @@ export function planSummary(res) {
 
 /* Temps de découpe estimé : { value, detail } (contours extérieurs, avance et passes de l'onglet Fraisage). */
 export function cutTimeSummary(contourLength) {
+  // rien de placé : rien à couper, pas de conseil sur la fraise
+  if (!(contourLength > 0)) return { value: "–", detail: "" };
   var settings = millingSettings(loadMillingInput()),
     time = estimateCutTime(contourLength, settings);
   if (!time)

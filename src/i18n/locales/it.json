@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.195": "Correzioni dopo una revisione completa: le finestre Progetti, Impostazioni e Scorciatoie tengono la tastiera al loro interno e la restituiscono al pulsante giusto alla chiusura; un pannello senza misure è segnalato chiaramente; un file di un altro formato (un’immagine, per esempio) è indicato come «formato non riconosciuto»; un materiale con misura nulla o negativa non viene più salvato in silenzio; «Taglio stimato» non parla più della fresa quando non c’è nulla di posizionato.",
   "news.194": "Importazione: quando i pezzi di un disegno si incastrano, ogni tratto interno resta sul suo pezzo (non viene più portato via dal vicino).",
   "news.193": "Nesting: un pezzo che non entra è segnalato in rosso nell’elenco dei pezzi, con il motivo, e il messaggio rosso porta a lui. «Origine» diventa «Punto di posizionamento». Il materiale scelto mette il suo formato su una riga di pannello e «Aggiungi un ritaglio» mette i ritagli davanti. Sega: scegli il senso dei primi tagli. «Tutto il piano in DXF» scarica un DXF per pannello. Costo: tariffe macchina e manodopera separate, ore iniziate contate intere se vuoi, ritagli a 0 di default. Fresatura: le velocità del mandrino sono spiegate. Fresatura e Laser: le impostazioni consigliate non seguono più lo scorrimento. Laser: gli spessori dei produttori sono spiegati sotto il campo. Importazione AI: i nomi dati ai tracciati in Illustrator sono usati per i pezzi.",
   "news.192": "Fresatura: «Passata massima» e «Passate da fare» sono spiegate chiaramente, e si aggiunge un margine minimo secondo la fresa (Ø + 1 mm) allo spazio minimo tra i pezzi. Schede in un nuovo ordine: Nesting, Fresatura, Laser, Materiali, Taccuino, Costo.",
@@ -385,7 +386,7 @@
   "nb.delete": "Elimina",
   "nb.confirmDelete": "Eliminare?",
   "nb.noMatch": "Nessuna impostazione corrisponde alla ricerca.",
-  "nb.empty": "Il tuo taccuino è vuoto. Salva un’impostazione dalla scheda Fresatura o aggiungila con «Nuova impostazione».",
+  "nb.empty": "Il tuo quaderno è vuoto. Salva un’impostazione dalla scheda Fresatura o Laser, oppure aggiungila con «Nuova impostazione».",
   "nb.saveFailed": "Impossibile salvare il taccuino su questo dispositivo (memoria piena o navigazione privata).",
   "nb.editTitle": "Modifica l’impostazione",
   "nb.newTitle": "Nuova impostazione",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Nel senso della larghezza (→)",
   "dl.dxfAll": "Tutto il piano in DXF",
   "dl.doneAll": "{n} file pronti: {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Indica lunghezza e larghezza di almeno un pannello per posizionare i pezzi.",
+  "lib.badSize": "«{f}» deve essere un numero maggiore di 0.",
+  "err.unknownFormat": "Formato non riconosciuto."
 }

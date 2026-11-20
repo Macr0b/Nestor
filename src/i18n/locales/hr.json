@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tijekom dugog izračuna pojavljuje se gumb Odustani.",
+  "news.195": "Ispravci nakon potpunog pregleda: prozori Projekti, Postavke i Prečaci drže tipkovnicu unutra i pri zatvaranju je vraćaju pravom gumbu; ploča bez mjera jasno je označena; datoteka u drugom formatu (npr. slika) prijavljuje se kao „format nije prepoznat”; materijal s nultom ili negativnom mjerom više se ne sprema tiho; „Procijenjeno rezanje” više ne spominje glodalo kad ništa nije postavljeno.",
   "news.194": "Uvoz: kad se dijelovi crteža uklapaju jedan u drugi, svaka unutarnja linija ostaje na svom dijelu (više je ne odnosi susjedni).",
   "news.193": "Raspored: dio koji ne stane označen je crveno u popisu dijelova, s razlogom, a crvena poruka vodi do njega. „Ishodište” je sada „Točka postavljanja”. Odabrani materijal upisuje svoj format u redak ploče, a „Dodaj ostatak” stavlja ostatke ispred. Pila: odabir smjera prvih rezova. „Cijeli plan u DXF” preuzima jedan DXF po ploči. Trošak: odvojene satnice stroja i rada, započeti sati po želji naplaćeni cijeli, ostaci zadano 0. Glodanje: objašnjene su brzine vretena. Glodanje i laser: preporučene postavke više ne prate pomicanje. Laser: debljine proizvođača objašnjene su ispod polja. Uvoz AI: imena putanja iz Illustratora koriste se za dijelove.",
   "news.192": "Glodanje: „Najveća dubina prolaza” i „Prolazi” jasno su objašnjeni, a uz najmanji razmak između dijelova dodan je najmanji rub prema glodalu (Ø + 1 mm). Kartice novim redoslijedom: Raspoređivanje, Glodanje, Laser, Materijali, Bilježnica, Trošak.",
@@ -385,7 +386,7 @@
   "nb.delete": "Izbriši",
   "nb.confirmDelete": "Izbrisati?",
   "nb.noMatch": "Nijedna postavka ne odgovara pretrazi.",
-  "nb.empty": "Bilježnica je prazna. Spremi postavku iz kartice Glodanje ili je dodaj gumbom „Nova postavka”.",
+  "nb.empty": "Tvoja bilježnica je prazna. Spremi postavku s kartice Glodanje ili Laser ili je dodaj s „Nova postavka”.",
   "nb.saveFailed": "Bilježnicu nije bilo moguće spremiti na ovom uređaju (puna memorija ili privatno pregledavanje).",
   "nb.editTitle": "Uredi postavku",
   "nb.newTitle": "Nova postavka",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Poprečno (→)",
   "dl.dxfAll": "Cijeli plan u DXF",
   "dl.doneAll": "Spremne datoteke ({n}): {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Upiši duljinu i širinu barem jedne ploče da bi se dijelovi postavili.",
+  "lib.badSize": "„{f}” mora biti broj veći od 0.",
+  "err.unknownFormat": "Format nije prepoznat."
 }

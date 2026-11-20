@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.195": "Correções após uma revisão completa: as janelas Projetos, Definições e Atalhos mantêm o teclado lá dentro e devolvem-no ao botão certo ao fechar; uma chapa sem medidas é assinalada claramente; um ficheiro noutro formato (uma imagem, por exemplo) é indicado como «formato não reconhecido»; um material com medida nula ou negativa já não é guardado em silêncio; «Corte estimado» já não fala da fresa quando nada está colocado.",
   "news.194": "Importação: quando as peças de um desenho se encaixam, cada traço interior fica na sua peça (já não é levado pela vizinha).",
   "news.193": "Encaixe: uma peça que não cabe é assinalada a vermelho na lista de peças, com o motivo, e a mensagem vermelha leva até ela. «Origem» passa a «Ponto de posicionamento». O material escolhido põe o seu formato numa linha de chapa e «Adicionar uma sobra» coloca as sobras à frente. Serra: escolhe o sentido dos primeiros cortes. «Todo o plano em DXF» descarrega um DXF por chapa. Custo: taxas de máquina e de mão de obra separadas, horas começadas contadas inteiras se quiseres, sobras a 0 por defeito. Fresagem: as velocidades do teu spindle são explicadas. Fresagem e Laser: as definições recomendadas já não acompanham o deslocamento. Laser: as espessuras dos fabricantes são explicadas sob o campo. Importação AI: os nomes dados aos traçados no Illustrator são usados para as peças.",
   "news.192": "Fresagem: «Passe máximo» e «Passes a fazer» passam a ser explicados com clareza, e junta-se uma margem mínima segundo a fresa (Ø + 1 mm) ao espaço mínimo entre peças. Separadores numa nova ordem: Encaixe, Fresagem, Laser, Materiais, Caderno, Custo.",
@@ -385,7 +386,7 @@
   "nb.delete": "Eliminar",
   "nb.confirmDelete": "Eliminar?",
   "nb.noMatch": "Nenhum ajuste corresponde à pesquisa.",
-  "nb.empty": "O teu caderno está vazio. Guarda um ajuste no separador Fresagem ou acrescenta-o com «Novo ajuste».",
+  "nb.empty": "O teu caderno está vazio. Guarda uma definição a partir do separador Fresagem ou Laser, ou adiciona-a com «Nova definição».",
   "nb.saveFailed": "Não foi possível guardar o caderno neste dispositivo (memória cheia ou navegação privada).",
   "nb.editTitle": "Modificar o ajuste",
   "nb.newTitle": "Novo ajuste",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Na largura (→)",
   "dl.dxfAll": "Todo o plano em DXF",
   "dl.doneAll": "{n} ficheiro(s) pronto(s): {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Indica o comprimento e a largura de pelo menos uma chapa para colocar as peças.",
+  "lib.badSize": "«{f}» tem de ser um número maior do que 0.",
+  "err.unknownFormat": "Formato não reconhecido."
 }

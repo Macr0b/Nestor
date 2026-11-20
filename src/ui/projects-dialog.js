@@ -26,6 +26,7 @@ import { syncFileIds } from "./files-panel.js";
 import { applyLaserSelection, laserSelection } from "./laser-tab.js";
 import { applyMillingSettings } from "./milling-tab.js";
 import { renderAll } from "./render-all.js";
+import { closeModal, openModal } from "./modal.js";
 
 // contenu du projet en cours au dernier enregistrement ou à l'ouverture (pour savoir s'il a changé)
 let savedJson = null;
@@ -252,15 +253,13 @@ function importFile(file) {
 export function openProjectsDialog() {
   pending = null;
   message("");
-  byId("projects").hidden = false;
-  byId("btnCloseProj").focus();
+  openModal("projects", byId("btnCloseProj"), byId("btnProjects"));
   return refresh();
 }
 
 function closeProjectsDialog() {
-  byId("projects").hidden = true;
+  closeModal("projects");
   pending = null;
-  byId("btnProjects").focus();
 }
 
 export function bindProjectsDialog() {

@@ -62,7 +62,11 @@ export function renderResult() {
       return p.L > 0 && p.W > 0;
     })
   ) {
-    drawResult({ sheets: [], unplaced: [], count: 0, total: 0 });
+    // des pièces mais aucun panneau utilisable : le dire, plutôt que « importe un fichier »
+    var parts = input.types.reduce(function (a, t) {
+      return a + (t.on && t.qty > 0 ? t.qty : 0);
+    }, 0);
+    drawResult({ sheets: [], unplaced: [], count: 0, total: parts, noPanel: parts > 0 });
     msg.textContent = "";
     return;
   }
@@ -226,7 +230,12 @@ export function drawResult(res) {
         escapeHtml(translate("dl.dxfAll")) +
         '</button><span class="hint" id="dlmsgall"></span></div>'
     );
-  if (!n && !res.unplaced.length) h.push('<p class="hint">' + escapeHtml(translate("res.empty")) + "</p>");
+  if (!n && !res.unplaced.length)
+    h.push(
+      res.noPanel
+        ? '<div class="alert">' + escapeHtml(translate("res.noPanel")) + "</div>"
+        : '<p class="hint">' + escapeHtml(translate("res.empty")) + "</p>"
+    );
   // les fichiers suivent les unités choisies : en pouces si l'appli est en pouces
   if (n) h.push('<p class="hint">' + escapeHtml(translate(isImperial() ? "res.noteInch" : "res.note")) + "</p>");
   byId("result").innerHTML = h.join("");

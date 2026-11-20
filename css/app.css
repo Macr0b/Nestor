@@ -303,6 +303,10 @@ button:focus-visible,
   display: grid;
   gap: 2px;
 }
+/* ligne « Exemple » : un peu d'air avant le choix des unités */
+.fileinfo:not(:empty) {
+  margin-bottom: 8px;
+}
 .fileinfo .fn {
   font-family: var(--f-mono);
   word-break: break-all;
@@ -1055,4 +1059,7 @@ button:focus-visible,
   border-radius: 6px;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+[dir="rtl"] .trow.unplaced {
+  box-shadow: inset -3px 0 0 var(--danger);
 }

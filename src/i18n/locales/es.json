@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.195": "Correcciones tras una revisión completa: las ventanas Proyectos, Ajustes y Atajos mantienen el teclado dentro y lo devuelven al botón correcto al cerrarse; un tablero sin medidas se señala claramente; un archivo de otro formato (una imagen, por ejemplo) se indica como «formato no reconocido»; un material con una medida nula o negativa ya no se guarda en silencio; «Corte estimado» ya no habla de la fresa cuando no hay nada colocado.",
   "news.194": "Importación: cuando las piezas de un dibujo encajan entre sí, cada trazo interior se queda en su pieza (ya no se lo lleva la vecina).",
   "news.193": "Anidado: una pieza que no cabe se marca en rojo en la lista de piezas, con el motivo, y el mensaje rojo lleva hasta ella. «Origen» pasa a ser «Punto de colocación». El material elegido pone su formato en una fila de tablero y «Añadir un retal» coloca los retales delante. Sierra: elige el sentido de los primeros cortes. «Todo el plan en DXF» descarga un DXF por tablero. Coste: tarifas de máquina y de mano de obra separadas, horas empezadas cobradas enteras si quieres, retales a 0 por defecto. Fresado: se explican las velocidades de tu husillo. Fresado y Láser: los ajustes recomendados ya no siguen el desplazamiento. Láser: los grosores de los fabricantes se explican bajo el campo. Importación AI: los nombres dados a los trazados en Illustrator se usan para las piezas.",
   "news.192": "Fresado: «Pasada máxima» y «Pasadas a hacer» se explican con claridad, y se añade un margen mínimo según la fresa (Ø + 1 mm) junto a la separación mínima entre piezas. Pestañas en un nuevo orden: Anidado, Fresado, Láser, Materiales, Cuaderno, Coste.",
@@ -385,7 +386,7 @@
   "nb.delete": "Eliminar",
   "nb.confirmDelete": "¿Eliminar?",
   "nb.noMatch": "Ningún ajuste coincide con la búsqueda.",
-  "nb.empty": "Tu cuaderno está vacío. Guarda un ajuste desde la pestaña Fresado o añádelo con «Nuevo ajuste».",
+  "nb.empty": "Tu cuaderno está vacío. Guarda un ajuste desde la pestaña Fresado o Láser, o añádelo con «Nuevo ajuste».",
   "nb.saveFailed": "No se pudo guardar el cuaderno en este dispositivo (memoria llena o navegación privada).",
   "nb.editTitle": "Modificar el ajuste",
   "nb.newTitle": "Nuevo ajuste",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "A lo ancho (→)",
   "dl.dxfAll": "Todo el plan en DXF",
   "dl.doneAll": "{n} archivo(s) listo(s): {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Indica el largo y el ancho de al menos un tablero para colocar las piezas.",
+  "lib.badSize": "«{f}» debe ser un número mayor que 0.",
+  "err.unknownFormat": "Formato no reconocido."
 }

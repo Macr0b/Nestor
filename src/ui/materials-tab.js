@@ -230,6 +230,16 @@ export function bindMaterialsTab() {
   });
   byId("libForm").addEventListener("submit", function (e) {
     e.preventDefault();
+    // épaisseur ou taille tapée mais illisible, nulle ou négative : le dire plutôt que l'effacer sans prévenir
+    const wrong = ["libThickness", "libL", "libW"].find(function (id) {
+      const mm = readLengthField(byId(id));
+      return mm !== "" && !(mm > 0);
+    });
+    if (wrong) {
+      message(translate("lib.badSize", { f: byId(wrong).previousElementSibling.textContent }));
+      byId(wrong).focus();
+      return;
+    }
     const price = byId("libPrice").value.trim();
     const item = cleanItem({
       id: editing.id,

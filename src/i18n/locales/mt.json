@@ -188,6 +188,7 @@
   "calc.cancelled": "Il-kalkolu ġie kkanċellat.",
   "calc.many": "{n} biċċiet x’tqiegħed: jista’ jieħu ftit ħin.",
   "news.121": "Il-kwantitajiet m’għadhomx limitati għal 500, il-biċċiet kbar wisq jiġu indikati mill-ewwel, u buttuna Ikkanċella tidher waqt kalkolu twil.",
+  "news.195": "Korrezzjonijiet wara reviżjoni sħiħa: it-twieqi Proġetti, Settings u Shortcuts iżommu t-tastiera ġewwa u jagħtuha lura lill-buttuna t-tajba meta jingħalqu; pannell mingħajr qisien jiġi indikat b’mod ċar; fajl ta’ format ieħor (pereżempju stampa) jiġi indikat bħala “format mhux magħruf”; materjal b’qies żero jew negattiv ma jibqax jiġi ssejvjat fis-skiet; “Qtugħ stmat” ma jibqax isemmi l-cutter meta xejn mhu mqiegħed.",
   "news.194": "Importazzjoni: meta l-biċċiet ta’ disinn jidħlu f’xulxin, kull linja ta’ ġewwa tibqa’ fuq il-biċċa tagħha (il-biċċa ħdejha ma tibqax teħodha).",
   "news.193": "Tqassim: biċċa li ma tidħolx tiġi mmarkata bl-aħmar fil-lista, bir-raġuni, u l-messaġġ aħmar iwasslek għaliha. “Oriġini” issa jismu “Punt tat-tqegħid”. Il-materjal magħżul ipoġġi l-format tiegħu fuq ringiela ta’ pannell, u “Żid fdal” ipoġġi l-fdal qablu. Serrieq: agħżel id-direzzjoni tal-ewwel qtugħ. “Il-pjan kollu f’DXF” iniżżel DXF għal kull pannell. Spiża: rati separati għall-magna u x-xogħol, sigħat mibdija mħallsa sħaħ jekk trid, fdal 0 awtomatikament. Tħin: il-veloċitajiet tal-ispindle huma spjegati. Tħin u Laser: is-settings rakkomandati ma jibqgħux miexja mal-iscroll. Laser: il-ħxuniet tal-manifatturi huma spjegati taħt il-qasam. Importazzjoni AI: l-ismijiet mogħtija lill-mogħdijiet f’Illustrator jintużaw għall-biċċiet.",
   "news.192": "Tħin: «Fond massimu tal-passata» u «Passati li jridu jsiru» huma spjegati b’mod ċar, u maġenb l-ispazju minimu bejn il-biċċiet hemm marġni minimu skont il-freża (Ø + 1 mm). It-tabs f’ordni ġdida: Tqegħid, Tħin, Laser, Materjali, Notamentu, Spiża.",
@@ -385,7 +386,7 @@
   "nb.delete": "Ħassar",
   "nb.confirmDelete": "Tħassar?",
   "nb.noMatch": "L-ebda setting ma jaqbel mat-tfittxija.",
-  "nb.empty": "In-notamentu tiegħek huwa vojt. Żomm setting mit-tab Tħin, jew żidu b’«Setting ġdid».",
+  "nb.empty": "In-notebook tiegħek huwa vojt. Żomm setting mit-tab Tħin jew Laser, jew żidu b’“Setting ġdid”.",
   "nb.saveFailed": "In-notamentu ma setax jiġi ssejvjat fuq dan l-apparat (memorja mimlija jew browsing privat).",
   "nb.editTitle": "Editja s-setting",
   "nb.newTitle": "Setting ġdid",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Fil-wisa’ (→)",
   "dl.dxfAll": "Il-pjan kollu f’DXF",
   "dl.doneAll": "{n} fajl(s) lest(i): {f}",
-  "cost.hoursOnly": "{h} siegħa"
+  "cost.hoursOnly": "{h} siegħa",
+  "res.noPanel": "Daħħal it-tul u l-wisa’ ta’ mill-inqas pannell wieħed biex tqiegħed il-biċċiet.",
+  "lib.badSize": "“{f}” irid ikun numru akbar minn 0.",
+  "err.unknownFormat": "Format mhux magħruf."
 }

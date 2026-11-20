@@ -338,6 +338,51 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("revue : fenêtres au clavier, panneau sans taille, format inconnu, matière à taille nulle", async () => {
+    const page = await open();
+    // fenêtres : le focus entre, Tab reste dedans, Échap le rend au bouton d'origine
+    for (const [button, closeButton] of [
+      ["#btnSettings", "#btnCloseSet"],
+      ["#btnProjects", "#btnCloseProj"]
+    ]) {
+      await page.click(button);
+      assert.equal(await page.evaluate(() => document.activeElement.id), closeButton.slice(1));
+      for (let i = 0; i < 30; i++) await page.keyboard.press("Tab");
+      assert.ok(await page.evaluate(() => !!document.activeElement.closest("[role=dialog]")), button + " : Tab sort");
+      await page.keyboard.press("Shift+Tab");
+      assert.ok(await page.evaluate(() => !!document.activeElement.closest("[role=dialog]")));
+      await page.keyboard.press("Escape");
+      assert.equal(await page.evaluate(() => document.activeElement.id), button.slice(1));
+    }
+    // Raccourcis ouverts depuis Réglages : en se fermant, le focus revient au bouton des réglages
+    await page.click("#btnSettings");
+    await page.click("#btnShortcuts");
+    await page.keyboard.press("Escape");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "btnSettings");
+    // panneau sans longueur : message clair, pas « importe un fichier », ni conseil sur la fraise
+    await page.fill("#pl0-L", "");
+    await idle(page);
+    assert.match(await page.textContent("#result .alert"), /Indique la longueur et la largeur/);
+    assert.doesNotMatch(await page.textContent("#result"), /règle la fraise/);
+    await page.fill("#pl0-L", "600");
+    await idle(page);
+    // une image n'est pas un « SVG illisible »
+    await page.setInputFiles("#fileIn", join(ROOT, "tests", "fixtures", "page.jpg"));
+    await page.waitForFunction(() => /Format non reconnu/.test(document.body.textContent));
+    assert.doesNotMatch(await page.textContent("body"), /SVG illisible/);
+    // matière : longueur nulle refusée avec un message, rien d'enregistré
+    await page.click("#tabMaterials");
+    await page.click("#btnLibNew");
+    await page.fill("#libName", "Essai");
+    await page.fill("#libL", "0");
+    await page.click('#libForm button[type="submit"]');
+    assert.match(await page.textContent("#libMsg"), /Longueur du panneau.*doit être un nombre plus grand que 0/);
+    assert.equal(await page.evaluate(() => document.activeElement.id), "libL");
+    assert.equal(await page.locator("#libTable [data-id]").count(), 0);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("pièces qui ne rentrent pas : repère rouge dans la liste, raison écrite, lien depuis le message rouge", async () => {
     const page = await open();
     await page.click('[data-src="manual"]');

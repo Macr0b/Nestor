@@ -371,16 +371,6 @@ export function nest(input) {
     if (!ax && !ay) return (sx > sy ? 2 * sx + sy : 2 * sy + sx) * 1e5 + near;
     return (sx > sy ? sx : sy) * 1e9 + (sx + sy) * 1e5 + near;
   }
-  // distance d'une pièce au point d'accroche sur un axe (en cases) : depuis le bord, ou deux fois l'écart au milieu
-  function extent(p, size, mid, half) {
-    return half ? 2 * Math.max(mid - p, p + size - mid) : p + size;
-  }
-  // encombrement du groupe sur un axe si on ajoute la pièce [p, p + size] (lo..hi : groupe actuel)
-  function span(lo, hi, p, size, half) {
-    var top = hi > p + size ? hi : p + size;
-    if (!half) return top; // accroche sur le bord : le groupe part toujours du bord
-    return top - (lo < p ? lo : p);
-  }
   function fit(s, o, bestScore) {
     if (o.wc > s.cols || o.hc > s.rows || o.w > s.uw + 1e-6 || o.h > s.uh + 1e-6) return null;
     // copies locales : ces calculs sont faits des millions de fois

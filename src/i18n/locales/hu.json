@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.195": "Javítások egy teljes átnézés után: a Projektek, Beállítások és Billentyűparancsok ablak bent tartja a billentyűzetet, és bezáráskor a megfelelő gombra adja vissza; a méret nélküli tábla egyértelműen jelezve van; más formátumú fájl (például kép) „ismeretlen formátum”-ként jelenik meg; a nulla vagy negatív méretű anyag már nem mentődik csendben; a „Becsült vágási idő” már nem említi a marót, ha nincs semmi elhelyezve.",
   "news.194": "Import: ha egy rajz alkatrészei egymásba nyúlnak, minden belső vonal a saját alkatrészén marad (a szomszéd már nem viszi magával).",
   "news.193": "Elrendezés: a rá nem férő alkatrész pirosan jelölve van az alkatrészlistában, az okkal együtt, és a piros üzenet odavisz. Az „Origó” neve most „Elhelyezési pont”. A választott anyag a méretét egy táblasorba írja, a „Maradék hozzáadása” pedig a maradékokat elé teszi. Fűrész: az első vágások iránya választható. „Az egész terv DXF-ben” táblánként egy DXF-et tölt le. Költség: külön óradíj a gépre és a munkára, a megkezdett órák kérésre egésznek számítanak, a maradékok alapból 0. Marás: a főorsó fordulatszámai el vannak magyarázva. Marás és lézer: az ajánlott beállítások már nem görgetnek az oldallal. Lézer: a gyártói vastagságok a mező alatt magyarázva. AI-import: az Illustratorban a görbéknek adott nevek az alkatrészekhez kerülnek.",
   "news.192": "Marás: a „Legnagyobb fogásmélység” és az „Elvégzendő fogások” érthetően el van magyarázva, és az alkatrészek közti legkisebb hézag mellé bekerült a maró szerinti legkisebb margó (Ø + 1 mm). Lapok új sorrendben: Elrendezés, Marás, Lézer, Anyagok, Jegyzetfüzet, Költség.",
@@ -385,7 +386,7 @@
   "nb.delete": "Törlés",
   "nb.confirmDelete": "Törlöd?",
   "nb.noMatch": "Egy beállítás sem felel meg a keresésnek.",
-  "nb.empty": "A jegyzetfüzet üres. Ments egy beállítást a Marás lapról, vagy add hozzá az „Új beállítás” gombbal.",
+  "nb.empty": "A jegyzetfüzeted üres. Ments el egy beállítást a Marás vagy a Lézer lapról, vagy add hozzá az „Új beállítás” gombbal.",
   "nb.saveFailed": "A jegyzetfüzetet nem sikerült menteni ezen az eszközön (megtelt a tárhely vagy privát böngészés).",
   "nb.editTitle": "Beállítás szerkesztése",
   "nb.newTitle": "Új beállítás",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Keresztben (→)",
   "dl.dxfAll": "Az egész terv DXF-ben",
   "dl.doneAll": "{n} fájl kész: {f}",
-  "cost.hoursOnly": "{h} óra"
+  "cost.hoursOnly": "{h} óra",
+  "res.noPanel": "Adj meg legalább egy tábla hosszát és szélességét az alkatrészek elhelyezéséhez.",
+  "lib.badSize": "„{f}” 0-nál nagyobb szám legyen.",
+  "err.unknownFormat": "Ismeretlen formátum."
 }

@@ -61,9 +61,12 @@ export async function parseImportedFile(name, data) {
     } else if (/\.(plt|hpgl|hpg|hgl)$/i.test(name) || /^(IN|DF|SP\d|PU|PA)[;\s\d,]/i.test(tt)) {
       kind = "HPGL";
       res = parseHpgl(text, unit);
-    } else {
+    } else if (/\.svgz?$/i.test(name) || /<svg[\s>]/i.test(text.slice(0, 65536))) {
       kind = "SVG";
       res = parseSvg(text, unit);
+    } else {
+      // image, document… : dire que le format n'est pas reconnu, pas « SVG illisible »
+      throw new Error(translate("err.unknownFormat"));
     }
   }
   if (!res.paths.length) throw new Error(translate("err.noPaths"));

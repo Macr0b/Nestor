@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
+  "news.195": "Rettelser efter en fuld gennemgang: vinduerne Projekter, Indstillinger og Genveje holder tastaturet inde og giver det tilbage til den rigtige knap, når de lukkes; en plade uden mål markeres tydeligt; en fil i et andet format (f.eks. et billede) angives som „formatet blev ikke genkendt“; et materiale med mål nul eller negativt gemmes ikke længere i stilhed; „Anslået skæretid“ nævner ikke længere fræseren, når intet er placeret.",
   "news.194": "Import: når delene i en tegning griber ind i hinanden, bliver hver indre streg på sin egen del (den følger ikke længere med nabodelen).",
   "news.193": "Nesting: en del, der ikke passer, markeres med rødt i delelisten med årsagen, og den røde besked fører dig hen til den. „Udgangspunkt“ hedder nu „Placeringspunkt“. Det valgte materiale sætter sit format på en pladelinje, og „Tilføj en restplade“ lægger restplader foran. Sav: vælg retningen for de første snit. „Hele planen som DXF“ henter én DXF pr. plade. Pris: separate takster for maskine og arbejde, påbegyndte timer afregnet hele hvis du vil, restplader som standard 0. Fræsning: din spindels omdrejningstal forklares. Fræsning og Laser: de anbefalede indstillinger følger ikke længere med, når du ruller. Laser: producenternes tykkelser forklares under feltet. AI-import: navne givet til stier i Illustrator bruges til delene.",
   "news.192": "Fræsning: „Maksimal skæredybde“ og „Gennemløb“ forklares tydeligt, og en mindste margen efter fræseren (Ø + 1 mm) kommer med ved siden af den mindste afstand mellem emner. Faner i ny rækkefølge: Placering, Fræsning, Laser, Materialer, Notesbog, Omkostninger.",
@@ -385,7 +386,7 @@
   "nb.delete": "Slet",
   "nb.confirmDelete": "Slet?",
   "nb.noMatch": "Ingen indstilling passer til søgningen.",
-  "nb.empty": "Din notesbog er tom. Gem en indstilling fra fanen Fræsning, eller tilføj en med „Ny indstilling“.",
+  "nb.empty": "Din notesbog er tom. Gem en indstilling fra fanen Fræsning eller Laser, eller tilføj den med „Ny indstilling“.",
   "nb.saveFailed": "Notesbogen kunne ikke gemmes på denne enhed (hukommelsen er fuld eller privat browsing).",
   "nb.editTitle": "Rediger indstilling",
   "nb.newTitle": "Ny indstilling",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "På tværs (→)",
   "dl.dxfAll": "Hele planen som DXF",
   "dl.doneAll": "{n} fil(er) klar: {f}",
-  "cost.hoursOnly": "{h} t"
+  "cost.hoursOnly": "{h} t",
+  "res.noPanel": "Angiv længde og bredde for mindst én plade for at placere delene.",
+  "lib.badSize": "„{f}“ skal være et tal større end 0.",
+  "err.unknownFormat": "Formatet blev ikke genkendt."
 }

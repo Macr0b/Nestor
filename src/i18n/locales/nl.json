@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.195": "Correcties na een volledige controle: de vensters Projecten, Instellingen en Sneltoetsen houden het toetsenbord binnen en geven het bij sluiten terug aan de juiste knop; een plaat zonder maten wordt duidelijk gemeld; een bestand in een ander formaat (bijvoorbeeld een afbeelding) wordt gemeld als ‘formaat niet herkend’; een materiaal met maat nul of negatief wordt niet meer stilzwijgend opgeslagen; ‘Geschatte snijtijd’ noemt de frees niet meer als er niets geplaatst is.",
   "news.194": "Import: als de onderdelen van een tekening in elkaar grijpen, blijft elke binnenlijn op zijn eigen onderdeel (het buuronderdeel neemt hem niet meer mee).",
   "news.193": "Nesten: een onderdeel dat niet past, wordt rood gemarkeerd in de onderdelenlijst, met de reden, en de rode melding brengt je erheen. ‘Oorsprong’ heet nu ‘Plaatsingspunt’. Het gekozen materiaal zet zijn formaat op een plaatregel, en ‘Restplaat toevoegen’ zet restplaten ervoor. Zaag: kies de richting van de eerste zaagsneden. ‘Hele plan als DXF’ downloadt één DXF per plaat. Kosten: aparte tarieven voor machine en arbeid, begonnen uren desgewenst volledig gerekend, restplaten standaard 0. Frezen: de toerentallen van je spindel worden uitgelegd. Frezen en Laser: de aanbevolen instellingen scrollen niet meer mee. Laser: de diktes van fabrikanten worden onder het veld uitgelegd. AI-import: namen die paden in Illustrator kregen, worden voor de onderdelen gebruikt.",
   "news.192": "Frezen: „Maximale snedediepte” en „Te maken gangen” worden duidelijk uitgelegd, en een minimale marge volgens de frees (Ø + 1 mm) komt bij de minimale ruimte tussen onderdelen. Tabbladen in een nieuwe volgorde: Nesten, Frezen, Laser, Materialen, Notitieboek, Kosten.",
@@ -385,7 +386,7 @@
   "nb.delete": "Verwijderen",
   "nb.confirmDelete": "Verwijderen?",
   "nb.noMatch": "Geen instelling past bij de zoekopdracht.",
-  "nb.empty": "Je notitieboek is leeg. Bewaar een instelling vanuit het tabblad Frezen of voeg er een toe met „Nieuwe instelling”.",
+  "nb.empty": "Je notitieboek is leeg. Bewaar een instelling vanuit het tabblad Frezen of Laser, of voeg er een toe met ‘Nieuwe instelling’.",
   "nb.saveFailed": "Het notitieboek kon op dit apparaat niet worden opgeslagen (geheugen vol of privé browsen).",
   "nb.editTitle": "Instelling bewerken",
   "nb.newTitle": "Nieuwe instelling",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "In de breedte (→)",
   "dl.dxfAll": "Hele plan als DXF",
   "dl.doneAll": "{n} bestand(en) klaar: {f}",
-  "cost.hoursOnly": "{h} u"
+  "cost.hoursOnly": "{h} u",
+  "res.noPanel": "Vul de lengte en breedte van minstens één plaat in om de onderdelen te plaatsen.",
+  "lib.badSize": "‘{f}’ moet een getal groter dan 0 zijn.",
+  "err.unknownFormat": "Formaat niet herkend."
 }

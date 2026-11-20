@@ -8,6 +8,7 @@ import { openProjectsDialog, saveCurrentProject } from "./projects-dialog.js";
 import { renderResult } from "./result-view.js";
 import { isTyping, shortcutFor, SHORTCUTS } from "./shortcut-keys.js";
 import { selectTab } from "./tabs.js";
+import { closeModal, openModal } from "./modal.js";
 
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || "");
 
@@ -35,15 +36,15 @@ function renderHelp() {
   }).join("");
 }
 
-export function openShortcutsHelp() {
+function openShortcutsHelp() {
   renderHelp();
-  byId("settings").hidden = true;
-  byId("shortcuts").hidden = false;
-  byId("btnCloseSc").focus();
+  // ouverte depuis Réglages : Réglages se ferme (le focus repasse sur son bouton, où il reviendra ensuite)
+  closeModal("settings");
+  openModal("shortcuts", byId("btnCloseSc"));
 }
 
 function closeShortcutsHelp() {
-  byId("shortcuts").hidden = true;
+  closeModal("shortcuts");
 }
 
 function anyDialogOpen() {

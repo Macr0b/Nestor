@@ -188,6 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
+  "news.195": "Labojumi pēc pilnas pārskatīšanas: logi Projekti, Iestatījumi un Īsinājumtaustiņi notur tastatūru iekšā un aizverot atdod to pareizajai pogai; plāksne bez izmēriem tiek skaidri atzīmēta; cita formāta fails (piemēram, attēls) tiek norādīts kā “formāts nav atpazīts”; materiāls ar nulles vai negatīvu izmēru vairs netiek klusi saglabāts; “Paredzamā griešana” vairs nepiemin frēzi, ja nekas nav izvietots.",
   "news.194": "Imports: ja zīmējuma detaļas ieķeras viena otrā, katra iekšējā līnija paliek uz savas detaļas (kaimiņdetaļa to vairs nepaņem līdzi).",
   "news.193": "Izkārtojums: detaļa, kas neietilpst, detaļu sarakstā ir atzīmēta sarkanā krāsā ar iemeslu, un sarkanais ziņojums ved pie tās. “Sākumpunkts” tagad ir “Novietojuma punkts”. Izvēlētais materiāls ieraksta savu formātu plāksnes rindā, bet “Pievienot atgriezumu” liek atgriezumus pirms tās. Zāģis: izvēlies pirmo griezumu virzienu. “Viss plāns DXF formātā” lejupielādē vienu DXF katrai plāksnei. Izmaksas: atsevišķas likmes iekārtai un darbam, iesāktās stundas pēc vēlēšanās pilnas, atgriezumi pēc noklusējuma 0. Frēzēšana: vārpstas ātrumi ir izskaidroti. Frēzēšana un lāzers: ieteicamie iestatījumi vairs nepārvietojas līdzi ritināšanai. Lāzers: ražotāju biezumi izskaidroti zem lauka. AI imports: Illustrator kontūrām dotie nosaukumi tiek izmantoti detaļām.",
   "news.192": "Frēzēšana: “Lielākais griešanas dziļums” un “Veicamie gājieni” ir skaidri izskaidroti, un blakus mazākajai atstarpei starp detaļām nāk mazākā mala pēc frēzes (Ø + 1 mm). Cilnes jaunā secībā: Izkārtojums, Frēzēšana, Lāzers, Materiāli, Piezīmju grāmata, Izmaksas.",
@@ -385,7 +386,7 @@
   "nb.delete": "Dzēst",
   "nb.confirmDelete": "Dzēst?",
   "nb.noMatch": "Neviens iestatījums neatbilst meklēšanai.",
-  "nb.empty": "Piezīmju grāmata ir tukša. Saglabā iestatījumu no cilnes Frēzēšana vai pievieno to ar pogu “Jauns iestatījums”.",
+  "nb.empty": "Tava piezīmju grāmata ir tukša. Saglabā iestatījumu no cilnes Frēzēšana vai Lāzers vai pievieno to ar “Jauns iestatījums”.",
   "nb.saveFailed": "Piezīmju grāmatu neizdevās saglabāt šajā ierīcē (atmiņa pilna vai privātā pārlūkošana).",
   "nb.editTitle": "Labot iestatījumu",
   "nb.newTitle": "Jauns iestatījums",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Šķērsvirzienā (→)",
   "dl.dxfAll": "Viss plāns DXF formātā",
   "dl.doneAll": "Gatavi faili ({n}): {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Norādi vismaz vienas plāksnes garumu un platumu, lai izvietotu detaļas.",
+  "lib.badSize": "“{f}” jābūt skaitlim, kas lielāks par 0.",
+  "err.unknownFormat": "Formāts nav atpazīts."
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.195": "Correccions després d’una revisió completa: les finestres Projectes, Ajustos i Dreceres mantenen el teclat a dins i el tornen al botó correcte en tancar-se; un tauler sense mides es senyala clarament; un fitxer d’un altre format (una imatge, per exemple) s’indica com a «format no reconegut»; un material amb una mida nul·la o negativa ja no es desa en silenci; «Tall estimat» ja no parla de la fresa quan no hi ha res col·locat.",
   "news.194": "Importació: quan les peces d’un dibuix encaixen entre si, cada traç interior es queda a la seva peça (ja no se l’endú la veïna).",
   "news.193": "Imbricació: una peça que no hi cap es marca en vermell a la llista de peces, amb el motiu, i el missatge vermell porta fins a ella. «Origen» passa a ser «Punt de col·locació». El material triat posa el seu format en una fila de tauler i «Afegir un retall» col·loca els retalls al davant. Serra: tria el sentit dels primers talls. «Tot el pla en DXF» baixa un DXF per tauler. Cost: tarifes de màquina i de mà d’obra separades, hores començades comptades senceres si vols, retalls a 0 per defecte. Fresat: s’expliquen les velocitats del teu capçal. Fresat i Làser: els ajustos recomanats ja no segueixen el desplaçament. Làser: els gruixos dels fabricants s’expliquen sota el camp. Importació AI: els noms donats als traçats a l’Illustrator s’usen per a les peces.",
   "news.192": "Fresatge: «Passada màxima» i «Passades a fer» s’expliquen amb claredat, i s’hi afegeix un marge mínim segons la fresa (Ø + 1 mm) al costat de l’espai mínim entre peces. Pestanyes en un ordre nou: Encaix, Fresatge, Làser, Materials, Quadern, Cost.",
@@ -385,7 +386,7 @@
   "nb.delete": "Suprimir",
   "nb.confirmDelete": "Suprimir?",
   "nb.noMatch": "Cap ajust no coincideix amb la cerca.",
-  "nb.empty": "El teu quadern és buit. Desa un ajust des de la pestanya Fresatge o afegeix-lo amb «Nou ajust».",
+  "nb.empty": "El teu quadern és buit. Desa un ajust des de la pestanya Fresat o Làser, o afegeix-lo amb «Nou ajust».",
   "nb.saveFailed": "No s’ha pogut desar el quadern en aquest dispositiu (memòria plena o navegació privada).",
   "nb.editTitle": "Modificar l’ajust",
   "nb.newTitle": "Nou ajust",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "A l’ample (→)",
   "dl.dxfAll": "Tot el pla en DXF",
   "dl.doneAll": "{n} fitxer(s) a punt: {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Indica la llargada i l’amplada d’almenys un tauler per col·locar les peces.",
+  "lib.badSize": "«{f}» ha de ser un nombre més gran que 0.",
+  "err.unknownFormat": "Format no reconegut."
 }

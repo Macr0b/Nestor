@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun preklican.",
   "calc.many": "{n} delov za razporeditev: to lahko traja.",
   "news.121": "Količine niso več omejene na 500, preveliki deli so takoj označeni, med dolgim izračunom pa se pojavi gumb Prekliči.",
+  "news.195": "Popravki po celotnem pregledu: okna Projekti, Nastavitve in Bližnjice držijo tipkovnico znotraj in jo ob zaprtju vrnejo pravemu gumbu; plošča brez mer je jasno označena; datoteka v drugi obliki (na primer slika) je označena kot »neprepoznana oblika zapisa«; material z ničelno ali negativno mero se ne shrani več potihoma; »Ocenjeni čas rezanja« ne omenja več rezkala, ko ni nič postavljeno.",
   "news.194": "Uvoz: ko se kosi risbe prepletajo, vsaka notranja črta ostane na svojem kosu (sosednji je ne odnese več).",
   "news.193": "Razporejanje: kos, ki ne gre na ploščo, je na seznamu kosov označen z rdečo in razlogom, rdeče sporočilo pa vodi do njega. »Izhodišče« je zdaj »Točka postavitve«. Izbrani material vpiše svoj format v vrstico plošče, »Dodaj ostanek« pa postavi ostanke pred njo. Žaga: izbira smeri prvih rezov. »Celoten načrt v DXF« prenese en DXF na ploščo. Strošek: ločeni postavki za stroj in delo, začete ure po želji obračunane cele, ostanki privzeto 0. Rezkanje: hitrosti vretena so razložene. Rezkanje in laser: priporočene nastavitve se ne pomikajo več s stranjo. Laser: debeline proizvajalcev so razložene pod poljem. Uvoz AI: imena poti iz Illustratorja se uporabijo za kose.",
   "news.192": "Rezkanje: »Največja globina prehoda« in »Prehodi« sta jasno razložena, poleg najmanjšega razmika med kosi pa je dodan najmanjši rob glede na rezkar (Ø + 1 mm). Zavihki v novem vrstnem redu: Razporejanje, Rezkanje, Laser, Materiali, Beležnica, Stroški.",
@@ -385,7 +386,7 @@
   "nb.delete": "Izbriši",
   "nb.confirmDelete": "Izbrisati?",
   "nb.noMatch": "Nobena nastavitev ne ustreza iskanju.",
-  "nb.empty": "Beležnica je prazna. Shrani nastavitev iz zavihka Rezkanje ali jo dodaj z gumbom »Nova nastavitev«.",
+  "nb.empty": "Tvoj zvezek je prazen. Shrani nastavitev z zavihka Rezkanje ali Laser ali jo dodaj z »Nova nastavitev«.",
   "nb.saveFailed": "Beležnice ni bilo mogoče shraniti v tej napravi (polen pomnilnik ali zasebno brskanje).",
   "nb.editTitle": "Uredi nastavitev",
   "nb.newTitle": "Nova nastavitev",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Prečno (→)",
   "dl.dxfAll": "Celoten načrt v DXF",
   "dl.doneAll": "Pripravljene datoteke ({n}): {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Vnesi dolžino in širino vsaj ene plošče, da lahko kose postaviš.",
+  "lib.badSize": "»{f}« mora biti število, večje od 0.",
+  "err.unknownFormat": "Neprepoznana oblika zapisa."
 }

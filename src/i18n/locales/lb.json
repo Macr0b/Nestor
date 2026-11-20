@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung ofgebrach.",
   "calc.many": "{n} Deeler ze placéieren: dat ka laang daueren.",
   "news.121": "D’Quantitéite sinn net méi op 500 limitéiert, ze grouss Deeler ginn direkt gemellt, an e Knäppchen Ofbriechen erschéngt bei laange Berechnungen.",
+  "news.195": "Korrekture no enger komplett Iwwerpréiwung: d’Fënstere Projeten, Astellungen a Tastekierzele behalen d’Tastatur dobannen a ginn se beim Zoumaachen dem richtege Knäppchen zeréck; eng Plack ouni Moossen gëtt kloer gemellt; e Fichier an engem anere Format (zum Beispill e Bild) gëtt als „Format net erkannt“ gemellt; e Material mat Mooss null oder negativ gëtt net méi roueg gespäichert; „Geschate Schneidzäit“ schwätzt net méi vum Fräser, wann näischt placéiert ass.",
   "news.194": "Import: wann d’Deeler vun enger Zeechnung anenee gräifen, bleift all bannenzeg Linn op hirem Deel (den Nopeschdeel hëlt se net méi mat).",
   "news.193": "Verschachtelen: en Deel, deen net passt, gëtt an der Lëscht rout markéiert, mam Grond, an déi rout Meldung féiert dohin. „Ursprong“ heescht elo „Placéierungspunkt“. D’gewielt Material setzt säi Format op eng Plackenzeil, an „Reschtstéck derbäisetzen“ setzt Reschtstécker virdrun. Seeg: wiel d’Richtung vun den éischte Schnëtter. „De ganze Plang als DXF“ lued eng DXF pro Plack erof. Käschten: separat Sätz fir Maschinn an Aarbecht, ugefaange Stonnen op Wonsch ganz verrechent, Reschtstécker standardméisseg 0. Fräsen: d’Dréizuelen vun der Spindel ginn erkläert. Fräsen a Laser: déi recommandéiert Astellunge scrollen net méi mat. Laser: d’Déckten vun den Hiersteller ginn ënner dem Feld erkläert. AI-Import: Nimm vu Pfaden aus Illustrator ginn fir d’Deeler iwwerholl.",
   "news.192": "Fräsen: „Maximal Zoustellung“ an „Passagen ze maachen“ ginn däitlech erkläert, an e Mindestrand no der Fräs (Ø + 1 mm) kënnt nieft de Mindestofstand tëscht den Deeler. Tabs an enger neier Reiefolleg: Verschachtelung, Fräsen, Laser, Materialien, Notizbuch, Käschten.",
@@ -385,7 +386,7 @@
   "nb.delete": "Läschen",
   "nb.confirmDelete": "Läschen?",
   "nb.noMatch": "Keng Astellung passt zur Sich.",
-  "nb.empty": "Däin Notizbuch ass eidel. Späicher eng Astellung aus dem Tab Fräsen oder füüg eng mat „Nei Astellung“ bäi.",
+  "nb.empty": "Däin Notizbuch ass eidel. Behal eng Astellung aus dem Tab Fräsen oder Laser, oder setz se mat „Nei Astellung“ derbäi.",
   "nb.saveFailed": "D’Notizbuch konnt op dësem Apparat net gespäichert ginn (Späicher voll oder privat Surfen).",
   "nb.editTitle": "Astellung änneren",
   "nb.newTitle": "Nei Astellung",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "An der Breet (→)",
   "dl.dxfAll": "De ganze Plang als DXF",
   "dl.doneAll": "{n} Fichier(en) prett: {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Gëff d’Längt an d’Breet vun op d’mannst enger Plack un, fir d’Deeler ze placéieren.",
+  "lib.badSize": "„{f}“ muss eng Zuel méi grouss wéi 0 sinn.",
+  "err.unknownFormat": "Format net erkannt."
 }

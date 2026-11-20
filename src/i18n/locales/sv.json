@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.195": "Rättelser efter en fullständig granskning: fönstren Projekt, Inställningar och Kortkommandon håller tangentbordet inne och lämnar tillbaka det till rätt knapp när de stängs; en skiva utan mått markeras tydligt; en fil i ett annat format (till exempel en bild) anges som ”formatet känns inte igen”; ett material med mått noll eller negativt sparas inte längre i tysthet; ”Uppskattad skärtid” nämner inte längre fräsen när inget är placerat.",
   "news.194": "Import: när delarna i en ritning griper in i varandra stannar varje inre linje på sin egen del (den följer inte längre med grannen).",
   "news.193": "Nesting: en del som inte får plats markeras med rött i dellistan, med orsaken, och det röda meddelandet leder dit. ”Origo” heter nu ”Placeringspunkt”. Det valda materialet sätter sitt format på en skivrad, och ”Lägg till en restbit” lägger restbitar före. Såg: välj riktning för de första snitten. ”Hela planen som DXF” laddar ner en DXF per skiva. Kostnad: separata taxor för maskin och arbete, påbörjade timmar debiteras hela om du vill, restbitar 0 som standard. Fräsning: spindelns varvtal förklaras. Fräsning och Laser: de rekommenderade inställningarna följer inte längre med när du skrollar. Laser: tillverkarnas tjocklekar förklaras under fältet. AI-import: namn som banor fått i Illustrator används för delarna.",
   "news.192": "Fräsning: ”Maximalt skärdjup” och ”Pass att göra” förklaras tydligt, och en minsta marginal efter fräsen (Ø + 1 mm) läggs till bredvid minsta avståndet mellan delar. Flikar i ny ordning: Utplacering, Fräsning, Laser, Material, Anteckningsbok, Kostnad.",
@@ -385,7 +386,7 @@
   "nb.delete": "Ta bort",
   "nb.confirmDelete": "Ta bort?",
   "nb.noMatch": "Ingen inställning matchar sökningen.",
-  "nb.empty": "Din anteckningsbok är tom. Spara en inställning från fliken Fräsning eller lägg till en med ”Ny inställning”.",
+  "nb.empty": "Din anteckningsbok är tom. Spara en inställning från fliken Fräsning eller Laser, eller lägg till en med ”Ny inställning”.",
   "nb.saveFailed": "Anteckningsboken kunde inte sparas på den här enheten (minnet fullt eller privat surfning).",
   "nb.editTitle": "Redigera inställning",
   "nb.newTitle": "Ny inställning",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "På bredden (→)",
   "dl.dxfAll": "Hela planen som DXF",
   "dl.doneAll": "{n} fil(er) klara: {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Ange längd och bredd för minst en skiva för att placera delarna.",
+  "lib.badSize": "”{f}” måste vara ett tal större än 0.",
+  "err.unknownFormat": "Formatet känns inte igen."
 }

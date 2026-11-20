@@ -12,14 +12,14 @@ import { refreshCostTab } from "./cost-tab.js";
 import { renderAll } from "./render-all.js";
 import { byId } from "../util/dom.js";
 import { lengthUnits, setLengthUnits } from "../util/units.js";
+import { closeModal, openModal } from "./modal.js";
 
 function openSettings() {
-  byId("settings").hidden = false;
-  byId("btnCloseSet").focus();
+  openModal("settings", byId("btnCloseSet"), byId("btnSettings"));
 }
 
 function closeSettings() {
-  byId("settings").hidden = true;
+  closeModal("settings");
 }
 
 // textes et valeurs refaits dans la langue et les unités choisies

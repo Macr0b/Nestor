@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.195": "Korrigjime pas një rishikimi të plotë: dritaret Projektet, Cilësimet dhe Shkurtoret e mbajnë tastierën brenda dhe ia kthejnë butonit të duhur kur mbyllen; një panel pa përmasa sinjalizohet qartë; një skedar në format tjetër (p.sh. një imazh) tregohet si “format i panjohur”; një material me përmasë zero ose negative nuk ruhet më në heshtje; “Prerja e vlerësuar” nuk flet më për frezën kur nuk është vendosur asgjë.",
   "news.194": "Importi: kur pjesët e një vizatimi futen në njëra-tjetrën, çdo vijë e brendshme mbetet në pjesën e vet (nuk e merr më fqinja).",
   "news.193": "Vendosja: një pjesë që nuk hyn shënohet me të kuqe në listë, me arsyen, dhe mesazhi i kuq të çon tek ajo. “Origjina” tani quhet “Pika e vendosjes”. Materiali i zgjedhur vë formatin e vet në një rresht paneli dhe “Shto një mbetje” vendos mbetjet përpara. Sharra: zgjidh drejtimin e prerjeve të para. “I gjithë plani në DXF” shkarkon një DXF për panel. Kosto: tarifa të veçanta për makinën dhe punën, orët e nisura të llogaritura të plota nëse do, mbetjet 0 si parazgjedhje. Frezimi: shpejtësitë e boshtit shpjegohen. Frezimi dhe lazeri: cilësimet e rekomanduara nuk lëvizin më me faqen. Lazeri: trashësitë e prodhuesve shpjegohen poshtë fushës. Importi AI: emrat e dhënë shtigjeve në Illustrator përdoren për pjesët.",
   "news.192": "Frezimi: «Thellësia maksimale e kalimit» dhe «Kalimet për t’u bërë» shpjegohen qartë, dhe pranë hapësirës minimale midis pjesëve shtohet kufiri minimal sipas frezës (Ø + 1 mm). Skedat në një rend të ri: Vendosja, Frezimi, Lazer, Materialet, Fletore, Kosto.",
@@ -385,7 +386,7 @@
   "nb.delete": "Fshi",
   "nb.confirmDelete": "Ta fshij?",
   "nb.noMatch": "Asnjë cilësim nuk përputhet me kërkimin.",
-  "nb.empty": "Fletorja është bosh. Ruaj një cilësim nga skeda Frezimi ose shtoje me «Cilësim i ri».",
+  "nb.empty": "Fletorja jote është bosh. Ruaj një cilësim nga skeda Frezimi ose Lazeri, ose shtoje me “Cilësim i ri”.",
   "nb.saveFailed": "Fletorja nuk u ruajt dot në këtë pajisje (memorie plot ose shfletim privat).",
   "nb.editTitle": "Ndrysho cilësimin",
   "nb.newTitle": "Cilësim i ri",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Për së gjeri (→)",
   "dl.dxfAll": "I gjithë plani në DXF",
   "dl.doneAll": "{n} skedar(ë) gati: {f}",
-  "cost.hoursOnly": "{h} orë"
+  "cost.hoursOnly": "{h} orë",
+  "res.noPanel": "Shkruaj gjatësinë dhe gjerësinë e të paktën një paneli për të vendosur pjesët.",
+  "lib.badSize": "“{f}” duhet të jetë një numër më i madh se 0.",
+  "err.unknownFormat": "Format i panjohur."
 }

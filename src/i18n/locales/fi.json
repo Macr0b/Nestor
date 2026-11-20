@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.195": "Korjauksia perusteellisen tarkistuksen jälkeen: Projektit-, Asetukset- ja Pikanäppäimet-ikkunat pitävät näppäimistön sisällään ja palauttavat sen oikeaan painikkeeseen sulkeutuessaan; levy ilman mittoja ilmoitetaan selvästi; muun muotoinen tiedosto (esimerkiksi kuva) ilmoitetaan ”tiedostomuotoa ei tunnistettu”; materiaalia, jonka mitta on nolla tai negatiivinen, ei enää tallenneta huomaamatta; ”Arvioitu leikkausaika” ei enää puhu terästä, kun mitään ei ole sijoitettu.",
   "news.194": "Tuonti: kun piirroksen osat lomittuvat, jokainen sisäviiva pysyy omassa osassaan (naapuriosa ei enää vie sitä mukanaan).",
   "news.193": "Sijoittelu: osa, joka ei mahdu, merkitään punaisella osaluetteloon syineen, ja punainen viesti vie sen luo. ”Origo” on nyt ”Sijoituspiste”. Valittu materiaali asettaa kokonsa levyriville, ja ”Lisää hukkapala” lisää hukkapalat sen eteen. Saha: valitse ensimmäisten sahausten suunta. ”Koko suunnitelma DXF:nä” lataa yhden DXF:n levyä kohden. Kustannus: erilliset tuntihinnat koneelle ja työlle, aloitetut tunnit halutessa kokonaisina, hukkapalat oletuksena 0. Jyrsintä: karan kierrosnopeudet selitetään. Jyrsintä ja laser: suositellut asetukset eivät enää seuraa vieritystä. Laser: valmistajien paksuudet selitetään kentän alla. AI-tuonti: Illustratorissa poluille annetut nimet käytetään osien niminä.",
   "news.192": "Jyrsintä: ”Suurin lastuamissyvyys” ja ”Ajokerrat” selitetään selkeästi, ja kappaleiden vähimmäisvälin rinnalle tulee terän mukainen vähimmäisreunus (Ø + 1 mm). Välilehdet uudessa järjestyksessä: Sijoittelu, Jyrsintä, Laser, Materiaalit, Muistikirja, Kustannus.",
@@ -385,7 +386,7 @@
   "nb.delete": "Poista",
   "nb.confirmDelete": "Poistetaanko?",
   "nb.noMatch": "Mikään asetus ei vastaa hakua.",
-  "nb.empty": "Muistikirja on tyhjä. Tallenna asetus Jyrsintä-välilehdeltä tai lisää se ”Uusi asetus” -painikkeella.",
+  "nb.empty": "Muistikirjasi on tyhjä. Tallenna asetus Jyrsintä- tai Laser-välilehdeltä tai lisää se kohdasta ”Uusi asetus”.",
   "nb.saveFailed": "Muistikirjaa ei voitu tallentaa tälle laitteelle (muisti täynnä tai yksityinen selaus).",
   "nb.editTitle": "Muokkaa asetusta",
   "nb.newTitle": "Uusi asetus",
@@ -664,5 +665,8 @@
   "saw.firstAcross": "Leveyssuunnassa (→)",
   "dl.dxfAll": "Koko suunnitelma DXF:nä",
   "dl.doneAll": "{n} tiedosto(a) valmiina: {f}",
-  "cost.hoursOnly": "{h} h"
+  "cost.hoursOnly": "{h} h",
+  "res.noPanel": "Anna vähintään yhden levyn pituus ja leveys, jotta osat voidaan sijoittaa.",
+  "lib.badSize": "”{f}” on oltava nollaa suurempi luku.",
+  "err.unknownFormat": "Tiedostomuotoa ei tunnistettu."
 }
