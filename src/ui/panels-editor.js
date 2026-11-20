@@ -18,11 +18,55 @@ import { loadMillingInput } from "../machining/milling-store.js";
 import { onProjectMaterialChange, setProjectMaterial } from "../library/library-store.js";
 import { fillMaterialSelect, libraryItem, onLibraryChange } from "./materials-tab.js";
 import { applyMaterialFormat, insertOffcut, materialPanelIndex } from "../project/material-panels.js";
-import { lockCount, panelRowLocked, remapLockedPanels } from "../project/locks.js";
+import { lockCount, panelRowLocked } from "../project/locks.js";
+import { remapPanelRows } from "../project/panel-rows.js";
+
+// lignes de panneau dont le champ « nom » est ouvert (l'objet de la ligne suit ses déplacements)
+const namesOpen = new WeakSet();
+
+/* Numéro de la ligne (s'il y en a plusieurs) et flèche qui ouvre le champ du nom. */
+function rowNumberCell(p, i, numbered) {
+  if (!numbered) return '<span class="pcol"></span>';
+  var open = namesOpen.has(p);
+  return (
+    '<span class="pcol"><span class="pnum">' +
+    (i + 1) +
+    '</span><button type="button" class="pname-toggle" data-act="name" aria-expanded="' +
+    open +
+    '" aria-controls="pl' +
+    i +
+    '-name" aria-label="' +
+    escapeHtml(translate("panel.nameToggle", { n: i + 1 })) +
+    '" title="' +
+    escapeHtml(translate("panel.nameToggle", { n: i + 1 })) +
+    '">' +
+    (open ? "▾" : "▸") +
+    "</button></span>"
+  );
+}
+
+// sous la ligne : le champ du nom (ouvert), sinon le nom donné
+function rowNameCell(p, i, numbered) {
+  if (numbered && namesOpen.has(p))
+    return (
+      '<label class="pname"><span>' +
+      escapeHtml(translate("panel.name")) +
+      '</span><input type="text" id="pl' +
+      i +
+      '-name" data-k="name" maxlength="60" value="' +
+      escapeHtml(p.name || "") +
+      '" placeholder="' +
+      escapeHtml(translate("panel.namePh")) +
+      '"></label>'
+    );
+  return p.name ? '<span class="pnl-name">' + escapeHtml(p.name) + "</span>" : "";
+}
 
 function renderPanels() {
   var ps = state.sheet.panels,
-    linked = materialPanelIndex(ps);
+    linked = materialPanelIndex(ps),
+    numbered = ps.length > 1;
+  byId("panelRows").classList.toggle("numbered", numbered);
   byId("btnAddPanel").textContent = translate(linked >= 0 ? "panel.addOffcut" : "panel.add");
   byId("panels").innerHTML = ps
     .map(function (p, i) {
@@ -33,6 +77,7 @@ function renderPanels() {
         '<div class="pnl" data-i="' +
         i +
         '">' +
+        rowNumberCell(p, i, numbered) +
         "<input " +
         lengthInputAttributes(p.L) +
         ' id="pl' +
@@ -97,6 +142,7 @@ function renderPanels() {
         '">×</button>' +
         (i === linked ? '<span class="pnl-tag">' + escapeHtml(materialTag()) + "</span>" : "") +
         (locked ? '<span class="pnl-tag pnl-locked">' + escapeHtml(translate("lock.rowHint")) + "</span>" : "") +
+        rowNameCell(p, i, numbered) +
         "</div>"
       );
     })
@@ -211,6 +257,13 @@ export function bindPanelsEditor() {
     var p = state.sheet.panels[+row.dataset.i],
       k = e.target.dataset.k;
     if (!p || !k) return;
+    if (k === "name") {
+      // le nom suit la ligne : titres du plan et choix « Remplir » des pièces, sans recalculer
+      p.name = e.target.value.slice(0, 60);
+      schedulePreferencesSave();
+      if (session.lastResult) drawResult(session.lastResult);
+      return;
+    }
     if (k === "qty") p[k] = e.target.value === "" ? "" : Math.max(0, Math.floor(parseNumber(e.target.value, 0)));
     else {
       // longueur dans les unités choisies, gardée en mm ; saisie en cours illisible (« 48 1/ ») : on attend
@@ -244,17 +297,26 @@ export function bindPanelsEditor() {
     if (!b) return;
     var i = +b.closest(".pnl").dataset.i,
       ps = state.sheet.panels;
+    if (b.dataset.act === "name") {
+      // flèche du nom : ouvre ou ferme le champ, et y met le curseur
+      if (namesOpen.has(ps[i])) namesOpen.delete(ps[i]);
+      else namesOpen.add(ps[i]);
+      renderPanels();
+      var field = byId("pl" + i + "-name");
+      (field || document.querySelector('.pnl[data-i="' + i + '"] [data-act="name"]')).focus();
+      return;
+    }
     if (b.dataset.act === "up" && i > 0) {
       var x = ps[i];
       ps[i] = ps[i - 1];
       ps[i - 1] = x;
-      remapLockedPanels(function (pi) {
+      remapPanelRows(function (pi) {
         return pi === i ? i - 1 : pi === i - 1 ? i : pi;
       });
     } else if (b.dataset.act === "del" && ps.length > 1) {
       ps.splice(i, 1);
-      remapLockedPanels(function (pi) {
-        return pi > i ? pi - 1 : pi;
+      remapPanelRows(function (pi) {
+        return pi === i ? -1 : pi > i ? pi - 1 : pi;
       });
     }
     renderPanels();
@@ -264,7 +326,7 @@ export function bindPanelsEditor() {
   // « Ajouter une chute » quand une ligne suit la matière : la chute passe devant elle
   byId("btnAddPanel").addEventListener("click", function () {
     var at = insertOffcut(state.sheet.panels);
-    remapLockedPanels(function (pi) {
+    remapPanelRows(function (pi) {
       return pi >= at ? pi + 1 : pi;
     });
     renderPanels();

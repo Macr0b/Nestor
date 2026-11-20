@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
+  "news.197": "Desky se číslují, když jich je víc, a malou šipkou jim lze dát název. „Vyplnit“ teď míří na řádek desky (číslo nebo název): vyplnit její poslední desku v plánu, všechny její desky, nebo novou. Projekty: projekt uložený s importovaným souborem před 1.9.6 se znovu otevře a otevření projektu už neselže, když měl předchozí plán víc dílců.",
   "news.196": "Zámek: každou desku plánu lze zamknout; její dílce se už nehýbou a nové dílce (další soubor, vyšší počet) jdou nejdřív do jejích mezer. Vyplnit: dílec může vyplnit vše, co zbývá na zvolené nebo nové desce. Projekty: projekt s importovaným souborem se zase otevře.",
   "news.195": "Opravy po úplné kontrole: okna Projekty, Nastavení a Klávesové zkratky drží klávesnici uvnitř a po zavření ji vrátí správnému tlačítku; deska bez rozměrů je jasně ohlášena; soubor v jiném formátu (třeba obrázek) je ohlášen jako „nerozpoznaný formát“; materiál s nulovým nebo záporným rozměrem se už potichu neuloží; „Odhadovaný čas řezání“ už nezmiňuje frézu, když není nic rozmístěno.",
   "news.194": "Import: když do sebe dílce výkresu zapadají, každá vnitřní čára zůstane na svém dílci (už ji neodnese sousední).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Některé desky jsou zamčené: odemkni je v plánu, chceš-li změnit mezeru nebo okraj.",
   "lock.ask": "Tento dílec je na {n} zamčené(ých) desce(ách). Odemknout, aby šel změnit?",
   "piece.fillNone": "Pevný počet",
-  "piece.fillSheet": "Vyplnit desku {n}",
-  "piece.fillNew": "Vyplnit novou desku",
+  "piece.fillNew": "{p}: vyplnit novou desku",
   "piece.fillLbl": "Množství dílce {n}: pevný počet nebo vyplnění desky",
   "piece.filled": "{n} rozmístěno jako výplň",
-  "piece.fillNoRoom": "Už nezbývá volné místo k vyplnění."
+  "piece.fillNoRoom": "Už nezbývá volné místo k vyplnění.",
+  "panel.name": "Název desky",
+  "panel.nameToggle": "Pojmenovat desku {n}",
+  "panel.namePh": "Odřezek překližka 18, bříza…",
+  "piece.fillLast": "{p}: vyplnit poslední desku",
+  "piece.fillAll": "{p}: vyplnit všechny desky"
 }

@@ -51,7 +51,8 @@ export function loadPreferences() {
           W: parseNumber(x.W, 400),
           qty: x.qty === "" || x.qty == null ? "" : Math.max(0, Math.floor(parseNumber(x.qty, 0))),
           origin: validOrigin(x.origin || saved.origin),
-          ...(x.fromMaterial === true ? { fromMaterial: true } : {})
+          ...(x.fromMaterial === true ? { fromMaterial: true } : {}),
+          ...(typeof x.name === "string" && x.name ? { name: x.name.slice(0, 60) } : {})
         };
       });
     exportOptions.includeBoard = saved.board === true;

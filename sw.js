@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.9.6";
+const VERSION = "1.9.7";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -55,6 +55,7 @@ const FILES = [
   "src/project/manual-parts.js",
   "src/project/material-panels.js",
   "src/project/locks.js",
+  "src/project/panel-rows.js",
   "src/project/parts.js",
   "src/project/preferences.js",
   "src/project/state.js",

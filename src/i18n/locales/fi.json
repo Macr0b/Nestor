@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.197": "Levyt numeroidaan, kun niitä on useita, ja pienellä nuolella niille voi antaa nimen. ”Täytä” kohdistuu nyt levyriviin (numero tai nimi): täytä sen viimeinen levy suunnitelmassa, kaikki sen levyt tai uusi. Projektit: ennen 1.9.6:ta tuodun tiedoston kanssa tallennettu projekti aukeaa taas, eikä projektin avaaminen enää epäonnistu, kun aiemmin näytetyssä suunnitelmassa oli enemmän osia.",
   "news.196": "Lukko: suunnitelman jokaisen levyn voi lukita; sen osat eivät enää liiku, ja uudet osat (toinen tiedosto, suurempi määrä) menevät ensin sen aukkoihin. Täytä: osa voi täyttää kaiken valitulla tai uudella levyllä jäljellä olevan tilan. Projektit: projekti, jossa on tuotu tiedosto, aukeaa taas.",
   "news.195": "Korjauksia perusteellisen tarkistuksen jälkeen: Projektit-, Asetukset- ja Pikanäppäimet-ikkunat pitävät näppäimistön sisällään ja palauttavat sen oikeaan painikkeeseen sulkeutuessaan; levy ilman mittoja ilmoitetaan selvästi; muun muotoinen tiedosto (esimerkiksi kuva) ilmoitetaan ”tiedostomuotoa ei tunnistettu”; materiaalia, jonka mitta on nolla tai negatiivinen, ei enää tallenneta huomaamatta; ”Arvioitu leikkausaika” ei enää puhu terästä, kun mitään ei ole sijoitettu.",
   "news.194": "Tuonti: kun piirroksen osat lomittuvat, jokainen sisäviiva pysyy omassa osassaan (naapuriosa ei enää vie sitä mukanaan).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Levyjä on lukittu: avaa niiden lukitus suunnitelmassa muuttaaksesi väliä tai reunusta.",
   "lock.ask": "Tämä osa on {n} lukitulla levyllä. Avataanko lukitus muutosta varten?",
   "piece.fillNone": "Kiinteä määrä",
-  "piece.fillSheet": "Täytä levy {n}",
-  "piece.fillNew": "Täytä uusi levy",
+  "piece.fillNew": "{p}: täytä uusi levy",
   "piece.fillLbl": "Osan {n} määrä: kiinteä määrä tai levyn täyttö",
   "piece.filled": "{n} sijoitettu täytteeksi",
-  "piece.fillNoRoom": "Täytettävää vapaata tilaa ei enää ole."
+  "piece.fillNoRoom": "Täytettävää vapaata tilaa ei enää ole.",
+  "panel.name": "Levyn nimi",
+  "panel.nameToggle": "Nimeä levy {n}",
+  "panel.namePh": "Hukkapala vaneri 18, koivu…",
+  "piece.fillLast": "{p}: täytä viimeinen levy",
+  "piece.fillAll": "{p}: täytä kaikki levyt"
 }

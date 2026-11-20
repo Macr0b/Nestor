@@ -1107,3 +1107,60 @@ button:focus-visible,
 .lock-hint {
   color: var(--muted);
 }
+/* panneaux numérotés (plus d'une ligne) : numéro et flèche du nom à gauche, champ du nom sous la ligne */
+.pcol {
+  display: none;
+}
+.numbered .pnl {
+  grid-template-columns: 30px minmax(0, 1fr) 12px minmax(0, 1fr) 58px 44px 30px 30px;
+}
+/* moins de place pour les intitulés : ils passent à la ligne plutôt que d'être coupés */
+.numbered .pnl.phd span {
+  white-space: normal;
+  line-height: 1.15;
+}
+[dir="rtl"] .pname-toggle[aria-expanded="false"] {
+  transform: scaleX(-1);
+}
+.numbered .pcol {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.pnum {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 17px;
+  min-width: 14px;
+  text-align: center;
+}
+.pname-toggle {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 2px;
+  font-size: 12px;
+  line-height: 1;
+}
+.pname-toggle:hover {
+  color: var(--ink);
+}
+.pname {
+  grid-column: 2 / -1;
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.pnl-name {
+  grid-column: 2 / -1;
+  justify-self: start;
+  font-size: 12px;
+  color: var(--ink);
+}
+@media (max-width: 520px) {
+  .numbered .pnl {
+    grid-template-columns: 28px minmax(0, 1fr) 10px minmax(0, 1fr) 46px 42px 28px 28px;
+  }
+}

@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.197": "Plater nummereres når det er flere, med en liten pil for å gi dem et navn. «Fyll» gjelder nå en platelinje (nummer eller navn): fyll dens siste plate i planen, alle platene eller en ny. Prosjekter: et prosjekt lagret med en importert fil før 1.9.6 åpnes igjen, og åpning av et prosjekt feiler ikke lenger når planen som ble vist hadde flere deler.",
   "news.196": "Lås: hver plate i planen kan låses; delene flytter seg ikke lenger, og nye deler (en annen fil, et høyere antall) går først i hullene. Fyll: en del kan fylle alt som er igjen på valgt plate eller en ny. Prosjekter: et prosjekt med en importert fil kan åpnes igjen.",
   "news.195": "Rettelser etter en full gjennomgang: vinduene Prosjekter, Innstillinger og Snarveier holder tastaturet inne og gir det tilbake til riktig knapp når de lukkes; en plate uten mål markeres tydelig; en fil i et annet format (for eksempel et bilde) meldes som «formatet ble ikke gjenkjent»; et materiale med mål null eller negativt lagres ikke lenger i det stille; «Anslått kuttetid» nevner ikke lenger freseren når ingenting er plassert.",
   "news.194": "Import: når delene i en tegning griper inn i hverandre, blir hver indre strek på sin egen del (den følger ikke lenger med nabodelen).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Plater er låst: lås dem opp i planen for å endre avstand eller marg.",
   "lock.ask": "Denne delen ligger på {n} låst(e) plate(r). Låse opp for å endre den?",
   "piece.fillNone": "Fast antall",
-  "piece.fillSheet": "Fyll plate {n}",
-  "piece.fillNew": "Fyll en ny plate",
+  "piece.fillNew": "{p}: fyll en ny plate",
   "piece.fillLbl": "Antall av del {n}: fast antall eller fyll en plate",
   "piece.filled": "{n} plassert som fyll",
-  "piece.fillNoRoom": "Ingen ledig plass igjen å fylle."
+  "piece.fillNoRoom": "Ingen ledig plass igjen å fylle.",
+  "panel.name": "Platens navn",
+  "panel.nameToggle": "Gi plate {n} et navn",
+  "panel.namePh": "Restplate kryssfiner 18, bjørk…",
+  "piece.fillLast": "{p}: fyll den siste platen",
+  "piece.fillAll": "{p}: fyll alle platene"
 }

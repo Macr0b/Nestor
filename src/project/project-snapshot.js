@@ -92,6 +92,17 @@ function cleanPoint(p) {
     : null;
 }
 
+// « Remplir » : ligne de panneau visée et façon (le dernier panneau de la ligne, tous, ou un nouveau) ;
+// les projets de la 1.9.6 gardaient un numéro de panneau du plan ou "new" : la première ligne, le dernier ou un nouveau
+function cleanFill(fill) {
+  if (fill === "new") return { row: 0, how: "new" };
+  if (Number.isInteger(fill) && fill >= 1) return { row: 0, how: "last" };
+  var f = plainObject(fill);
+  if (!f || !Number.isInteger(f.row) || f.row < 0 || f.row > 999 || !["last", "all", "new"].includes(f.how))
+    return null;
+  return { row: f.row, how: f.how };
+}
+
 function cleanType(raw, budget) {
   var t = plainObject(raw);
   if (!t) return null;
@@ -121,7 +132,8 @@ function cleanType(raw, budget) {
   };
   if (typeof t.fid === "number" && isFinite(t.fid)) type.fid = Math.floor(t.fid);
   if (Number.isInteger(t.uid) && t.uid > 0) type.uid = t.uid;
-  if (t.fill === "new" || (Number.isInteger(t.fill) && t.fill >= 1 && t.fill <= 999)) type.fill = t.fill;
+  var fill = cleanFill(t.fill);
+  if (fill) type.fill = fill;
   if (t.copy === true) type.copy = true;
   if (t.manual === true) type.manual = true;
   if (t.on === false) type.on = false;
@@ -192,6 +204,7 @@ function cleanPanel(raw) {
   };
   if (ORIGINS.includes(p.origin)) panel.origin = p.origin;
   if (p.fromMaterial === true) panel.fromMaterial = true;
+  if (typeof p.name === "string" && p.name) panel.name = str(p.name, 60);
   return panel;
 }
 

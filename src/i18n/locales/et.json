@@ -188,6 +188,7 @@
   "calc.cancelled": "Arvutus tühistati.",
   "calc.many": "{n} detaili paigutamiseks: see võib aega võtta.",
   "news.121": "Kogused pole enam 500-ga piiratud, liiga suured detailid märgitakse kohe ja pika arvutuse ajal ilmub nupp Tühista.",
+  "news.197": "Plaadid on nummerdatud, kui neid on mitu, ja väikese noolega saab neile nime anda. „Täida“ sihib nüüd plaadirida (numbrit või nime): täida selle viimane plaat plaanis, kõik selle plaadid või uus. Projektid: enne 1.9.6 imporditud failiga salvestatud projekt avaneb jälle ja projekti avamine ei ebaõnnestu enam, kui eelmises plaanis oli rohkem detaile.",
   "news.196": "Lukk: plaani iga plaadi saab lukustada; selle detailid enam ei liigu ja uued detailid (teine fail, suurem kogus) lähevad esmalt selle tühimikesse. Täida: detail võib täita kõik, mis valitud või uuel plaadil alles on. Projektid: imporditud failiga projekt avaneb jälle.",
   "news.195": "Parandused pärast põhjalikku ülevaatust: aknad Projektid, Seaded ja Kiirklahvid hoiavad klaviatuuri sees ja annavad selle sulgemisel õigele nupule tagasi; mõõtudeta plaat märgitakse selgelt; muus vormingus fail (näiteks pilt) märgitakse kui „vormingut ei tuntud ära“; nulli või negatiivse mõõduga materjali enam vaikselt ei salvestata; „Hinnanguline lõikeaeg“ ei räägi enam freesist, kui midagi pole paigutatud.",
   "news.194": "Import: kui joonise detailid on üksteise sees, jääb iga sisejoon oma detailile (naaberdetail ei vii seda enam kaasa).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Mõned plaadid on lukus: ava need plaanis, et vahet või äärist muuta.",
   "lock.ask": "See detail on {n} lukus plaadil. Kas avada lukk, et seda muuta?",
   "piece.fillNone": "Kindel arv",
-  "piece.fillSheet": "Täida plaat {n}",
-  "piece.fillNew": "Täida uus plaat",
+  "piece.fillNew": "{p}: täida uus plaat",
   "piece.fillLbl": "Detaili {n} kogus: kindel arv või plaadi täitmine",
   "piece.filled": "{n} paigutatud täiteks",
-  "piece.fillNoRoom": "Täitmiseks pole enam vaba ruumi."
+  "piece.fillNoRoom": "Täitmiseks pole enam vaba ruumi.",
+  "panel.name": "Plaadi nimi",
+  "panel.nameToggle": "Anna plaadile {n} nimi",
+  "panel.namePh": "Jääk vineer 18, kask…",
+  "piece.fillLast": "{p}: täida viimane plaat",
+  "piece.fillAll": "{p}: täida kõik plaadid"
 }

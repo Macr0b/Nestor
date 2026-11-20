@@ -188,6 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
+  "news.197": "Plāksnes tiek numurētas, ja to ir vairākas, un ar mazu bultiņu tām var dot nosaukumu. “Aizpildīt” tagad attiecas uz plāksnes rindu (numuru vai nosaukumu): aizpildīt tās pēdējo plāksni plānā, visas tās plāksnes vai jaunu. Projekti: projekts, kas saglabāts ar importētu failu pirms 1.9.6, atkal atveras, un projekta atvēršana vairs neizgāžas, ja iepriekšējā plānā bija vairāk detaļu.",
   "news.196": "Slēdzene: katru plāna plāksni var nofiksēt; tās detaļas vairs nekustas, un jaunās (cits fails, lielāks daudzums) vispirms iet tās caurumos. Aizpildīt: detaļa var aizpildīt visu, kas atlicis uz izvēlētās vai jaunas plāksnes. Projekti: projekts ar importētu failu atkal atveras.",
   "news.195": "Labojumi pēc pilnas pārskatīšanas: logi Projekti, Iestatījumi un Īsinājumtaustiņi notur tastatūru iekšā un aizverot atdod to pareizajai pogai; plāksne bez izmēriem tiek skaidri atzīmēta; cita formāta fails (piemēram, attēls) tiek norādīts kā “formāts nav atpazīts”; materiāls ar nulles vai negatīvu izmēru vairs netiek klusi saglabāts; “Paredzamā griešana” vairs nepiemin frēzi, ja nekas nav izvietots.",
   "news.194": "Imports: ja zīmējuma detaļas ieķeras viena otrā, katra iekšējā līnija paliek uz savas detaļas (kaimiņdetaļa to vairs nepaņem līdzi).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Dažas plāksnes ir nofiksētas: atbrīvo tās plānā, lai mainītu atstarpi vai malu.",
   "lock.ask": "Šī detaļa ir uz {n} nofiksētām plāksnēm. Atbrīvot, lai to mainītu?",
   "piece.fillNone": "Fiksēts skaits",
-  "piece.fillSheet": "Aizpildīt plāksni {n}",
-  "piece.fillNew": "Aizpildīt jaunu plāksni",
+  "piece.fillNew": "{p}: aizpildīt jaunu plāksni",
   "piece.fillLbl": "Detaļas {n} daudzums: fiksēts skaits vai plāksnes aizpildīšana",
   "piece.filled": "{n} novietotas aizpildījumam",
-  "piece.fillNoRoom": "Vairs nav brīvas vietas, ko aizpildīt."
+  "piece.fillNoRoom": "Vairs nav brīvas vietas, ko aizpildīt.",
+  "panel.name": "Plāksnes nosaukums",
+  "panel.nameToggle": "Nosaukt plāksni {n}",
+  "panel.namePh": "Atgriezums saplāksnis 18, bērzs…",
+  "piece.fillLast": "{p}: aizpildīt pēdējo plāksni",
+  "piece.fillAll": "{p}: aizpildīt visas plāksnes"
 }

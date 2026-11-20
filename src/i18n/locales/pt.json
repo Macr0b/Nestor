@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.197": "As chapas são numeradas quando há várias, com uma pequena seta para lhes dar nome. «Encher» aponta agora para uma linha de chapa (número ou nome): encher a sua última chapa do plano, todas as suas chapas ou uma nova. Projetos: um projeto guardado com um ficheiro importado antes da 1.9.6 volta a abrir, e abrir um projeto já não falha quando o plano anterior tinha mais peças.",
   "news.196": "Cadeado: cada chapa do plano pode ser fixada; as suas peças deixam de se mover e as novas (outro ficheiro, mais quantidade) vão primeiro para os seus buracos. Encher: uma peça pode encher tudo o que resta na chapa escolhida ou numa nova. Projetos: um projeto com um ficheiro importado volta a abrir.",
   "news.195": "Correções após uma revisão completa: as janelas Projetos, Definições e Atalhos mantêm o teclado lá dentro e devolvem-no ao botão certo ao fechar; uma chapa sem medidas é assinalada claramente; um ficheiro noutro formato (uma imagem, por exemplo) é indicado como «formato não reconhecido»; um material com medida nula ou negativa já não é guardado em silêncio; «Corte estimado» já não fala da fresa quando nada está colocado.",
   "news.194": "Importação: quando as peças de um desenho se encaixam, cada traço interior fica na sua peça (já não é levado pela vizinha).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Há chapas fixadas: desbloqueia-as no plano para mudar o espaço ou a margem.",
   "lock.ask": "Esta peça está em {n} chapa(s) fixada(s). Desbloquear para a mudar?",
   "piece.fillNone": "Número fixo",
-  "piece.fillSheet": "Encher a chapa {n}",
-  "piece.fillNew": "Encher uma chapa nova",
+  "piece.fillNew": "{p}: encher uma chapa nova",
   "piece.fillLbl": "Quantidade da peça {n}: número fixo ou encher uma chapa",
   "piece.filled": "{n} colocada(s) a encher",
-  "piece.fillNoRoom": "Já não há espaço livre para encher."
+  "piece.fillNoRoom": "Já não há espaço livre para encher.",
+  "panel.name": "Nome da chapa",
+  "panel.nameToggle": "Dar nome à chapa {n}",
+  "panel.namePh": "Sobra contraplacado 18, bétula…",
+  "piece.fillLast": "{p}: encher a última chapa",
+  "piece.fillAll": "{p}: encher todas as chapas"
 }

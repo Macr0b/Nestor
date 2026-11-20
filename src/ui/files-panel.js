@@ -122,6 +122,26 @@ function showFileError(message) {
 
 const dropZone = byId("drop");
 
+/* Projet enregistré avant la 1.9.6 : la taille du dessin de ses fichiers manque. On relit chaque fichier gardé dans
+   le projet pour la retrouver (sauf si ses unités avaient été choisies à la main : on ne les connaît plus). */
+export function restoreFileSizes() {
+  (state.files || []).forEach(function (f) {
+    var info = f.info || (f.info = {});
+    if (Array.isArray(info.size) || info.how === "how.manual") return;
+    parseImportedFile(f.name, f.data, "auto")
+      .then(function (r) {
+        info.size = r.info.size;
+        if (!info.kind) info.kind = r.info.kind;
+        if (info.n == null) info.n = r.info.n;
+        if (!info.how) info.how = r.info.how;
+        renderFileInfo();
+      })
+      .catch(function () {
+        // fichier illisible : la fiche reste sans taille, le projet s'ouvre quand même
+      });
+  });
+}
+
 export function renderFileInfo() {
   var box = byId("fileInfo");
   byId("addWrap").hidden = !!state.example || !(state.files && state.files.length);
@@ -136,7 +156,7 @@ export function renderFileInfo() {
   }
   var html = [];
   (state.files || []).forEach(function (f) {
-    var i = f.info;
+    var i = f.info || {};
     html.push(
       '<div class="fline"><div class="ftop"><span class="fn">' +
         escapeHtml(f.name) +
@@ -150,19 +170,21 @@ export function renderFileInfo() {
         escapeHtml(f.name) +
         '">×</button></div>'
     );
-    html.push(
-      "<span>" +
-        escapeHtml(
-          translate("file.summary", {
-            kind: i.kind,
-            w: showLength(i.size[0]),
-            h: showLength(i.size[1]),
-            n: i.n,
-            how: translate(i.how)
-          })
-        ) +
-        "</span>"
-    );
+    // taille du dessin absente (projet enregistré avant la 1.9.6) : la ligne attend qu'elle soit recalculée
+    if (Array.isArray(i.size))
+      html.push(
+        "<span>" +
+          escapeHtml(
+            translate("file.summary", {
+              kind: i.kind,
+              w: showLength(i.size[0]),
+              h: showLength(i.size[1]),
+              n: i.n,
+              how: translate(i.how)
+            })
+          ) +
+          "</span>"
+      );
     if (i.frame) html.push('<span class="hint">' + escapeHtml(translate("file.frame")) + "</span>");
     var w = i.warn || {},
       ws = [];

@@ -188,6 +188,7 @@
   "calc.cancelled": "Hætt var við útreikning.",
   "calc.many": "{n} hlutum á að raða: það getur tekið tíma.",
   "news.121": "Magn er ekki lengur takmarkað við 500, of stórir hlutar eru tilkynntir strax og hnappurinn Hætta við birtist í löngum útreikningi.",
+  "news.197": "Plötur eru númeraðar þegar þær eru fleiri en ein, með lítilli ör til að gefa þeim heiti. „Fylla“ beinist nú að plötulínu (númeri eða heiti): fylla síðustu plötu hennar í planinu, allar plötur hennar eða nýja. Verkefni: verkefni vistað með innfluttri skrá fyrir 1.9.6 opnast aftur, og opnun verkefnis bregst ekki lengur þegar planið á undan hafði fleiri hluti.",
   "news.196": "Lás: hverja plötu plansins má festa; hlutar hennar hreyfast ekki lengur og nýir hlutar (önnur skrá, meiri fjöldi) fara fyrst í götin. Fylla: hluti getur fyllt allt sem eftir er á valinni plötu eða nýrri. Verkefni: verkefni með innfluttri skrá opnast aftur.",
   "news.195": "Lagfæringar eftir heildarskoðun: gluggarnir Verkefni, Stillingar og Flýtilyklar halda lyklaborðinu inni og skila því á réttan hnapp þegar þeir lokast; plata án mála er greinilega merkt; skrá á öðru sniði (til dæmis mynd) er sögð „snið ekki þekkt“; efni með mál núll eða neikvætt er ekki lengur vistað í hljóði; „Áætlaður skurðartími“ nefnir ekki lengur fræsitönnina þegar ekkert er sett.",
   "news.194": "Innflutningur: þegar hlutar teikningar grípa hver inn í annan helst hver innri lína á sínum hluta (nágrannahlutinn tekur hana ekki lengur með sér).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Plötur eru festar: losaðu þær í planinu til að breyta bili eða spássíu.",
   "lock.ask": "Þessi hluti er á {n} festri plötu/festum plötum. Losa til að breyta honum?",
   "piece.fillNone": "Föst tala",
-  "piece.fillSheet": "Fylla plötu {n}",
-  "piece.fillNew": "Fylla nýja plötu",
+  "piece.fillNew": "{p}: fylla nýja plötu",
   "piece.fillLbl": "Fjöldi hluta {n}: föst tala eða fylla plötu",
   "piece.filled": "{n} settir sem fylling",
-  "piece.fillNoRoom": "Ekkert laust pláss eftir til að fylla."
+  "piece.fillNoRoom": "Ekkert laust pláss eftir til að fylla.",
+  "panel.name": "Heiti plötu",
+  "panel.nameToggle": "Gefa plötu {n} heiti",
+  "panel.namePh": "Afgangur krossviður 18, birki…",
+  "piece.fillLast": "{p}: fylla síðustu plötuna",
+  "piece.fillAll": "{p}: fylla allar plötur"
 }

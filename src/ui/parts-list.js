@@ -10,6 +10,8 @@ import { session } from "../session.js";
 import { renderResult } from "./result-view.js";
 import { partThumbnail } from "./sheet-drawing.js";
 import { allowChangeOf } from "./lock-guard.js";
+import { panelList } from "../placement/origin.js";
+import { panelSizeLabel } from "./plan-summary.js";
 import { lockedCounts } from "../project/locks.js";
 import { markUnplacedParts } from "./unplaced-marks.js";
 import { byId, escapeHtml } from "../util/dom.js";
@@ -104,14 +106,27 @@ function renderSortMenu() {
     (state.sort === "layer" && !lay) || (state.sort === "src" && !hasSeveralFiles()) ? "file" : state.sort || "file";
 }
 
-/* Choix « Remplir » d'une pièce : nombre fixe, ou remplir le panneau n (ceux du dernier plan), ou un nouveau. */
+/* Nom d'une ligne de panneau dans les choix « Remplir » : son numéro (s'il y a plusieurs lignes), puis son nom ou
+   sa taille. */
+function panelRowLabel(row, rows) {
+  var p = state.sheet.panels[row],
+    spec = rows[row];
+  return (rows.length > 1 ? row + 1 + " · " : "") + (p && p.name ? p.name : panelSizeLabel(spec));
+}
+
+/* Choix « Remplir » d'une pièce : nombre fixe, ou pour chaque ligne de panneau, remplir son dernier panneau du plan,
+   tous ses panneaux, ou un nouveau. */
 export function fillOptions(type) {
-  var res = session.lastResult,
-    n = Math.max(res && res.sheets ? res.sheets.length : 0, type.fill >= 1 ? type.fill : 0, 1),
-    cur = type.fill == null ? "" : String(type.fill),
+  var rows = panelList(),
+    cur = type.fill ? type.fill.row + ":" + type.fill.how : "",
     opts = [["", translate("piece.fillNone")]];
-  for (var k = 1; k <= n; k++) opts.push([String(k), translate("piece.fillSheet", { n: k })]);
-  opts.push(["new", translate("piece.fillNew")]);
+  rows.forEach(function (spec, row) {
+    if (!(spec.L > 0 && spec.W > 0)) return;
+    var label = panelRowLabel(row, rows);
+    opts.push([row + ":last", translate("piece.fillLast", { p: label })]);
+    opts.push([row + ":all", translate("piece.fillAll", { p: label })]);
+    opts.push([row + ":new", translate("piece.fillNew", { p: label })]);
+  });
   return opts
     .map(function (o) {
       return '<option value="' + o[0] + '"' + (o[0] === cur ? " selected" : "") + ">" + escapeHtml(o[1]) + "</option>";
@@ -390,9 +405,9 @@ export function bindPartsList() {
     var t = state.types[+row.dataset.i];
     if (k === "fill") {
       // remplir un panneau : la quantité ne compte plus, le nombre posé s'affiche après le calcul
-      var v = e.target.value;
-      if (v === "") delete t.fill;
-      else t.fill = v === "new" ? "new" : Math.floor(parseNumber(v, 1));
+      var v = e.target.value.split(":");
+      if (v.length !== 2) delete t.fill;
+      else t.fill = { row: Math.floor(parseNumber(v[0], 0)), how: v[1] };
       row.querySelector("label.qty").hidden = !!t.fill;
       schedulePreferencesSave();
       scheduleCalculation();

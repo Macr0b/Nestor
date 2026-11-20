@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.197": "Skivor numreras när det finns flera, med en liten pil för att ge dem ett namn. ”Fyll” riktar sig nu mot en skivrad (nummer eller namn): fyll dess sista skiva i planen, alla dess skivor eller en ny. Projekt: ett projekt sparat med en importerad fil före 1.9.6 går att öppna igen, och att öppna ett projekt misslyckas inte längre när den visade planen hade fler delar.",
   "news.196": "Lås: varje skiva i planen kan låsas; dess delar flyttas inte mer och nya delar (en annan fil, ett högre antal) går först i dess hål. Fyll: en del kan fylla allt som är kvar på den valda skivan eller en ny. Projekt: ett projekt med en importerad fil går att öppna igen.",
   "news.195": "Rättelser efter en fullständig granskning: fönstren Projekt, Inställningar och Kortkommandon håller tangentbordet inne och lämnar tillbaka det till rätt knapp när de stängs; en skiva utan mått markeras tydligt; en fil i ett annat format (till exempel en bild) anges som ”formatet känns inte igen”; ett material med mått noll eller negativt sparas inte längre i tysthet; ”Uppskattad skärtid” nämner inte längre fräsen när inget är placerat.",
   "news.194": "Import: när delarna i en ritning griper in i varandra stannar varje inre linje på sin egen del (den följer inte längre med grannen).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Skivor är låsta: lås upp dem i planen för att ändra avstånd eller marginal.",
   "lock.ask": "Den här delen ligger på {n} låst(a) skiv(or). Lås upp för att ändra den?",
   "piece.fillNone": "Fast antal",
-  "piece.fillSheet": "Fyll skiva {n}",
-  "piece.fillNew": "Fyll en ny skiva",
+  "piece.fillNew": "{p}: fyll en ny skiva",
   "piece.fillLbl": "Antal av del {n}: fast antal eller fyll en skiva",
   "piece.filled": "{n} placerade som fyllnad",
-  "piece.fillNoRoom": "Inget ledigt utrymme kvar att fylla."
+  "piece.fillNoRoom": "Inget ledigt utrymme kvar att fylla.",
+  "panel.name": "Skivans namn",
+  "panel.nameToggle": "Namnge skiva {n}",
+  "panel.namePh": "Restbit plywood 18, björk…",
+  "piece.fillLast": "{p}: fyll den sista skivan",
+  "piece.fillAll": "{p}: fyll alla skivor"
 }

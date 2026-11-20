@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.197": "Panelet numërohen kur janë disa, me një shigjetë të vogël për t’u dhënë emër. “Mbush” tani synon një rresht paneli (numrin ose emrin): mbush panelin e tij të fundit në plan, të gjitha panelet e tij ose një të ri. Projektet: një projekt i ruajtur me skedar të importuar para 1.9.6 hapet sërish, dhe hapja e një projekti nuk dështon më kur plani i mëparshëm kishte më shumë pjesë.",
   "news.196": "Dryni: çdo panel i planit mund të fiksohet; pjesët e tij nuk lëvizin më dhe të rejat (një skedar tjetër, sasi më e madhe) shkojnë së pari në boshllëqet e tij. Mbush: një pjesë mund të mbushë gjithçka që mbetet në panelin e zgjedhur ose në një të ri. Projektet: një projekt me skedar të importuar hapet sërish.",
   "news.195": "Korrigjime pas një rishikimi të plotë: dritaret Projektet, Cilësimet dhe Shkurtoret e mbajnë tastierën brenda dhe ia kthejnë butonit të duhur kur mbyllen; një panel pa përmasa sinjalizohet qartë; një skedar në format tjetër (p.sh. një imazh) tregohet si “format i panjohur”; një material me përmasë zero ose negative nuk ruhet më në heshtje; “Prerja e vlerësuar” nuk flet më për frezën kur nuk është vendosur asgjë.",
   "news.194": "Importi: kur pjesët e një vizatimi futen në njëra-tjetrën, çdo vijë e brendshme mbetet në pjesën e vet (nuk e merr më fqinja).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Disa panele janë fiksuar: zhbllokoji në plan për të ndryshuar hapësirën ose kufirin.",
   "lock.ask": "Kjo pjesë është në {n} panel(e) të fiksuar(a). T’i zhbllokoj për ta ndryshuar?",
   "piece.fillNone": "Numër fiks",
-  "piece.fillSheet": "Mbush panelin {n}",
-  "piece.fillNew": "Mbush një panel të ri",
+  "piece.fillNew": "{p}: mbush një panel të ri",
   "piece.fillLbl": "Sasia e pjesës {n}: numër fiks ose mbushja e një paneli",
   "piece.filled": "{n} të vendosura si mbushje",
-  "piece.fillNoRoom": "Nuk ka më hapësirë të lirë për t’u mbushur."
+  "piece.fillNoRoom": "Nuk ka më hapësirë të lirë për t’u mbushur.",
+  "panel.name": "Emri i panelit",
+  "panel.nameToggle": "Emërto panelin {n}",
+  "panel.namePh": "Mbetje kompensatë 18, mështekën…",
+  "piece.fillLast": "{p}: mbush panelin e fundit",
+  "piece.fillAll": "{p}: mbush të gjitha panelet"
 }

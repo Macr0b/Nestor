@@ -188,6 +188,7 @@
   "calc.cancelled": "Cealaíodh an ríomh.",
   "calc.many": "{n} píosa le socrú: d’fhéadfadh sé seal a thógáil.",
   "news.121": "Níl teorainn 500 ar chainníochtaí a thuilleadh, tuairiscítear píosaí rómhóra láithreach, agus taispeántar cnaipe Cealaigh le linn ríomh fada.",
+  "news.197": "Uimhrítear na cláir nuair a bhíonn níos mó ná ceann amháin ann, le saighead bheag chun ainm a thabhairt orthu. Díríonn “Líon” anois ar líne chláir (a huimhir nó a hainm): líon a clár deiridh sa phlean, a cláir go léir, nó ceann nua. Tionscadail: osclaítear arís tionscadal a sábháladh le comhad iompórtáilte roimh 1.9.6, agus ní theipeann ar thionscadal a oscailt a thuilleadh nuair a bhí níos mó píosaí sa phlean roimhe.",
   "news.196": "Glas: is féidir gach clár den phlean a ghlasáil; ní bhogann a phíosaí a thuilleadh, agus téann píosaí nua (comhad eile, méid níos mó) isteach ina pholl ar dtús. Líon: is féidir le píosa gach a bhfuil fágtha ar an gclár roghnaithe nó ar chlár nua a líonadh. Tionscadail: osclaítear tionscadal le comhad iompórtáilte arís.",
   "news.195": "Ceartúcháin tar éis athbhreithniú iomlán: coinníonn na fuinneoga Tionscadail, Socruithe agus Aicearraí an méarchlár istigh agus tugann siad ar ais don chnaipe ceart é nuair a dhúntar iad; marcáiltear go soiléir clár gan tomhais; tuairiscítear comhad i bhformáid eile (íomhá, mar shampla) mar “formáid gan aithint”; ní shábháiltear ábhar le tomhas nialasach nó diúltach go ciúin a thuilleadh; ní luann “Gearradh measta” an gearrthóir a thuilleadh nuair nach bhfuil aon rud curtha.",
   "news.194": "Iompórtáil: nuair a théann píosaí líníochta isteach ina chéile, fanann gach líne istigh ar a píosa féin (ní thógann an píosa in aice léi í a thuilleadh).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Tá cláir ghlasáilte ann: díghlasáil sa phlean iad chun an spás nó an corrlach a athrú.",
   "lock.ask": "Tá an píosa seo ar {n} clár glasáilte. Iad a dhíghlasáil chun é a athrú?",
   "piece.fillNone": "Uimhir sheasta",
-  "piece.fillSheet": "Líon clár {n}",
-  "piece.fillNew": "Líon clár nua",
+  "piece.fillNew": "{p}: líon clár nua",
   "piece.fillLbl": "Méid phíosa {n}: uimhir sheasta nó clár a líonadh",
   "piece.filled": "{n} curtha mar líonadh",
-  "piece.fillNoRoom": "Níl spás saor fágtha le líonadh."
+  "piece.fillNoRoom": "Níl spás saor fágtha le líonadh.",
+  "panel.name": "Ainm an chláir",
+  "panel.nameToggle": "Tabhair ainm ar chlár {n}",
+  "panel.namePh": "Fuílleach sraithadhmad 18, beith…",
+  "piece.fillLast": "{p}: líon an clár deiridh",
+  "piece.fillAll": "{p}: líon na cláir go léir"
 }

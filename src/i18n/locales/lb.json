@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung ofgebrach.",
   "calc.many": "{n} Deeler ze placéieren: dat ka laang daueren.",
   "news.121": "D’Quantitéite sinn net méi op 500 limitéiert, ze grouss Deeler ginn direkt gemellt, an e Knäppchen Ofbriechen erschéngt bei laange Berechnungen.",
+  "news.197": "Placke ginn nummeréiert, wa vill do sinn, mat engem klenge Feil fir hinnen en Numm ze ginn. „Fëllen“ zielt elo op eng Plackenzeil (Nummer oder Numm): hir lescht Plack am Plang, all hir Placken oder eng nei fëllen. Projeten: e Projet, deen viru 1.9.6 mat engem importéierte Fichier gespäichert gouf, geet erëm op, an e Projet opzemaachen hält net méi, wann de Plang virdrun méi Deeler hat.",
   "news.196": "Schlass: all Plack vum Plang kann fixéiert ginn; hir Deeler beweegen sech net méi, an nei Deeler (en anere Fichier, eng méi grouss Unzuel) ginn als éischt an hir Lächer. Fëllen: en Deel kann alles fëllen, wat op der gewielter oder enger neier Plack iwwreg ass. Projeten: e Projet mat engem importéierte Fichier geet erëm op.",
   "news.195": "Korrekture no enger komplett Iwwerpréiwung: d’Fënstere Projeten, Astellungen a Tastekierzele behalen d’Tastatur dobannen a ginn se beim Zoumaachen dem richtege Knäppchen zeréck; eng Plack ouni Moossen gëtt kloer gemellt; e Fichier an engem anere Format (zum Beispill e Bild) gëtt als „Format net erkannt“ gemellt; e Material mat Mooss null oder negativ gëtt net méi roueg gespäichert; „Geschate Schneidzäit“ schwätzt net méi vum Fräser, wann näischt placéiert ass.",
   "news.194": "Import: wann d’Deeler vun enger Zeechnung anenee gräifen, bleift all bannenzeg Linn op hirem Deel (den Nopeschdeel hëlt se net méi mat).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Et si Placke fixéiert: gëff se am Plang fräi, fir den Ofstand oder de Rand z’änneren.",
   "lock.ask": "Dësen Deel ass op {n} fixéierter Plack(en). Fräiginn, fir en z’änneren?",
   "piece.fillNone": "Fest Zuel",
-  "piece.fillSheet": "Plack {n} fëllen",
-  "piece.fillNew": "Eng nei Plack fëllen",
+  "piece.fillNew": "{p}: nei Plack fëllen",
   "piece.fillLbl": "Unzuel vum Deel {n}: fest Zuel oder eng Plack fëllen",
   "piece.filled": "{n} als Fëllung placéiert",
-  "piece.fillNoRoom": "Keng fräi Plaz méi fir ze fëllen."
+  "piece.fillNoRoom": "Keng fräi Plaz méi fir ze fëllen.",
+  "panel.name": "Numm vun der Plack",
+  "panel.nameToggle": "Plack {n} benennen",
+  "panel.namePh": "Reschtstéck Sperrholz 18, Bierk…",
+  "piece.fillLast": "{p}: lescht Plack fëllen",
+  "piece.fillAll": "{p}: all Placke fëllen"
 }

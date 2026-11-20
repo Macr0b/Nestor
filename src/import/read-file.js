@@ -18,10 +18,10 @@ import { state } from "../project/state.js";
 import { fileErrors } from "../ui/files-panel.js";
 import { byId } from "../util/dom.js";
 
-export async function parseImportedFile(name, data) {
-  var unit = byId("unitSel").value,
-    res,
-    kind;
+// unit : unités du fichier (par défaut le choix « Unités du fichier »)
+export async function parseImportedFile(name, data, unit) {
+  unit = unit || byId("unitSel").value;
+  var res, kind;
   var bytes = new Uint8Array(data),
     head = String.fromCharCode.apply(null, bytes.subarray(0, 1024));
   if (bytes[0] === 0x1f && bytes[1] === 0x8b) {

@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušený.",
   "calc.many": "{n} dielov na rozmiestnenie: môže to chvíľu trvať.",
   "news.121": "Množstvá už nie sú obmedzené na 500, príliš veľké diely sa ohlásia hneď a pri dlhom výpočte sa objaví tlačidlo Zrušiť.",
+  "news.197": "Dosky sa číslujú, keď ich je viac, a malou šípkou im možno dať názov. „Vyplniť“ teraz mieri na riadok dosky (číslo alebo názov): vyplniť jej poslednú dosku v pláne, všetky jej dosky alebo novú. Projekty: projekt uložený s importovaným súborom pred 1.9.6 sa opäť otvorí a otvorenie projektu už nezlyhá, keď mal predchádzajúci plán viac dielcov.",
   "news.196": "Zámok: každú dosku plánu možno zamknúť; jej dielce sa už nehýbu a nové dielce (ďalší súbor, vyšší počet) idú najprv do jej medzier. Vyplniť: dielec môže vyplniť všetko, čo zostáva na zvolenej alebo novej doske. Projekty: projekt s importovaným súborom sa opäť otvorí.",
   "news.195": "Opravy po úplnej kontrole: okná Projekty, Nastavenia a Klávesové skratky držia klávesnicu vnútri a po zatvorení ju vrátia správnemu tlačidlu; doska bez rozmerov je jasne ohlásená; súbor v inom formáte (napríklad obrázok) je ohlásený ako „nerozpoznaný formát“; materiál s nulovým alebo záporným rozmerom sa už potichu neuloží; „Odhadovaný čas rezania“ už nespomína frézu, keď nie je nič rozmiestnené.",
   "news.194": "Import: keď do seba dielce výkresu zapadajú, každá vnútorná čiara zostane na svojom dielci (už ju neodnesie susedný).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Niektoré dosky sú zamknuté: odomkni ich v pláne, ak chceš zmeniť medzeru alebo okraj.",
   "lock.ask": "Tento dielec je na {n} zamknutej(-ých) doske(-ách). Odomknúť, aby sa dal zmeniť?",
   "piece.fillNone": "Pevný počet",
-  "piece.fillSheet": "Vyplniť dosku {n}",
-  "piece.fillNew": "Vyplniť novú dosku",
+  "piece.fillNew": "{p}: vyplniť novú dosku",
   "piece.fillLbl": "Množstvo dielca {n}: pevný počet alebo vyplnenie dosky",
   "piece.filled": "{n} rozmiestnených ako výplň",
-  "piece.fillNoRoom": "Už nezostáva voľné miesto na vyplnenie."
+  "piece.fillNoRoom": "Už nezostáva voľné miesto na vyplnenie.",
+  "panel.name": "Názov dosky",
+  "panel.nameToggle": "Pomenovať dosku {n}",
+  "panel.namePh": "Odrezok preglejka 18, breza…",
+  "piece.fillLast": "{p}: vyplniť poslednú dosku",
+  "piece.fillAll": "{p}: vyplniť všetky dosky"
 }

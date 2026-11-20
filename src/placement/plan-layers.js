@@ -15,11 +15,10 @@ import { parseNumber } from "../util/numbers.js";
 // au plus autant de copies par remplissage (garde-fou contre une pièce minuscule sur un grand panneau)
 const MAX_FILL = 5000;
 
-/* Panneau visé par une pièce réglée sur « Remplir » : numéro de panneau (1, 2…) ou "new" ; null sinon. */
+/* Réglage « Remplir » d'une pièce : { row: ligne de panneau, how: "last" | "all" | "new" }, ou null. */
 export function fillTarget(type) {
-  if (!type || type.on === false) return null;
-  if (type.fill === "new") return "new";
-  return type.fill >= 1 ? Math.floor(type.fill) : null;
+  var f = type && type.on !== false && type.fill;
+  return f && f.row >= 0 && ["last", "all", "new"].includes(f.how) ? f : null;
 }
 
 function count(res) {
@@ -133,55 +132,57 @@ export function computePlan() {
     });
 }
 
-/* Remplissage, pièce par pièce dans l'ordre de la liste : sur le panneau choisi s'il existe, sinon sur un
-   nouveau panneau (première ligne qui a encore du stock). */
+/* Remplissage, pièce par pièce dans l'ordre de la liste, sur la ligne de panneau choisie : son dernier panneau du
+   plan, tous ses panneaux, ou un nouveau panneau de cette ligne (aussi quand la ligne n'est pas encore utilisée). */
 function fillSheets(plan, rect) {
   var chain = Promise.resolve();
   state.types.forEach(function (t, i) {
     var target = fillTarget(t);
     if (!target) return;
     chain = chain.then(function () {
-      var sheet = target !== "new" ? plan.sheets[target - 1] : null,
-        fresh = false;
-      if (!sheet) {
-        var pi = freePanelRow(plan);
-        if (pi < 0) return;
-        var spec = panelList()[pi];
-        sheet = { pi: pi, L: spec.L, W: spec.W, o: panelOrigin(pi), parts: [] };
-        fresh = true;
+      var spec = panelList()[target.row];
+      if (!spec || !(spec.L > 0 && spec.W > 0)) return;
+      var ofRow = plan.sheets.filter(function (s) {
+          return s.pi === target.row;
+        }),
+        sheets = target.how === "all" ? ofRow : target.how === "last" && ofRow.length ? ofRow.slice(-1) : [];
+      if (!sheets.length) {
+        // nouveau panneau de cette ligne, s'il en reste en stock
+        if (spec.qty >= 0 && ofRow.length >= spec.qty) return;
+        sheets = [{ pi: target.row, L: spec.L, W: spec.W, o: panelOrigin(target.row), parts: [], fresh: true }];
       }
-      // copies à essayer : de quoi couvrir la zone utile (le moteur s'arrête dès qu'une copie ne trouve plus de place)
-      var part = scaledPart(t),
-        margin = parseNumber(state.sheet.margin, 0),
-        room = Math.max(0, sheet.L - 2 * margin) * Math.max(0, sheet.W - 2 * margin),
-        copies = Math.min(MAX_FILL, Math.ceil(room / Math.max(1, part.w * part.h)) + 1),
-        only = state.types.map(function (u, j) {
-          return j === i ? copies : 0;
+      var inner = Promise.resolve();
+      sheets.forEach(function (sheet) {
+        inner = inner.then(function () {
+          return fillOne(plan, sheet, t, i, rect);
         });
-      return inPlace([sheet], only, rect).then(function (r) {
-        var added = r.sheets[0] ? r.sheets[0].parts : [];
-        if (!added.length) return;
-        sheet.parts = sheet.parts.concat(added);
-        if (fresh) plan.sheets.push(sheet);
-        plan.filled[i] = (plan.filled[i] || 0) + added.length;
-        plan.count += added.length;
-        plan.total += added.length;
       });
+      return inner;
     });
   });
   return chain;
 }
 
-// première ligne de panneau qui peut encore donner un panneau (stock illimité, ou pas encore épuisé par le plan)
-function freePanelRow(plan) {
-  var specs = panelList();
-  for (var pi = 0; pi < specs.length; pi++) {
-    var p = specs[pi];
-    if (!(p.L > 0 && p.W > 0)) continue;
-    var taken = plan.sheets.filter(function (s) {
-      return s.pi === pi;
-    }).length;
-    if (p.qty < 0 || taken < p.qty) return pi;
-  }
-  return -1;
+// remplit un panneau avec les copies d'une pièce ; un panneau neuf n'entre dans le plan que s'il a reçu quelque chose
+function fillOne(plan, sheet, t, i, rect) {
+  // copies à essayer : de quoi couvrir la zone utile (le moteur s'arrête dès qu'une copie ne trouve plus de place)
+  var part = scaledPart(t),
+    margin = parseNumber(state.sheet.margin, 0),
+    room = Math.max(0, sheet.L - 2 * margin) * Math.max(0, sheet.W - 2 * margin),
+    copies = Math.min(MAX_FILL, Math.ceil(room / Math.max(1, part.w * part.h)) + 1),
+    only = state.types.map(function (u, j) {
+      return j === i ? copies : 0;
+    });
+  return inPlace([sheet], only, rect).then(function (r) {
+    var added = r.sheets[0] ? r.sheets[0].parts : [];
+    if (!added.length) return;
+    sheet.parts = sheet.parts.concat(added);
+    if (sheet.fresh) {
+      delete sheet.fresh;
+      plan.sheets.push(sheet);
+    }
+    plan.filled[i] = (plan.filled[i] || 0) + added.length;
+    plan.count += added.length;
+    plan.total += added.length;
+  });
 }

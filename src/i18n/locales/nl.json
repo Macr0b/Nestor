@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.197": "Platen worden genummerd als er meerdere zijn, met een pijltje om ze een naam te geven. ‘Vullen’ richt zich nu op een plaatregel (nummer of naam): de laatste plaat ervan in het plan, al haar platen of een nieuwe vullen. Projecten: een project dat vóór 1.9.6 met een geïmporteerd bestand is opgeslagen, opent weer, en een project openen mislukt niet meer als het vorige plan meer onderdelen had.",
   "news.196": "Slot: elke plaat van het plan kan vastgezet worden; de onderdelen bewegen niet meer en nieuwe onderdelen (een ander bestand, een groter aantal) gaan eerst in de gaten. Vullen: een onderdeel kan alles vullen wat op de gekozen plaat of een nieuwe plaat over is. Projecten: een project met een geïmporteerd bestand opent weer.",
   "news.195": "Correcties na een volledige controle: de vensters Projecten, Instellingen en Sneltoetsen houden het toetsenbord binnen en geven het bij sluiten terug aan de juiste knop; een plaat zonder maten wordt duidelijk gemeld; een bestand in een ander formaat (bijvoorbeeld een afbeelding) wordt gemeld als ‘formaat niet herkend’; een materiaal met maat nul of negatief wordt niet meer stilzwijgend opgeslagen; ‘Geschatte snijtijd’ noemt de frees niet meer als er niets geplaatst is.",
   "news.194": "Import: als de onderdelen van een tekening in elkaar grijpen, blijft elke binnenlijn op zijn eigen onderdeel (het buuronderdeel neemt hem niet meer mee).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Er zijn vastgezette platen: geef ze vrij in het plan om afstand of marge te wijzigen.",
   "lock.ask": "Dit onderdeel ligt op {n} vastgezette pla(a)t(en). Vrijgeven om het te wijzigen?",
   "piece.fillNone": "Vast aantal",
-  "piece.fillSheet": "Plaat {n} vullen",
-  "piece.fillNew": "Een nieuwe plaat vullen",
+  "piece.fillNew": "{p}: een nieuwe plaat vullen",
   "piece.fillLbl": "Aantal van onderdeel {n}: vast aantal of een plaat vullen",
   "piece.filled": "{n} geplaatst als vulling",
-  "piece.fillNoRoom": "Geen vrije ruimte meer om te vullen."
+  "piece.fillNoRoom": "Geen vrije ruimte meer om te vullen.",
+  "panel.name": "Naam van de plaat",
+  "panel.nameToggle": "Plaat {n} een naam geven",
+  "panel.namePh": "Restplaat multiplex 18, berken…",
+  "piece.fillLast": "{p}: de laatste plaat vullen",
+  "piece.fillAll": "{p}: alle platen vullen"
 }

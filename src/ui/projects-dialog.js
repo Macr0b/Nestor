@@ -20,9 +20,10 @@ import {
 } from "../project/project-snapshot.js";
 import { deleteProject, listProjects, newProjectId, readProject, storeProject } from "../project/projects-store.js";
 import { state } from "../project/state.js";
+import { session } from "../session.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { applyCostSettings, costSettings } from "./cost-tab.js";
-import { syncFileIds } from "./files-panel.js";
+import { restoreFileSizes, syncFileIds } from "./files-panel.js";
 import { applyLaserSelection, laserSelection } from "./laser-tab.js";
 import { applyMillingSettings } from "./milling-tab.js";
 import { renderAll } from "./render-all.js";
@@ -66,6 +67,8 @@ function projectName() {
 
 /* Ouvre un projet dans l'appli : état, fichiers, options d'export, réglages des onglets, puis tout est redessiné. */
 function applySnapshot(snapshot, id) {
+  // l'ancien plan parle des pièces de l'ancien projet : il ne doit plus servir (Coût, repères…)
+  session.lastResult = null;
   state.id = id;
   state.name = snapshot.name;
   state.example = snapshot.example;
@@ -87,6 +90,7 @@ function applySnapshot(snapshot, id) {
   setProjectMaterial(snapshot.material, "projects");
   schedulePreferencesSave();
   renderAll();
+  restoreFileSizes();
   savedJson = JSON.stringify(currentSnapshot());
 }
 

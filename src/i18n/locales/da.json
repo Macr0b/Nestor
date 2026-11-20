@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
+  "news.197": "Plader nummereres, når der er flere, med en lille pil til at give dem et navn. „Fyld“ rammer nu en pladelinje (nummer eller navn): fyld dens sidste plade i planen, alle dens plader eller en ny. Projekter: et projekt gemt med en importeret fil før 1.9.6 åbner igen, og åbning af et projekt fejler ikke længere, når den viste plan havde flere dele.",
   "news.196": "Lås: hver plade i planen kan låses; dens dele flytter sig ikke mere, og nye dele (en anden fil, et højere antal) går først i dens huller. Fyld: en del kan fylde alt, hvad der er tilbage på den valgte plade eller en ny. Projekter: et projekt med en importeret fil kan åbnes igen.",
   "news.195": "Rettelser efter en fuld gennemgang: vinduerne Projekter, Indstillinger og Genveje holder tastaturet inde og giver det tilbage til den rigtige knap, når de lukkes; en plade uden mål markeres tydeligt; en fil i et andet format (f.eks. et billede) angives som „formatet blev ikke genkendt“; et materiale med mål nul eller negativt gemmes ikke længere i stilhed; „Anslået skæretid“ nævner ikke længere fræseren, når intet er placeret.",
   "news.194": "Import: når delene i en tegning griber ind i hinanden, bliver hver indre streg på sin egen del (den følger ikke længere med nabodelen).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Plader er låst: lås dem op i planen for at ændre afstand eller margen.",
   "lock.ask": "Denne del ligger på {n} låst(e) plade(r). Lås op for at ændre den?",
   "piece.fillNone": "Fast antal",
-  "piece.fillSheet": "Fyld plade {n}",
-  "piece.fillNew": "Fyld en ny plade",
+  "piece.fillNew": "{p}: fyld en ny plade",
   "piece.fillLbl": "Antal af del {n}: fast antal eller fyld en plade",
   "piece.filled": "{n} placeret som fyld",
-  "piece.fillNoRoom": "Ingen fri plads tilbage at fylde."
+  "piece.fillNoRoom": "Ingen fri plads tilbage at fylde.",
+  "panel.name": "Pladens navn",
+  "panel.nameToggle": "Navngiv plade {n}",
+  "panel.namePh": "Restplade krydsfiner 18, birk…",
+  "piece.fillLast": "{p}: fyld den sidste plade",
+  "piece.fillAll": "{p}: fyld alle plader"
 }

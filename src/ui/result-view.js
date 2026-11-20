@@ -193,13 +193,18 @@ export function drawResult(res) {
   alertWithLinks("res.noStock", partLinks("stock"));
   res.sheets.forEach(function (s, si) {
     var fr = s.free && s.free[0];
-    var meta =
-      panelSizeLabel(s) +
-      " · " +
-      translate("sheet.meta", { n: s.parts.length, u: formatNumber(Math.round((1000 * s.area) / (s.L * s.W)) / 10) }) +
-      (fr && fr.w >= 50 && fr.h >= 50
-        ? " · " + translate("sheet.free", { w: showLength(Math.floor(fr.w)), h: showLength(Math.floor(fr.h)) })
-        : "");
+    var rowName = state.sheet.panels[s.pi] && state.sheet.panels[s.pi].name,
+      meta =
+        (rowName ? rowName + " · " : "") +
+        panelSizeLabel(s) +
+        " · " +
+        translate("sheet.meta", {
+          n: s.parts.length,
+          u: formatNumber(Math.round((1000 * s.area) / (s.L * s.W)) / 10)
+        }) +
+        (fr && fr.w >= 50 && fr.h >= 50
+          ? " · " + translate("sheet.free", { w: showLength(Math.floor(fr.w)), h: showLength(Math.floor(fr.h)) })
+          : "");
     h.push(
       '<article class="sheet' +
         (s.locked ? " is-locked" : "") +

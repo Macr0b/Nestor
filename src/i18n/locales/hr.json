@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tijekom dugog izračuna pojavljuje se gumb Odustani.",
+  "news.197": "Ploče su numerirane kad ih ima više, s malom strelicom za davanje naziva. „Ispuni” sada cilja redak ploče (broj ili naziv): ispuni njezinu zadnju ploču u planu, sve njezine ploče ili novu. Projekti: projekt spremljen s uvezenom datotekom prije 1.9.6 ponovno se otvara, a otvaranje projekta više ne ne uspijeva kad je prethodni plan imao više dijelova.",
   "news.196": "Lokot: svaka se ploča plana može zaključati; njezini se dijelovi više ne pomiču, a novi dijelovi (druga datoteka, veća količina) idu prvo u njezine rupe. Ispuni: dio može ispuniti sve što ostaje na odabranoj ili novoj ploči. Projekti: projekt s uvezenom datotekom ponovno se otvara.",
   "news.195": "Ispravci nakon potpunog pregleda: prozori Projekti, Postavke i Prečaci drže tipkovnicu unutra i pri zatvaranju je vraćaju pravom gumbu; ploča bez mjera jasno je označena; datoteka u drugom formatu (npr. slika) prijavljuje se kao „format nije prepoznat”; materijal s nultom ili negativnom mjerom više se ne sprema tiho; „Procijenjeno rezanje” više ne spominje glodalo kad ništa nije postavljeno.",
   "news.194": "Uvoz: kad se dijelovi crteža uklapaju jedan u drugi, svaka unutarnja linija ostaje na svom dijelu (više je ne odnosi susjedni).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Neke su ploče zaključane: otključaj ih u planu da promijeniš razmak ili rub.",
   "lock.ask": "Ovaj je dio na {n} zaključanoj(-ih) ploči(-a). Otključati da ga promijeniš?",
   "piece.fillNone": "Fiksni broj",
-  "piece.fillSheet": "Ispuni ploču {n}",
-  "piece.fillNew": "Ispuni novu ploču",
+  "piece.fillNew": "{p}: ispuni novu ploču",
   "piece.fillLbl": "Količina dijela {n}: fiksni broj ili ispunjavanje ploče",
   "piece.filled": "{n} postavljeno kao ispuna",
-  "piece.fillNoRoom": "Nema više slobodnog mjesta za ispunu."
+  "piece.fillNoRoom": "Nema više slobodnog mjesta za ispunu.",
+  "panel.name": "Naziv ploče",
+  "panel.nameToggle": "Imenuj ploču {n}",
+  "panel.namePh": "Ostatak šperploča 18, breza…",
+  "piece.fillLast": "{p}: ispuni zadnju ploču",
+  "piece.fillAll": "{p}: ispuni sve ploče"
 }

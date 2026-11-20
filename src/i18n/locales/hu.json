@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.197": "A táblák számozva vannak, ha több van, és egy kis nyíllal nevet adhatsz nekik. A „Kitöltés” most egy táblasorra mutat (szám vagy név): a terv utolsó ilyen tábláját, az összeset vagy egy újat tölti ki. Projektek: az 1.9.6 előtt importált fájllal mentett projekt ismét megnyílik, és a megnyitás már nem hiúsul meg, ha az előző terv több alkatrészt tartalmazott.",
   "news.196": "Lakat: a terv minden táblája rögzíthető; az alkatrészei nem mozdulnak, az újak (másik fájl, nagyobb mennyiség) először a réseibe kerülnek. Kitöltés: egy alkatrész kitöltheti a választott vagy egy új táblán maradt teljes helyet. Projektek: az importált fájlt tartalmazó projekt ismét megnyílik.",
   "news.195": "Javítások egy teljes átnézés után: a Projektek, Beállítások és Billentyűparancsok ablak bent tartja a billentyűzetet, és bezáráskor a megfelelő gombra adja vissza; a méret nélküli tábla egyértelműen jelezve van; más formátumú fájl (például kép) „ismeretlen formátum”-ként jelenik meg; a nulla vagy negatív méretű anyag már nem mentődik csendben; a „Becsült vágási idő” már nem említi a marót, ha nincs semmi elhelyezve.",
   "news.194": "Import: ha egy rajz alkatrészei egymásba nyúlnak, minden belső vonal a saját alkatrészén marad (a szomszéd már nem viszi magával).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Vannak rögzített táblák: oldd fel őket a tervben a hézag vagy a szegély módosításához.",
   "lock.ask": "Ez az alkatrész {n} rögzített táblán van. Feloldod a módosításhoz?",
   "piece.fillNone": "Rögzített darabszám",
-  "piece.fillSheet": "{n}. tábla kitöltése",
-  "piece.fillNew": "Új tábla kitöltése",
+  "piece.fillNew": "{p}: új tábla kitöltése",
   "piece.fillLbl": "{n}. alkatrész mennyisége: rögzített szám vagy tábla kitöltése",
   "piece.filled": "{n} kitöltésként elhelyezve",
-  "piece.fillNoRoom": "Nincs több szabad hely a kitöltéshez."
+  "piece.fillNoRoom": "Nincs több szabad hely a kitöltéshez.",
+  "panel.name": "Tábla neve",
+  "panel.nameToggle": "{n}. tábla elnevezése",
+  "panel.namePh": "Maradék rétegelt lemez 18, nyír…",
+  "piece.fillLast": "{p}: utolsó tábla kitöltése",
+  "piece.fillAll": "{p}: összes tábla kitöltése"
 }

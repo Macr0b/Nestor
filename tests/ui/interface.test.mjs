@@ -370,7 +370,7 @@ describe("Interface", { skip }, () => {
     assert.deepEqual(after.sort(), before.slice().sort());
     assert.ok((await page.locator(".sheet:first-of-type .svg-piece:not(.locked)").count()) > 0);
     // remplir le panneau 1 avec la dernière pièce : le nombre posé s'affiche, la quantité disparaît
-    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "1");
+    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "0:last");
     await idle(page);
     assert.match(await page.textContent(`.trow[data-i="${last}"] .fillinfo`), /^\d+ posée\(s\) en remplissage$/);
     assert.ok(await page.isHidden(`.trow[data-i="${last}"] label.qty`));
@@ -396,12 +396,81 @@ describe("Interface", { skip }, () => {
       (await page.$$eval(".sheet:first-of-type .svg-piece.locked", (ps) => ps.map((p) => p.getAttribute("d")))).sort(),
       before.slice().sort()
     );
-    assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="fill"]`), "1");
+    assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="fill"]`), "0:last");
     // déverrouiller : tout redevient modifiable
     await page.click('[data-lock="0"]');
     await idle(page);
     assert.equal(await page.locator('[data-lock][aria-pressed="true"]').count(), 0);
     assert.ok(!(await page.isDisabled("#sG")));
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("panneaux numérotés et nommés ; « Remplir » vise une ligne de panneau, qui suit ses déplacements", async () => {
+    const page = await open();
+    // un seul panneau : ni numéro ni flèche
+    assert.equal(await page.isVisible('.pnl[data-i="0"] .pnum'), false);
+    await page.click("#btnAddPanel");
+    await page.fill("#pl1-L", "300");
+    await page.fill("#pl1-W", "200");
+    await page.fill("#pl1-q", "2");
+    await idle(page);
+    assert.deepEqual(await page.$$eval("#panels .pnum", (n) => n.map((x) => x.textContent)), ["1", "2"]);
+    // la flèche ouvre le champ du nom, et le curseur y va
+    await page.click('.pnl[data-i="1"] [data-act="name"]');
+    assert.equal(await page.getAttribute('.pnl[data-i="1"] [data-act="name"]', "aria-expanded"), "true");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "pl1-name");
+    await page.keyboard.type("Chute CP");
+    // la pièce 1 remplit tous les panneaux de la ligne 2 « Chute CP »
+    const options = await page.$$eval('.trow[data-i="0"] [data-k="fill"] option', (o) => o.map((x) => x.textContent));
+    assert.ok(options.includes("2 · Chute CP : remplir tous les panneaux"), options.join(" | "));
+    await page.selectOption('.trow[data-i="0"] [data-k="fill"]', "1:all");
+    await idle(page);
+    assert.match(await page.textContent('.trow[data-i="0"] .fillinfo'), /posée\(s\) en remplissage/);
+    assert.match(await page.textContent("#result"), /Chute CP · 300 × 200/);
+    // ↑ : « Chute CP » devient la ligne 1, et la pièce la vise toujours
+    await page.click('.pnl[data-i="1"] [data-act="up"]');
+    await idle(page);
+    assert.equal(await page.inputValue("#pl0-L"), "300");
+    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="fill"]'), "0:all");
+    assert.match(
+      await page.$eval('.trow[data-i="0"] [data-k="fill"]', (s) => s.selectedOptions[0].textContent),
+      /^1 · Chute CP : remplir tous les panneaux$/
+    );
+    // ligne retirée : la pièce revient à un nombre fixe
+    await page.click('.pnl[data-i="0"] [data-act="del"]');
+    await idle(page);
+    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="fill"]'), "");
+    assert.equal(await page.isVisible('.pnl[data-i="0"] .pnum'), false);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("projet enregistré avant la 1.9.6 (fichier sans taille de dessin) : il s'ouvre, la taille est recalculée", async () => {
+    const page = await open();
+    await page.setInputFiles("#fileIn", FIX("noms.dxf"));
+    await idle(page);
+    const summary = await page.textContent("#fileInfo");
+    await page.click("#btnProjects");
+    await page.click("#projSave");
+    await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    await page.click("#btnCloseProj");
+    // comme l'enregistrait l'ancienne version : la fiche du fichier a perdu sa taille
+    await page.evaluate(async () => {
+      const store = await import("/src/project/projects-store.js");
+      const [entry] = await store.listProjects();
+      const snapshot = await store.readProject(entry.id);
+      delete snapshot.files[0].info.size;
+      await store.storeProject(entry, snapshot);
+    });
+    await page.reload();
+    await idle(page);
+    await page.click("#btnProjects");
+    await page.click('#projList [data-act="open"]');
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+    await page.click("#btnCloseProj");
+    await page.waitForFunction((s) => document.querySelector("#fileInfo").textContent === s, summary);
+    assert.match(summary, /dessin de 190 × 90/);
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });

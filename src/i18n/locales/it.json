@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.197": "I pannelli sono numerati quando sono più d’uno, con una piccola freccia per dar loro un nome. «Riempi» ora punta a una riga di pannello (numero o nome): riempire il suo ultimo pannello del piano, tutti i suoi pannelli o uno nuovo. Progetti: un progetto salvato con un file importato prima della 1.9.6 si riapre, e aprire un progetto non fallisce più quando il piano mostrato prima aveva più pezzi.",
   "news.196": "Lucchetto: ogni pannello del piano può essere bloccato; i suoi pezzi non si spostano più e quelli nuovi (un altro file, una quantità maggiore) vanno prima nei suoi vuoti. Riempi: un pezzo può riempire tutto ciò che resta sul pannello scelto o su uno nuovo. Progetti: un progetto con un file importato si riapre di nuovo.",
   "news.195": "Correzioni dopo una revisione completa: le finestre Progetti, Impostazioni e Scorciatoie tengono la tastiera al loro interno e la restituiscono al pulsante giusto alla chiusura; un pannello senza misure è segnalato chiaramente; un file di un altro formato (un’immagine, per esempio) è indicato come «formato non riconosciuto»; un materiale con misura nulla o negativa non viene più salvato in silenzio; «Taglio stimato» non parla più della fresa quando non c’è nulla di posizionato.",
   "news.194": "Importazione: quando i pezzi di un disegno si incastrano, ogni tratto interno resta sul suo pezzo (non viene più portato via dal vicino).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Ci sono pannelli bloccati: sbloccali nel piano per cambiare spazio o margine.",
   "lock.ask": "Questo pezzo è su {n} pannello/i bloccato/i. Sbloccarli per cambiarlo?",
   "piece.fillNone": "Numero fisso",
-  "piece.fillSheet": "Riempi il pannello {n}",
-  "piece.fillNew": "Riempi un nuovo pannello",
+  "piece.fillNew": "{p}: riempi un nuovo pannello",
   "piece.fillLbl": "Quantità del pezzo {n}: numero fisso o riempire un pannello",
   "piece.filled": "{n} posizionati come riempimento",
-  "piece.fillNoRoom": "Non c’è più spazio libero da riempire."
+  "piece.fillNoRoom": "Non c’è più spazio libero da riempire.",
+  "panel.name": "Nome del pannello",
+  "panel.nameToggle": "Dai un nome al pannello {n}",
+  "panel.namePh": "Ritaglio multistrato 18, betulla…",
+  "piece.fillLast": "{p}: riempi l’ultimo pannello",
+  "piece.fillAll": "{p}: riempi tutti i pannelli"
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.197": "Platten werden nummeriert, wenn es mehrere gibt, mit einem kleinen Pfeil, um ihnen einen Namen zu geben. „Füllen“ zielt jetzt auf eine Plattenzeile (Nummer oder Name): ihre letzte Platte im Plan, alle ihre Platten oder eine neue füllen. Projekte: Ein vor 1.9.6 mit importierter Datei gespeichertes Projekt öffnet sich wieder, und das Öffnen eines Projekts scheitert nicht mehr, wenn der vorher angezeigte Plan mehr Teile hatte.",
   "news.196": "Fixieren: Jede Platte des Plans lässt sich fixieren; ihre Teile bewegen sich nicht mehr, und neue Teile (eine weitere Datei, eine höhere Menge) kommen zuerst in ihre Lücken. Füllen: Ein Teil kann alles füllen, was auf der gewählten Platte oder einer neuen Platte frei ist. Projekte: Ein Projekt mit importierter Datei lässt sich wieder öffnen.",
   "news.195": "Korrekturen nach einer vollständigen Prüfung: Die Fenster Projekte, Einstellungen und Tastenkürzel halten die Tastatur im Fenster und geben sie beim Schließen an die richtige Schaltfläche zurück; eine Platte ohne Maße wird klar gemeldet; eine Datei in einem anderen Format (z. B. ein Bild) wird als „Format nicht erkannt“ gemeldet; ein Material mit Maß null oder negativ wird nicht mehr stillschweigend gespeichert; „Geschätzte Schneidzeit“ erwähnt den Fräser nicht mehr, wenn nichts platziert ist.",
   "news.194": "Import: Wenn die Teile einer Zeichnung ineinandergreifen, bleibt jede innere Linie auf ihrem Teil (sie wird nicht mehr vom Nachbarteil mitgenommen).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Platten sind fixiert: Gib sie im Plan frei, um Abstand oder Rand zu ändern.",
   "lock.ask": "Dieses Teil liegt auf {n} fixierten Platte(n). Freigeben, um es zu ändern?",
   "piece.fillNone": "Feste Anzahl",
-  "piece.fillSheet": "Platte {n} füllen",
-  "piece.fillNew": "Neue Platte füllen",
+  "piece.fillNew": "{p}: neue Platte füllen",
   "piece.fillLbl": "Menge von Teil {n}: feste Anzahl oder eine Platte füllen",
   "piece.filled": "{n} als Füllung platziert",
-  "piece.fillNoRoom": "Kein freier Platz mehr zum Füllen."
+  "piece.fillNoRoom": "Kein freier Platz mehr zum Füllen.",
+  "panel.name": "Name der Platte",
+  "panel.nameToggle": "Platte {n} benennen",
+  "panel.namePh": "Reststück Sperrholz 18, Birke…",
+  "piece.fillLast": "{p}: letzte Platte füllen",
+  "piece.fillAll": "{p}: alle Platten füllen"
 }

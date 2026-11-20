@@ -83,8 +83,10 @@ describe("cadenas", () => {
 
   test("projet : cadenas, identifiants et remplissage gardés ; un cadenas abîmé est retiré en entier", () => {
     lockSheet({ pi: 0, L: 100, W: 50, o: "br", parts: [placed(0, 5), placed(1, 20)] });
-    state.types[2].fill = 2;
+    state.types[2].fill = { row: 0, how: "all" };
+    // réglages de la 1.9.6 (numéro de panneau du plan, "new") : lus comme la première ligne
     state.types[1].fill = "new";
+    state.types[0].fill = 3;
     const snap = cleanSnapshot({
       app: "Nestor",
       kind: "projet",
@@ -106,7 +108,11 @@ describe("cadenas", () => {
     );
     assert.deepEqual(
       snap.types.map((t) => t.fill),
-      [undefined, "new", 2]
+      [
+        { row: 0, how: "last" },
+        { row: 0, how: "new" },
+        { row: 0, how: "all" }
+      ]
     );
     assert.ok(snap.types.every((t, i) => t.uid === state.types[i].uid));
   });

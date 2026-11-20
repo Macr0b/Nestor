@@ -188,6 +188,7 @@
   "calc.cancelled": "Il-kalkolu ġie kkanċellat.",
   "calc.many": "{n} biċċiet x’tqiegħed: jista’ jieħu ftit ħin.",
   "news.121": "Il-kwantitajiet m’għadhomx limitati għal 500, il-biċċiet kbar wisq jiġu indikati mill-ewwel, u buttuna Ikkanċella tidher waqt kalkolu twil.",
+  "news.197": "Il-pannelli jiġu nnumerati meta jkunu aktar minn wieħed, bi vleġġa żgħira biex tagħtihom isem. “Imla” issa jimmira ringiela ta’ pannell (numru jew isem): imla l-aħħar pannell tagħha fil-pjan, il-pannelli kollha tagħha jew wieħed ġdid. Proġetti: proġett issejvjat b’fajl importat qabel 1.9.6 jerġa’ jinfetaħ, u l-ftuħ ta’ proġett ma jibqax ifalli meta l-pjan ta’ qabel kellu aktar biċċiet.",
   "news.196": "Katnazz: kull pannell tal-pjan jista’ jitwaħħal; il-biċċiet tiegħu ma jiċċaqilqux aktar u l-ġodda (fajl ieħor, kwantità akbar) imorru l-ewwel fit-toqob tiegħu. Imla: biċċa tista’ timla dak kollu li jifdal fuq il-pannell magħżul jew fuq wieħed ġdid. Proġetti: proġett b’fajl importat jerġa’ jinfetaħ.",
   "news.195": "Korrezzjonijiet wara reviżjoni sħiħa: it-twieqi Proġetti, Settings u Shortcuts iżommu t-tastiera ġewwa u jagħtuha lura lill-buttuna t-tajba meta jingħalqu; pannell mingħajr qisien jiġi indikat b’mod ċar; fajl ta’ format ieħor (pereżempju stampa) jiġi indikat bħala “format mhux magħruf”; materjal b’qies żero jew negattiv ma jibqax jiġi ssejvjat fis-skiet; “Qtugħ stmat” ma jibqax isemmi l-cutter meta xejn mhu mqiegħed.",
   "news.194": "Importazzjoni: meta l-biċċiet ta’ disinn jidħlu f’xulxin, kull linja ta’ ġewwa tibqa’ fuq il-biċċa tagħha (il-biċċa ħdejha ma tibqax teħodha).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Xi pannelli huma mwaħħla: ħollhom fil-pjan biex tibdel l-ispazju jew il-marġni.",
   "lock.ask": "Din il-biċċa tinsab fuq {n} pannell(i) imwaħħal(a). Tħollhom biex tibdilha?",
   "piece.fillNone": "Numru fiss",
-  "piece.fillSheet": "Imla l-pannell {n}",
-  "piece.fillNew": "Imla pannell ġdid",
+  "piece.fillNew": "{p}: imla pannell ġdid",
   "piece.fillLbl": "Kwantità tal-biċċa {n}: numru fiss jew timla pannell",
   "piece.filled": "{n} imqiegħda bħala mili",
-  "piece.fillNoRoom": "M’għadx fadal spazju ħieles biex jimtela."
+  "piece.fillNoRoom": "M’għadx fadal spazju ħieles biex jimtela.",
+  "panel.name": "Isem il-pannell",
+  "panel.nameToggle": "Semmi l-pannell {n}",
+  "panel.namePh": "Fdal plywood 18, betula…",
+  "piece.fillLast": "{p}: imla l-aħħar pannell",
+  "piece.fillAll": "{p}: imla l-pannelli kollha"
 }

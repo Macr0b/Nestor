@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul anulat.",
   "calc.many": "{n} piese de așezat: poate dura ceva timp.",
   "news.121": "Cantitățile nu mai sunt limitate la 500, piesele prea mari sunt semnalate imediat, iar în timpul unui calcul lung apare butonul Anulează.",
+  "news.197": "Panourile sunt numerotate când sunt mai multe, cu o săgeată mică pentru a le da un nume. „Umple” țintește acum un rând de panou (număr sau nume): umple ultimul lui panou din plan, toate panourile lui sau unul nou. Proiecte: un proiect salvat cu un fișier importat înainte de 1.9.6 se redeschide, iar deschiderea unui proiect nu mai eșuează când planul de dinainte avea mai multe piese.",
   "news.196": "Lacăt: fiecare panou din plan poate fi fixat; piesele lui nu se mai mută, iar cele noi (alt fișier, o cantitate mai mare) merg întâi în golurile lui. Umple: o piesă poate umple tot ce rămâne pe panoul ales sau pe unul nou. Proiecte: un proiect cu un fișier importat se redeschide.",
   "news.195": "Corecturi după o revizuire completă: ferestrele Proiecte, Setări și Scurtături țin tastatura înăuntru și o dau înapoi butonului potrivit la închidere; un panou fără dimensiuni e semnalat clar; un fișier în alt format (o imagine, de exemplu) e indicat ca „format nerecunoscut”; un material cu dimensiune nulă sau negativă nu mai e salvat pe tăcute; „Tăiere estimată” nu mai vorbește de freză când nu e nimic amplasat.",
   "news.194": "Import: când piesele unui desen se întrepătrund, fiecare linie interioară rămâne pe piesa ei (nu mai e luată de vecină).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Unele panouri sunt fixate: deblochează-le în plan ca să schimbi spațiul sau marginea.",
   "lock.ask": "Piesa e pe {n} panou(ri) fixat(e). Le deblochezi ca s-o schimbi?",
   "piece.fillNone": "Număr fix",
-  "piece.fillSheet": "Umple panoul {n}",
-  "piece.fillNew": "Umple un panou nou",
+  "piece.fillNew": "{p}: umple un panou nou",
   "piece.fillLbl": "Cantitatea piesei {n}: număr fix sau umplerea unui panou",
   "piece.filled": "{n} puse ca umplutură",
-  "piece.fillNoRoom": "Nu mai e loc liber de umplut."
+  "piece.fillNoRoom": "Nu mai e loc liber de umplut.",
+  "panel.name": "Numele panoului",
+  "panel.nameToggle": "Denumește panoul {n}",
+  "panel.namePh": "Rest placaj 18, mesteacăn…",
+  "piece.fillLast": "{p}: umple ultimul panou",
+  "piece.fillAll": "{p}: umple toate panourile"
 }

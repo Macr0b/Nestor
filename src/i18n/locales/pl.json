@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.197": "Płyty są numerowane, gdy jest ich kilka, z małą strzałką do nadania nazwy. „Wypełnij” wskazuje teraz wiersz płyty (numer lub nazwę): wypełnij jej ostatnią płytę w planie, wszystkie jej płyty albo nową. Projekty: projekt zapisany z zaimportowanym plikiem przed 1.9.6 znów się otwiera, a otwieranie projektu nie zawodzi, gdy poprzedni plan miał więcej elementów.",
   "news.196": "Kłódka: każdą płytę planu można zablokować; jej elementy już się nie przesuwają, a nowe (inny plik, większa ilość) trafiają najpierw w jej luki. Wypełnij: element może wypełnić całe wolne miejsce na wybranej lub nowej płycie. Projekty: projekt z zaimportowanym plikiem znów się otwiera.",
   "news.195": "Poprawki po pełnym przeglądzie: okna Projekty, Ustawienia i Skróty trzymają klawiaturę w środku i po zamknięciu oddają ją właściwemu przyciskowi; płyta bez wymiarów jest wyraźnie zgłaszana; plik w innym formacie (np. obraz) jest zgłaszany jako „nierozpoznany format”; materiał o wymiarze zerowym lub ujemnym nie jest już zapisywany po cichu; „Szacowany czas cięcia” nie wspomina już o frezie, gdy nic nie jest rozmieszczone.",
   "news.194": "Import: gdy elementy rysunku zachodzą na siebie, każda linia wewnętrzna zostaje na swoim elemencie (nie zabiera jej już sąsiedni).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Są zablokowane płyty: odblokuj je w planie, aby zmienić odstęp lub margines.",
   "lock.ask": "Ten element jest na {n} zablokowanej(-ych) płycie(-ach). Odblokować, aby go zmienić?",
   "piece.fillNone": "Stała liczba",
-  "piece.fillSheet": "Wypełnij płytę {n}",
-  "piece.fillNew": "Wypełnij nową płytę",
+  "piece.fillNew": "{p}: wypełnij nową płytę",
   "piece.fillLbl": "Ilość elementu {n}: stała liczba lub wypełnienie płyty",
   "piece.filled": "{n} rozmieszczonych jako wypełnienie",
-  "piece.fillNoRoom": "Nie ma już wolnego miejsca do wypełnienia."
+  "piece.fillNoRoom": "Nie ma już wolnego miejsca do wypełnienia.",
+  "panel.name": "Nazwa płyty",
+  "panel.nameToggle": "Nazwij płytę {n}",
+  "panel.namePh": "Ścinek sklejka 18, brzoza…",
+  "piece.fillLast": "{p}: wypełnij ostatnią płytę",
+  "piece.fillAll": "{p}: wypełnij wszystkie płyty"
 }

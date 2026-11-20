@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.197": "Los tableros se numeran cuando hay varios, con una flechita para darles nombre. «Llenar» apunta ahora a una fila de tablero (su número o su nombre): llenar su último tablero del plan, todos sus tableros o uno nuevo. Proyectos: un proyecto guardado con un archivo importado antes de la 1.9.6 vuelve a abrirse, y abrir un proyecto ya no falla cuando el plan anterior tenía más piezas.",
   "news.196": "Candado: cada tablero del plan se puede fijar; sus piezas ya no se mueven y las nuevas (otro archivo, más cantidad) van primero a sus huecos. Llenar: una pieza puede llenar todo lo que queda en el tablero elegido o en uno nuevo. Proyectos: un proyecto con un archivo importado vuelve a abrirse.",
   "news.195": "Correcciones tras una revisión completa: las ventanas Proyectos, Ajustes y Atajos mantienen el teclado dentro y lo devuelven al botón correcto al cerrarse; un tablero sin medidas se señala claramente; un archivo de otro formato (una imagen, por ejemplo) se indica como «formato no reconocido»; un material con una medida nula o negativa ya no se guarda en silencio; «Corte estimado» ya no habla de la fresa cuando no hay nada colocado.",
   "news.194": "Importación: cuando las piezas de un dibujo encajan entre sí, cada trazo interior se queda en su pieza (ya no se lo lleva la vecina).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Hay tableros fijados: desbloquéalos en el plan para cambiar el espacio o el margen.",
   "lock.ask": "Esta pieza está en {n} tablero(s) fijado(s). ¿Desbloquearlos para cambiarla?",
   "piece.fillNone": "Número fijo",
-  "piece.fillSheet": "Llenar el tablero {n}",
-  "piece.fillNew": "Llenar un tablero nuevo",
+  "piece.fillNew": "{p}: llenar un tablero nuevo",
   "piece.fillLbl": "Cantidad de la pieza {n}: número fijo o llenar un tablero",
   "piece.filled": "{n} colocada(s) de relleno",
-  "piece.fillNoRoom": "Ya no queda espacio libre para llenar."
+  "piece.fillNoRoom": "Ya no queda espacio libre para llenar.",
+  "panel.name": "Nombre del tablero",
+  "panel.nameToggle": "Dar nombre al tablero {n}",
+  "panel.namePh": "Retal contrachapado 18, abedul…",
+  "piece.fillLast": "{p}: llenar el último tablero",
+  "piece.fillAll": "{p}: llenar todos los tableros"
 }

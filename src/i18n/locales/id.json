@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.197": "Papan diberi nomor jika ada lebih dari satu, dengan panah kecil untuk memberi nama. “Isi” kini menuju baris papan (nomor atau nama): isi papan terakhirnya di rencana, semua papannya, atau papan baru. Proyek: proyek yang disimpan dengan berkas impor sebelum 1.9.6 bisa dibuka lagi, dan membuka proyek tidak lagi gagal saat rencana sebelumnya punya lebih banyak komponen.",
   "news.196": "Kunci: setiap papan dalam rencana dapat dikunci; komponennya tidak bergeser lagi, dan komponen baru (berkas lain, jumlah lebih banyak) masuk dulu ke celahnya. Isi: sebuah komponen dapat mengisi semua sisa ruang di papan yang dipilih atau papan baru. Proyek: proyek dengan berkas impor bisa dibuka lagi.",
   "news.195": "Perbaikan setelah peninjauan menyeluruh: jendela Proyek, Pengaturan, dan Pintasan menahan papan ketik di dalam dan mengembalikannya ke tombol yang tepat saat ditutup; papan tanpa ukuran ditandai dengan jelas; berkas berformat lain (misalnya gambar) dilaporkan sebagai “format tidak dikenali”; bahan dengan ukuran nol atau negatif tidak lagi disimpan diam-diam; “Perkiraan pemotongan” tidak lagi menyebut mata frais saat tidak ada yang ditempatkan.",
   "news.194": "Impor: saat komponen dalam gambar saling mengunci, setiap garis dalam tetap di komponennya sendiri (tidak lagi terbawa komponen sebelahnya).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Ada papan yang terkunci: buka kuncinya di rencana untuk mengubah jarak atau margin.",
   "lock.ask": "Komponen ini ada di {n} papan terkunci. Buka kuncinya untuk mengubahnya?",
   "piece.fillNone": "Jumlah tetap",
-  "piece.fillSheet": "Isi papan {n}",
-  "piece.fillNew": "Isi papan baru",
+  "piece.fillNew": "{p}: isi papan baru",
   "piece.fillLbl": "Jumlah komponen {n}: jumlah tetap atau mengisi papan",
   "piece.filled": "{n} ditempatkan sebagai pengisi",
-  "piece.fillNoRoom": "Tidak ada lagi ruang kosong untuk diisi."
+  "piece.fillNoRoom": "Tidak ada lagi ruang kosong untuk diisi.",
+  "panel.name": "Nama papan",
+  "panel.nameToggle": "Beri nama papan {n}",
+  "panel.namePh": "Sisa plywood 18, birch…",
+  "piece.fillLast": "{p}: isi papan terakhir",
+  "piece.fillAll": "{p}: isi semua papan"
 }

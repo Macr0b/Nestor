@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun preklican.",
   "calc.many": "{n} delov za razporeditev: to lahko traja.",
   "news.121": "Količine niso več omejene na 500, preveliki deli so takoj označeni, med dolgim izračunom pa se pojavi gumb Prekliči.",
+  "news.197": "Plošče so oštevilčene, ko jih je več, z majhno puščico pa jim lahko daš ime. »Zapolni« zdaj cilja vrstico plošče (številko ali ime): zapolni njeno zadnjo ploščo v načrtu, vse njene plošče ali novo. Projekti: projekt, shranjen z uvoženo datoteko pred 1.9.6, se spet odpre, odpiranje projekta pa ne spodleti več, ko je imel prejšnji načrt več kosov.",
   "news.196": "Ključavnica: vsako ploščo načrta je mogoče zakleniti; njeni kosi se ne premikajo več, novi kosi (druga datoteka, večja količina) pa gredo najprej v njene luknje. Zapolni: kos lahko zapolni vse, kar ostane na izbrani ali novi plošči. Projekti: projekt z uvoženo datoteko se spet odpre.",
   "news.195": "Popravki po celotnem pregledu: okna Projekti, Nastavitve in Bližnjice držijo tipkovnico znotraj in jo ob zaprtju vrnejo pravemu gumbu; plošča brez mer je jasno označena; datoteka v drugi obliki (na primer slika) je označena kot »neprepoznana oblika zapisa«; material z ničelno ali negativno mero se ne shrani več potihoma; »Ocenjeni čas rezanja« ne omenja več rezkala, ko ni nič postavljeno.",
   "news.194": "Uvoz: ko se kosi risbe prepletajo, vsaka notranja črta ostane na svojem kosu (sosednji je ne odnese več).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Nekatere plošče so zaklenjene: odkleni jih v načrtu, da spremeniš razmik ali rob.",
   "lock.ask": "Ta kos je na {n} zaklenjeni(-h) plošči(-ah). Jih odkleniti, da ga spremeniš?",
   "piece.fillNone": "Stalno število",
-  "piece.fillSheet": "Zapolni ploščo {n}",
-  "piece.fillNew": "Zapolni novo ploščo",
+  "piece.fillNew": "{p}: zapolni novo ploščo",
   "piece.fillLbl": "Količina kosa {n}: stalno število ali zapolnitev plošče",
   "piece.filled": "{n} postavljenih kot zapolnitev",
-  "piece.fillNoRoom": "Ni več prostora za zapolnitev."
+  "piece.fillNoRoom": "Ni več prostora za zapolnitev.",
+  "panel.name": "Ime plošče",
+  "panel.nameToggle": "Poimenuj ploščo {n}",
+  "panel.namePh": "Ostanek vezana plošča 18, breza…",
+  "piece.fillLast": "{p}: zapolni zadnjo ploščo",
+  "piece.fillAll": "{p}: zapolni vse plošče"
 }

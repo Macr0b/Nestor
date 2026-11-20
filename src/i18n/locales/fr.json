@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
+  "news.197": "Panneaux numérotés quand il y en a plusieurs, avec une petite flèche pour leur donner un nom. « Remplir » vise maintenant une ligne de panneau (son numéro ou son nom) : remplir son dernier panneau du plan, tous ses panneaux, ou un nouveau. Projets : un projet enregistré avec un fichier importé avant la 1.9.6 se rouvre, et rouvrir un projet ne bloque plus quand le plan affiché avant avait plus de pièces.",
   "news.196": "Cadenas : chaque panneau du plan peut être figé ; ses pièces ne bougent plus, et les nouvelles pièces (un autre fichier, une quantité en plus) vont d’abord dans ses trous. Remplir : une pièce peut remplir tout ce qui reste sur le panneau choisi, ou un nouveau panneau. Projets : un projet avec un fichier importé se rouvre de nouveau.",
   "news.195": "Corrections après une revue complète : les fenêtres Projets, Réglages et Raccourcis gardent le clavier à l’intérieur et le rendent au bon bouton en se fermant ; un panneau sans taille est signalé clairement ; un fichier d’un autre format (une image, par exemple) est indiqué comme « format non reconnu » ; une matière avec une taille nulle ou négative n’est plus enregistrée en silence ; « Découpe estimée » ne parle plus de la fraise quand rien n’est placé.",
   "news.194": "Import : quand les pièces d’un dessin s’emboîtent, chaque trait intérieur reste sur sa pièce (il n’est plus emporté par la voisine).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Des panneaux sont figés : déverrouille-les dans le plan pour changer l’espace ou la marge.",
   "lock.ask": "Cette pièce est sur {n} panneau(x) figé(s). Les déverrouiller pour la changer ?",
   "piece.fillNone": "Nombre fixe",
-  "piece.fillSheet": "Remplir le panneau {n}",
-  "piece.fillNew": "Remplir un nouveau panneau",
+  "piece.fillNew": "{p} : remplir un nouveau panneau",
   "piece.fillLbl": "Quantité de la pièce {n} : nombre fixe ou remplir un panneau",
   "piece.filled": "{n} posée(s) en remplissage",
-  "piece.fillNoRoom": "Plus de place libre pour la remplir."
+  "piece.fillNoRoom": "Plus de place libre pour la remplir.",
+  "panel.name": "Nom du panneau",
+  "panel.nameToggle": "Nommer le panneau {n}",
+  "panel.namePh": "Chute CP 18, contreplaqué bouleau…",
+  "piece.fillLast": "{p} : remplir le dernier panneau",
+  "piece.fillAll": "{p} : remplir tous les panneaux"
 }

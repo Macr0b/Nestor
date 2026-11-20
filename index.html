@@ -137,8 +137,10 @@
       <section class="box" aria-labelledby="h-panel">
         <h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2>
         <label class="f mat-pick"><span data-i18n="lib.projectMaterial">Matière</span><select id="nestMaterial"></select></label>
-        <div class="pnl phd" aria-hidden="true"><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Repère</span><span></span><span></span></div>
-        <div class="pnls" id="panels"></div>
+        <div id="panelRows">
+          <div class="pnl phd" aria-hidden="true"><span class="pcol"></span><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Repère</span><span></span><span></span></div>
+          <div class="pnls" id="panels"></div>
+        </div>
         <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button></div>
         <p class="hint"><strong data-i18n="origin.title">Repère de placement (zéro machine)</strong> · <span data-i18n="origin.hint">Les pièces se regroupent à partir de ce point, et c’est le zéro des fichiers exportés.</span></p>
         <p class="hint" data-i18n="panel.hint">Les panneaux sont utilisés dans l’ordre de la liste. Stock vide = illimité.</p>

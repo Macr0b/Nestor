@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.197": "Els taulers es numeren quan n’hi ha diversos, amb una fletxeta per donar-los nom. «Omplir» apunta ara a una fila de tauler (número o nom): omplir-ne l’últim tauler del pla, tots o un de nou. Projectes: un projecte desat amb un fitxer importat abans de la 1.9.6 es torna a obrir, i obrir un projecte ja no falla quan el pla anterior tenia més peces.",
   "news.196": "Cadenat: cada tauler del pla es pot fixar; les seves peces ja no es mouen i les noves (un altre fitxer, més quantitat) van primer als seus forats. Omplir: una peça pot omplir tot el que queda al tauler triat o en un de nou. Projectes: un projecte amb un fitxer importat es torna a obrir.",
   "news.195": "Correccions després d’una revisió completa: les finestres Projectes, Ajustos i Dreceres mantenen el teclat a dins i el tornen al botó correcte en tancar-se; un tauler sense mides es senyala clarament; un fitxer d’un altre format (una imatge, per exemple) s’indica com a «format no reconegut»; un material amb una mida nul·la o negativa ja no es desa en silenci; «Tall estimat» ja no parla de la fresa quan no hi ha res col·locat.",
   "news.194": "Importació: quan les peces d’un dibuix encaixen entre si, cada traç interior es queda a la seva peça (ja no se l’endú la veïna).",
@@ -678,9 +679,13 @@
   "lock.fieldsHint": "Hi ha taulers fixats: desbloqueja’ls al pla per canviar l’espai o el marge.",
   "lock.ask": "Aquesta peça és a {n} tauler(s) fixat(s). Desbloquejar-los per canviar-la?",
   "piece.fillNone": "Nombre fix",
-  "piece.fillSheet": "Omple el tauler {n}",
-  "piece.fillNew": "Omple un tauler nou",
+  "piece.fillNew": "{p}: omple un tauler nou",
   "piece.fillLbl": "Quantitat de la peça {n}: nombre fix o omplir un tauler",
   "piece.filled": "{n} col·locada(es) per omplir",
-  "piece.fillNoRoom": "Ja no queda espai lliure per omplir."
+  "piece.fillNoRoom": "Ja no queda espai lliure per omplir.",
+  "panel.name": "Nom del tauler",
+  "panel.nameToggle": "Posa nom al tauler {n}",
+  "panel.namePh": "Retall contraxapat 18, bedoll…",
+  "piece.fillLast": "{p}: omple l’últim tauler",
+  "piece.fillAll": "{p}: omple tots els taulers"
 }
