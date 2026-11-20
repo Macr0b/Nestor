@@ -188,6 +188,7 @@
   "calc.cancelled": "Arvutus tühistati.",
   "calc.many": "{n} detaili paigutamiseks: see võib aega võtta.",
   "news.121": "Kogused pole enam 500-ga piiratud, liiga suured detailid märgitakse kohe ja pika arvutuse ajal ilmub nupp Tühista.",
+  "news.196": "Lukk: plaani iga plaadi saab lukustada; selle detailid enam ei liigu ja uued detailid (teine fail, suurem kogus) lähevad esmalt selle tühimikesse. Täida: detail võib täita kõik, mis valitud või uuel plaadil alles on. Projektid: imporditud failiga projekt avaneb jälle.",
   "news.195": "Parandused pärast põhjalikku ülevaatust: aknad Projektid, Seaded ja Kiirklahvid hoiavad klaviatuuri sees ja annavad selle sulgemisel õigele nupule tagasi; mõõtudeta plaat märgitakse selgelt; muus vormingus fail (näiteks pilt) märgitakse kui „vormingut ei tuntud ära“; nulli või negatiivse mõõduga materjali enam vaikselt ei salvestata; „Hinnanguline lõikeaeg“ ei räägi enam freesist, kui midagi pole paigutatud.",
   "news.194": "Import: kui joonise detailid on üksteise sees, jääb iga sisejoon oma detailile (naaberdetail ei vii seda enam kaasa).",
   "news.193": "Paigutus: detail, mis ei mahu, on detailide loendis punasega märgitud koos põhjusega ja punane teade viib selleni. „Lähtepunkt“ on nüüd „Paigutuspunkt“. Valitud materjal paneb oma formaadi plaadireale ja „Lisa jääk“ paneb jäägid selle ette. Saag: vali esimeste lõigete suund. „Kogu plaan DXF-ina“ laadib iga plaadi kohta ühe DXF-i. Kulu: masina ja töö eraldi tunnihind, alustatud tunnid soovi korral täistundidena, jäägid vaikimisi 0. Freesimine: spindli kiirused on lahti seletatud. Freesimine ja laser: soovitatud seaded ei liigu enam kerimisega kaasa. Laser: tootjate paksused on välja all selgitatud. AI import: Illustratoris kontuuridele antud nimed võetakse detailide nimedeks.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Sisesta vähemalt ühe plaadi pikkus ja laius, et detaile paigutada.",
   "lib.badSize": "„{f}“ peab olema nullist suurem arv.",
-  "err.unknownFormat": "Vormingut ei tuntud ära."
+  "err.unknownFormat": "Vormingut ei tuntud ära.",
+  "lock.lock": "Lukusta see plaat: selle detailid enam ei liigu",
+  "lock.unlock": "Ava selle plaadi lukk",
+  "lock.on": "Lukus",
+  "lock.off": "Lukusta",
+  "lock.rowHint": "Lukus plaat: ava selle lukk plaanis, et suurust muuta.",
+  "lock.fieldsHint": "Mõned plaadid on lukus: ava need plaanis, et vahet või äärist muuta.",
+  "lock.ask": "See detail on {n} lukus plaadil. Kas avada lukk, et seda muuta?",
+  "piece.fillNone": "Kindel arv",
+  "piece.fillSheet": "Täida plaat {n}",
+  "piece.fillNew": "Täida uus plaat",
+  "piece.fillLbl": "Detaili {n} kogus: kindel arv või plaadi täitmine",
+  "piece.filled": "{n} paigutatud täiteks",
+  "piece.fillNoRoom": "Täitmiseks pole enam vaba ruumi."
 }

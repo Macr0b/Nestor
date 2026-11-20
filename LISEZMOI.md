@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.9.5
+Version : 1.9.6
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -57,6 +57,8 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Origine** : le petit carré à 9 points choisit le zéro machine. Les pièces se regroupent à partir de ce point (coin, bord ou centre) et c'est le zéro des fichiers exportés.
 - **Import** : plusieurs fichiers à la fois ; « + Ajouter des fichiers » complète le travail en cours. Chaque contour fermé extérieur est une pièce ; les traits qui sont dedans (gravure, trous) partent avec elle. Quand des pièces s'emboîtent (leurs cadres se chevauchent), un trait va à la pièce dont le contour le contient vraiment, même s'il déborde un peu du cadre.
 - **Saisir à la main** : pièces rectangulaires (nom, longueur, largeur, quantité, sens fixe), une par une ou collées depuis un tableur (colonnes nom, longueur, largeur, quantité). Elles rejoignent la liste des pièces, restent quand on importe un fichier ensuite, et sont gardées dans les projets.
+- **Cadenas** : chaque panneau du plan a un bouton « Figer ». Ses pièces ne bougent plus ; les nouvelles pièces (un fichier ajouté, une quantité en plus) vont d'abord dans ses trous (méthode Rectangles : seulement dans l'espace qu'on peut atteindre à la scie), puis sur d'autres panneaux. Les panneaux figés passent en tête du plan ; tant qu'il y en a, l'espace, la marge et la taille de leurs lignes de panneau sont grisés. Changer une pièce figée (quantité en dessous du nombre figé, taille, retrait) demande d'abord de déverrouiller. Les cadenas sont gardés dans le projet.
+- **Remplir** : à côté de la quantité d'une pièce, « Remplir le panneau n » ou « Remplir un nouveau panneau ». Les autres pièces sont placées d'abord, puis cette pièce occupe tout ce qui reste sur ce panneau ; le nombre posé s'affiche sous la ligne.
 - **Export** : fichiers en mm, zéro sur le repère de placement choisi. « Tout le plan en DXF » télécharge un DXF par panneau d'un coup. En option (sous « Méthode ») : le contour du panneau sur un calque « Panneau », et le numéro de chaque pièce à graver sur un calque « Numéros » (trait simple, placé dans la matière de la pièce).
 - **PDF à imprimer** : sous chaque panneau, son plan numéroté avec ses cotes, le zéro machine et la liste de ses pièces ; « Tout le plan en PDF » ajoute une page de résumé. A4 en métrique, Letter en impérial.
 - **Espace et marge minimaux d'après la fraise** : sous l'espace entre pièces et la marge au bord, deux liens reprennent la fraise de l'onglet Fraisage : espace minimal 2 × Ø + 1 mm (la fraise passe deux fois entre deux pièces), marge minimale Ø + 1 mm (une fois au bord).

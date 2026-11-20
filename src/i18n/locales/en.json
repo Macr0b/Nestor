@@ -188,6 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
+  "news.196": "Lock: each sheet of the plan can be locked; its parts no longer move, and new parts (another file, a higher quantity) go into its gaps first. Fill: a part can fill everything left on the chosen sheet, or a new sheet. Projects: a project with an imported file opens again.",
   "news.195": "Fixes after a full review: the Projects, Settings and Shortcuts windows keep the keyboard inside and give it back to the right button when they close; a sheet with no size is clearly flagged; a file in another format (an image, for example) is reported as “unrecognised format”; a material with a zero or negative size is no longer saved silently; “Estimated cutting” no longer mentions the cutter when nothing is placed.",
   "news.194": "Import: when the parts of a drawing interlock, each inner line stays on its own part (it is no longer carried off by the neighbouring part).",
   "news.193": "Nesting: a part that doesn’t fit is flagged in red in the parts list, with the reason, and the red message takes you to it. “Origin” becomes “Placement point”. The chosen material puts its format on a sheet row, and “Add an offcut” puts offcuts in front. Saw: choose the direction of the first cuts. “Whole plan as DXF” downloads one DXF per sheet. Cost: separate machine and labour rates, started hours charged as whole hours if you want, offcuts at 0 by default. Milling: your spindle speeds are explained. Milling and Laser: the recommended settings no longer follow scrolling. Laser: manufacturer thicknesses are explained under the field. AI import: names given to paths in Illustrator are used for the parts.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Enter the length and width of at least one sheet to place the parts.",
   "lib.badSize": "“{f}” must be a number greater than 0.",
-  "err.unknownFormat": "Unrecognised format."
+  "err.unknownFormat": "Unrecognised format.",
+  "lock.lock": "Lock this sheet: its parts will no longer move",
+  "lock.unlock": "Unlock this sheet",
+  "lock.on": "Locked",
+  "lock.off": "Lock",
+  "lock.rowHint": "Locked sheet: unlock it in the plan to change its size.",
+  "lock.fieldsHint": "Some sheets are locked: unlock them in the plan to change the spacing or the margin.",
+  "lock.ask": "This part is on {n} locked sheet(s). Unlock to change it?",
+  "piece.fillNone": "Fixed number",
+  "piece.fillSheet": "Fill sheet {n}",
+  "piece.fillNew": "Fill a new sheet",
+  "piece.fillLbl": "Quantity of part {n}: fixed number or fill a sheet",
+  "piece.filled": "{n} placed as fill",
+  "piece.fillNoRoom": "No free space left to fill."
 }

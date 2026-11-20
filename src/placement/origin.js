@@ -8,12 +8,14 @@ import { state } from "../project/state.js";
 import { parseNumber } from "../util/numbers.js";
 
 // portrait : la longueur saisie est verticale (Y), la largeur horizontale (X) ; en interne L = étendue en X, W = étendue en Y
-export function panelList() {
-  return (state.sheet.panels || []).map(function (p) {
+// used : panneaux déjà pris par ligne (panneaux figés), retirés du stock ; -1 = stock illimité
+export function panelList(used) {
+  return (state.sheet.panels || []).map(function (p, pi) {
+    var taken = (used && used[pi]) || 0;
     return {
       L: parseNumber(p.W, 0),
       W: parseNumber(p.L, 0),
-      qty: p.qty === "" || p.qty == null ? -1 : Math.max(0, Math.floor(parseNumber(p.qty, 0)))
+      qty: p.qty === "" || p.qty == null ? -1 : Math.max(0, Math.floor(parseNumber(p.qty, 0)) - taken)
     };
   });
 }

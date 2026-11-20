@@ -18,6 +18,7 @@ import { loadMillingInput } from "../machining/milling-store.js";
 import { onProjectMaterialChange, setProjectMaterial } from "../library/library-store.js";
 import { fillMaterialSelect, libraryItem, onLibraryChange } from "./materials-tab.js";
 import { applyMaterialFormat, insertOffcut, materialPanelIndex } from "../project/material-panels.js";
+import { lockCount, panelRowLocked, remapLockedPanels } from "../project/locks.js";
 
 function renderPanels() {
   var ps = state.sheet.panels,
@@ -25,6 +26,9 @@ function renderPanels() {
   byId("btnAddPanel").textContent = translate(linked >= 0 ? "panel.addOffcut" : "panel.add");
   byId("panels").innerHTML = ps
     .map(function (p, i) {
+      // ligne d'un panneau figé : sa taille ne peut plus changer, elle ne peut ni monter ni partir
+      var locked = panelRowLocked(i),
+        fixedSize = locked ? " disabled" : "";
       return (
         '<div class="pnl" data-i="' +
         i +
@@ -33,7 +37,9 @@ function renderPanels() {
         lengthInputAttributes(p.L) +
         ' id="pl' +
         i +
-        '-L" data-k="L" min="1" aria-label="' +
+        '-L" data-k="L" min="1"' +
+        fixedSize +
+        ' aria-label="' +
         escapeHtml(translate("panel.L")) +
         '">' +
         '<span class="x" aria-hidden="true">×</span>' +
@@ -41,7 +47,9 @@ function renderPanels() {
         lengthInputAttributes(p.W) +
         ' id="pl' +
         i +
-        '-W" data-k="W" min="1" aria-label="' +
+        '-W" data-k="W" min="1"' +
+        fixedSize +
+        ' aria-label="' +
         escapeHtml(translate("panel.W")) +
         '">' +
         '<input type="number" id="pl' +
@@ -74,20 +82,21 @@ function renderPanels() {
         }).join("") +
         "</div>" +
         '<button class="mini" type="button" data-act="up"' +
-        (i === 0 ? " disabled" : "") +
+        (i === 0 || locked || panelRowLocked(i - 1) ? " disabled" : "") +
         ' aria-label="' +
         escapeHtml(translate("panel.up")) +
         '" title="' +
         escapeHtml(translate("panel.up")) +
         '">↑</button>' +
         '<button class="mini" type="button" data-act="del"' +
-        (ps.length < 2 ? " disabled" : "") +
+        (ps.length < 2 || locked ? " disabled" : "") +
         ' aria-label="' +
         escapeHtml(translate("panel.remove")) +
         '" title="' +
         escapeHtml(translate("panel.remove")) +
         '">×</button>' +
         (i === linked ? '<span class="pnl-tag">' + escapeHtml(materialTag()) + "</span>" : "") +
+        (locked ? '<span class="pnl-tag pnl-locked">' + escapeHtml(translate("lock.rowHint")) + "</span>" : "") +
         "</div>"
       );
     })
@@ -100,6 +109,12 @@ function materialTag() {
 }
 
 function followMaterial(id) {
+  // la ligne qui suit la matière sert à un panneau figé : sa taille ne bouge pas, elle ne suit plus la matière
+  var linked = materialPanelIndex(state.sheet.panels);
+  if (linked >= 0 && panelRowLocked(linked)) delete state.sheet.panels[linked].fromMaterial;
+  // une seule ligne, figée : elle garde sa taille (sinon la matière la prendrait)
+  if (materialPanelIndex(state.sheet.panels) < 0 && state.sheet.panels.length === 1 && panelRowLocked(0))
+    return renderPanels();
   if (!applyMaterialFormat(state.sheet.panels, libraryItem(id))) return renderPanels();
   renderPanels();
   schedulePreferencesSave();
@@ -163,12 +178,22 @@ function renderSawBlade() {
   byId("btnGapFromKerf").textContent = translate("saw.gapFromKerf", { k: showLength(kerf, { digits: 2 }) });
 }
 
+/* Panneaux figés : l'espace et la marge ne peuvent plus changer (les pièces figées les respectent déjà). */
+export function renderLockedFields() {
+  var locked = lockCount() > 0;
+  ["sG", "sM", "btnGapFromTool", "btnMarginFromTool"].forEach(function (id) {
+    byId(id).disabled = locked;
+  });
+  byId("lockHint").hidden = !locked;
+  renderPanels();
+}
+
 export function renderSheetInputs() {
   fillMaterialSelect(byId("nestMaterial"), "lib.none");
-  renderPanels();
   renderToolGap();
   setLengthField(byId("sG"), state.sheet.gap);
   setLengthField(byId("sM"), state.sheet.margin);
+  renderLockedFields();
   byId("projName").value = state.name || "";
   byId("sMode").value = state.sheet.mode === "rect" ? "rect" : "nest";
   byId("dlBoard").checked = exportOptions.includeBoard;
@@ -223,7 +248,15 @@ export function bindPanelsEditor() {
       var x = ps[i];
       ps[i] = ps[i - 1];
       ps[i - 1] = x;
-    } else if (b.dataset.act === "del" && ps.length > 1) ps.splice(i, 1);
+      remapLockedPanels(function (pi) {
+        return pi === i ? i - 1 : pi === i - 1 ? i : pi;
+      });
+    } else if (b.dataset.act === "del" && ps.length > 1) {
+      ps.splice(i, 1);
+      remapLockedPanels(function (pi) {
+        return pi > i ? pi - 1 : pi;
+      });
+    }
     renderPanels();
     schedulePreferencesSave();
     scheduleCalculation();
@@ -231,6 +264,9 @@ export function bindPanelsEditor() {
   // « Ajouter une chute » quand une ligne suit la matière : la chute passe devant elle
   byId("btnAddPanel").addEventListener("click", function () {
     var at = insertOffcut(state.sheet.panels);
+    remapLockedPanels(function (pi) {
+      return pi >= at ? pi + 1 : pi;
+    });
     renderPanels();
     schedulePreferencesSave();
     scheduleCalculation();

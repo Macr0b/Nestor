@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.196": "Kłódka: każdą płytę planu można zablokować; jej elementy już się nie przesuwają, a nowe (inny plik, większa ilość) trafiają najpierw w jej luki. Wypełnij: element może wypełnić całe wolne miejsce na wybranej lub nowej płycie. Projekty: projekt z zaimportowanym plikiem znów się otwiera.",
   "news.195": "Poprawki po pełnym przeglądzie: okna Projekty, Ustawienia i Skróty trzymają klawiaturę w środku i po zamknięciu oddają ją właściwemu przyciskowi; płyta bez wymiarów jest wyraźnie zgłaszana; plik w innym formacie (np. obraz) jest zgłaszany jako „nierozpoznany format”; materiał o wymiarze zerowym lub ujemnym nie jest już zapisywany po cichu; „Szacowany czas cięcia” nie wspomina już o frezie, gdy nic nie jest rozmieszczone.",
   "news.194": "Import: gdy elementy rysunku zachodzą na siebie, każda linia wewnętrzna zostaje na swoim elemencie (nie zabiera jej już sąsiedni).",
   "news.193": "Rozkrój: element, który się nie mieści, jest oznaczony na czerwono na liście elementów wraz z przyczyną, a czerwony komunikat prowadzi do niego. „Początek” to teraz „Punkt rozmieszczenia”. Wybrany materiał wpisuje swój format w wiersz płyty, a „Dodaj ścinek” stawia ścinki przed nim. Piła: wybór kierunku pierwszych cięć. „Cały plan w DXF” pobiera jeden DXF na płytę. Koszt: osobne stawki maszyny i robocizny, rozpoczęte godziny liczone w całości na życzenie, ścinki domyślnie 0. Frezowanie: wyjaśniono obroty wrzeciona. Frezowanie i laser: zalecane ustawienia nie przewijają się już ze stroną. Laser: grubości producentów objaśnione pod polem. Import AI: nazwy ścieżek z Illustratora są używane dla elementów.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Podaj długość i szerokość co najmniej jednej płyty, aby rozmieścić elementy.",
   "lib.badSize": "„{f}” musi być liczbą większą od 0.",
-  "err.unknownFormat": "Nierozpoznany format."
+  "err.unknownFormat": "Nierozpoznany format.",
+  "lock.lock": "Zablokuj tę płytę: jej elementy już się nie przesuną",
+  "lock.unlock": "Odblokuj tę płytę",
+  "lock.on": "Zablokowana",
+  "lock.off": "Zablokuj",
+  "lock.rowHint": "Płyta zablokowana: odblokuj ją w planie, aby zmienić jej rozmiar.",
+  "lock.fieldsHint": "Są zablokowane płyty: odblokuj je w planie, aby zmienić odstęp lub margines.",
+  "lock.ask": "Ten element jest na {n} zablokowanej(-ych) płycie(-ach). Odblokować, aby go zmienić?",
+  "piece.fillNone": "Stała liczba",
+  "piece.fillSheet": "Wypełnij płytę {n}",
+  "piece.fillNew": "Wypełnij nową płytę",
+  "piece.fillLbl": "Ilość elementu {n}: stała liczba lub wypełnienie płyty",
+  "piece.filled": "{n} rozmieszczonych jako wypełnienie",
+  "piece.fillNoRoom": "Nie ma już wolnego miejsca do wypełnienia."
 }

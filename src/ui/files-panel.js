@@ -10,6 +10,7 @@ import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { renderAll } from "./render-all.js";
 import { byId, escapeHtml } from "../util/dom.js";
+import { allowChangeOf } from "./lock-guard.js";
 
 let nextFileId = 0;
 
@@ -231,6 +232,12 @@ export function bindFilesPanel() {
     var b = e.target.closest("[data-rmfile]");
     if (!b) return;
     var id = +b.dataset.rmfile;
+    // pièces de ce fichier sur un panneau figé : demander, puis déverrouiller
+    var touched = [];
+    state.types.forEach(function (t, i) {
+      if (t.fid === id) touched.push(i);
+    });
+    if (!allowChangeOf(touched)) return;
     state.files = state.files.filter(function (f) {
       return f.id !== id;
     });

@@ -188,6 +188,7 @@
   "calc.cancelled": "Skaičiavimas atšauktas.",
   "calc.many": "Reikia išdėstyti {n} detalių: tai gali užtrukti.",
   "news.121": "Kiekiai nebėra apriboti 500, per didelės detalės pažymimos iš karto, o ilgo skaičiavimo metu atsiranda mygtukas Atšaukti.",
+  "news.196": "Spyna: kiekvieną plano plokštę galima užfiksuoti; jos detalės nebejuda, o naujos (kitas failas, didesnis kiekis) pirmiausia eina į jos tarpus. Užpildyti: detalė gali užpildyti viską, kas liko pasirinktoje ar naujoje plokštėje. Projektai: projektas su importuotu failu vėl atsidaro.",
   "news.195": "Pataisymai po išsamios peržiūros: langai Projektai, Nustatymai ir Spartieji klavišai laiko klaviatūrą viduje ir uždarant grąžina ją tinkamam mygtukui; plokštė be matmenų aiškiai pažymima; kito formato failas (pvz., paveikslėlis) nurodomas kaip „formatas neatpažintas“; medžiaga su nuliniu ar neigiamu matmeniu nebeišsaugoma tyliai; „Numatomas pjovimas“ nebemini frezos, kai niekas neišdėstyta.",
   "news.194": "Importas: kai brėžinio detalės įsiterpia viena į kitą, kiekviena vidinė linija lieka savo detalėje (kaimyninė jos nebepasiima).",
   "news.193": "Išdėstymas: detalė, kuri netelpa, detalių sąraše pažymima raudonai su priežastimi, o raudonas pranešimas nuveda prie jos. „Pradžios taškas“ dabar vadinamas „Išdėstymo tašku“. Pasirinkta medžiaga įrašo savo formatą į plokštės eilutę, o „Pridėti atraižą“ deda atraižas prieš ją. Pjūklas: pasirink pirmųjų pjūvių kryptį. „Visas planas DXF“ atsisiunčia po vieną DXF kiekvienai plokštei. Kaina: atskiri staklių ir darbo tarifai, pradėtos valandos pageidaujant skaičiuojamos visos, atraižos pagal nutylėjimą 0. Frezavimas: paaiškinti suklio greičiai. Frezavimas ir lazeris: rekomenduojami nustatymai nebeslenka su puslapiu. Lazeris: gamintojų storiai paaiškinti po lauku. AI importas: Illustrator kontūrams duoti pavadinimai naudojami detalėms.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} val.",
   "res.noPanel": "Nurodyk bent vienos plokštės ilgį ir plotį, kad galėtum išdėstyti detales.",
   "lib.badSize": "„{f}“ turi būti skaičius, didesnis už 0.",
-  "err.unknownFormat": "Formatas neatpažintas."
+  "err.unknownFormat": "Formatas neatpažintas.",
+  "lock.lock": "Užfiksuoti šią plokštę: jos detalės nebejudės",
+  "lock.unlock": "Atlaisvinti šią plokštę",
+  "lock.on": "Užfiksuota",
+  "lock.off": "Užfiksuoti",
+  "lock.rowHint": "Užfiksuota plokštė: atlaisvink ją plane, kad pakeistum dydį.",
+  "lock.fieldsHint": "Kai kurios plokštės užfiksuotos: atlaisvink jas plane, kad pakeistum tarpą ar paraštę.",
+  "lock.ask": "Ši detalė yra {n} užfiksuotoje(-se) plokštėje(-se). Atlaisvinti, kad galėtum pakeisti?",
+  "piece.fillNone": "Fiksuotas skaičius",
+  "piece.fillSheet": "Užpildyti plokštę {n}",
+  "piece.fillNew": "Užpildyti naują plokštę",
+  "piece.fillLbl": "Detalės {n} kiekis: fiksuotas skaičius arba plokštės užpildymas",
+  "piece.filled": "{n} padėta užpildymui",
+  "piece.fillNoRoom": "Nebeliko laisvos vietos užpildyti."
 }

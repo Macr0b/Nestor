@@ -69,6 +69,17 @@ function settingsObject(value, depth) {
       else if (typeof v === "boolean" || v === null) out[key] = v;
       else if (typeof v === "number" && isFinite(v)) out[key] = v;
       else if (!depth && plainObject(v)) out[key] = settingsObject(v, 1);
+      // petite liste de nombres ou de textes (taille du dessin d'un fichier importé, par exemple)
+      else if (
+        Array.isArray(v) &&
+        v.length <= 100 &&
+        v.every(function (x) {
+          return (typeof x === "number" && isFinite(x)) || typeof x === "string";
+        })
+      )
+        out[key] = v.map(function (x) {
+          return typeof x === "string" ? x.slice(0, TEXT) : x;
+        });
     });
   return out;
 }
@@ -109,6 +120,8 @@ function cleanType(raw, budget) {
     paths: paths
   };
   if (typeof t.fid === "number" && isFinite(t.fid)) type.fid = Math.floor(t.fid);
+  if (Number.isInteger(t.uid) && t.uid > 0) type.uid = t.uid;
+  if (t.fill === "new" || (Number.isInteger(t.fill) && t.fill >= 1 && t.fill <= 999)) type.fill = t.fill;
   if (t.copy === true) type.copy = true;
   if (t.manual === true) type.manual = true;
   if (t.on === false) type.on = false;
@@ -119,6 +132,55 @@ function cleanType(raw, budget) {
 
 // sens des premières coupes à la scie (vide : au mieux)
 const SAW_FIRST = ["along", "across"];
+
+const ORIGIN = /^[tmb][lcr]$/;
+
+// pièce d'un panneau figé : position et orientation telles que posées ; null si quelque chose cloche
+function cleanLockedPart(raw) {
+  var p = plainObject(raw);
+  if (!p || !(Number.isInteger(p.uid) && p.uid > 0)) return null;
+  var out = { uid: p.uid };
+  for (var key of ["x", "y", "w", "h", "dx", "dy"]) {
+    out[key] = num(p[key], NaN);
+    if (Number.isNaN(out[key])) return null;
+  }
+  if (p.a != null) {
+    out.a = num(p.a, NaN, 0, 360);
+    out.mx = num(p.mx, NaN);
+    out.my = num(p.my, NaN);
+    if ([out.a, out.mx, out.my].some(Number.isNaN)) return null;
+  } else if (p.k != null) {
+    if (![0, 1, 2, 3].includes(p.k)) return null;
+    out.k = p.k;
+  }
+  if (p.turned === true) out.turned = true;
+  var raw2 = plainObject(p.raw);
+  if (raw2) {
+    out.raw = {};
+    for (var rk of ["x", "y", "w", "h", "Ln", "Wn"]) {
+      out.raw[rk] = num(raw2[rk], NaN);
+      if (Number.isNaN(out.raw[rk])) return null;
+    }
+  }
+  var f = plainObject(p.f);
+  if (f) {
+    if (!ORIGIN.test(f.o)) return null;
+    out.f = { tr: f.tr === true, fx: f.fx === true, fy: f.fy === true, o: f.o, geo: f.geo === true };
+  }
+  return out;
+}
+
+// panneau figé (cadenas) ; null s'il est abîmé, pour ne jamais garder une partie seulement de ses pièces
+function cleanLock(raw, panelCount) {
+  var l = plainObject(raw);
+  if (!l || !Number.isInteger(l.pi) || l.pi < 0 || l.pi >= panelCount || !ORIGIN.test(l.o)) return null;
+  var parts = list(l.parts, MAX_TYPES).map(cleanLockedPart);
+  if (!parts.length || parts.includes(null)) return null;
+  var L = num(l.L, 0, 0),
+    W = num(l.W, 0, 0);
+  if (!(L > 0 && W > 0)) return null;
+  return { pi: l.pi, L: L, W: W, o: l.o, parts: parts };
+}
 
 function cleanPanel(raw) {
   var p = plainObject(raw);
@@ -168,6 +230,11 @@ export function cleanSnapshot(raw) {
         return cleanType(t, budget);
       })
       .filter(Boolean),
+    locks: list(s.locks, MAX_PANELS * 20)
+      .map(function (l) {
+        return cleanLock(l, panels.length || 1);
+      })
+      .filter(Boolean),
     rotAll: ["fix", "quarter", "free"].includes(s.rotAll) ? s.rotAll : "quarter",
     sort: ["file", "name", "layer", "src"].includes(s.sort) ? s.sort : "file",
     exportOptions: {
@@ -206,6 +273,7 @@ export function takeSnapshot(project, extras) {
     }),
     sheet: project.sheet,
     types: project.types,
+    locks: project.locks,
     rotAll: project.rotAll,
     sort: project.sort,
     exportOptions: extras.exportOptions,

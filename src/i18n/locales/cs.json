@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
+  "news.196": "Zámek: každou desku plánu lze zamknout; její dílce se už nehýbou a nové dílce (další soubor, vyšší počet) jdou nejdřív do jejích mezer. Vyplnit: dílec může vyplnit vše, co zbývá na zvolené nebo nové desce. Projekty: projekt s importovaným souborem se zase otevře.",
   "news.195": "Opravy po úplné kontrole: okna Projekty, Nastavení a Klávesové zkratky drží klávesnici uvnitř a po zavření ji vrátí správnému tlačítku; deska bez rozměrů je jasně ohlášena; soubor v jiném formátu (třeba obrázek) je ohlášen jako „nerozpoznaný formát“; materiál s nulovým nebo záporným rozměrem se už potichu neuloží; „Odhadovaný čas řezání“ už nezmiňuje frézu, když není nic rozmístěno.",
   "news.194": "Import: když do sebe dílce výkresu zapadají, každá vnitřní čára zůstane na svém dílci (už ji neodnese sousední).",
   "news.193": "Rozmístění: dílec, který se nevejde, je v seznamu dílců označen červeně i s důvodem a červená zpráva k němu vede. „Počátek“ se nyní jmenuje „Bod umístění“. Zvolený materiál zapíše svůj formát do řádku desky a „Přidat odřezek“ dá odřezky před něj. Pila: volba směru prvních řezů. „Celý plán v DXF“ stáhne jeden DXF na desku. Náklady: oddělené sazby stroje a práce, započaté hodiny podle přání celé, odřezky výchozí 0. Frézování: otáčky vřetena jsou vysvětleny. Frézování a laser: doporučené nastavení se už neposouvá se stránkou. Laser: tloušťky výrobců jsou vysvětleny pod polem. Import AI: názvy cest z Illustratoru se použijí pro dílce.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Zadej délku a šířku alespoň jedné desky, aby šlo dílce rozmístit.",
   "lib.badSize": "„{f}“ musí být číslo větší než 0.",
-  "err.unknownFormat": "Nerozpoznaný formát."
+  "err.unknownFormat": "Nerozpoznaný formát.",
+  "lock.lock": "Zamknout tuto desku: její dílce se už nepohnou",
+  "lock.unlock": "Odemknout tuto desku",
+  "lock.on": "Zamčeno",
+  "lock.off": "Zamknout",
+  "lock.rowHint": "Zamčená deska: odemkni ji v plánu, chceš-li změnit její rozměr.",
+  "lock.fieldsHint": "Některé desky jsou zamčené: odemkni je v plánu, chceš-li změnit mezeru nebo okraj.",
+  "lock.ask": "Tento dílec je na {n} zamčené(ých) desce(ách). Odemknout, aby šel změnit?",
+  "piece.fillNone": "Pevný počet",
+  "piece.fillSheet": "Vyplnit desku {n}",
+  "piece.fillNew": "Vyplnit novou desku",
+  "piece.fillLbl": "Množství dílce {n}: pevný počet nebo vyplnění desky",
+  "piece.filled": "{n} rozmístěno jako výplň",
+  "piece.fillNoRoom": "Už nezbývá volné místo k vyplnění."
 }

@@ -9,6 +9,8 @@ import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { renderResult } from "./result-view.js";
 import { partThumbnail } from "./sheet-drawing.js";
+import { allowChangeOf } from "./lock-guard.js";
+import { lockedCounts } from "../project/locks.js";
 import { markUnplacedParts } from "./unplaced-marks.js";
 import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber, round1, round2 } from "../util/numbers.js";
@@ -102,6 +104,33 @@ function renderSortMenu() {
     (state.sort === "layer" && !lay) || (state.sort === "src" && !hasSeveralFiles()) ? "file" : state.sort || "file";
 }
 
+/* Choix « Remplir » d'une pièce : nombre fixe, ou remplir le panneau n (ceux du dernier plan), ou un nouveau. */
+export function fillOptions(type) {
+  var res = session.lastResult,
+    n = Math.max(res && res.sheets ? res.sheets.length : 0, type.fill >= 1 ? type.fill : 0, 1),
+    cur = type.fill == null ? "" : String(type.fill),
+    opts = [["", translate("piece.fillNone")]];
+  for (var k = 1; k <= n; k++) opts.push([String(k), translate("piece.fillSheet", { n: k })]);
+  opts.push(["new", translate("piece.fillNew")]);
+  return opts
+    .map(function (o) {
+      return '<option value="' + o[0] + '"' + (o[0] === cur ? " selected" : "") + ">" + escapeHtml(o[1]) + "</option>";
+    })
+    .join("");
+}
+
+function fillSelect(type, i) {
+  return (
+    '<label class="fillsel"><select id="t' +
+    i +
+    '-f" data-k="fill" aria-label="' +
+    escapeHtml(translate("piece.fillLbl", { n: i + 1 })) +
+    '">' +
+    fillOptions(type) +
+    "</select></label>"
+  );
+}
+
 export function renderPartsList() {
   var sortedIndexes = sortedPartIndexes(),
     lastL = null;
@@ -164,13 +193,16 @@ export function renderPartsList() {
                 '">×</button>'
               : "") +
             "</div>" +
-            '<div class="tline"><label class="qty">' +
+            '<div class="tline"><label class="qty"' +
+            (t.fill ? " hidden" : "") +
+            ">" +
             escapeHtml(translate("piece.qty")) +
             '<input type="number" id="t' +
             i +
             '-q" data-k="qty" inputmode="numeric" min="0" step="1" value="' +
             escapeHtml(t.qty) +
             '"></label>' +
+            fillSelect(t, i) +
             '<label class="rot" title="' +
             escapeHtml(translate("pieces.keepHint")) +
             '"><select id="t' +
@@ -320,6 +352,13 @@ export function bindPartsList() {
     var t = state.types[+row.dataset.i],
       k = e.target.dataset.k;
     if (!t || !k || k === "on" || k === "rot") return;
+    // pièce sur un panneau figé : changer sa taille, ou descendre sous le nombre figé, demande de déverrouiller
+    var i = +row.dataset.i,
+      shrinks = k === "qty" && e.target.value !== "" && parseNumber(e.target.value, 0) < lockedCounts()[i];
+    if ((k === "sw" || k === "sh" || k === "sp" || shrinks) && !allowChangeOf([i])) {
+      renderPartsList();
+      return;
+    }
     if (k === "sw" || k === "sh" || k === "sp") {
       // taille dans les unités choisies (gardée en mm) ou échelle en %
       var v = k === "sp" ? parseNumber(e.target.value, NaN) : readLengthField(e.target);
@@ -349,12 +388,24 @@ export function bindPartsList() {
       row = e.target.closest(".trow");
     if (!row) return;
     var t = state.types[+row.dataset.i];
-    if (k === "rot") {
+    if (k === "fill") {
+      // remplir un panneau : la quantité ne compte plus, le nombre posé s'affiche après le calcul
+      var v = e.target.value;
+      if (v === "") delete t.fill;
+      else t.fill = v === "new" ? "new" : Math.floor(parseNumber(v, 1));
+      row.querySelector("label.qty").hidden = !!t.fill;
+      schedulePreferencesSave();
+      scheduleCalculation();
+    } else if (k === "rot") {
       t.rot = rotationFromChoice(e.target.value);
       renderRotationMenu();
       schedulePreferencesSave();
       scheduleCalculation();
     } else if (k === "on") {
+      if (!e.target.checked && !allowChangeOf([+row.dataset.i])) {
+        e.target.checked = true;
+        return;
+      }
       t.on = e.target.checked;
       row.classList.toggle("off", !t.on);
       updateSelectionCount();
@@ -377,8 +428,11 @@ export function bindPartsList() {
         _eff: null,
         _effK: null
       });
+      // la copie est une autre pièce : pas le même identifiant (cadenas)
+      delete c.uid;
       state.types.splice(i + 1, 0, c);
     } else if (b.dataset.act === "del" && (t.copy || t.manual)) {
+      if (!allowChangeOf([i])) return;
       state.types.splice(i, 1);
     } else return;
     session.lastResult = null;
@@ -389,6 +443,16 @@ export function bindPartsList() {
   byId("scaleAll").addEventListener("input", function (e) {
     var v = parseNumber(e.target.value, NaN);
     if (!(v > 0)) return;
+    if (
+      !allowChangeOf(
+        state.types.map(function (t, i) {
+          return i;
+        })
+      )
+    ) {
+      renderPartsList();
+      return;
+    }
     state.types.forEach(function (t) {
       t.scale = v;
     });

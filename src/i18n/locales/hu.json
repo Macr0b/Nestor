@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.196": "Lakat: a terv minden táblája rögzíthető; az alkatrészei nem mozdulnak, az újak (másik fájl, nagyobb mennyiség) először a réseibe kerülnek. Kitöltés: egy alkatrész kitöltheti a választott vagy egy új táblán maradt teljes helyet. Projektek: az importált fájlt tartalmazó projekt ismét megnyílik.",
   "news.195": "Javítások egy teljes átnézés után: a Projektek, Beállítások és Billentyűparancsok ablak bent tartja a billentyűzetet, és bezáráskor a megfelelő gombra adja vissza; a méret nélküli tábla egyértelműen jelezve van; más formátumú fájl (például kép) „ismeretlen formátum”-ként jelenik meg; a nulla vagy negatív méretű anyag már nem mentődik csendben; a „Becsült vágási idő” már nem említi a marót, ha nincs semmi elhelyezve.",
   "news.194": "Import: ha egy rajz alkatrészei egymásba nyúlnak, minden belső vonal a saját alkatrészén marad (a szomszéd már nem viszi magával).",
   "news.193": "Elrendezés: a rá nem férő alkatrész pirosan jelölve van az alkatrészlistában, az okkal együtt, és a piros üzenet odavisz. Az „Origó” neve most „Elhelyezési pont”. A választott anyag a méretét egy táblasorba írja, a „Maradék hozzáadása” pedig a maradékokat elé teszi. Fűrész: az első vágások iránya választható. „Az egész terv DXF-ben” táblánként egy DXF-et tölt le. Költség: külön óradíj a gépre és a munkára, a megkezdett órák kérésre egésznek számítanak, a maradékok alapból 0. Marás: a főorsó fordulatszámai el vannak magyarázva. Marás és lézer: az ajánlott beállítások már nem görgetnek az oldallal. Lézer: a gyártói vastagságok a mező alatt magyarázva. AI-import: az Illustratorban a görbéknek adott nevek az alkatrészekhez kerülnek.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} óra",
   "res.noPanel": "Adj meg legalább egy tábla hosszát és szélességét az alkatrészek elhelyezéséhez.",
   "lib.badSize": "„{f}” 0-nál nagyobb szám legyen.",
-  "err.unknownFormat": "Ismeretlen formátum."
+  "err.unknownFormat": "Ismeretlen formátum.",
+  "lock.lock": "Tábla rögzítése: az alkatrészei többé nem mozdulnak",
+  "lock.unlock": "Tábla feloldása",
+  "lock.on": "Rögzítve",
+  "lock.off": "Rögzítés",
+  "lock.rowHint": "Rögzített tábla: oldd fel a tervben a méret módosításához.",
+  "lock.fieldsHint": "Vannak rögzített táblák: oldd fel őket a tervben a hézag vagy a szegély módosításához.",
+  "lock.ask": "Ez az alkatrész {n} rögzített táblán van. Feloldod a módosításhoz?",
+  "piece.fillNone": "Rögzített darabszám",
+  "piece.fillSheet": "{n}. tábla kitöltése",
+  "piece.fillNew": "Új tábla kitöltése",
+  "piece.fillLbl": "{n}. alkatrész mennyisége: rögzített szám vagy tábla kitöltése",
+  "piece.filled": "{n} kitöltésként elhelyezve",
+  "piece.fillNoRoom": "Nincs több szabad hely a kitöltéshez."
 }

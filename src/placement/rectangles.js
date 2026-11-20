@@ -3,6 +3,70 @@
 
 import { parseNumber } from "../util/numbers.js";
 
+/* Espace libre d'un panneau déjà garni, en rectangles qu'on peut atteindre à la scie (coupes d'un bord à l'autre) :
+   on sépare les pièces par des traits droits, puis on détoure chaque pièce seule. boxes : [{x, y, w, h}] ;
+   gap : écart gardé autour des pièces ; margin : marge au bord. Une zone où aucun trait droit ne sépare les
+   pièces est laissée de côté (rien n'y sera ajouté). */
+export function freeRectangles(width, height, boxes, gap, margin) {
+  var out = [];
+  function keep(x0, y0, x1, y1) {
+    if (x1 - x0 > 0.5 && y1 - y0 > 0.5) out.push({ x: x0, y: y0, w: x1 - x0, h: y1 - y0 });
+  }
+  // trait droit libre entre les pièces de la zone, sur un axe : position du premier trouvé, ou null
+  function separation(list, axis) {
+    var lo = axis === "x" ? "x" : "y",
+      size = axis === "x" ? "w" : "h",
+      sorted = list.slice().sort(function (a, b) {
+        return a[lo] - b[lo];
+      }),
+      reach = -Infinity;
+    for (var k = 0; k < sorted.length - 1; k++) {
+      reach = Math.max(reach, sorted[k][lo] + sorted[k][size]);
+      if (sorted[k + 1][lo] - reach >= gap) return reach;
+    }
+    return null;
+  }
+  function split(x0, y0, x1, y1, list) {
+    if (x1 - x0 <= 0.5 || y1 - y0 <= 0.5) return;
+    if (!list.length) return keep(x0, y0, x1, y1);
+    if (list.length === 1) {
+      // une pièce : bandes gauche et droite sur toute la hauteur, puis dessus et dessous entre les deux
+      var b = list[0],
+        left = b.x - gap,
+        right = b.x + b.w + gap,
+        top = b.y - gap,
+        bottom = b.y + b.h + gap;
+      keep(x0, y0, Math.min(left, x1), y1);
+      keep(Math.max(right, x0), y0, x1, y1);
+      keep(Math.max(x0, left + gap), y0, Math.min(x1, right - gap), Math.min(top, y1));
+      keep(Math.max(x0, left + gap), Math.max(bottom, y0), Math.min(x1, right - gap), y1);
+      return;
+    }
+    ["x", "y"].some(function (axis) {
+      var at = separation(list, axis);
+      if (at == null) return false;
+      var first = list.filter(function (q) {
+          return (axis === "x" ? q.x + q.w : q.y + q.h) <= at + 1e-6;
+        }),
+        second = list.filter(function (q) {
+          return first.indexOf(q) < 0;
+        });
+      if (axis === "x") {
+        split(x0, y0, at, y1, first);
+        split(at + gap, y0, x1, y1, second);
+      } else {
+        split(x0, y0, x1, at, first);
+        split(x0, at + gap, x1, y1, second);
+      }
+      return true;
+    });
+  }
+  split(margin, margin, width - margin, height - margin, boxes);
+  return out;
+}
+
+/* sheet.fixed : panneaux déjà garnis [{pi, L, W, free: [rectangles libres]}], remplis en premier sans y ajouter de
+   panneau (voir freeRectangles). */
 export function packRectangles(sheet, types) {
   var k = Math.max(0, parseNumber(sheet.gap, 0)),
     t = Math.max(0, parseNumber(sheet.margin, 0)),
@@ -26,7 +90,9 @@ export function packRectangles(sheet, types) {
   items.sort(function (a, b) {
     return Math.max(b.L, b.W) - Math.max(a.L, a.W) || b.L * b.W - a.L * a.W;
   });
-  var sheets = [];
+  var sheets = (sheet.fixed || []).map(function (f) {
+    return { pi: f.pi, L: f.L, W: f.W, parts: [], free: f.free.slice() };
+  });
   function fits(it, r) {
     var o = [];
     if (it.L <= r.w + 1e-9 && it.W <= r.h + 1e-9) o.push({ w: it.L, h: it.W, turned: false });

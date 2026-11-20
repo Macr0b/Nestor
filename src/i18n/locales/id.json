@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.196": "Kunci: setiap papan dalam rencana dapat dikunci; komponennya tidak bergeser lagi, dan komponen baru (berkas lain, jumlah lebih banyak) masuk dulu ke celahnya. Isi: sebuah komponen dapat mengisi semua sisa ruang di papan yang dipilih atau papan baru. Proyek: proyek dengan berkas impor bisa dibuka lagi.",
   "news.195": "Perbaikan setelah peninjauan menyeluruh: jendela Proyek, Pengaturan, dan Pintasan menahan papan ketik di dalam dan mengembalikannya ke tombol yang tepat saat ditutup; papan tanpa ukuran ditandai dengan jelas; berkas berformat lain (misalnya gambar) dilaporkan sebagai “format tidak dikenali”; bahan dengan ukuran nol atau negatif tidak lagi disimpan diam-diam; “Perkiraan pemotongan” tidak lagi menyebut mata frais saat tidak ada yang ditempatkan.",
   "news.194": "Impor: saat komponen dalam gambar saling mengunci, setiap garis dalam tetap di komponennya sendiri (tidak lagi terbawa komponen sebelahnya).",
   "news.193": "Penataan: komponen yang tidak muat ditandai merah di daftar, beserta alasannya, dan pesan merah membawamu ke sana. “Titik asal” kini “Titik penempatan”. Bahan yang dipilih menaruh ukurannya di satu baris papan, dan “Tambah sisa” menaruh sisa di depannya. Gergaji: pilih arah potongan pertama. “Seluruh rencana sebagai DXF” mengunduh satu DXF per papan. Biaya: tarif mesin dan tenaga kerja terpisah, jam yang dimulai dihitung penuh jika mau, sisa bernilai 0 secara bawaan. Frais: kecepatan spindel dijelaskan. Frais dan Laser: pengaturan yang disarankan tidak lagi ikut bergulir. Laser: ketebalan pabrikan dijelaskan di bawah kolom. Impor AI: nama path di Illustrator dipakai untuk komponen.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} jam",
   "res.noPanel": "Isi panjang dan lebar setidaknya satu papan untuk menempatkan komponen.",
   "lib.badSize": "“{f}” harus berupa angka lebih dari 0.",
-  "err.unknownFormat": "Format tidak dikenali."
+  "err.unknownFormat": "Format tidak dikenali.",
+  "lock.lock": "Kunci papan ini: komponennya tidak akan bergeser lagi",
+  "lock.unlock": "Buka kunci papan ini",
+  "lock.on": "Terkunci",
+  "lock.off": "Kunci",
+  "lock.rowHint": "Papan terkunci: buka kuncinya di rencana untuk mengubah ukurannya.",
+  "lock.fieldsHint": "Ada papan yang terkunci: buka kuncinya di rencana untuk mengubah jarak atau margin.",
+  "lock.ask": "Komponen ini ada di {n} papan terkunci. Buka kuncinya untuk mengubahnya?",
+  "piece.fillNone": "Jumlah tetap",
+  "piece.fillSheet": "Isi papan {n}",
+  "piece.fillNew": "Isi papan baru",
+  "piece.fillLbl": "Jumlah komponen {n}: jumlah tetap atau mengisi papan",
+  "piece.filled": "{n} ditempatkan sebagai pengisi",
+  "piece.fillNoRoom": "Tidak ada lagi ruang kosong untuk diisi."
 }

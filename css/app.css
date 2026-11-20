@@ -1063,3 +1063,47 @@ button:focus-visible,
 [dir="rtl"] .trow.unplaced {
   box-shadow: inset -3px 0 0 var(--danger);
 }
+/* panneau figé (cadenas) : pièces figées plus pâles, bouton cadenas dans le titre */
+.sheet-t {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.lockbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--f-body);
+  font-weight: 500;
+}
+.lockbtn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.svg-piece.locked {
+  opacity: 0.55;
+}
+.pnl-tag.pnl-locked {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--muted) 14%, transparent);
+}
+/* pièce qui remplit un panneau : choix à côté de la quantité, nombre posé sous la ligne */
+.fillsel {
+  min-width: 0;
+  max-width: 100%;
+}
+.fillsel select {
+  width: auto;
+  max-width: 100%;
+  padding: 6px 8px;
+  text-overflow: ellipsis;
+}
+.trow .fillinfo {
+  grid-column: 3;
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--accent);
+}
+.lock-hint {
+  color: var(--muted);
+}

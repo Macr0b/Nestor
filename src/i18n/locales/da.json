@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
+  "news.196": "Lås: hver plade i planen kan låses; dens dele flytter sig ikke mere, og nye dele (en anden fil, et højere antal) går først i dens huller. Fyld: en del kan fylde alt, hvad der er tilbage på den valgte plade eller en ny. Projekter: et projekt med en importeret fil kan åbnes igen.",
   "news.195": "Rettelser efter en fuld gennemgang: vinduerne Projekter, Indstillinger og Genveje holder tastaturet inde og giver det tilbage til den rigtige knap, når de lukkes; en plade uden mål markeres tydeligt; en fil i et andet format (f.eks. et billede) angives som „formatet blev ikke genkendt“; et materiale med mål nul eller negativt gemmes ikke længere i stilhed; „Anslået skæretid“ nævner ikke længere fræseren, når intet er placeret.",
   "news.194": "Import: når delene i en tegning griber ind i hinanden, bliver hver indre streg på sin egen del (den følger ikke længere med nabodelen).",
   "news.193": "Nesting: en del, der ikke passer, markeres med rødt i delelisten med årsagen, og den røde besked fører dig hen til den. „Udgangspunkt“ hedder nu „Placeringspunkt“. Det valgte materiale sætter sit format på en pladelinje, og „Tilføj en restplade“ lægger restplader foran. Sav: vælg retningen for de første snit. „Hele planen som DXF“ henter én DXF pr. plade. Pris: separate takster for maskine og arbejde, påbegyndte timer afregnet hele hvis du vil, restplader som standard 0. Fræsning: din spindels omdrejningstal forklares. Fræsning og Laser: de anbefalede indstillinger følger ikke længere med, når du ruller. Laser: producenternes tykkelser forklares under feltet. AI-import: navne givet til stier i Illustrator bruges til delene.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} t",
   "res.noPanel": "Angiv længde og bredde for mindst én plade for at placere delene.",
   "lib.badSize": "„{f}“ skal være et tal større end 0.",
-  "err.unknownFormat": "Formatet blev ikke genkendt."
+  "err.unknownFormat": "Formatet blev ikke genkendt.",
+  "lock.lock": "Fastlås denne plade: dens dele flytter sig ikke mere",
+  "lock.unlock": "Lås denne plade op",
+  "lock.on": "Låst",
+  "lock.off": "Lås",
+  "lock.rowHint": "Låst plade: lås den op i planen for at ændre størrelsen.",
+  "lock.fieldsHint": "Plader er låst: lås dem op i planen for at ændre afstand eller margen.",
+  "lock.ask": "Denne del ligger på {n} låst(e) plade(r). Lås op for at ændre den?",
+  "piece.fillNone": "Fast antal",
+  "piece.fillSheet": "Fyld plade {n}",
+  "piece.fillNew": "Fyld en ny plade",
+  "piece.fillLbl": "Antal af del {n}: fast antal eller fyld en plade",
+  "piece.filled": "{n} placeret som fyld",
+  "piece.fillNoRoom": "Ingen fri plads tilbage at fylde."
 }

@@ -148,4 +148,16 @@ describe("relecture vérifiée", () => {
     assert.deepEqual(snap.milling, { ok: 2, deep: {} });
     assert.equal(snap.rotAll, "quarter");
   });
+
+  test("fichier importé : sa fiche garde la taille du dessin (sinon le projet ne se rouvrait pas)", () => {
+    const snap = cleanSnapshot({
+      app: "Nestor",
+      kind: "projet",
+      files: [
+        { id: 1, name: "a.dxf", data: "", info: { kind: "DXF", size: [190, 90.5], n: 2, how: "how.dxf", bad: [{}] } }
+      ],
+      types: []
+    });
+    assert.deepEqual(snap.files[0].info, { kind: "DXF", size: [190, 90.5], n: 2, how: "how.dxf" });
+  });
 });

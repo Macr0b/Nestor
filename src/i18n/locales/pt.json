@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.196": "Cadeado: cada chapa do plano pode ser fixada; as suas peças deixam de se mover e as novas (outro ficheiro, mais quantidade) vão primeiro para os seus buracos. Encher: uma peça pode encher tudo o que resta na chapa escolhida ou numa nova. Projetos: um projeto com um ficheiro importado volta a abrir.",
   "news.195": "Correções após uma revisão completa: as janelas Projetos, Definições e Atalhos mantêm o teclado lá dentro e devolvem-no ao botão certo ao fechar; uma chapa sem medidas é assinalada claramente; um ficheiro noutro formato (uma imagem, por exemplo) é indicado como «formato não reconhecido»; um material com medida nula ou negativa já não é guardado em silêncio; «Corte estimado» já não fala da fresa quando nada está colocado.",
   "news.194": "Importação: quando as peças de um desenho se encaixam, cada traço interior fica na sua peça (já não é levado pela vizinha).",
   "news.193": "Encaixe: uma peça que não cabe é assinalada a vermelho na lista de peças, com o motivo, e a mensagem vermelha leva até ela. «Origem» passa a «Ponto de posicionamento». O material escolhido põe o seu formato numa linha de chapa e «Adicionar uma sobra» coloca as sobras à frente. Serra: escolhe o sentido dos primeiros cortes. «Todo o plano em DXF» descarrega um DXF por chapa. Custo: taxas de máquina e de mão de obra separadas, horas começadas contadas inteiras se quiseres, sobras a 0 por defeito. Fresagem: as velocidades do teu spindle são explicadas. Fresagem e Laser: as definições recomendadas já não acompanham o deslocamento. Laser: as espessuras dos fabricantes são explicadas sob o campo. Importação AI: os nomes dados aos traçados no Illustrator são usados para as peças.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Indica o comprimento e a largura de pelo menos uma chapa para colocar as peças.",
   "lib.badSize": "«{f}» tem de ser um número maior do que 0.",
-  "err.unknownFormat": "Formato não reconhecido."
+  "err.unknownFormat": "Formato não reconhecido.",
+  "lock.lock": "Fixar esta chapa: as suas peças deixam de se mover",
+  "lock.unlock": "Desbloquear esta chapa",
+  "lock.on": "Fixada",
+  "lock.off": "Fixar",
+  "lock.rowHint": "Chapa fixada: desbloqueia-a no plano para mudar o tamanho.",
+  "lock.fieldsHint": "Há chapas fixadas: desbloqueia-as no plano para mudar o espaço ou a margem.",
+  "lock.ask": "Esta peça está em {n} chapa(s) fixada(s). Desbloquear para a mudar?",
+  "piece.fillNone": "Número fixo",
+  "piece.fillSheet": "Encher a chapa {n}",
+  "piece.fillNew": "Encher uma chapa nova",
+  "piece.fillLbl": "Quantidade da peça {n}: número fixo ou encher uma chapa",
+  "piece.filled": "{n} colocada(s) a encher",
+  "piece.fillNoRoom": "Já não há espaço livre para encher."
 }

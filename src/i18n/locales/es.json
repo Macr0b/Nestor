@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.196": "Candado: cada tablero del plan se puede fijar; sus piezas ya no se mueven y las nuevas (otro archivo, más cantidad) van primero a sus huecos. Llenar: una pieza puede llenar todo lo que queda en el tablero elegido o en uno nuevo. Proyectos: un proyecto con un archivo importado vuelve a abrirse.",
   "news.195": "Correcciones tras una revisión completa: las ventanas Proyectos, Ajustes y Atajos mantienen el teclado dentro y lo devuelven al botón correcto al cerrarse; un tablero sin medidas se señala claramente; un archivo de otro formato (una imagen, por ejemplo) se indica como «formato no reconocido»; un material con una medida nula o negativa ya no se guarda en silencio; «Corte estimado» ya no habla de la fresa cuando no hay nada colocado.",
   "news.194": "Importación: cuando las piezas de un dibujo encajan entre sí, cada trazo interior se queda en su pieza (ya no se lo lleva la vecina).",
   "news.193": "Anidado: una pieza que no cabe se marca en rojo en la lista de piezas, con el motivo, y el mensaje rojo lleva hasta ella. «Origen» pasa a ser «Punto de colocación». El material elegido pone su formato en una fila de tablero y «Añadir un retal» coloca los retales delante. Sierra: elige el sentido de los primeros cortes. «Todo el plan en DXF» descarga un DXF por tablero. Coste: tarifas de máquina y de mano de obra separadas, horas empezadas cobradas enteras si quieres, retales a 0 por defecto. Fresado: se explican las velocidades de tu husillo. Fresado y Láser: los ajustes recomendados ya no siguen el desplazamiento. Láser: los grosores de los fabricantes se explican bajo el campo. Importación AI: los nombres dados a los trazados en Illustrator se usan para las piezas.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Indica el largo y el ancho de al menos un tablero para colocar las piezas.",
   "lib.badSize": "«{f}» debe ser un número mayor que 0.",
-  "err.unknownFormat": "Formato no reconocido."
+  "err.unknownFormat": "Formato no reconocido.",
+  "lock.lock": "Fijar este tablero: sus piezas ya no se moverán",
+  "lock.unlock": "Desbloquear este tablero",
+  "lock.on": "Fijado",
+  "lock.off": "Fijar",
+  "lock.rowHint": "Tablero fijado: desbloquéalo en el plan para cambiar su tamaño.",
+  "lock.fieldsHint": "Hay tableros fijados: desbloquéalos en el plan para cambiar el espacio o el margen.",
+  "lock.ask": "Esta pieza está en {n} tablero(s) fijado(s). ¿Desbloquearlos para cambiarla?",
+  "piece.fillNone": "Número fijo",
+  "piece.fillSheet": "Llenar el tablero {n}",
+  "piece.fillNew": "Llenar un tablero nuevo",
+  "piece.fillLbl": "Cantidad de la pieza {n}: número fijo o llenar un tablero",
+  "piece.filled": "{n} colocada(s) de relleno",
+  "piece.fillNoRoom": "Ya no queda espacio libre para llenar."
 }

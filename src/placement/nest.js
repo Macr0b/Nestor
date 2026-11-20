@@ -7,7 +7,11 @@
    Cette fonction doit rester autonome : elle est recopiée telle quelle dans un Web Worker (via nest.toString()),
    elle ne peut donc utiliser ni Geo, ni le DOM, ni aucune variable extérieure.
 
-   Entrée  : { panels:[{L,W,qty}], gap, margin, types:[{w,h,rot,qty,on,polys,lines}] }
+   Entrée  : { panels:[{L,W,qty}], gap, margin, types:[{w,h,rot,qty,on,polys,lines}],
+               fixed:[{pi, parts:[{x,y,w,h,polys,lines}]}] }
+             fixed : panneaux déjà garnis (cadenas, remplissage) ; leurs pièces, en coordonnées du panneau (polys et
+             lines relatifs au coin x,y de la pièce, polys vide = rectangle plein), sont des obstacles. Ces panneaux
+             viennent en premier dans la sortie et ne reprennent pas les pièces fixes.
              rot : 0 = sens fixe (0° ou 180°), 1 = quarts de tour, 2 = rotation libre par pas de 5°
    Sortie  : { sheets:[{pi,L,W,parts:[{i,x,y,w,h,k|a,mx,my}]}], unplaced:[{i,why:"size"|"stock"}], total, count, res }
 
@@ -90,7 +94,9 @@ export function nest(input) {
       return k === 0 ? [u, v] : k === 1 ? [h - v, u] : k === 2 ? [w - u, h - v] : [v, w - u];
     });
   }
-  function raster(polys, w, h, lines) {
+  // extra : cases d'écart en plus autour de la pièce (pièces fixes dont la position tombe entre deux cases)
+  function raster(polys, w, h, lines, extra) {
+    var RR = R + (extra || 0);
     var wc = Math.max(1, Math.ceil(w / r - 1e-9)),
       hc = Math.max(1, Math.ceil(h / r - 1e-9)),
       g = new Uint8Array(wc * hc);
@@ -160,8 +166,8 @@ export function nest(input) {
     for (var y2 = 0; y2 < hc; y2++) {
       var iv2 = rowsI[y2];
       for (var t = 0; t < iv2.length; t += 2)
-        for (var dy = -R; dy <= R; dy++) {
-          var dx = Math.floor(Math.sqrt(R * R - dy * dy)),
+        for (var dy = -RR; dy <= RR; dy++) {
+          var dx = Math.floor(Math.sqrt(RR * RR - dy * dy)),
             ry = y2 + dy;
           (dil[ry] = dil[ry] || []).push([iv2[t] - dx, iv2[t + 1] + dx]);
         }
@@ -472,6 +478,27 @@ export function nest(input) {
       rowPrev(s, yy);
     });
   }
+  // panneaux déjà garnis : leurs pièces occupent la grille, avec une case d'écart en plus pour absorber l'arrondi de
+  // leur position (elle ne tombe pas forcément sur la grille de ce calcul)
+  (input.fixed || []).forEach(function (f) {
+    var P =
+      panels.find(function (p) {
+        return p.pi === f.pi;
+      }) || panels[0];
+    if (!P) return;
+    var s = newSheet(P);
+    f.parts.forEach(function (fp) {
+      var o = raster(fp.polys || [], fp.w, fp.h, fp.lines || [], 1),
+        cx = Math.round((fp.x - margin) / r),
+        cy = Math.round((fp.y - margin) / r);
+      place(s, o, cx, cy);
+      s.bx0 = Math.min(s.bx0, Math.max(0, cx));
+      s.by0 = Math.min(s.by0, Math.max(0, cy));
+      s.bx1 = Math.max(s.bx1, cx + o.wc);
+      s.by1 = Math.max(s.by1, cy + o.hc);
+    });
+    sheets.push(s);
+  });
   function tryOn(s, os) {
     var best = null,
       bo = null;
@@ -485,8 +512,14 @@ export function nest(input) {
     return best ? { f: best, o: bo } : null;
   }
   var unplaced = [],
-    fitCache = {};
+    fitCache = {},
+    // type qui n'a déjà plus trouvé de place : les panneaux ne font que se remplir, ses copies suivantes non plus
+    failed = {};
   items.forEach(function (it) {
+    if (failed[it.i]) {
+      unplaced.push({ i: it.i, why: failed[it.i] });
+      return;
+    }
     var os = orient[it.i],
       done = null,
       si;
@@ -531,7 +564,8 @@ export function nest(input) {
         fitCache[key] = panels.some(function (P) {
           return !!tryOn(newSheet(P), os);
         });
-      unplaced.push({ i: it.i, why: fitCache[key] ? "stock" : "size" });
+      failed[it.i] = fitCache[key] ? "stock" : "size";
+      unplaced.push({ i: it.i, why: failed[it.i] });
     }
   });
   unplaced = unplaced.concat(tooBig);

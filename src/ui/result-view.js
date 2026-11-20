@@ -9,10 +9,13 @@ import { showLength } from "./lengths.js";
 import { cutTimeSummary, panelSizeLabel, planSummary } from "./plan-summary.js";
 import { isImperial } from "../util/units.js";
 import { renderCost } from "./cost-tab.js";
-import { applyOrigin, nestingFrame, originPoint, panelList, panelOrigin } from "../placement/origin.js";
-import { packRectangles } from "../placement/rectangles.js";
+import { originPoint, panelList } from "../placement/origin.js";
+import { computePlan, fillTarget } from "../placement/plan-layers.js";
 import { sawCutTableHtml } from "./saw-cut-list.js";
-import { buildNestInput, nestPanelByPanel, nestWithOrigin, stopNesting } from "../placement/run-nesting.js";
+import { stopNesting } from "../placement/run-nesting.js";
+import { parseNumber } from "../util/numbers.js";
+import { lockCount, lockSheet, unlockSheet } from "../project/locks.js";
+import { renderLockedFields } from "./panels-editor.js";
 import { partDisplayName, scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
 import { session } from "../session.js";
@@ -22,6 +25,9 @@ import { markUnplacedParts, showPartRow, unplacedByPart } from "./unplaced-marks
 import { byId, escapeHtml } from "../util/dom.js";
 
 let currentJob = 0;
+
+// cadenas qui doit reprendre le focus quand le plan sera redessiné (indice du panneau), sinon null
+let focusLockAfterDraw = null;
 
 // annulation d'un calcul long demandée par l'utilisateur
 function cancelNesting() {
@@ -33,49 +39,27 @@ function cancelNesting() {
 
 export function renderResult() {
   var jobId = ++currentJob,
-    mode = state.sheet.mode === "rect" ? "rect" : "nest",
-    msg = byId("calcMsg");
-  if (mode === "rect") {
-    drawResult(
-      applyOrigin(
-        packRectangles(
-          { gap: state.sheet.gap, margin: state.sheet.margin, panels: panelList() },
-          state.types.map(scaledPart)
-        ),
-        function (s) {
-          var o = panelOrigin(s.pi);
-          return { tr: false, fx: o[1] === "r", fy: o[0] === "b", o: o, geo: false };
-        }
-      )
-    );
-    msg.textContent = "";
-    return;
-  }
-  var panelSpecs = panelList(),
-    f0 = nestingFrame(panelSpecs[0] ? panelSpecs[0].L : 1, panelSpecs[0] ? panelSpecs[0].W : 1, panelOrigin(0)),
-    input = buildNestInput(f0);
+    msg = byId("calcMsg"),
+    panelSpecs = panelList();
+  // pièces à placer : quantités, plus celles qui remplissent un panneau
+  var parts = state.types.reduce(function (a, t) {
+    if (t.on === false) return a;
+    return a + (fillTarget(t) ? 1 : Math.max(0, Math.floor(parseNumber(t.qty, 0))));
+  }, 0);
   if (
-    !input.types.some(function (t) {
-      return t.on && t.qty > 0;
-    }) ||
-    !input.panels.some(function (p) {
+    !parts ||
+    !panelSpecs.some(function (p) {
       return p.L > 0 && p.W > 0;
     })
   ) {
     // des pièces mais aucun panneau utilisable : le dire, plutôt que « importe un fichier »
-    var parts = input.types.reduce(function (a, t) {
-      return a + (t.on && t.qty > 0 ? t.qty : 0);
-    }, 0);
     drawResult({ sheets: [], unplaced: [], count: 0, total: parts, noPanel: parts > 0 });
     msg.textContent = "";
     return;
   }
   byId("result").classList.add("busy");
-  var t0 = Date.now(),
-    nTot = input.types.reduce(function (a, t) {
-      return a + (t.on ? Math.max(0, t.qty) : 0);
-    }, 0);
-  msg.textContent = translate("calc.running") + (nTot > 2000 ? " " + translate("calc.many", { n: nTot }) : "");
+  var t0 = Date.now();
+  msg.textContent = translate("calc.running") + (parts > 2000 ? " " + translate("calc.many", { n: parts }) : "");
   // bouton Annuler si le calcul dure
   setTimeout(function () {
     if (jobId !== currentJob || !byId("result").classList.contains("busy")) return;
@@ -87,16 +71,16 @@ export function renderResult() {
     msg.appendChild(document.createTextNode(" "));
     msg.appendChild(b);
   }, 700);
-  var same = panelSpecs.every(function (p, pi) {
-    return panelOrigin(pi) === panelOrigin(0);
-  });
-  (same ? nestWithOrigin(panelSpecs[0].L, panelSpecs[0].W, panelOrigin(0)) : nestPanelByPanel(panelSpecs))
+  computePlan()
     .then(function (res) {
       if (jobId !== currentJob) return;
-      msg.textContent = translate("calc.done", {
-        s: formatNumber((Date.now() - t0) / 1000),
-        p: showLength(res.res, { decimal: true, digits: 2 })
-      });
+      msg.textContent =
+        state.sheet.mode === "rect"
+          ? ""
+          : translate("calc.done", {
+              s: formatNumber((Date.now() - t0) / 1000),
+              p: showLength(res.res, { decimal: true, digits: 2 })
+            });
       drawResult(res);
     })
     .catch(function (x) {
@@ -105,6 +89,28 @@ export function renderResult() {
       msg.textContent = translate("calc.fail");
       session.lastError = translate("calc.fail") + (x && x.message ? " (" + x.message + ")" : "");
     });
+}
+
+// cadenas d'un panneau : fermé (figé) ou ouvert ; l'icône est dessinée, le texte dit l'état
+const LOCK_ICON =
+  '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+const OPEN_ICON =
+  '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 5.8-1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+
+function lockButton(sheet, si) {
+  return (
+    ' <button type="button" class="btn sm lockbtn" data-lock="' +
+    si +
+    '" aria-pressed="' +
+    !!sheet.locked +
+    '" title="' +
+    escapeHtml(translate(sheet.locked ? "lock.unlock" : "lock.lock")) +
+    '">' +
+    (sheet.locked ? LOCK_ICON : OPEN_ICON) +
+    "<span>" +
+    escapeHtml(translate(sheet.locked ? "lock.on" : "lock.off")) +
+    "</span></button>"
+  );
 }
 
 /* Case « Découpe estimée » : contours extérieurs des pièces placées, avec l'avance et les passes de l'onglet Fraisage. */
@@ -195,9 +201,12 @@ export function drawResult(res) {
         ? " · " + translate("sheet.free", { w: showLength(Math.floor(fr.w)), h: showLength(Math.floor(fr.h)) })
         : "");
     h.push(
-      '<article class="sheet"><h3>' +
+      '<article class="sheet' +
+        (s.locked ? " is-locked" : "") +
+        '"><h3><span class="sheet-t">' +
         escapeHtml(translate("sheet.title", { i: si + 1, n: n })) +
-        " <small>" +
+        lockButton(s, si) +
+        "</span> <small>" +
         escapeHtml(meta) +
         "</small></h3>" +
         '<div class="svgbox">' +
@@ -240,6 +249,11 @@ export function drawResult(res) {
   if (n) h.push('<p class="hint">' + escapeHtml(translate(isImperial() ? "res.noteInch" : "res.note")) + "</p>");
   byId("result").innerHTML = h.join("");
   markUnplacedParts();
+  if (focusLockAfterDraw != null) {
+    var lockBtn = document.querySelector('[data-lock="' + Math.max(0, focusLockAfterDraw) + '"]');
+    focusLockAfterDraw = null;
+    if (lockBtn) lockBtn.focus();
+  }
   // l'onglet Coût suit le dernier plan calculé
   renderCost();
 }
@@ -262,6 +276,18 @@ function downloadPdf(which, projectSlug) {
       if (err && err.name === "AbortError") return;
       msg.textContent = translate("dl.fail");
     });
+}
+
+/* Cadenas d'un panneau : les panneaux figés sont les premiers du plan, dans l'ordre des cadenas. */
+function toggleLock(si) {
+  var sheet = session.lastResult && session.lastResult.sheets[si];
+  if (!sheet) return;
+  if (sheet.locked) unlockSheet(si);
+  else lockSheet(sheet);
+  renderLockedFields();
+  // une fois le plan redessiné, le focus revient sur le cadenas de ce panneau (les figés passent en tête)
+  focusLockAfterDraw = sheet.locked ? -1 : lockCount() - 1;
+  renderResult();
 }
 
 /* Fichier SVG ou DXF d'un panneau du dernier plan : { name, blob }. */
@@ -309,6 +335,8 @@ export function bindResultView() {
   byId("result").addEventListener("click", function (e) {
     var link = e.target.closest("[data-part]");
     if (link) return showPartRow(+link.dataset.part);
+    var lock = e.target.closest("[data-lock]");
+    if (lock) return toggleLock(+lock.dataset.lock);
     var b = e.target.closest("[data-dl]");
     if (!b || !session.lastResult) return;
     var kind = b.dataset.dl,

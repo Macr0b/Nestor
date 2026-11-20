@@ -1,5 +1,6 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Pièces non placées : repère rouge sur leur ligne de la liste des pièces, avec la raison écrite. */
+/* Repères posés sur les lignes de pièces après un calcul : pièces non placées (rouge, avec la raison), et pièces
+   qui remplissent un panneau (nombre posé). */
 
 import { translate } from "../i18n/i18n.js";
 import { panelList } from "../placement/origin.js";
@@ -7,6 +8,7 @@ import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { parseNumber } from "../util/numbers.js";
 import { panelSizeLabel } from "./plan-summary.js";
+import { fillOptions } from "./parts-list.js";
 
 /* { indice de pièce : { n: exemplaires non placés, why: "size" | "stock" } } ; « size » l'emporte. */
 export function unplacedByPart(res) {
@@ -44,12 +46,25 @@ function reasonText(mark, part) {
 
 /* Repose les repères d'après le dernier calcul : après chaque calcul et chaque fois que la liste est redessinée. */
 export function markUnplacedParts() {
-  var marks = unplacedByPart(session.lastResult);
+  var res = session.lastResult,
+    marks = unplacedByPart(res);
   document.querySelectorAll("#types .trow").forEach(function (row) {
     var i = +row.dataset.i,
       mark = marks[i],
-      old = row.querySelector(".unfit");
+      old = row.querySelector(".unfit"),
+      oldFill = row.querySelector(".fillinfo"),
+      select = row.querySelector('[data-k="fill"]');
     if (old) old.remove();
+    if (oldFill) oldFill.remove();
+    // numéros de panneau proposés : ceux du plan qui vient d'être calculé
+    if (select && state.types[i] && document.activeElement !== select) select.innerHTML = fillOptions(state.types[i]);
+    if (state.types[i] && state.types[i].fill && res && res.filled) {
+      var placed = res.filled[i] || 0,
+        fillLine = document.createElement("p");
+      fillLine.className = "fillinfo";
+      fillLine.textContent = placed ? translate("piece.filled", { n: placed }) : translate("piece.fillNoRoom");
+      row.appendChild(fillLine);
+    }
     row.classList.toggle("unplaced", !!mark);
     if (!mark || !state.types[i]) return;
     var line = document.createElement("p");

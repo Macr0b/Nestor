@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.196": "Fixieren: Jede Platte des Plans lässt sich fixieren; ihre Teile bewegen sich nicht mehr, und neue Teile (eine weitere Datei, eine höhere Menge) kommen zuerst in ihre Lücken. Füllen: Ein Teil kann alles füllen, was auf der gewählten Platte oder einer neuen Platte frei ist. Projekte: Ein Projekt mit importierter Datei lässt sich wieder öffnen.",
   "news.195": "Korrekturen nach einer vollständigen Prüfung: Die Fenster Projekte, Einstellungen und Tastenkürzel halten die Tastatur im Fenster und geben sie beim Schließen an die richtige Schaltfläche zurück; eine Platte ohne Maße wird klar gemeldet; eine Datei in einem anderen Format (z. B. ein Bild) wird als „Format nicht erkannt“ gemeldet; ein Material mit Maß null oder negativ wird nicht mehr stillschweigend gespeichert; „Geschätzte Schneidzeit“ erwähnt den Fräser nicht mehr, wenn nichts platziert ist.",
   "news.194": "Import: Wenn die Teile einer Zeichnung ineinandergreifen, bleibt jede innere Linie auf ihrem Teil (sie wird nicht mehr vom Nachbarteil mitgenommen).",
   "news.193": "Verschachtelung: Ein Teil, das nicht passt, wird in der Teileliste rot markiert, mit dem Grund, und die rote Meldung führt dorthin. „Ursprung“ heißt jetzt „Platzierungspunkt“. Das gewählte Material setzt sein Format auf eine Plattenzeile, und „Reststück hinzufügen“ stellt Reststücke davor. Säge: Richtung der ersten Schnitte wählbar. „Ganzer Plan als DXF“ lädt eine DXF pro Platte. Kosten: getrennte Sätze für Maschine und Arbeit, angefangene Stunden auf Wunsch voll berechnet, Reststücke standardmäßig 0. Fräsen: die Drehzahlen deiner Spindel werden erklärt. Fräsen und Laser: die empfohlenen Einstellungen scrollen nicht mehr mit. Laser: die Herstellerstärken werden unter dem Feld erklärt. AI-Import: in Illustrator vergebene Pfadnamen werden für die Teile übernommen.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Gib Länge und Breite mindestens einer Platte an, um die Teile zu platzieren.",
   "lib.badSize": "„{f}“ muss eine Zahl größer als 0 sein.",
-  "err.unknownFormat": "Format nicht erkannt."
+  "err.unknownFormat": "Format nicht erkannt.",
+  "lock.lock": "Diese Platte fixieren: ihre Teile bewegen sich nicht mehr",
+  "lock.unlock": "Diese Platte freigeben",
+  "lock.on": "Fixiert",
+  "lock.off": "Fixieren",
+  "lock.rowHint": "Fixierte Platte: Gib sie im Plan frei, um ihre Größe zu ändern.",
+  "lock.fieldsHint": "Platten sind fixiert: Gib sie im Plan frei, um Abstand oder Rand zu ändern.",
+  "lock.ask": "Dieses Teil liegt auf {n} fixierten Platte(n). Freigeben, um es zu ändern?",
+  "piece.fillNone": "Feste Anzahl",
+  "piece.fillSheet": "Platte {n} füllen",
+  "piece.fillNew": "Neue Platte füllen",
+  "piece.fillLbl": "Menge von Teil {n}: feste Anzahl oder eine Platte füllen",
+  "piece.filled": "{n} als Füllung platziert",
+  "piece.fillNoRoom": "Kein freier Platz mehr zum Füllen."
 }

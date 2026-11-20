@@ -76,6 +76,7 @@ function applySnapshot(snapshot, id) {
   });
   state.sheet = snapshot.sheet;
   state.types = snapshot.types;
+  state.locks = snapshot.locks;
   state.rotAll = snapshot.rotAll;
   state.sort = snapshot.sort;
   Object.assign(exportOptions, snapshot.exportOptions);

@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušený.",
   "calc.many": "{n} dielov na rozmiestnenie: môže to chvíľu trvať.",
   "news.121": "Množstvá už nie sú obmedzené na 500, príliš veľké diely sa ohlásia hneď a pri dlhom výpočte sa objaví tlačidlo Zrušiť.",
+  "news.196": "Zámok: každú dosku plánu možno zamknúť; jej dielce sa už nehýbu a nové dielce (ďalší súbor, vyšší počet) idú najprv do jej medzier. Vyplniť: dielec môže vyplniť všetko, čo zostáva na zvolenej alebo novej doske. Projekty: projekt s importovaným súborom sa opäť otvorí.",
   "news.195": "Opravy po úplnej kontrole: okná Projekty, Nastavenia a Klávesové skratky držia klávesnicu vnútri a po zatvorení ju vrátia správnemu tlačidlu; doska bez rozmerov je jasne ohlásená; súbor v inom formáte (napríklad obrázok) je ohlásený ako „nerozpoznaný formát“; materiál s nulovým alebo záporným rozmerom sa už potichu neuloží; „Odhadovaný čas rezania“ už nespomína frézu, keď nie je nič rozmiestnené.",
   "news.194": "Import: keď do seba dielce výkresu zapadajú, každá vnútorná čiara zostane na svojom dielci (už ju neodnesie susedný).",
   "news.193": "Rozmiestnenie: dielec, ktorý sa nezmestí, je v zozname dielcov označený červenou aj s dôvodom a červená správa k nemu vedie. „Počiatok“ sa teraz volá „Bod umiestnenia“. Zvolený materiál zapíše svoj formát do riadku dosky a „Pridať odrezok“ dá odrezky pred neho. Píla: voľba smeru prvých rezov. „Celý plán v DXF“ stiahne jeden DXF na dosku. Náklady: oddelené sadzby stroja a práce, začaté hodiny podľa želania celé, odrezky predvolene 0. Frézovanie: otáčky vretena sú vysvetlené. Frézovanie a laser: odporúčané nastavenia sa už neposúvajú so stránkou. Laser: hrúbky výrobcov sú vysvetlené pod poľom. Import AI: názvy ciest z Illustratora sa použijú pre dielce.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Zadaj dĺžku a šírku aspoň jednej dosky, aby sa dali dielce rozmiestniť.",
   "lib.badSize": "„{f}“ musí byť číslo väčšie ako 0.",
-  "err.unknownFormat": "Nerozpoznaný formát."
+  "err.unknownFormat": "Nerozpoznaný formát.",
+  "lock.lock": "Zamknúť túto dosku: jej dielce sa už nepohnú",
+  "lock.unlock": "Odomknúť túto dosku",
+  "lock.on": "Zamknuté",
+  "lock.off": "Zamknúť",
+  "lock.rowHint": "Zamknutá doska: odomkni ju v pláne, ak chceš zmeniť jej rozmer.",
+  "lock.fieldsHint": "Niektoré dosky sú zamknuté: odomkni ich v pláne, ak chceš zmeniť medzeru alebo okraj.",
+  "lock.ask": "Tento dielec je na {n} zamknutej(-ých) doske(-ách). Odomknúť, aby sa dal zmeniť?",
+  "piece.fillNone": "Pevný počet",
+  "piece.fillSheet": "Vyplniť dosku {n}",
+  "piece.fillNew": "Vyplniť novú dosku",
+  "piece.fillLbl": "Množstvo dielca {n}: pevný počet alebo vyplnenie dosky",
+  "piece.filled": "{n} rozmiestnených ako výplň",
+  "piece.fillNoRoom": "Už nezostáva voľné miesto na vyplnenie."
 }

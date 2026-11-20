@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.196": "Slot: elke plaat van het plan kan vastgezet worden; de onderdelen bewegen niet meer en nieuwe onderdelen (een ander bestand, een groter aantal) gaan eerst in de gaten. Vullen: een onderdeel kan alles vullen wat op de gekozen plaat of een nieuwe plaat over is. Projecten: een project met een geïmporteerd bestand opent weer.",
   "news.195": "Correcties na een volledige controle: de vensters Projecten, Instellingen en Sneltoetsen houden het toetsenbord binnen en geven het bij sluiten terug aan de juiste knop; een plaat zonder maten wordt duidelijk gemeld; een bestand in een ander formaat (bijvoorbeeld een afbeelding) wordt gemeld als ‘formaat niet herkend’; een materiaal met maat nul of negatief wordt niet meer stilzwijgend opgeslagen; ‘Geschatte snijtijd’ noemt de frees niet meer als er niets geplaatst is.",
   "news.194": "Import: als de onderdelen van een tekening in elkaar grijpen, blijft elke binnenlijn op zijn eigen onderdeel (het buuronderdeel neemt hem niet meer mee).",
   "news.193": "Nesten: een onderdeel dat niet past, wordt rood gemarkeerd in de onderdelenlijst, met de reden, en de rode melding brengt je erheen. ‘Oorsprong’ heet nu ‘Plaatsingspunt’. Het gekozen materiaal zet zijn formaat op een plaatregel, en ‘Restplaat toevoegen’ zet restplaten ervoor. Zaag: kies de richting van de eerste zaagsneden. ‘Hele plan als DXF’ downloadt één DXF per plaat. Kosten: aparte tarieven voor machine en arbeid, begonnen uren desgewenst volledig gerekend, restplaten standaard 0. Frezen: de toerentallen van je spindel worden uitgelegd. Frezen en Laser: de aanbevolen instellingen scrollen niet meer mee. Laser: de diktes van fabrikanten worden onder het veld uitgelegd. AI-import: namen die paden in Illustrator kregen, worden voor de onderdelen gebruikt.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} u",
   "res.noPanel": "Vul de lengte en breedte van minstens één plaat in om de onderdelen te plaatsen.",
   "lib.badSize": "‘{f}’ moet een getal groter dan 0 zijn.",
-  "err.unknownFormat": "Formaat niet herkend."
+  "err.unknownFormat": "Formaat niet herkend.",
+  "lock.lock": "Deze plaat vastzetten: de onderdelen bewegen niet meer",
+  "lock.unlock": "Deze plaat vrijgeven",
+  "lock.on": "Vast",
+  "lock.off": "Vastzetten",
+  "lock.rowHint": "Vastgezette plaat: geef hem vrij in het plan om de maat te wijzigen.",
+  "lock.fieldsHint": "Er zijn vastgezette platen: geef ze vrij in het plan om afstand of marge te wijzigen.",
+  "lock.ask": "Dit onderdeel ligt op {n} vastgezette pla(a)t(en). Vrijgeven om het te wijzigen?",
+  "piece.fillNone": "Vast aantal",
+  "piece.fillSheet": "Plaat {n} vullen",
+  "piece.fillNew": "Een nieuwe plaat vullen",
+  "piece.fillLbl": "Aantal van onderdeel {n}: vast aantal of een plaat vullen",
+  "piece.filled": "{n} geplaatst als vulling",
+  "piece.fillNoRoom": "Geen vrije ruimte meer om te vullen."
 }

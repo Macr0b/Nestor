@@ -81,6 +81,8 @@ export function createExampleProject() {
     example: true,
     source: "",
     files: [],
+    // panneaux figés (cadenas), voir project/locks.js
+    locks: [],
     sheet: { panels: [{ L: 600, W: 400, qty: "" }], gap: 2, margin: 5, mode: "nest" },
     types: createExampleParts()
   };

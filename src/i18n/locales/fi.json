@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.196": "Lukko: suunnitelman jokaisen levyn voi lukita; sen osat eivät enää liiku, ja uudet osat (toinen tiedosto, suurempi määrä) menevät ensin sen aukkoihin. Täytä: osa voi täyttää kaiken valitulla tai uudella levyllä jäljellä olevan tilan. Projektit: projekti, jossa on tuotu tiedosto, aukeaa taas.",
   "news.195": "Korjauksia perusteellisen tarkistuksen jälkeen: Projektit-, Asetukset- ja Pikanäppäimet-ikkunat pitävät näppäimistön sisällään ja palauttavat sen oikeaan painikkeeseen sulkeutuessaan; levy ilman mittoja ilmoitetaan selvästi; muun muotoinen tiedosto (esimerkiksi kuva) ilmoitetaan ”tiedostomuotoa ei tunnistettu”; materiaalia, jonka mitta on nolla tai negatiivinen, ei enää tallenneta huomaamatta; ”Arvioitu leikkausaika” ei enää puhu terästä, kun mitään ei ole sijoitettu.",
   "news.194": "Tuonti: kun piirroksen osat lomittuvat, jokainen sisäviiva pysyy omassa osassaan (naapuriosa ei enää vie sitä mukanaan).",
   "news.193": "Sijoittelu: osa, joka ei mahdu, merkitään punaisella osaluetteloon syineen, ja punainen viesti vie sen luo. ”Origo” on nyt ”Sijoituspiste”. Valittu materiaali asettaa kokonsa levyriville, ja ”Lisää hukkapala” lisää hukkapalat sen eteen. Saha: valitse ensimmäisten sahausten suunta. ”Koko suunnitelma DXF:nä” lataa yhden DXF:n levyä kohden. Kustannus: erilliset tuntihinnat koneelle ja työlle, aloitetut tunnit halutessa kokonaisina, hukkapalat oletuksena 0. Jyrsintä: karan kierrosnopeudet selitetään. Jyrsintä ja laser: suositellut asetukset eivät enää seuraa vieritystä. Laser: valmistajien paksuudet selitetään kentän alla. AI-tuonti: Illustratorissa poluille annetut nimet käytetään osien niminä.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Anna vähintään yhden levyn pituus ja leveys, jotta osat voidaan sijoittaa.",
   "lib.badSize": "”{f}” on oltava nollaa suurempi luku.",
-  "err.unknownFormat": "Tiedostomuotoa ei tunnistettu."
+  "err.unknownFormat": "Tiedostomuotoa ei tunnistettu.",
+  "lock.lock": "Lukitse tämä levy: sen osat eivät enää liiku",
+  "lock.unlock": "Avaa tämän levyn lukitus",
+  "lock.on": "Lukittu",
+  "lock.off": "Lukitse",
+  "lock.rowHint": "Lukittu levy: avaa sen lukitus suunnitelmassa muuttaaksesi kokoa.",
+  "lock.fieldsHint": "Levyjä on lukittu: avaa niiden lukitus suunnitelmassa muuttaaksesi väliä tai reunusta.",
+  "lock.ask": "Tämä osa on {n} lukitulla levyllä. Avataanko lukitus muutosta varten?",
+  "piece.fillNone": "Kiinteä määrä",
+  "piece.fillSheet": "Täytä levy {n}",
+  "piece.fillNew": "Täytä uusi levy",
+  "piece.fillLbl": "Osan {n} määrä: kiinteä määrä tai levyn täyttö",
+  "piece.filled": "{n} sijoitettu täytteeksi",
+  "piece.fillNoRoom": "Täytettävää vapaata tilaa ei enää ole."
 }

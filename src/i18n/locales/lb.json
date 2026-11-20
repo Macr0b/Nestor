@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung ofgebrach.",
   "calc.many": "{n} Deeler ze placéieren: dat ka laang daueren.",
   "news.121": "D’Quantitéite sinn net méi op 500 limitéiert, ze grouss Deeler ginn direkt gemellt, an e Knäppchen Ofbriechen erschéngt bei laange Berechnungen.",
+  "news.196": "Schlass: all Plack vum Plang kann fixéiert ginn; hir Deeler beweegen sech net méi, an nei Deeler (en anere Fichier, eng méi grouss Unzuel) ginn als éischt an hir Lächer. Fëllen: en Deel kann alles fëllen, wat op der gewielter oder enger neier Plack iwwreg ass. Projeten: e Projet mat engem importéierte Fichier geet erëm op.",
   "news.195": "Korrekture no enger komplett Iwwerpréiwung: d’Fënstere Projeten, Astellungen a Tastekierzele behalen d’Tastatur dobannen a ginn se beim Zoumaachen dem richtege Knäppchen zeréck; eng Plack ouni Moossen gëtt kloer gemellt; e Fichier an engem anere Format (zum Beispill e Bild) gëtt als „Format net erkannt“ gemellt; e Material mat Mooss null oder negativ gëtt net méi roueg gespäichert; „Geschate Schneidzäit“ schwätzt net méi vum Fräser, wann näischt placéiert ass.",
   "news.194": "Import: wann d’Deeler vun enger Zeechnung anenee gräifen, bleift all bannenzeg Linn op hirem Deel (den Nopeschdeel hëlt se net méi mat).",
   "news.193": "Verschachtelen: en Deel, deen net passt, gëtt an der Lëscht rout markéiert, mam Grond, an déi rout Meldung féiert dohin. „Ursprong“ heescht elo „Placéierungspunkt“. D’gewielt Material setzt säi Format op eng Plackenzeil, an „Reschtstéck derbäisetzen“ setzt Reschtstécker virdrun. Seeg: wiel d’Richtung vun den éischte Schnëtter. „De ganze Plang als DXF“ lued eng DXF pro Plack erof. Käschten: separat Sätz fir Maschinn an Aarbecht, ugefaange Stonnen op Wonsch ganz verrechent, Reschtstécker standardméisseg 0. Fräsen: d’Dréizuelen vun der Spindel ginn erkläert. Fräsen a Laser: déi recommandéiert Astellunge scrollen net méi mat. Laser: d’Déckten vun den Hiersteller ginn ënner dem Feld erkläert. AI-Import: Nimm vu Pfaden aus Illustrator ginn fir d’Deeler iwwerholl.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Gëff d’Längt an d’Breet vun op d’mannst enger Plack un, fir d’Deeler ze placéieren.",
   "lib.badSize": "„{f}“ muss eng Zuel méi grouss wéi 0 sinn.",
-  "err.unknownFormat": "Format net erkannt."
+  "err.unknownFormat": "Format net erkannt.",
+  "lock.lock": "Dës Plack fixéieren: hir Deeler beweegen sech net méi",
+  "lock.unlock": "Dës Plack fräiginn",
+  "lock.on": "Fixéiert",
+  "lock.off": "Fixéieren",
+  "lock.rowHint": "Fixéiert Plack: gëff se am Plang fräi, fir hir Gréisst z’änneren.",
+  "lock.fieldsHint": "Et si Placke fixéiert: gëff se am Plang fräi, fir den Ofstand oder de Rand z’änneren.",
+  "lock.ask": "Dësen Deel ass op {n} fixéierter Plack(en). Fräiginn, fir en z’änneren?",
+  "piece.fillNone": "Fest Zuel",
+  "piece.fillSheet": "Plack {n} fëllen",
+  "piece.fillNew": "Eng nei Plack fëllen",
+  "piece.fillLbl": "Unzuel vum Deel {n}: fest Zuel oder eng Plack fëllen",
+  "piece.filled": "{n} als Fëllung placéiert",
+  "piece.fillNoRoom": "Keng fräi Plaz méi fir ze fëllen."
 }

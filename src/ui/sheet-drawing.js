@@ -177,6 +177,7 @@ export function renderSheetSvg(resultSheet) {
     svg.push(
       '<path class="svg-piece' +
         (p.i % 2 ? " alt" : "") +
+        (p.locked ? " locked" : "") +
         '" stroke-width="' +
         strokeWidth +
         '" d="' +

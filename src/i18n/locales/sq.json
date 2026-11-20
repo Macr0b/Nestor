@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.196": "Dryni: çdo panel i planit mund të fiksohet; pjesët e tij nuk lëvizin më dhe të rejat (një skedar tjetër, sasi më e madhe) shkojnë së pari në boshllëqet e tij. Mbush: një pjesë mund të mbushë gjithçka që mbetet në panelin e zgjedhur ose në një të ri. Projektet: një projekt me skedar të importuar hapet sërish.",
   "news.195": "Korrigjime pas një rishikimi të plotë: dritaret Projektet, Cilësimet dhe Shkurtoret e mbajnë tastierën brenda dhe ia kthejnë butonit të duhur kur mbyllen; një panel pa përmasa sinjalizohet qartë; një skedar në format tjetër (p.sh. një imazh) tregohet si “format i panjohur”; një material me përmasë zero ose negative nuk ruhet më në heshtje; “Prerja e vlerësuar” nuk flet më për frezën kur nuk është vendosur asgjë.",
   "news.194": "Importi: kur pjesët e një vizatimi futen në njëra-tjetrën, çdo vijë e brendshme mbetet në pjesën e vet (nuk e merr më fqinja).",
   "news.193": "Vendosja: një pjesë që nuk hyn shënohet me të kuqe në listë, me arsyen, dhe mesazhi i kuq të çon tek ajo. “Origjina” tani quhet “Pika e vendosjes”. Materiali i zgjedhur vë formatin e vet në një rresht paneli dhe “Shto një mbetje” vendos mbetjet përpara. Sharra: zgjidh drejtimin e prerjeve të para. “I gjithë plani në DXF” shkarkon një DXF për panel. Kosto: tarifa të veçanta për makinën dhe punën, orët e nisura të llogaritura të plota nëse do, mbetjet 0 si parazgjedhje. Frezimi: shpejtësitë e boshtit shpjegohen. Frezimi dhe lazeri: cilësimet e rekomanduara nuk lëvizin më me faqen. Lazeri: trashësitë e prodhuesve shpjegohen poshtë fushës. Importi AI: emrat e dhënë shtigjeve në Illustrator përdoren për pjesët.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} orë",
   "res.noPanel": "Shkruaj gjatësinë dhe gjerësinë e të paktën një paneli për të vendosur pjesët.",
   "lib.badSize": "“{f}” duhet të jetë një numër më i madh se 0.",
-  "err.unknownFormat": "Format i panjohur."
+  "err.unknownFormat": "Format i panjohur.",
+  "lock.lock": "Fikso këtë panel: pjesët e tij nuk do të lëvizin më",
+  "lock.unlock": "Zhblloko këtë panel",
+  "lock.on": "I fiksuar",
+  "lock.off": "Fikso",
+  "lock.rowHint": "Panel i fiksuar: zhbllokoje në plan për t’i ndryshuar përmasën.",
+  "lock.fieldsHint": "Disa panele janë fiksuar: zhbllokoji në plan për të ndryshuar hapësirën ose kufirin.",
+  "lock.ask": "Kjo pjesë është në {n} panel(e) të fiksuar(a). T’i zhbllokoj për ta ndryshuar?",
+  "piece.fillNone": "Numër fiks",
+  "piece.fillSheet": "Mbush panelin {n}",
+  "piece.fillNew": "Mbush një panel të ri",
+  "piece.fillLbl": "Sasia e pjesës {n}: numër fiks ose mbushja e një paneli",
+  "piece.filled": "{n} të vendosura si mbushje",
+  "piece.fillNoRoom": "Nuk ka më hapësirë të lirë për t’u mbushur."
 }

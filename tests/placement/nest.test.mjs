@@ -3,6 +3,7 @@ import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { fixture, rect, disc, type, checkSheet } from "../helpers.mjs";
 import { nest } from "../../src/placement/nest.js";
+import { placedPartPaths } from "../../src/geometry/placed-parts.js";
 
 // copie simple d'un résultat, pour comparer son contenu
 const plain = (x) => JSON.parse(JSON.stringify(x));
@@ -24,6 +25,64 @@ describe("Imbrication (nest)", () => {
     assert.equal(res.count, 14);
     // la précision du calcul est d'environ res mm : on tolère cet écart
     for (const s of res.sheets) assert.deepEqual(checkSheet(s, types, { margin: 5, gap: 2, tol: res.res + 0.05 }), []);
+  });
+
+  test("panneau déjà garni (cadenas) : les nouvelles pièces vont dans les trous, sans toucher les pièces fixes", () => {
+    // pièces fixes : un grand rectangle et un disque, posés à des positions hors grille
+    const big = type(rect(300, 200), 1),
+      round = type(disc(60), 1),
+      small = type(rect(60, 40), 40);
+    const fixedParts = [
+      { i: 0, x: 5.3, y: 5.7, w: 300, h: 200, k: 0 },
+      { i: 1, x: 420.4, y: 230.9, w: 120, h: 120, k: 0 }
+    ];
+    const toFixed = (p, t) => ({
+      x: p.x,
+      y: p.y,
+      w: p.w,
+      h: p.h,
+      polys: placedPartPaths(t, { ...p, x: 0, y: 0 })
+        .filter((q) => q.closed)
+        .map((q) => q.pts),
+      lines: []
+    });
+    const res = nest({
+      panels: [{ L: 600, W: 400, qty: 0 }],
+      gap: 4,
+      margin: 5,
+      types: [type(rect(300, 200), 0), type(disc(60), 0), small],
+      fixed: [{ pi: 0, parts: [toFixed(fixedParts[0], big), toFixed(fixedParts[1], round)] }]
+    });
+    // un seul panneau (stock 0 : aucun nouveau), qui garde les trous remplis
+    assert.equal(res.sheets.length, 1);
+    const placed = res.sheets[0].parts;
+    assert.ok(placed.length >= 15, `${placed.length} pièces dans les trous`);
+    assert.ok(res.unplaced.every((u) => u.why === "stock"));
+    // vérification avec les pièces fixes remises sur le panneau
+    const all = { ...res.sheets[0], parts: fixedParts.concat(placed) };
+    assert.deepEqual(checkSheet(all, [big, round, small], { margin: 5, gap: 4, tol: res.res + 0.05 }), []);
+  });
+
+  test("panneau garni vide (remplissage d'un nouveau panneau) et rectangles pleins comme obstacles", () => {
+    const res = nest({
+      panels: [{ L: 300, W: 200, qty: 0 }],
+      gap: 2,
+      margin: 5,
+      types: [type(rect(50, 50), 100)],
+      fixed: [{ pi: 0, parts: [{ x: 5, y: 5, w: 100, h: 190, polys: [], lines: [] }] }]
+    });
+    assert.equal(res.sheets.length, 1);
+    // à droite du rectangle plein : 190 - 2 = 188 de large → 3 colonnes de 50 sur 3 rangées
+    assert.equal(res.sheets[0].parts.length, 9);
+    for (const p of res.sheets[0].parts) assert.ok(p.x >= 105 + 2 - res.res - 0.05, `x ${p.x}`);
+    const empty = nest({
+      panels: [{ L: 300, W: 200, qty: 0 }],
+      gap: 2,
+      margin: 5,
+      types: [type(rect(50, 50), 100)],
+      fixed: [{ pi: 0, parts: [] }]
+    });
+    assert.equal(empty.sheets[0].parts.length, 15);
   });
 
   test("pas de plafond caché sur les quantités (800 pièces)", () => {

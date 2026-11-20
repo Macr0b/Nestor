@@ -338,6 +338,74 @@ describe("Interface", { skip }, () => {
     await page.context().close();
   });
 
+  test("cadenas et remplissage : pièces figées immobiles, nouvelles dans les trous, gardés dans le projet", async () => {
+    const page = await open();
+    await page.setInputFiles("#fileIn", FIX("noms.dxf"));
+    await idle(page);
+    for (let i = 0; i < (await page.locator(".trow").count()); i++)
+      await page.fill(`.trow[data-i="${i}"] [data-k="qty"]`, "3");
+    await idle(page);
+    // positions des pièces du panneau 1 avant de le figer
+    const shapes = () => page.$$eval(".sheet:first-of-type .svg-piece", (ps) => ps.map((p) => p.getAttribute("d")));
+    const before = await shapes();
+    await page.click('[data-lock="0"]');
+    await idle(page);
+    assert.equal(await page.getAttribute('[data-lock="0"]', "aria-pressed"), "true");
+    assert.equal(await page.evaluate(() => document.activeElement.dataset.lock), "0");
+    assert.equal(await page.locator(".sheet:first-of-type .svg-piece.locked").count(), before.length);
+    // espace, marge et taille du panneau figé ne changent plus
+    assert.ok(await page.isDisabled("#sG"));
+    assert.ok(await page.isDisabled("#sM"));
+    assert.ok(await page.isDisabled("#pl0-L"));
+    assert.ok(await page.isVisible("#lockHint"));
+    // un nouveau fichier : ses pièces vont dans les trous, les figées n'ont pas bougé
+    await page.setInputFiles("#fileAdd", FIX("plaque-trou.dxf"));
+    await idle(page);
+    const last = (await page.locator(".trow").count()) - 1;
+    await page.fill(`.trow[data-i="${last}"] [data-k="qty"]`, "8");
+    await idle(page);
+    const after = await page.$$eval(".sheet:first-of-type .svg-piece.locked", (ps) =>
+      ps.map((p) => p.getAttribute("d"))
+    );
+    assert.deepEqual(after.sort(), before.slice().sort());
+    assert.ok((await page.locator(".sheet:first-of-type .svg-piece:not(.locked)").count()) > 0);
+    // remplir le panneau 1 avec la dernière pièce : le nombre posé s'affiche, la quantité disparaît
+    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "1");
+    await idle(page);
+    assert.match(await page.textContent(`.trow[data-i="${last}"] .fillinfo`), /^\d+ posée\(s\) en remplissage$/);
+    assert.ok(await page.isHidden(`.trow[data-i="${last}"] label.qty`));
+    // baisser sous le nombre figé demande de déverrouiller : refusé, rien ne change
+    page.once("dialog", (d) => d.dismiss());
+    await page.fill('.trow[data-i="0"] [data-k="qty"]', "1");
+    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="qty"]'), "3");
+    assert.equal(await page.locator('[data-lock][aria-pressed="true"]').count(), 1);
+    // projet enregistré puis rouvert : cadenas et remplissage reviennent
+    await page.click("#btnProjects");
+    await page.click("#projSave");
+    await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    await page.click("#btnCloseProj");
+    await page.reload();
+    await idle(page);
+    await page.click("#btnProjects");
+    await page.click('#projList [data-act="open"]');
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+    await page.click("#btnCloseProj");
+    await idle(page);
+    assert.equal(await page.getAttribute('[data-lock="0"]', "aria-pressed"), "true");
+    assert.deepEqual(
+      (await page.$$eval(".sheet:first-of-type .svg-piece.locked", (ps) => ps.map((p) => p.getAttribute("d")))).sort(),
+      before.slice().sort()
+    );
+    assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="fill"]`), "1");
+    // déverrouiller : tout redevient modifiable
+    await page.click('[data-lock="0"]');
+    await idle(page);
+    assert.equal(await page.locator('[data-lock][aria-pressed="true"]').count(), 0);
+    assert.ok(!(await page.isDisabled("#sG")));
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("revue : fenêtres au clavier, panneau sans taille, format inconnu, matière à taille nulle", async () => {
     const page = await open();
     // fenêtres : le focus entre, Tab reste dedans, Échap le rend au bouton d'origine
@@ -506,7 +574,7 @@ describe("Interface", { skip }, () => {
 
   test("panneau en portrait et origine en bas à droite (zéro du DXF)", async () => {
     const page = await open();
-    const vb = await page.getAttribute(".sheet svg", "viewBox");
+    const vb = await page.getAttribute(".sheet .svgbox svg", "viewBox");
     const [, , w, h] = vb.split(" ").map(Number);
     assert.ok(h > w, `panneau en portrait attendu (viewBox ${vb})`);
     await page.click('.pnl[data-i="0"] [data-o=br]');
@@ -599,7 +667,7 @@ describe("Interface", { skip }, () => {
     for (const o of ["tl", "tr", "bl", "br", "mc"]) {
       await page.click(`.pnl[data-i="0"] [data-o=${o}]`);
       await idle(page);
-      const r = await page.$eval(".sheet svg", (svg) => {
+      const r = await page.$eval(".sheet .svgbox svg", (svg) => {
         const vb = svg.viewBox.baseVal,
           b = svg.querySelector(".svg-origin").getBBox(),
           sw = parseFloat(svg.querySelector(".svg-origin").getAttribute("stroke-width")) / 2;

@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
+  "news.196": "Cadenas : chaque panneau du plan peut être figé ; ses pièces ne bougent plus, et les nouvelles pièces (un autre fichier, une quantité en plus) vont d’abord dans ses trous. Remplir : une pièce peut remplir tout ce qui reste sur le panneau choisi, ou un nouveau panneau. Projets : un projet avec un fichier importé se rouvre de nouveau.",
   "news.195": "Corrections après une revue complète : les fenêtres Projets, Réglages et Raccourcis gardent le clavier à l’intérieur et le rendent au bon bouton en se fermant ; un panneau sans taille est signalé clairement ; un fichier d’un autre format (une image, par exemple) est indiqué comme « format non reconnu » ; une matière avec une taille nulle ou négative n’est plus enregistrée en silence ; « Découpe estimée » ne parle plus de la fraise quand rien n’est placé.",
   "news.194": "Import : quand les pièces d’un dessin s’emboîtent, chaque trait intérieur reste sur sa pièce (il n’est plus emporté par la voisine).",
   "news.193": "Imbrication : une pièce qui ne rentre pas est signalée en rouge dans la liste des pièces, avec la raison, et le message rouge mène à elle. « Origine » devient « Repère de placement ». La matière choisie met son format sur une ligne de panneau, et « Ajouter une chute » place les chutes devant. Scie : choix du sens des premières coupes. « Tout le plan en DXF » télécharge un DXF par panneau. Coût : taux machine et taux de main-d’œuvre séparés, heures commencées comptées entières si tu le veux, chutes à 0 par défaut. Fraisage : les vitesses de ta broche sont expliquées. Fraisage et Laser : les réglages conseillés ne suivent plus le défilement. Laser : les épaisseurs des fabricants sont expliquées sous le champ. Import AI : les noms donnés aux tracés dans Illustrator sont repris pour les pièces.",
@@ -668,5 +669,18 @@
   "cost.hoursOnly": "{h} h",
   "res.noPanel": "Indique la longueur et la largeur d’au moins un panneau pour placer les pièces.",
   "lib.badSize": "« {f} » doit être un nombre plus grand que 0.",
-  "err.unknownFormat": "Format non reconnu."
+  "err.unknownFormat": "Format non reconnu.",
+  "lock.lock": "Figer ce panneau : ses pièces ne bougeront plus",
+  "lock.unlock": "Déverrouiller ce panneau",
+  "lock.on": "Figé",
+  "lock.off": "Figer",
+  "lock.rowHint": "Panneau figé : déverrouille-le dans le plan pour changer sa taille.",
+  "lock.fieldsHint": "Des panneaux sont figés : déverrouille-les dans le plan pour changer l’espace ou la marge.",
+  "lock.ask": "Cette pièce est sur {n} panneau(x) figé(s). Les déverrouiller pour la changer ?",
+  "piece.fillNone": "Nombre fixe",
+  "piece.fillSheet": "Remplir le panneau {n}",
+  "piece.fillNew": "Remplir un nouveau panneau",
+  "piece.fillLbl": "Quantité de la pièce {n} : nombre fixe ou remplir un panneau",
+  "piece.filled": "{n} posée(s) en remplissage",
+  "piece.fillNoRoom": "Plus de place libre pour la remplir."
 }
