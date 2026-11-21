@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="css/laser.css">
 <link rel="stylesheet" href="css/projects.css">
 <link rel="stylesheet" href="css/shortcuts.css">
+<link rel="stylesheet" href="css/guide.css">
 </head>
 <body>
 <div class="bp-ruler-top" aria-hidden="true"><svg id="bpTop"></svg></div>
@@ -67,6 +68,10 @@
 </svg>
 <span class="sr-only" data-i18n="app.title">Nestor</span></h1>
     <div class="topr">
+      <button class="btn proj-btn" id="btnGuide" type="button" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7M8 11h7"/></svg>
+        <span data-i18n="guide.btn">Guide</span>
+      </button>
       <button class="btn proj-btn" id="btnProjects" type="button" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
         <span data-i18n="proj.title">Projets</span>
@@ -96,7 +101,7 @@
       </section>
 
       <section class="box" aria-labelledby="h-file">
-        <h2 id="h-file" data-i18n="file.title">Fichier des pièces</h2>
+        <div class="phead"><h2 id="h-file" data-i18n="file.title">Fichier des pièces</h2><button type="button" class="help-btn" data-guide="import">?</button></div>
         <div class="chips src-chips" id="srcChoice" role="group" data-i18n-aria="manual.sourceChoice" aria-label="Origine des pièces">
           <button type="button" data-src="file" aria-pressed="true" data-i18n="manual.tabFile">Importer un fichier</button>
           <button type="button" data-src="manual" aria-pressed="false" data-i18n="manual.tabManual">Saisir à la main</button>
@@ -135,7 +140,7 @@
       </section>
 
       <section class="box" aria-labelledby="h-panel">
-        <h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2>
+        <div class="phead"><h2 id="h-panel" data-i18n="panel.title">Panneaux (mm)</h2><button type="button" class="help-btn" data-guide="panels">?</button></div>
         <label class="f mat-pick"><span data-i18n="lib.projectMaterial">Matière</span><select id="nestMaterial"></select></label>
         <div id="panelRows">
           <div class="pnl phd" aria-hidden="true"><span class="pcol"></span><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Repère</span><span></span><span></span></div>
@@ -554,6 +559,15 @@
   <div><small data-i18n="cart.scale">Éch.</small>1:1</div>
   <div><small data-i18n="cart.rev">Rév.</small><span id="cartVer"></span></div>
 </footer>
+<div class="overlay" id="guide" hidden>
+  <div class="panel guide-panel" role="dialog" aria-modal="true" aria-labelledby="guide-h">
+    <header><h2 id="guide-h" data-i18n="guide.btn">Guide</h2><input type="search" id="guideSearch" data-i18n-ph="guide.search" data-i18n-aria="guide.searchLbl" autocomplete="off"><button class="btn sm" id="btnCloseGuide" type="button" data-i18n="set.close">Fermer</button></header>
+    <div class="guide-body">
+      <nav class="guide-nav" id="guideNav" data-i18n-aria="guide.topics"></nav>
+      <article class="guide-topic"><button type="button" class="btn sm guide-back" id="guideBack" data-i18n="guide.back">Toutes les fiches</button><div id="guideTopic" aria-live="polite"></div></article>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="projects" hidden>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="proj-h">
     <header><h2 id="proj-h" data-i18n="proj.title">Projets</h2><button class="btn sm" id="btnCloseProj" type="button" data-i18n="set.close">Fermer</button></header>

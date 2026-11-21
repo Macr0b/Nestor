@@ -1925,4 +1925,58 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });
+
+  test("guide : catégories, recherche, « ? » des blocs et « Me montrer »", async () => {
+    const page = await open();
+    await page.click("#btnGuide");
+    assert.equal(await page.isVisible("#guide"), true);
+    assert.equal(await page.evaluate(() => document.activeElement.id), "guideSearch");
+    assert.deepEqual(await page.$$eval(".guide-cat", (h) => h.map((x) => x.textContent)), ["Démarrer", "Imbrication"]);
+    assert.equal(await page.locator(".guide-item").count(), 4);
+    assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
+    assert.equal(await page.locator(".guide-steps li").count(), 4);
+    // « Suivant » passe à la fiche d'après
+    await page.click("#guideTopic [data-topic]");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Importer des pièces");
+    assert.equal(await page.getAttribute('[data-topic="import"]', "aria-current"), "page");
+    // recherche sans accents ni majuscules, dans tout le texte des fiches
+    await page.fill("#guideSearch", "FIGE");
+    assert.deepEqual(await page.$$eval(".guide-item", (b) => b.map((x) => x.textContent.trim())), [
+      "Cadenas et remplir"
+    ]);
+    await page.fill("#guideSearch", "zzz");
+    assert.equal(await page.locator(".guide-item").count(), 0);
+    assert.match(await page.textContent("#guideNav"), /Aucune fiche ne parle de « zzz »/);
+    await page.fill("#guideSearch", "");
+    assert.equal(await page.locator(".guide-item").count(), 4);
+    // Échap ferme et rend le focus au bouton Guide
+    await page.keyboard.press("Escape");
+    assert.equal(await page.isVisible("#guide"), false);
+    assert.equal(await page.evaluate(() => document.activeElement.id), "btnGuide");
+    // « ? » d'un bloc : sa fiche
+    await page.click('[data-guide="panels"]');
+    assert.equal(await page.textContent("#guideTopicTitle"), "Panneaux et chutes");
+    assert.equal(await page.getAttribute('[data-guide="panels"]', "aria-label"), "Aide : Panneaux et chutes");
+    // « Me montrer dans l'appli » : ferme, revient sur Imbrication et désigne le bloc
+    await page.keyboard.press("Escape");
+    await page.click("#tabCost");
+    await page.click("#btnGuide");
+    await page.click('[data-topic="panels"]');
+    await page.click('[data-show="panels"]');
+    assert.equal(await page.isVisible("#guide"), false);
+    assert.equal(await page.getAttribute("#tabNest", "aria-selected"), "true");
+    assert.equal(await page.locator("#panelRows.guide-flash").count(), 1);
+    assert.equal(await page.evaluate(() => !!document.activeElement.closest("#panelRows")), true);
+    // téléphone : la liste, puis la fiche avec un retour
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.click("#btnGuide");
+    assert.equal(await page.isVisible("#guideTopic"), false);
+    await page.click('[data-topic="lock"]');
+    assert.equal(await page.isVisible("#guideNav"), false);
+    assert.equal(await page.isVisible("#guideBack"), true);
+    await page.click("#guideBack");
+    assert.equal(await page.isVisible("#guideNav"), true);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
 });

@@ -1,0 +1,199 @@
+/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Guide : grande fenêtre, catégories à gauche, fiche à droite ; boutons « ? » des blocs. */
+
+.guide-panel {
+  width: min(900px, 100%);
+  height: min(640px, 100%);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.guide-panel header input {
+  flex: 1;
+  max-width: 320px;
+  margin-inline-start: auto;
+}
+.guide-body {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 20px;
+  min-height: 0;
+}
+.guide-nav {
+  overflow: auto;
+  border-inline-end: 1px solid var(--line);
+  padding-inline-end: 12px;
+}
+.guide-cat {
+  margin: 14px 8px 4px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.guide-cat:first-child {
+  margin-top: 0;
+}
+.guide-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  text-align: start;
+  cursor: pointer;
+}
+.guide-item:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.guide-item[aria-current="page"] {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.guide-item svg,
+.help-btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.guide-topic {
+  overflow: auto;
+  padding-inline-end: 4px;
+}
+.guide-topic h3 {
+  font-size: 22px;
+  margin: 2px 0 8px;
+}
+.guide-topic h3:focus {
+  outline: none;
+}
+.guide-kicker {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.guide-intro {
+  margin: 0 0 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.guide-steps {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 10px;
+}
+.guide-steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 10px;
+  line-height: 1.55;
+}
+.guide-steps li::before {
+  content: counter(step);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+.guide-tip {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 12%, transparent);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.guide-back {
+  display: none;
+  margin-bottom: 10px;
+}
+/* « ? » à côté du titre d'un bloc */
+.help-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font: 600 14px/1 var(--f-body);
+  cursor: pointer;
+  flex: none;
+}
+.help-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+/* élément désigné par « Me montrer dans l'appli » */
+.guide-flash {
+  animation: guide-flash 1.6s ease-out 2;
+  border-radius: 10px;
+}
+@keyframes guide-flash {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  30% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-flash {
+    animation: none;
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+}
+/* téléphone : la liste des fiches, puis la fiche en plein écran */
+@media (max-width: 700px) {
+  .guide-panel {
+    height: 100%;
+  }
+  .guide-panel header {
+    flex-wrap: wrap;
+  }
+  .guide-panel header input {
+    order: 3;
+    max-width: none;
+    flex-basis: 100%;
+  }
+  .guide-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .guide-nav {
+    border: 0;
+    padding: 0;
+  }
+  .guide-topic {
+    display: none;
+  }
+  #guide.reading .guide-nav {
+    display: none;
+  }
+  #guide.reading .guide-topic {
+    display: block;
+  }
+  #guide.reading .guide-back {
+    display: inline-flex;
+  }
+}

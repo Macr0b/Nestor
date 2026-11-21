@@ -3,7 +3,7 @@
 Imbrication de pièces DXF, SVG, AI, PDF, LightBurn, VectorCraft et HPGL sur des panneaux, avec export SVG et DXF.
 Fonctionne hors connexion, en 45 langues, sur Mac, Windows, Linux, iPhone, iPad et Android.
 
-Version : 1.9.7
+Version : 1.9.8
 
 ## 1. Mettre l'application en ligne (une seule fois)
 
@@ -69,6 +69,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 - **Onglet Carnet** : tes réglages éprouvés (fraisage, laser, autre) avec machine, matière, épaisseur, valeurs utilisées, note et état (validé / à revoir). Recherche, filtre par procédé et par machine, « Garder dans le carnet » depuis Fraisage et Laser, « Ouvrir dans Fraisage », sauvegarde et import d'un fichier.
 - **Onglet Coût** : prix de revient du plan d'après les panneaux utilisés : matière, chute (dernier panneau compté entier ou seulement la partie utilisée ; une chute ajoutée dans les panneaux compte 0 sauf prix saisi), machine (taux horaire machine × temps de découpe estimé), main-d'œuvre (taux horaire main-d'œuvre × temps de préparation), avec pour chacun l'option de compter toute heure commencée, et coût par pièce, réparti selon la surface. C'est une estimation.
 - **Onglet Matières** : bibliothèque de tes panneaux habituels avec leur prix (nom, matière pour le fraisage, épaisseur, taille, prix). La matière choisie pour le projet est la même partout : dans Imbrication elle remplit la taille du panneau, dans Fraisage elle règle la matière et l'épaisseur, dans Coût elle donne le prix. Sauvegarde et import d'un fichier.
+- **Guide** : bouton « Guide » en haut. Des fiches courtes rangées par catégorie (Démarrer, Imbrication…), chacune en étapes numérotées avec un « Bon à savoir », une recherche (sans accents ni majuscules) et « Me montrer dans l'appli », qui ouvre le bon onglet et désigne le bloc concerné. Le « ? » à côté du titre d'un bloc ouvre sa fiche. Les fiches sont listées dans `src/guide/topics.js`, leurs textes dans les fichiers de langue (`guide.<fiche>.title`, `.intro`, `.s1`…, `.tip`).
 - **Projets** : bouton « Projets » en haut. Enregistre tout le projet (fichiers importés, pièces, panneaux, options d'export, matière, réglages de fraisage, de laser et de coût) dans ce navigateur ; « Exporter le fichier » donne un fichier `.nestor` à rouvrir sur un autre ordinateur.
 - **Raccourcis clavier** : Ctrl (⌘ sur Mac) + Entrée recalcule, + S enregistre, + O ouvre un projet, + I importe des pièces, + P donne le PDF du plan ; Alt + 1 à 6 change d'onglet ; « ? » montre la liste. Les fenêtres (Projets, Réglages, Raccourcis) gardent le clavier : Tab tourne à l'intérieur, Échap ferme et rend le focus au bouton qui les a ouvertes.
 - **Unités** : métrique par défaut, ou pouces décimaux ou en fractions (Réglages). Les tailles ne changent jamais ; en pouces, les fichiers exportés sont aussi en pouces.
@@ -78,11 +79,12 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | Dossier ou fichier | Rôle |
 |---|---|
 | `index.html` | Structure de la page |
-| `css/` | Mise en forme : polices, couleurs (thèmes clair et sombre), décor « plan technique », interface, réglages, onglets, fraisage, laser, carnet, coût, projets, raccourcis |
+| `css/` | Mise en forme : polices, couleurs (thèmes clair et sombre), décor « plan technique », interface, réglages, onglets, fraisage, laser, carnet, coût, projets, raccourcis, guide |
 | `src/main.js` | Point d'entrée : branche chaque partie de l'interface puis démarre |
 | `src/version.js` | Numéro de version |
 | `src/i18n/` | Langue de l'interface ; `languages.js` (liste des langues) et `locales/` (un fichier de textes par langue) |
 | `src/project/` | Projet en cours, exemple du premier lancement, pièces, pièces saisies à la main, réglages mémorisés, projets enregistrés (photo vérifiée, base du navigateur) |
+| `src/guide/` | Liste des fiches du guide : catégories, icône, nombre d'étapes et bloc à montrer dans l'appli |
 | `src/geometry/` | Géométrie : tracés SVG, polylignes, regroupement en pièces, pièces placées, emplacement du numéro dans une pièce |
 | `src/text/` | Police au trait simple pour les numéros gravés et la grille de test |
 | `src/import/` | Un lecteur par format (DXF, SVG + nettoyage, PDF / AI, LightBurn, HPGL, VectorCraft) et la lecture des fichiers |
@@ -92,7 +94,7 @@ Tes réglages de panneaux sont conservés pendant les mises à jour.
 | `src/machining/` | Calcul des réglages de fraisage, familles et liste des matières, réglages mémorisés |
 | `src/laser/` | Livrets Trotec, tableaux Thunder Laser et GWK, point de départ laser par machine, tes matières et tes valeurs, machines mémorisées, grille de test |
 | `src/export/` | Fichiers exportés (SVG, DXF, PDF), contour du panneau, coupes de chutes, ordre des coupes à la scie, numéros gravés |
-| `src/ui/` | Chaque partie de l'interface : onglets, fichiers, pièces, panneaux, résultat, pages du PDF, fraisage, laser, carnet, coût, matières, projets, raccourcis, réglages, installation, mises à jour |
+| `src/ui/` | Chaque partie de l'interface : onglets, fichiers, pièces, panneaux, résultat, pages du PDF, fraisage, laser, carnet, coût, matières, projets, raccourcis, guide, réglages, installation, mises à jour |
 | `sw.js` | Hors connexion et mises à jour (liste de tous les fichiers à garder en cache) |
 | `manifest.webmanifest` | Nom, icônes, installation, formats ouverts par l'appli |
 | `icons/`, `fonts/` | Icônes et polices (Barlow, IBM Plex Mono — licence OFL) |
