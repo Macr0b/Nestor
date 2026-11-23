@@ -8,8 +8,10 @@ import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { parseNumber } from "../util/numbers.js";
 import { panelSizeLabel } from "./plan-summary.js";
-import { fillOptions } from "./parts-list.js";
+import { refreshFillPicker } from "./fill-picker.js";
 import { renderKitBox } from "./kit-box.js";
+import { refreshFoldSummaries } from "./fold-blocks.js";
+import { fillTarget } from "../placement/plan-layers.js";
 
 /* { indice de pièce : { n: exemplaires non placés, why: "size" | "stock" } } ; « size » l'emporte. */
 export function unplacedByPart(res) {
@@ -50,17 +52,21 @@ export function markUnplacedParts() {
   var res = session.lastResult,
     marks = unplacedByPart(res);
   renderKitBox();
+  refreshFoldSummaries();
   document.querySelectorAll("#types .trow").forEach(function (row) {
     var i = +row.dataset.i,
       mark = marks[i],
       old = row.querySelector(".unfit"),
       oldFill = row.querySelector(".fillinfo"),
-      select = row.querySelector('[data-k="fill"]');
+      picker = row.querySelector("[data-fp-box]");
     if (old) old.remove();
     if (oldFill) oldFill.remove();
     // numéros de panneau proposés : ceux du plan qui vient d'être calculé
-    if (select && state.types[i] && document.activeElement !== select) select.innerHTML = fillOptions(state.types[i]);
-    if (state.types[i] && state.types[i].fill && res && res.filled) {
+    if (picker && state.types[i]) {
+      refreshFillPicker(picker, state.types[i].fill);
+      row.querySelector("label.qty").hidden = !!fillTarget(state.types[i]);
+    }
+    if (fillTarget(state.types[i]) && res && res.filled) {
       var placed = res.filled[i] || 0,
         fillLine = document.createElement("p");
       fillLine.className = "fillinfo";

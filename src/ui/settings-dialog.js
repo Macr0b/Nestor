@@ -13,6 +13,7 @@ import { renderAll } from "./render-all.js";
 import { byId } from "../util/dom.js";
 import { lengthUnits, setLengthUnits } from "../util/units.js";
 import { closeModal, openModal } from "./modal.js";
+import { setStatsEnabled, statsEnabled } from "../stats/export-stats.js";
 
 function openSettings() {
   openModal("settings", byId("btnCloseSet"), byId("btnSettings"));
@@ -69,6 +70,12 @@ export function bindSettingsDialog() {
     } catch (e) {}
     // src/ui/theme-early.js relit le choix et l'applique
     document.dispatchEvent(new Event("nestor-theme"));
+  });
+  // compteur anonyme d'exports (coché par défaut, gardé dans ce navigateur)
+  const statsCheck = byId("statsChk");
+  statsCheck.checked = statsEnabled();
+  statsCheck.addEventListener("change", function () {
+    setStatsEnabled(statsCheck.checked);
   });
   showUnitsChoice();
   byId("unitsSel").addEventListener("change", changeUnits);

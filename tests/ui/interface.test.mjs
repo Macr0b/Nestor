@@ -115,6 +115,19 @@ test("hors ligne : chaque fichier de l'appli est dans le cache du service worker
   }
 });
 
+// choix « Remplir » d'une pièce ou d'un kit (box : sélecteur du conteneur) : "" = nombre fixe, sinon "ligne:comment"
+async function chooseFill(page, box, value) {
+  if (!value) return page.selectOption(box + ' [data-fp="mode"]', "");
+  const [row, how] = value.split(":");
+  await page.selectOption(box + ' [data-fp="mode"]', "fill");
+  if (await page.isVisible(box + ' [data-fp="row"]')) await page.selectOption(box + ' [data-fp="row"]', row);
+  await page.selectOption(box + ' [data-fp="how"]', how);
+}
+async function fillValue(page, box) {
+  if ((await page.inputValue(box + ' [data-fp="mode"]')) === "") return "";
+  return (await page.inputValue(box + ' [data-fp="row"]')) + ":" + (await page.inputValue(box + ' [data-fp="how"]'));
+}
+
 describe("Interface", { skip }, () => {
   test("démarrage : exemple calculé, version affichée, aucune erreur", async () => {
     const page = await open();
@@ -370,7 +383,7 @@ describe("Interface", { skip }, () => {
     assert.deepEqual(after.sort(), before.slice().sort());
     assert.ok((await page.locator(".sheet:first-of-type .svg-piece:not(.locked)").count()) > 0);
     // remplir le panneau 1 avec la dernière pièce : le nombre posé s'affiche, la quantité disparaît
-    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "0:last");
+    await chooseFill(page, `.trow[data-i="${last}"]`, "0:last");
     await idle(page);
     assert.match(await page.textContent(`.trow[data-i="${last}"] .fillinfo`), /^\d+ posée\(s\) en remplissage$/);
     assert.ok(await page.isHidden(`.trow[data-i="${last}"] label.qty`));
@@ -396,14 +409,14 @@ describe("Interface", { skip }, () => {
       (await page.$$eval(".sheet:first-of-type .svg-piece.locked", (ps) => ps.map((p) => p.getAttribute("d")))).sort(),
       before.slice().sort()
     );
-    assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="fill"]`), "0:last");
+    assert.equal(await fillValue(page, `.trow[data-i="${last}"]`), "0:last");
     // revenir à un nombre fixe : la quantité d'avant est intacte (le choix « Remplir » ne l'écrase pas)
-    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "");
+    await chooseFill(page, `.trow[data-i="${last}"]`, "");
     await idle(page);
     assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="qty"]`), "8");
     const kept = await page.evaluate(async (i) => (await import("/src/project/state.js")).state.types[i].qty, last);
     assert.equal(kept, 8);
-    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "0:last");
+    await chooseFill(page, `.trow[data-i="${last}"]`, "0:last");
     await idle(page);
     // déverrouiller : tout redevient modifiable
     await page.click('[data-lock="0"]');
@@ -430,9 +443,12 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.evaluate(() => document.activeElement.id), "pl1-name");
     await page.keyboard.type("Chute CP");
     // la pièce 1 remplit tous les panneaux de la ligne 2 « Chute CP »
-    const options = await page.$$eval('.trow[data-i="0"] [data-k="fill"] option', (o) => o.map((x) => x.textContent));
-    assert.ok(options.includes("2 · Chute CP : remplir tous les panneaux"), options.join(" | "));
-    await page.selectOption('.trow[data-i="0"] [data-k="fill"]', "1:all");
+    await page.selectOption('.trow[data-i="0"] [data-fp="mode"]', "fill");
+    const options = await page.$$eval('.trow[data-i="0"] [data-fp="row"] option', (o) => o.map((x) => x.textContent));
+    assert.equal(options.length, 2);
+    assert.match(options[0], /^1 · /);
+    assert.equal(options[1], "2 · Chute CP");
+    await chooseFill(page, '.trow[data-i="0"]', "1:all");
     await idle(page);
     assert.match(await page.textContent('.trow[data-i="0"] .fillinfo'), /posée\(s\) en remplissage/);
     assert.match(await page.textContent("#result"), /Chute CP · 300 × 200/);
@@ -440,15 +456,16 @@ describe("Interface", { skip }, () => {
     await page.click('.pnl[data-i="1"] [data-act="up"]');
     await idle(page);
     assert.equal(await page.inputValue("#pl0-L"), "300");
-    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="fill"]'), "0:all");
-    assert.match(
-      await page.$eval('.trow[data-i="0"] [data-k="fill"]', (s) => s.selectedOptions[0].textContent),
-      /^1 · Chute CP : remplir tous les panneaux$/
+    assert.equal(await fillValue(page, '.trow[data-i="0"]'), "0:all");
+    assert.equal(
+      await page.$eval('.trow[data-i="0"] [data-fp="row"]', (s) => s.selectedOptions[0].textContent),
+      "1 · Chute CP"
     );
     // ligne retirée : la pièce revient à un nombre fixe
     await page.click('.pnl[data-i="0"] [data-act="del"]');
     await idle(page);
-    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="fill"]'), "");
+    assert.equal(await fillValue(page, '.trow[data-i="0"]'), "");
+    assert.equal(await page.isVisible('.trow[data-i="0"] label.qty'), true);
     assert.equal(await page.isVisible('.pnl[data-i="0"] .pnum'), false);
     assert.deepEqual(page.errors, []);
     await page.context().close();
@@ -1890,7 +1907,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.keyboard.press("Alt+Digit3");
     assert.equal(await page.getAttribute("#tabLaser", "aria-selected"), "true");
     // ordre des onglets : Imbrication, Fraisage, Laser, Matières, Carnet, Coût ; Alt+4 = Matières, Alt+6 = Coût
-    assert.deepEqual(await page.$$eval('[role="tablist"] [role="tab"]', (v) => v.map((t) => t.id)), [
+    assert.deepEqual(await page.$$eval('.tabs [role="tab"]', (v) => v.map((t) => t.id)), [
       "tabNest",
       "tabMill",
       "tabLaser",
@@ -1991,46 +2008,113 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.context().close();
   });
 
-  test("kits : pièces cochées « Kit », le plus de kits entiers sur le panneau, rien en trop", async () => {
+  test("kits nommés : chaque kit remplit son panneau avec des kits entiers, dans l'ordre", async () => {
     const page = await open();
     await idle(page);
     assert.equal(await page.isVisible("#kitBox"), false);
+    // « + Nouveau kit » depuis une pièce : le kit est créé, la pièce y entre, le curseur va sur son nom
     await page.fill('.trow[data-i="0"] [data-k="qty"]', "1");
-    await page.check('.trow[data-i="0"] [data-k="kit"]');
-    await page.check('.trow[data-i="1"] [data-k="kit"]');
-    await idle(page);
+    await page.selectOption('.trow[data-i="0"] [data-k="kit"]', "+");
     assert.equal(await page.isVisible("#kitBox"), true);
-    assert.equal(await page.textContent("#kitHead"), "Kit · pièces par kit : 3");
-    assert.equal(await page.textContent('.trow[data-i="1"] .qlbl'), "Qté / kit");
-    assert.equal(await page.isVisible('.trow[data-i="1"] [data-k="fill"]'), false);
-    // cocher la case ne change pas la quantité
-    assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="qty"]'), "2");
-    assert.equal(await page.textContent("#kitInfo"), "");
-    await page.selectOption("#kitFill", "0:last");
+    assert.equal(await page.evaluate(() => document.activeElement.className), "kit-name");
+    await page.keyboard.type("Boîte");
+    assert.deepEqual(await page.$$eval('.trow[data-i="1"] [data-k="kit"] option', (o) => o.map((x) => x.textContent)), [
+      "Aucun kit",
+      "Boîte",
+      "+ Nouveau kit"
+    ]);
+    await page.selectOption('.trow[data-i="1"] [data-k="kit"]', "k1");
     await idle(page);
-    const info = await page.textContent("#kitInfo");
+    // pièce d'un kit : « Qté / kit », pas de choix « Remplir » à elle, quantité intacte
+    assert.equal(await page.textContent('.trow[data-i="1"] .qlbl'), "Qté / kit");
+    assert.equal(await page.isVisible('.trow[data-i="1"] [data-fp="mode"]'), false);
+    assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="qty"]'), "2");
+    assert.equal(await page.textContent('[data-kit="k1"] .kit-count'), "3 pièces par kit");
+    assert.equal(await page.textContent('[data-kit="k1"] .kit-info'), "");
+    // remplir au maximum le dernier panneau avec des Boîtes
+    await chooseFill(page, '[data-kit="k1"]', "0:last");
+    await idle(page);
+    const info = await page.textContent('[data-kit="k1"] .kit-info');
     const m = info.match(/^Kits complets : (\d+) \((\d+) pièces\)$/);
     assert.ok(m, info);
     const n = +m[1];
     assert.ok(n >= 2, info);
     assert.equal(+m[2], n * 3);
-    // sur le plan : exactement n façades et 2n équerres (que des kits entiers)
+    // second kit « Étagère » (la pièce 2) sur un nouveau panneau
+    await page.click("#btnNewKit");
+    await page.keyboard.type("Étagère");
+    await page.selectOption('.trow[data-i="2"] [data-k="kit"]', "k2");
+    await chooseFill(page, '[data-kit="k2"]', "0:new");
+    await idle(page);
     const counts = await page.evaluate(async () => {
       const { session } = await import("/src/session.js");
       const c = {};
       for (const s of session.lastResult.sheets) for (const p of s.parts) c[p.i] = (c[p.i] || 0) + 1;
-      return c;
+      return { c, kits: session.lastResult.kits };
     });
-    assert.equal(counts[0], n);
-    assert.equal(counts[1], 2 * n);
-    assert.equal(counts[2], 4, "les autres pièces gardent leur quantité");
-    // décocher : la pièce redevient normale, le bloc reste tant qu'une pièce est dans le kit
-    await page.uncheck('.trow[data-i="0"] [data-k="kit"]');
+    assert.equal(counts.kits.k1, n, "la Boîte garde son nombre de kits");
+    assert.ok(counts.kits.k2 >= 1);
+    assert.equal(counts.c[0], n);
+    assert.equal(counts.c[1], 2 * n);
+    assert.equal(counts.c[2], 4 * counts.kits.k2, "que des Étagères entières");
+    // projet enregistré puis rouvert : les deux kits reviennent
+    await page.click("#btnProjects");
+    await page.click("#projSave");
+    await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    await page.click("#btnCloseProj");
+    await page.reload();
     await idle(page);
-    assert.equal(await page.textContent("#kitHead"), "Kit · pièces par kit : 2");
-    await page.uncheck('.trow[data-i="1"] [data-k="kit"]');
+    await page.click("#btnProjects");
+    await page.click('#projList [data-act="open"]');
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+    await page.click("#btnCloseProj");
+    await idle(page);
+    assert.deepEqual(await page.$$eval("#kitList .kit-name", (i) => i.map((x) => x.value)), ["Boîte", "Étagère"]);
+    assert.equal(await fillValue(page, '[data-kit="k2"]'), "0:new");
+    assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="kit"]'), "k1");
+    // supprimer la Boîte : ses pièces redeviennent seules, l'Étagère reste
+    await page.click('[data-kit="k1"] [data-kit-del]');
+    await idle(page);
+    assert.equal(await page.inputValue('.trow[data-i="0"] [data-k="kit"]'), "");
+    assert.equal(await page.textContent('.trow[data-i="0"] .qlbl'), "Qté");
+    assert.deepEqual(await page.$$eval("#kitList .kit-name", (i) => i.map((x) => x.value)), ["Étagère"]);
+    await page.click('[data-kit="k2"] [data-kit-del]');
     await idle(page);
     assert.equal(await page.isVisible("#kitBox"), false);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("blocs repliables : flèche ou titre, résumé, gardé au rechargement, Alt + clic pour tout l'onglet", async () => {
+    const page = await open();
+    await idle(page);
+    const panelBox = 'section[aria-labelledby="h-panel"]';
+    assert.equal(await page.getAttribute(panelBox + " .fold-btn", "aria-expanded"), "true");
+    await page.click("#h-panel");
+    assert.equal(await page.getAttribute(panelBox + " .fold-btn", "aria-expanded"), "false");
+    assert.equal(await page.isVisible("#panels"), false);
+    assert.match(await page.textContent(panelBox + " .fold-sum"), /^1 ligne\(s\) · .+ · espace \d+ · marge \d+$/);
+    assert.equal(await page.getAttribute(panelBox + " .fold-btn", "aria-label"), "Déplier « Panneaux (mm) »");
+    // le résumé suit les réglages
+    await page.click(panelBox + " .fold-btn");
+    await page.fill("#sG", "7");
+    await page.click(panelBox + " .fold-btn");
+    await idle(page);
+    assert.match(await page.textContent(panelBox + " .fold-sum"), /espace 7/);
+    await page.reload();
+    await idle(page);
+    assert.equal(await page.getAttribute(panelBox + " .fold-btn", "aria-expanded"), "false");
+    // Alt + clic : tous les blocs de l'onglet, et pas ceux des autres onglets
+    await page.click("#h-pieces", { modifiers: ["Alt"] });
+    const nest = await page.$$eval("#pageNest section.box", (b) => b.map((x) => x.classList.contains("folded")));
+    assert.ok(nest.every(Boolean), nest.join());
+    assert.equal(await page.locator("#pageMill section.box.folded").count(), 0);
+    await page.click("#h-pieces", { modifiers: ["Alt"] });
+    assert.equal(await page.locator("#pageNest section.box.folded").count(), 0);
+    // au clavier : la flèche est un bouton
+    await page.focus(panelBox + " .fold-btn");
+    await page.keyboard.press("Enter");
+    assert.equal(await page.getAttribute(panelBox + " .fold-btn", "aria-expanded"), "false");
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });
@@ -2046,28 +2130,30 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
       "Machines",
       "Projet"
     ]);
-    assert.equal(await page.locator(".guide-item").count(), 14);
+    assert.equal(await page.locator(".guide-item").count(), 16);
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     assert.equal(await page.locator(".guide-steps li").count(), 4);
     // « Suivant » passe à la fiche d'après
-    assert.match(await page.textContent(".guide-kicker"), /1 \/ 14/);
+    assert.match(await page.textContent(".guide-kicker"), /1 \/ 16/);
     assert.equal(await page.locator('[data-pager="prev"]').count(), 0);
     await page.click('[data-pager="next"]');
-    assert.equal(await page.textContent("#guideTopicTitle"), "Importer des pièces");
-    assert.match(await page.textContent(".guide-kicker"), /2 \/ 14/);
+    assert.equal(await page.textContent("#guideTopicTitle"), "Tes données");
+    assert.match(await page.textContent(".guide-kicker"), /2 \/ 16/);
     assert.equal(await page.getAttribute('[data-pager="prev"]', "aria-label"), "Précédent : Premier plan en 2 minutes");
-    assert.equal(await page.getAttribute('[data-pager="next"]', "aria-label"), "Suivant : Panneaux et chutes");
+    assert.equal(await page.getAttribute('[data-pager="next"]', "aria-label"), "Suivant : Importer des pièces");
     // flèches du clavier : fiche suivante / précédente, mais pas pendant la saisie dans la recherche
     await page.keyboard.press("ArrowRight");
-    assert.equal(await page.textContent("#guideTopicTitle"), "Panneaux et chutes");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Importer des pièces");
     await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("ArrowLeft");
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     await page.keyboard.press("ArrowLeft");
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
-    await page.click('[data-topic="projects"]');
+    await page.click('[data-topic="folder"]');
     assert.equal(await page.locator('[data-pager="next"]').count(), 0);
     await page.keyboard.press("ArrowRight");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Projets sur ta clé ou ton cloud");
+    await page.click('[data-pager="prev"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Projets");
     await page.click('[data-pager="prev"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Coût du plan");
@@ -2086,7 +2172,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.locator(".guide-item").count(), 0);
     assert.match(await page.textContent("#guideNav"), /Aucune fiche ne parle de « zzz »/);
     await page.fill("#guideSearch", "");
-    assert.equal(await page.locator(".guide-item").count(), 14);
+    assert.equal(await page.locator(".guide-item").count(), 16);
     // Échap ferme et rend le focus au bouton Guide
     await page.keyboard.press("Escape");
     assert.equal(await page.isVisible("#guide"), false);
@@ -2133,4 +2219,163 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.deepEqual(page.errors, []);
     await page.context().close();
   });
+});
+
+// Dossier factice en mémoire à la place de la fenêtre « Choisir un dossier » du système (clé USB, cloud…).
+// window.__folder.denied : autorisation à redonner ; window.__folder.lost : dossier introuvable (clé débranchée).
+function fakeFolderPicker() {
+  const files = new Map();
+  let clock = Date.UTC(2026, 10, 23, 10);
+  const folder = { denied: false, lost: false, files };
+  const handle = {
+    kind: "directory",
+    name: "CLE-USB",
+    queryPermission: async () => (folder.denied ? "prompt" : "granted"),
+    requestPermission: async () => {
+      folder.denied = false;
+      return "granted";
+    },
+    async *values() {
+      if (folder.lost) throw new DOMException("introuvable", "NotFoundError");
+      for (const [name, f] of files) yield { kind: "file", name, getFile: async () => f };
+      yield { kind: "file", name: "photo.jpg", getFile: async () => new File(["x"], "photo.jpg") };
+      yield { kind: "directory", name: "Archives" };
+    },
+    async getFileHandle(name, opts) {
+      if (folder.lost) throw new DOMException("introuvable", "NotFoundError");
+      if (!files.has(name) && !(opts && opts.create)) throw new DOMException("absent", "NotFoundError");
+      return {
+        getFile: async () => files.get(name),
+        createWritable: async () => {
+          let text = "";
+          return {
+            write: async (t) => {
+              text += t;
+            },
+            close: async () => {
+              files.set(name, new File([text], name, { lastModified: (clock += 60000) }));
+            }
+          };
+        }
+      };
+    }
+  };
+  window.__folder = folder;
+  window.showDirectoryPicker = async () => handle;
+}
+
+test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débranchée, autorisation", async () => {
+  const page = await open();
+  await page.addInitScript(fakeFolderPicker);
+  await page.reload();
+  await page.waitForSelector(".sheet");
+  await idle(page);
+  await page.fill("#projName", "Boîte / à vin");
+  await page.click("#btnProjects");
+  // aucun dossier encore : on reste sur « Ce navigateur », l'onglet « Mon dossier » invite à en choisir un
+  assert.equal(await page.getAttribute("#projTabBrowser", "aria-selected"), "true");
+  await page.click("#projTabFolder");
+  assert.match(await page.textContent("#projFolderList"), /Choisis le dossier/);
+  assert.equal(await page.isVisible("#projForget"), false);
+  await page.click("#projPick");
+  await page.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
+  assert.match(await page.textContent("#projFolderList"), /Pas encore de projet/);
+  assert.equal(await page.textContent("#projPick"), "Changer de dossier");
+  // Enregistrer écrit « Boîte à vin.nestor » (caractère interdit retiré) dans le dossier, pas dans le navigateur
+  await page.click("#projSave");
+  await page.waitForFunction(() => /Enregistré dans « CLE-USB »/.test(document.querySelector("#projMsg").textContent));
+  assert.match(await page.textContent("#projMsg"), /Boîte à vin\.nestor/);
+  assert.deepEqual(await page.evaluate(() => [...window.__folder.files.keys()]), ["Boîte à vin.nestor"]);
+  assert.match(await page.textContent("#projFolderList"), /Boîte à vin.*en cours/);
+  await page.click("#projTabBrowser");
+  assert.match(await page.textContent("#projList"), /Aucun projet/);
+  await page.click("#projTabFolder");
+  // seuls les .nestor sont listés (ni la photo, ni le sous-dossier)
+  assert.equal(await page.locator("#projFolderList .proj-row").count(), 1);
+  // Enregistrer à nouveau remplace le même fichier ; une copie prend un nom libre
+  await page.click("#projSave");
+  await page.waitForFunction(() => /Enregistré/.test(document.querySelector("#projMsg").textContent));
+  await page.click("#projSaveCopy");
+  await page.waitForFunction(() => window.__folder.files.size === 2);
+  assert.deepEqual(await page.evaluate(() => [...window.__folder.files.keys()].sort()), [
+    "Boîte à vin (2).nestor",
+    "Boîte à vin.nestor"
+  ]);
+  // plus récent d'abord ; la copie est le projet en cours
+  assert.match(await page.textContent("#projFolderList .proj-row"), /Boîte à vin \(2\).*en cours/);
+  await page.click("#btnCloseProj");
+  // Ctrl+S enregistre aussi dans le dossier
+  await page.fill('.trow[data-i="0"] [data-k="qty"]', "7");
+  await page.keyboard.press("Control+s");
+  await page.waitForFunction(async () =>
+    /"qty":\s*7/.test(await window.__folder.files.get("Boîte à vin (2).nestor").text())
+  );
+  // la fenêtre Projets s'est ouverte pour le montrer ; rouvrir l'original : rien de changé → un seul clic
+  assert.equal(await page.isVisible("#projects"), true);
+  const original = page.locator('#projFolderList .proj-row[data-file="Boîte à vin.nestor"] [data-act="openFile"]');
+  await original.click();
+  await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+  assert.notEqual(await page.inputValue('.trow[data-i="0"] [data-k="qty"]'), "7");
+  assert.match(await page.textContent("#projFolderList"), /Boîte à vin.*en cours/);
+  // projet modifié : ouvrir demande un second clic
+  await page.click("#btnCloseProj");
+  await page.fill("#projName", "Changé");
+  await page.click("#btnProjects");
+  const copy = page.locator('#projFolderList .proj-row[data-file="Boîte à vin (2).nestor"] [data-act="openFile"]');
+  await copy.click();
+  await page.waitForFunction(() => /sans enregistrer/.test(document.querySelector("#projFolderList").textContent));
+  await copy.click();
+  await page.waitForFunction(() => document.querySelector("#projName").value === "Boîte / à vin");
+  // autorisation à redonner (nouvelle visite) : un bouton la demande, puis la liste revient
+  await page.evaluate(() => (window.__folder.denied = true));
+  await page.click("#projTabBrowser");
+  await page.click("#projTabFolder");
+  await page.click('#projFolderList [data-act="allow"]');
+  await page.waitForFunction(() => document.querySelectorAll("#projFolderList .proj-row").length === 2);
+  // clé débranchée : message clair, Enregistrer échoue sans rien casser
+  await page.evaluate(() => (window.__folder.lost = true));
+  await page.click("#projTabBrowser");
+  await page.click("#projTabFolder");
+  assert.match(await page.textContent("#projFolderList"), /introuvable \(clé débranchée/);
+  await page.click("#projSave");
+  await page.waitForFunction(() => /n’a pas pu être lu ou écrit/.test(document.querySelector("#projMsg").textContent));
+  // l'endroit choisi est gardé : à la réouverture, « Ce navigateur » reste affiché s'il était le dernier
+  await page.click("#projTabBrowser");
+  await page.click("#btnCloseProj");
+  await page.click("#btnProjects");
+  await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
+  // flèches entre les onglets
+  await page.focus("#projTabBrowser");
+  await page.keyboard.press("ArrowLeft");
+  assert.equal(await page.getAttribute("#projTabFolder", "aria-selected"), "true");
+  // Oublier ce dossier
+  await page.evaluate(() => (window.__folder.lost = false));
+  await page.click("#projForget");
+  await page.waitForFunction(() => /Choisis le dossier/.test(document.querySelector("#projFolderList").textContent));
+  assert.equal(await page.textContent("#projFolderLbl"), "Mon dossier");
+  // Enregistrer sur « Mon dossier » sans dossier : la fenêtre de choix s'ouvre, puis le fichier est écrit
+  await page.evaluate(() => window.__folder.files.clear());
+  await page.click("#projSave");
+  await page.waitForFunction(() => window.__folder.files.size === 1);
+  assert.match(await page.textContent("#projTabFolder"), /CLE-USB/);
+  assert.deepEqual(page.errors, []);
+  await page.context().close();
+});
+
+test("projets dans un dossier : navigateur sans choix de dossier (Safari, Firefox) → Exporter / Importer", async () => {
+  const page = await open();
+  await page.addInitScript(() => delete window.showDirectoryPicker);
+  await page.reload();
+  await page.waitForSelector(".sheet");
+  await idle(page);
+  await page.click("#btnProjects");
+  await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
+  await page.click("#projTabFolder");
+  assert.match(await page.textContent("#projFolderHint"), /ne permet pas de choisir un dossier/);
+  assert.equal(await page.isVisible("#projPick"), false);
+  // Enregistrer va toujours dans le navigateur
+  await page.click("#projSave");
+  await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+  assert.deepEqual(page.errors, []);
+  await page.context().close();
 });

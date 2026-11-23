@@ -6,7 +6,7 @@
 <!-- Politique de sécurité : la page n'exécute que les scripts de l'appli (aucun script intégré ni externe) et ne
      contacte aucun autre site. Les calculs en arrière-plan utilisent des workers créés par l'appli (blob:).
      Les styles intégrés restent permis (attributs style générés par l'appli, logo SVG). -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://stats.nestor.rophistudio.fr; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Nestor</title>
 <meta name="description" content="Imbrication de pièces DXF, SVG et AI sur des panneaux, avec export SVG et DXF.">
 <meta name="theme-color" content="#0d4e73">
@@ -199,9 +199,9 @@
           <label class="f" id="sortWrap"><span data-i18n="pieces.sort">Trier par</span><select id="sortSel"></select></label>
         </div>
         <div class="kitbox" id="kitBox" hidden>
-          <div class="phead"><p class="kit-h" id="kitHead"></p><button type="button" class="help-btn" data-guide="kit">?</button></div>
-          <label class="f"><span data-i18n="kit.fillLbl">Remplir avec des kits entiers</span><select id="kitFill"></select></label>
-          <p class="kit-info" id="kitInfo" role="status"></p>
+          <div class="phead"><p class="kit-h" data-i18n="kit.title">Kits</p><button type="button" class="help-btn" data-guide="kit">?</button></div>
+          <div id="kitList"></div>
+          <button type="button" class="btn sm" id="btnNewKit" data-i18n="kit.new">+ Nouveau kit</button>
         </div>
         <div class="types" id="types"></div>
         <p class="hint" data-i18n="pieces.hint">Les trous et gravures restent attachés à leur pièce. Mets la quantité à 0 pour ignorer une pièce.</p>
@@ -583,9 +583,19 @@
       <p class="hint" id="projMsg" aria-live="polite"></p>
     </div>
     <div class="grp">
-      <h2 data-i18n="proj.listTitle">Projets enregistrés</h2>
-      <div class="proj-list" id="projList"></div>
-      <p class="hint" data-i18n="proj.hint">Gardés dans ce navigateur, sur cet appareil. Pour passer à un autre ordinateur : Exporter le fichier, puis Importer un fichier.</p>
+      <div class="proj-tabs" role="tablist" data-i18n-aria="proj.listTitle">
+        <button type="button" role="tab" id="projTabFolder" aria-controls="projFolderPane" aria-selected="false" tabindex="-1"><span id="projFolderLbl" data-i18n="proj.folder">Mon dossier</span></button>
+        <button type="button" role="tab" id="projTabBrowser" aria-controls="projBrowserPane" aria-selected="true" data-i18n="proj.browser">Ce navigateur</button>
+      </div>
+      <div id="projFolderPane" role="tabpanel" aria-labelledby="projTabFolder" hidden>
+        <div class="proj-list" id="projFolderList"></div>
+        <div class="row"><button class="btn sm" id="projPick" type="button" data-i18n="proj.pick">Choisir un dossier</button><button class="btn sm" id="projForget" type="button" data-i18n="proj.forget">Oublier ce dossier</button></div>
+        <p class="hint" id="projFolderHint"></p>
+      </div>
+      <div id="projBrowserPane" role="tabpanel" aria-labelledby="projTabBrowser">
+        <div class="proj-list" id="projList"></div>
+        <p class="hint" data-i18n="proj.hint">Gardés dans ce navigateur, sur cet appareil. Pour passer à un autre ordinateur : Exporter le fichier, puis Importer un fichier.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -621,6 +631,10 @@
           <option value="64">1/64 in</option>
         </select></label>
       </div>
+    </div>
+    <div class="grp">
+      <label class="dlopt"><input type="checkbox" id="statsChk"> <span data-i18n="set.stats">Compter mes exports, anonymement</span></label>
+      <p class="hint" data-i18n="set.statsHint">Seuls le format et la version de Nestor partent vers son compteur, pour savoir quels exports servent. Jamais tes fichiers, tes pièces ni rien qui t’identifie.</p>
     </div>
     <div class="grp">
       <div class="row" style="align-items:center"><button class="btn" id="btnShortcuts" type="button" data-i18n="sc.title">Raccourcis clavier</button></div>

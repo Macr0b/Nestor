@@ -14,10 +14,11 @@ export function remapPanelRows(map) {
     if (row < 0) delete t.fill;
     else t.fill.row = row;
   });
-  // remplissage par kits : même règle
-  if (state.kitFill) {
-    var kitRow = map(state.kitFill.row);
-    if (kitRow < 0) state.kitFill = null;
-    else state.kitFill.row = kitRow;
-  }
+  // remplissage des kits : même règle
+  state.kits.forEach(function (kit) {
+    if (!kit.fill) return;
+    var kitRow = map(kit.fill.row);
+    if (kitRow < 0) kit.fill = null;
+    else kit.fill.row = kitRow;
+  });
 }

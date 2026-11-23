@@ -1,0 +1,21 @@
+# Compteur anonyme des exports de Nestor — Cloudflare Worker (voir stats/LISEZMOI.md).
+name = "nestor-stats"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+# pas d'adresse *.workers.dev : le compteur ne répond que sur stats.nestor.rophistudio.fr (protégé par Access)
+workers_dev = false
+routes = [{ pattern = "stats.nestor.rophistudio.fr", custom_domain = true }]
+
+# aucun journal des requêtes : rien n'est gardé sur les visiteurs
+[observability]
+enabled = false
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nestor-stats"
+database_id = "A_REMPLIR_APRES_CREATION"
+
+[vars]
+# équipe Cloudflare Access (le début de l'adresse xxx.cloudflareaccess.com) et identifiant (AUD) de l'application
+ACCESS_TEAM = "A_REMPLIR"
+ACCESS_AUD = "A_REMPLIR"

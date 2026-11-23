@@ -70,3 +70,31 @@
   border-color: var(--danger);
   color: var(--danger);
 }
+/* deux endroits : « Mon dossier » et « Ce navigateur » */
+.proj-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.proj-tabs [role="tab"] {
+  padding: 8px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proj-tabs [role="tab"][aria-selected="true"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+#projFolderList > .btn {
+  margin: 4px 0 10px;
+}

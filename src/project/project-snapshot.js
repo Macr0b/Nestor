@@ -4,6 +4,8 @@
    Écrit en JSON (les fichiers en base64) ; relu champ par champ : un fichier abîmé ou trafiqué ne peut ni
    planter l'appli ni glisser autre chose que du texte et des nombres. */
 
+import { cleanKits, migrateSingleKit } from "./kit-records.js";
+
 const PROJECT_FORMAT = { app: "Nestor", kind: "projet", version: 1 };
 export const MAX_PROJECT_BYTES = 80 * 1024 * 1024;
 const MAX_FILES = 50;
@@ -138,7 +140,8 @@ function cleanType(raw, budget) {
   if (t.manual === true) type.manual = true;
   if (t.on === false) type.on = false;
   if ([1, 2, 3].includes(t.turn)) type.turn = t.turn;
-  if (t.kit === true) type.kit = true;
+  // kit : identifiant « k1 »… (true : projet de la 1.9.9, converti par cleanSnapshot)
+  if (t.kit === true || (typeof t.kit === "string" && /^k\d{1,4}$/.test(t.kit))) type.kit = t.kit;
   if (typeof t.scale === "number" || (typeof t.scale === "string" && t.scale.length <= 20)) type.scale = t.scale;
   if (EXAMPLE_KEYS.includes(t.nameKey)) type.nameKey = t.nameKey;
   return type;
@@ -225,48 +228,68 @@ export function cleanSnapshot(raw) {
       return { id: Math.floor(num(f.id, 0, 0)), name: str(f.name), data: f.data, info: settingsObject(f.info) };
     })
     .filter(Boolean);
-  return {
-    app: PROJECT_FORMAT.app,
-    kind: PROJECT_FORMAT.kind,
-    version: PROJECT_FORMAT.version,
-    name: str(s.name),
-    example: s.example === true,
-    source: str(s.source, 2000),
-    info: settingsObject(s.info),
-    files: files,
-    sheet: {
-      panels: panels.length ? panels : [{ L: 600, W: 400, qty: "" }],
-      gap: num(sheet.gap, 2, 0, 1000),
-      margin: num(sheet.margin, 5, 0, 1000),
-      mode: sheet.mode === "rect" ? "rect" : "nest"
+  return withKits(
+    {
+      app: PROJECT_FORMAT.app,
+      kind: PROJECT_FORMAT.kind,
+      version: PROJECT_FORMAT.version,
+      name: str(s.name),
+      example: s.example === true,
+      source: str(s.source, 2000),
+      info: settingsObject(s.info),
+      files: files,
+      sheet: {
+        panels: panels.length ? panels : [{ L: 600, W: 400, qty: "" }],
+        gap: num(sheet.gap, 2, 0, 1000),
+        margin: num(sheet.margin, 5, 0, 1000),
+        mode: sheet.mode === "rect" ? "rect" : "nest"
+      },
+      types: list(s.types, MAX_TYPES)
+        .map(function (t) {
+          return cleanType(t, budget);
+        })
+        .filter(Boolean),
+      locks: list(s.locks, MAX_PANELS * 20)
+        .map(function (l) {
+          return cleanLock(l, panels.length || 1);
+        })
+        .filter(Boolean),
+      rotAll: ["fix", "quarter", "free", "free1"].includes(s.rotAll) ? s.rotAll : "quarter",
+      kits: cleanKits(s.kits, cleanFill),
+      sort: ["file", "name", "layer", "src"].includes(s.sort) ? s.sort : "file",
+      exportOptions: {
+        includeBoard: exportOptions.includeBoard === true,
+        offcutMode:
+          exportOptions.offcutMode === "simple" || exportOptions.offcutMode === "detail"
+            ? exportOptions.offcutMode
+            : "",
+        partNumbers: exportOptions.partNumbers === true,
+        sawOrder: exportOptions.sawOrder === true,
+        sawFirst: SAW_FIRST.includes(exportOptions.sawFirst) ? exportOptions.sawFirst : "",
+        sawKerf: exportOptions.sawKerf > 0 && exportOptions.sawKerf <= 50 ? exportOptions.sawKerf : ""
+      },
+      material: typeof s.material === "string" && /^[\w-]{0,40}$/.test(s.material) ? s.material : "",
+      milling: settingsObject(s.milling),
+      laser: settingsObject(s.laser),
+      cost: settingsObject(s.cost)
     },
-    types: list(s.types, MAX_TYPES)
-      .map(function (t) {
-        return cleanType(t, budget);
-      })
-      .filter(Boolean),
-    locks: list(s.locks, MAX_PANELS * 20)
-      .map(function (l) {
-        return cleanLock(l, panels.length || 1);
-      })
-      .filter(Boolean),
-    rotAll: ["fix", "quarter", "free", "free1"].includes(s.rotAll) ? s.rotAll : "quarter",
-    kitFill: cleanFill(s.kitFill),
-    sort: ["file", "name", "layer", "src"].includes(s.sort) ? s.sort : "file",
-    exportOptions: {
-      includeBoard: exportOptions.includeBoard === true,
-      offcutMode:
-        exportOptions.offcutMode === "simple" || exportOptions.offcutMode === "detail" ? exportOptions.offcutMode : "",
-      partNumbers: exportOptions.partNumbers === true,
-      sawOrder: exportOptions.sawOrder === true,
-      sawFirst: SAW_FIRST.includes(exportOptions.sawFirst) ? exportOptions.sawFirst : "",
-      sawKerf: exportOptions.sawKerf > 0 && exportOptions.sawKerf <= 50 ? exportOptions.sawKerf : ""
-    },
-    material: typeof s.material === "string" && /^[\w-]{0,40}$/.test(s.material) ? s.material : "",
-    milling: settingsObject(s.milling),
-    laser: settingsObject(s.laser),
-    cost: settingsObject(s.cost)
-  };
+    cleanFill(s.kitFill)
+  );
+}
+
+/* Kits d'un projet relu : un projet de la 1.9.9 (case « Kit » et kitFill) devient un kit « k1 » ;
+   une pièce qui renvoie à un kit absent redevient une pièce seule. */
+function withKits(project, legacyFill) {
+  project.kitFill = legacyFill;
+  migrateSingleKit(project, "");
+  delete project.kitFill;
+  var ids = project.kits.map(function (k) {
+    return k.id;
+  });
+  project.types.forEach(function (t) {
+    if (t.kit && !ids.includes(t.kit)) delete t.kit;
+  });
+  return project;
 }
 
 /* Photo du projet en cours. project : l'état (pièces, panneaux…) ; extras : réglages des autres onglets. */
@@ -291,7 +314,7 @@ export function takeSnapshot(project, extras) {
     types: project.types,
     locks: project.locks,
     rotAll: project.rotAll,
-    kitFill: project.kitFill,
+    kits: project.kits,
     sort: project.sort,
     exportOptions: extras.exportOptions,
     material: extras.material,

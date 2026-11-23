@@ -2,7 +2,7 @@
 /* Calcul du plan en quatre temps :
    1. panneaux figés (cadenas) : leurs pièces restent, les pièces à placer vont d'abord dans leurs trous ;
    2. le reste est placé comme d'habitude, avec le stock de panneaux restant ;
-   3. kits : le plus possible de kits entiers (toutes les pièces cochées « Kit », dans leurs quantités) ;
+   3. kits : pour chaque kit qui remplit un panneau, dans l'ordre, le plus possible de kits entiers ;
    4. remplissage : chaque pièce réglée sur « Remplir » occupe tout ce qui reste sur le panneau choisi. */
 
 import { applyOrigin, panelList, panelOrigin } from "./origin.js";
@@ -11,6 +11,7 @@ import { nestInPlace, nestPanelByPanel, nestWithOrigin } from "./run-nesting.js"
 import { lockedCounts, lockedPanelUse, resolvedLocks } from "../project/locks.js";
 import { scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
+import { kitOf, kitRecipe } from "../project/kits.js";
 import { parseNumber } from "../util/numbers.js";
 
 // au plus autant de copies par remplissage (garde-fou contre une pièce minuscule sur un grand panneau)
@@ -18,7 +19,7 @@ const MAX_FILL = 5000;
 
 /* Réglage « Remplir » d'une pièce : { row: ligne de panneau, how: "last" | "all" | "new" }, ou null. */
 export function fillTarget(type) {
-  var f = type && type.on !== false && !inKit(type) && type.fill;
+  var f = type && type.on !== false && !kitOf(type) && type.fill;
   return validFill(f);
 }
 
@@ -26,14 +27,22 @@ function validFill(f) {
   return f && f.row >= 0 && ["last", "all", "new"].includes(f.how) ? f : null;
 }
 
-// pièce cochée « Kit » (et active)
-export function inKit(type) {
-  return !!(type && type.on !== false && type.kit);
+/* Kits qui remplissent un panneau (ceux sans remplissage sont posés une fois, comme des pièces seules). */
+function fillingKits() {
+  return state.kits.filter(function (kit) {
+    return (
+      validFill(kit.fill) &&
+      state.types.some(function (t) {
+        return kitOf(t) === kit;
+      })
+    );
+  });
 }
 
-/* Remplissage par kits : { row, how }, ou null (les pièces du kit sont alors posées une fois, comme les autres). */
-export function kitTarget() {
-  return state.types.some(inKit) ? validFill(state.kitFill) : null;
+// pièce dont le kit remplit un panneau : elle n'est posée que par kits entiers
+function placedByKit(type) {
+  var kit = kitOf(type);
+  return !!(kit && validFill(kit.fill));
 }
 
 function count(res) {
@@ -98,9 +107,9 @@ export function computePlan() {
     counts = lockedCounts(),
     used = lockedPanelUse();
   // pièces encore à placer : quantité moins celles déjà figées ; celles qui remplissent passent à la fin
-  var kits = kitTarget();
+  var kits = fillingKits();
   var toPlace = state.types.map(function (t, i) {
-    if (t.on === false || fillTarget(t) || (kits && inKit(t))) return 0;
+    if (t.on === false || fillTarget(t) || placedByKit(t)) return 0;
     return Math.max(0, Math.floor(parseNumber(t.qty, 0)) - counts[i]);
   });
   var lockedParts = counts.reduce(function (a, b) {
@@ -138,7 +147,8 @@ export function computePlan() {
         unplaced: main.unplaced,
         res: main.res,
         filled: {},
-        kits: kits ? 0 : null
+        // kits entiers posés, par identifiant de kit
+        kits: {}
       };
       plan.count = count(plan);
       plan.total = plan.count + plan.unplaced.length;
@@ -180,24 +190,28 @@ function addToSheet(plan, sheet, added) {
 
 /* Kits : sur chaque panneau visé, le plus grand nombre de kits entiers. Un essai demande n kits ; on ne garde que
    les kits complets posés (les pièces en trop sont retirées), puis on redemande un kit de plus tant que ça passe. */
-function kitSheets(plan, target, rect) {
-  if (!target) return Promise.resolve();
-  var recipe = state.types.map(function (t) {
-    return inKit(t) ? Math.max(0, Math.floor(parseNumber(t.qty, 0))) : 0;
-  });
-  if (
-    !recipe.some(function (q) {
-      return q > 0;
-    })
-  )
-    return Promise.resolve();
+function kitSheets(plan, kits, rect) {
   var chain = Promise.resolve();
-  targetSheets(plan, target).forEach(function (sheet) {
+  kits.forEach(function (kit) {
+    var recipe = kitRecipe(kit);
+    plan.kits[kit.id] = 0;
+    if (
+      !recipe.some(function (q) {
+        return q > 0;
+      })
+    )
+      return;
     chain = chain.then(function () {
-      return bestKits(sheet, recipe, rect).then(function (best) {
-        addToSheet(plan, sheet, best.parts);
-        plan.kits += best.n;
+      var inner = Promise.resolve();
+      targetSheets(plan, validFill(kit.fill)).forEach(function (sheet) {
+        inner = inner.then(function () {
+          return bestKits(sheet, recipe, rect).then(function (best) {
+            addToSheet(plan, sheet, best.parts);
+            plan.kits[kit.id] += best.n;
+          });
+        });
       });
+      return inner;
     });
   });
   return chain;

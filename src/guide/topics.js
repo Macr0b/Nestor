@@ -4,15 +4,16 @@
    (le premier sélecteur trouvé et visible). */
 
 export const GUIDE_CATEGORIES = [
-  { id: "start", topics: ["start"] },
+  { id: "start", topics: ["start", "privacy"] },
   { id: "nest", topics: ["import", "panels", "rotation", "lock", "kit", "saw", "export"] },
   { id: "machines", topics: ["mill", "laser", "notebook"] },
-  { id: "project", topics: ["materials", "cost", "projects"] }
+  { id: "project", topics: ["materials", "cost", "projects", "folder"] }
 ];
 
 /* tab absent : la fiche désigne un élément visible depuis tous les onglets (bouton du haut) */
 export const GUIDE_TOPICS = {
   start: { steps: 4, icon: "play", show: { tab: "tabNest", targets: ["#drop"] } },
+  privacy: { steps: 4, icon: "shield", show: { targets: ["#btnSettings"] } },
   import: { steps: 4, icon: "import", show: { tab: "tabNest", targets: ["#drop"] } },
   panels: { steps: 4, icon: "grid", show: { tab: "tabNest", targets: ["#panelRows"] } },
   rotation: { steps: 4, icon: "rotate", show: { tab: "tabNest", targets: ['[data-k="rot"]', "#rotAll"] } },
@@ -25,7 +26,8 @@ export const GUIDE_TOPICS = {
   notebook: { steps: 4, icon: "book", show: { tab: "tabNotebook", targets: ["#nbSearch"] } },
   materials: { steps: 4, icon: "layers", show: { tab: "tabMaterials", targets: ["#btnLibNew"] } },
   cost: { steps: 4, icon: "coin", show: { tab: "tabCost", targets: ['section[aria-labelledby="h-cost"]'] } },
-  projects: { steps: 4, icon: "folder", show: { targets: ["#btnProjects"] } }
+  projects: { steps: 4, icon: "folder", show: { targets: ["#btnProjects"] } },
+  folder: { steps: 4, icon: "usb", show: { targets: ["#btnProjects"] } }
 };
 
 /* Fiches dans l'ordre de lecture (pour « Suivant »). */

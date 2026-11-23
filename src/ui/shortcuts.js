@@ -7,7 +7,7 @@ import { byId, escapeHtml } from "../util/dom.js";
 import { openProjectsDialog, saveCurrentProject } from "./projects-dialog.js";
 import { renderResult } from "./result-view.js";
 import { isTyping, shortcutFor, SHORTCUTS } from "./shortcut-keys.js";
-import { selectTab } from "./tabs.js";
+import { allTabs, selectTab } from "./tabs.js";
 import { closeModal, openModal } from "./modal.js";
 
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || "");
@@ -53,10 +53,6 @@ function anyDialogOpen() {
   });
 }
 
-function tabs() {
-  return Array.prototype.slice.call(document.querySelectorAll('[role="tablist"] [role="tab"]'));
-}
-
 function run(shortcut) {
   switch (shortcut.action) {
     case "calculate":
@@ -64,7 +60,7 @@ function run(shortcut) {
       renderResult();
       return;
     case "tab":
-      if (tabs()[shortcut.tab]) selectTab(tabs()[shortcut.tab], true);
+      if (allTabs()[shortcut.tab]) selectTab(allTabs()[shortcut.tab], true);
       return;
     case "save":
       // la fenêtre Projets s'ouvre pour montrer que c'est enregistré (et sous quel nom)

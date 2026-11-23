@@ -7,7 +7,10 @@ export const state = createExampleProject();
 
 state.rotAll = "quarter";
 
-// remplissage par kits (pièces cochées « Kit ») : { row, how } comme « Remplir », ou null : un seul kit
-state.kitFill = null;
+// kits nommés : [{ id, name, fill }] (voir src/project/kits.js) ; une pièce y entre par type.kit = id
+state.kits = [];
 
 state.sort = "file";
+
+// fichier .nestor du dossier choisi d'où vient le projet (voir src/project/folder-store.js), ou null
+state.folderFile = null;

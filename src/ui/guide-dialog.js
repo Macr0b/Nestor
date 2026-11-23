@@ -14,6 +14,7 @@ const ICONS = {
   import: '<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',
   grid: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/>',
   lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  shield: '<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
   rotate: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
   box: '<path d="M3 8l9-5 9 5v8l-9 5-9-5zM3 8l9 5 9-5M12 13v8"/>',
   saw: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/>',
@@ -23,7 +24,8 @@ const ICONS = {
   book: '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/>',
   layers: '<path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/>',
   coin: '<circle cx="12" cy="12" r="8"/><path d="M15 9.5a3 3 0 1 0 0 5M8 11h5M8 13h5"/>',
-  folder: '<path d="M3 6h6l2 2h10v11H3z"/>'
+  folder: '<path d="M3 6h6l2 2h10v11H3z"/>',
+  usb: '<path d="M7 10h10v10a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1zM9 10V3h6v7M11 6h0M13 6h0"/>'
 };
 
 let current = "start";

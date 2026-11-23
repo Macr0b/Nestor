@@ -5,15 +5,15 @@ import { languageLocale, translate } from "../i18n/i18n.js";
 import { resizeManualPart } from "../project/manual-parts.js";
 import { partDisplayName, partScale, rotationChoice, rotationFromChoice } from "../project/parts.js";
 import { turnPart } from "../project/turn-part.js";
-import { renderKitBox } from "./kit-box.js";
+import { focusKitName, kitName, renderKitBox } from "./kit-box.js";
+import { fillPickerHtml, readFillPicker } from "./fill-picker.js";
+import { addKit, kitOf } from "../project/kits.js";
 import { schedulePreferencesSave } from "../project/preferences.js";
 import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { renderResult } from "./result-view.js";
 import { partThumbnail } from "./sheet-drawing.js";
 import { allowChangeOf } from "./lock-guard.js";
-import { panelList } from "../placement/origin.js";
-import { panelSizeLabel } from "./plan-summary.js";
 import { lockedCounts } from "../project/locks.js";
 import { markUnplacedParts } from "./unplaced-marks.js";
 import { byId, escapeHtml } from "../util/dom.js";
@@ -110,50 +110,9 @@ function renderSortMenu() {
 
 /* Nom d'une ligne de panneau dans les choix « Remplir » : son numéro (s'il y a plusieurs lignes), puis son nom ou
    sa taille. */
-function panelRowLabel(row, rows) {
-  var p = state.sheet.panels[row],
-    spec = rows[row];
-  return (rows.length > 1 ? row + 1 + " · " : "") + (p && p.name ? p.name : panelSizeLabel(spec));
-}
 
 /* Choix « Remplir » d'une pièce : nombre fixe, ou pour chaque ligne de panneau, remplir son dernier panneau du plan,
    tous ses panneaux, ou un nouveau. */
-export function fillOptions(type) {
-  return fillChoices(type.fill, translate("piece.fillNone"));
-}
-
-/* Options « row:how » d'un remplissage (pièce ou kits) ; noneLabel : le choix sans remplissage. */
-export function fillChoices(fill, noneLabel) {
-  var rows = panelList(),
-    cur = fill ? fill.row + ":" + fill.how : "",
-    opts = [["", noneLabel]];
-  rows.forEach(function (spec, row) {
-    if (!(spec.L > 0 && spec.W > 0)) return;
-    var label = panelRowLabel(row, rows);
-    opts.push([row + ":last", translate("piece.fillLast", { p: label })]);
-    opts.push([row + ":all", translate("piece.fillAll", { p: label })]);
-    opts.push([row + ":new", translate("piece.fillNew", { p: label })]);
-  });
-  return opts
-    .map(function (o) {
-      return '<option value="' + o[0] + '"' + (o[0] === cur ? " selected" : "") + ">" + escapeHtml(o[1]) + "</option>";
-    })
-    .join("");
-}
-
-function fillSelect(type, i) {
-  return (
-    '<label class="fillsel"' +
-    (type.kit ? " hidden" : "") +
-    '><select id="t' +
-    i +
-    '-f" data-k="fill" aria-label="' +
-    escapeHtml(translate("piece.fillLbl", { n: i + 1 })) +
-    '">' +
-    fillOptions(type) +
-    "</select></label>"
-  );
-}
 
 export function renderPartsList() {
   var sortedIndexes = sortedPartIndexes(),
@@ -217,26 +176,8 @@ export function renderPartsList() {
                 '">×</button>'
               : "") +
             "</div>" +
-            '<div class="tline"><label class="qty"' +
-            (t.fill && !t.kit ? " hidden" : "") +
-            '><span class="qlbl">' +
-            escapeHtml(translate(t.kit ? "piece.qtyKit" : "piece.qty")) +
-            "</span>" +
-            '<input type="number" id="t' +
-            i +
-            '-q" data-k="qty" inputmode="numeric" min="0" step="1" value="' +
-            escapeHtml(t.qty) +
-            '"></label>' +
-            '<label class="kitck"><input type="checkbox" id="t' +
-            i +
-            '-k" data-k="kit"' +
-            (t.kit ? " checked" : "") +
-            ' aria-label="' +
-            escapeHtml(translate("piece.kitLbl", { n: i + 1 })) +
-            '"><span aria-hidden="true">' +
-            escapeHtml(translate("kit.name")) +
-            "</span></label>" +
-            fillSelect(t, i) +
+            '<div class="tline">' +
+            quantityLine(t, i) +
             '<label class="rot" title="' +
             escapeHtml(translate("pieces.keepHint")) +
             '"><select id="t' +
@@ -299,6 +240,62 @@ export function renderPartsList() {
     : '<p class="hint">' + escapeHtml(translate("pieces.empty")) + "</p>";
   updateSelectionCount();
   markUnplacedParts();
+}
+
+/* Quantité d'une pièce : [Nombre fixe | Remplir au maximum] + nombre, ou les menus du remplissage ;
+   pour une pièce d'un kit, seulement « Qté / kit ». Puis le kit de la pièce. */
+function quantityLine(t, i) {
+  var kit = kitOf(t),
+    fill = !kit && t.fill ? t.fill : null;
+  return (
+    '<span class="fp" data-fp-box' +
+    (kit ? " hidden" : "") +
+    ">" +
+    fillPickerHtml("t" + i + "-f", fill, translate("piece.fillNone"), translate("piece.fillLbl", { n: i + 1 })) +
+    "</span>" +
+    '<label class="qty"' +
+    (fill ? " hidden" : "") +
+    '><span class="qlbl">' +
+    escapeHtml(translate(kit ? "piece.qtyKit" : "piece.qty")) +
+    "</span>" +
+    '<input type="number" id="t' +
+    i +
+    '-q" data-k="qty" inputmode="numeric" min="0" step="1" value="' +
+    escapeHtml(t.qty) +
+    '"></label>' +
+    kitSelect(t, i)
+  );
+}
+
+/* Kit de la pièce : « Aucun kit », les kits du projet, « + Nouveau kit ». */
+function kitSelect(t, i) {
+  var cur = t.kit || "";
+  return (
+    '<label class="kitsel"><select id="t' +
+    i +
+    '-k" data-k="kit" aria-label="' +
+    escapeHtml(translate("piece.kitLbl", { n: i + 1 })) +
+    '">' +
+    '<option value="">' +
+    escapeHtml(translate("kit.none")) +
+    "</option>" +
+    state.kits
+      .map(function (kit, n) {
+        return (
+          '<option value="' +
+          kit.id +
+          '"' +
+          (kit.id === cur ? " selected" : "") +
+          ">" +
+          escapeHtml(kitName(kit, n)) +
+          "</option>"
+        );
+      })
+      .join("") +
+    '<option value="+">' +
+    escapeHtml(translate("kit.new")) +
+    "</option></select></label>"
+  );
 }
 
 /* ↺ ↻ en sens fixe : pivoter la pièce d'un quart de tour ; l'angle choisi s'affiche à côté */
@@ -417,7 +414,7 @@ export function bindPartsList() {
     var t = state.types[+row.dataset.i],
       k = e.target.dataset.k;
     // cases et listes : traitées à l'événement « change »
-    if (!t || !k || k === "on" || k === "rot" || k === "kit" || k === "fill") return;
+    if (!t || !k || k === "on" || k === "rot" || k === "kit" || e.target.dataset.fp) return;
     // pièce sur un panneau figé : changer sa taille, ou descendre sous le nombre figé, demande de déverrouiller
     var i = +row.dataset.i,
       shrinks = k === "qty" && e.target.value !== "" && parseNumber(e.target.value, 0) < lockedCounts()[i];
@@ -454,22 +451,33 @@ export function bindPartsList() {
       row = e.target.closest(".trow");
     if (!row) return;
     var t = state.types[+row.dataset.i];
-    if (k === "fill") {
-      // remplir un panneau : la quantité ne compte plus, le nombre posé s'affiche après le calcul
-      var v = e.target.value.split(":");
-      if (v.length !== 2) delete t.fill;
-      else t.fill = { row: Math.floor(parseNumber(v[0], 0)), how: v[1] };
-      row.querySelector("label.qty").hidden = !!t.fill;
+    if (e.target.dataset.fp) {
+      // choix « Remplir » : la quantité ne compte plus, le nombre posé s'affiche après le calcul
+      var box = e.target.closest("[data-fp-box]");
+      var fill = readFillPicker(box);
+      if (fill) t.fill = fill;
+      else delete t.fill;
+      box.querySelector(".fp-fill").hidden = !fill;
+      row.querySelector("label.qty").hidden = !!fill;
+      if (e.target.dataset.fp === "mode" && fill) box.querySelector('[data-fp="how"]').focus();
       schedulePreferencesSave();
       scheduleCalculation();
     } else if (k === "kit") {
-      // pièce d'un kit : sa quantité est « par kit », son propre « Remplir » ne compte plus
-      t.kit = e.target.checked;
-      if (!t.kit) delete t.kit;
-      row.querySelector(".qlbl").textContent = translate(t.kit ? "piece.qtyKit" : "piece.qty");
-      row.querySelector("label.qty").hidden = !!(t.fill && !t.kit);
-      row.querySelector("label.fillsel").hidden = !!t.kit;
-      renderKitBox();
+      // kit de la pièce ; « + » crée un nouveau kit et l'y met
+      if (e.target.value === "+") {
+        t.kit = addKit("").id;
+        renderPartsList();
+        renderKitBox();
+        focusKitName(t.kit);
+      } else {
+        if (e.target.value) t.kit = e.target.value;
+        else delete t.kit;
+        var inKit = !!kitOf(t);
+        row.querySelector("[data-fp-box]").hidden = inKit;
+        row.querySelector(".qlbl").textContent = translate(inKit ? "piece.qtyKit" : "piece.qty");
+        row.querySelector("label.qty").hidden = !inKit && !!t.fill;
+        renderKitBox();
+      }
       schedulePreferencesSave();
       scheduleCalculation();
     } else if (k === "rot") {

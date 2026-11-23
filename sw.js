@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.9.9";
+const VERSION = "1.10.0";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -56,8 +56,12 @@ const FILES = [
   "src/project/manual-parts.js",
   "src/project/material-panels.js",
   "src/guide/topics.js",
+  "src/project/folder-store.js",
+  "src/project/kit-records.js",
+  "src/project/kits.js",
   "src/project/locks.js",
   "src/project/turn-part.js",
+  "src/stats/export-stats.js",
   "src/project/panel-rows.js",
   "src/project/parts.js",
   "src/project/preferences.js",
@@ -103,6 +107,8 @@ const FILES = [
   "src/ui/parts-list.js",
   "src/ui/release-notes.js",
   "src/ui/render-all.js",
+  "src/ui/fill-picker.js",
+  "src/ui/fold-blocks.js",
   "src/ui/guide-dialog.js",
   "src/ui/kit-box.js",
   "src/ui/lock-guard.js",

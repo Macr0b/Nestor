@@ -4,7 +4,8 @@
 
 const TAB_KEY = "nestor.onglet";
 
-function allTabs() {
+/* Onglets principaux (Imbrication, Fraisage…), dans l'ordre. */
+export function allTabs() {
   return Array.from(document.querySelectorAll('.tabs [role="tab"]'));
 }
 

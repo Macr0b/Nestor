@@ -3,6 +3,7 @@
 
 import { buildDxfFile } from "../export/dxf.js";
 import { exportPaths, fileSlug, saveFile, sheetSawCuts } from "../export/export-files.js";
+import { countExport } from "../stats/export-stats.js";
 import { buildSvgFile } from "../export/svg.js";
 import { formatNumber, translate } from "../i18n/i18n.js";
 import { showLength } from "./lengths.js";
@@ -346,6 +347,8 @@ export function bindResultView() {
     if (!b || !session.lastResult) return;
     var kind = b.dataset.dl,
       projectSlug = fileSlug(state.name || state.source.replace(/\.\w+$/, ""));
+    // compteur anonyme (format et version seulement) ; coupé dans les Réglages
+    countExport(kind);
     if (kind === "pdf" || kind === "pdfall") return downloadPdf(b.dataset.s, projectSlug);
     if (kind === "dxfall") return downloadAllDxf(projectSlug);
     var si = +b.dataset.s,

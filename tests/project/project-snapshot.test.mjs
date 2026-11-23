@@ -42,12 +42,43 @@ function project() {
   p.types[2].on = false;
   p.types[3].rot = "free1";
   p.types[0].turn = 3;
+  p.types[0].kit = "k2";
+  p.types[1].kit = "k2";
+  p.kits = [
+    { id: "k1", name: "Boîte", fill: null },
+    { id: "k2", name: "Étagère", fill: { row: 0, how: "new" } }
+  ];
   p.rotAll = "free1";
   p.sort = "name";
   return p;
 }
 
 describe("photo du projet", () => {
+  test("kits : projet de la 1.9.9 (case « Kit ») converti ; kit inconnu ou mal formé écarté", () => {
+    const old = takeSnapshot(project(), extras);
+    old.kits = undefined;
+    old.kitFill = { row: 0, how: "last" };
+    old.types[0].kit = true;
+    old.types[1].kit = true;
+    old.types[2].kit = "k9";
+    const back = importProject(JSON.stringify(old));
+    assert.deepEqual(back.kits, [{ id: "k1", name: "", fill: { row: 0, how: "last" } }]);
+    assert.equal(back.types[0].kit, "k1");
+    assert.equal(back.types[1].kit, "k1");
+    assert.equal(back.types[2].kit, undefined, "kit absent : pièce seule");
+    assert.equal(back.kitFill, undefined);
+    const bad = takeSnapshot(project(), extras);
+    bad.kits = [
+      { id: "k1", name: "x".repeat(500), fill: { row: -3, how: "all" } },
+      { id: "k1", name: "doublon" },
+      { id: "<b>", name: "pirate" },
+      "pas un objet"
+    ];
+    const clean = importProject(JSON.stringify(bad)).kits;
+    assert.equal(clean.length, 1);
+    assert.equal(clean[0].name.length, 60);
+  });
+
   test("aller-retour par le fichier : rien ne se perd", () => {
     const snap = takeSnapshot(project(), extras);
     const back = importProject(exportProject(snap));
@@ -58,6 +89,8 @@ describe("photo du projet", () => {
     assert.equal(back.types[0].scale, "50");
     assert.equal(back.types[1].rot, "free");
     assert.equal(back.types[3].rot, "free1");
+    assert.deepEqual(back.kits, project().kits);
+    assert.equal(back.types[1].kit, "k2");
     assert.equal(back.types[0].turn, 3);
     assert.equal(back.rotAll, "free1");
     assert.equal(back.types[2].on, false);

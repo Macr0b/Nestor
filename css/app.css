@@ -211,14 +211,6 @@ button:focus-visible,
   color: var(--accent-ink);
   border-color: var(--accent);
 }
-.btn.danger {
-  color: var(--danger);
-}
-.btn.armed {
-  background: var(--danger);
-  color: #fff;
-  border-color: var(--danger);
-}
 .btn.sm {
   padding: 5px 10px;
   font-size: 13px;
@@ -250,16 +242,8 @@ button:focus-visible,
   color: var(--muted);
   margin: 0;
 }
-.status {
-  font-size: 13px;
-  color: var(--muted);
-}
-.status.dirty,
 .warn {
   color: var(--danger);
-}
-.status.saved {
-  color: var(--ok);
 }
 .tag {
   display: inline-block;
@@ -484,27 +468,117 @@ button:focus-visible,
 .kit-info:empty {
   display: none;
 }
-.kit-info.none {
-  color: var(--muted);
+/* Blocs repliables : flèche devant le titre ; plié, seuls le titre et une ligne de résumé restent */
+.fold-head > h2 {
+  cursor: pointer;
+  margin-inline-end: auto;
 }
-.kitck {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 13px;
+.fold-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-inline-start: -6px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
   color: var(--muted);
   cursor: pointer;
+}
+.fold-btn:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.fold-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.15s;
+}
+.folded .fold-btn svg {
+  transform: rotate(-90deg);
+}
+[dir="rtl"] .folded .fold-btn svg {
+  transform: rotate(90deg);
+}
+.fold-head {
+  justify-content: flex-start;
+}
+section.box.folded > :not(.fold-head):not(.fold-sum) {
+  display: none !important;
+}
+.fold-sum {
+  display: none;
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.folded .fold-sum:not(:empty) {
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fold-btn svg {
+    transition: none;
+  }
+}
+/* Choix « Remplir » (pièce ou kit) et kit de la pièce */
+.fp,
+.fp-fill {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.fp[hidden],
+.fp-fill[hidden] {
+  display: none;
+}
+.fp select,
+.kitsel select {
+  width: auto;
+  max-width: 100%;
+  padding: 6px 8px;
+  text-overflow: ellipsis;
+}
+.kitsel {
+  min-width: 0;
+}
+.kitrow {
+  display: grid;
+  gap: 6px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.kitrow:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.kit-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kit-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+}
+.kit-top .mini {
+  flex: none;
+}
+.kit-count {
+  font-size: 13px;
+  color: var(--muted);
   white-space: nowrap;
 }
-.kitck input {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  accent-color: var(--accent);
-}
-.kitck:has(input:checked) {
-  color: var(--accent);
-  font-weight: 600;
+#btnNewKit {
+  justify-self: start;
 }
 /* ↺ ↻ en sens fixe */
 .turn {
@@ -634,20 +708,6 @@ button:focus-visible,
   display: flex;
   gap: 4px 12px;
   flex-wrap: wrap;
-}
-.origtxt {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-.origtxt .f {
-  font-size: 12px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.origtxt .hint {
-  margin: 0;
 }
 .origin {
   flex: none;
@@ -1159,16 +1219,6 @@ button:focus-visible,
   background: color-mix(in srgb, var(--muted) 14%, transparent);
 }
 /* pièce qui remplit un panneau : choix à côté de la quantité, nombre posé sous la ligne */
-.fillsel {
-  min-width: 0;
-  max-width: 100%;
-}
-.fillsel select {
-  width: auto;
-  max-width: 100%;
-  padding: 6px 8px;
-  text-overflow: ellipsis;
-}
 .trow .fillinfo {
   grid-column: 3;
   margin: 2px 0 0;
