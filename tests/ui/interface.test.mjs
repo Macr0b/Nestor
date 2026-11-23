@@ -2008,7 +2008,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.context().close();
   });
 
-  test("kits nommés : chaque kit remplit son panneau avec des kits entiers, dans l'ordre", async () => {
+  test("groupes nommés : chaque groupe remplit son panneau avec des groupes entiers, dans l'ordre", async () => {
     const page = await open();
     await idle(page);
     assert.equal(await page.isVisible("#kitBox"), false);
@@ -2019,23 +2019,23 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.evaluate(() => document.activeElement.className), "kit-name");
     await page.keyboard.type("Boîte");
     assert.deepEqual(await page.$$eval('.trow[data-i="1"] [data-k="kit"] option', (o) => o.map((x) => x.textContent)), [
-      "Aucun kit",
+      "Aucun groupe",
       "Boîte",
-      "+ Nouveau kit"
+      "+ Nouveau groupe"
     ]);
     await page.selectOption('.trow[data-i="1"] [data-k="kit"]', "k1");
     await idle(page);
     // pièce d'un kit : « Qté / kit », pas de choix « Remplir » à elle, quantité intacte
-    assert.equal(await page.textContent('.trow[data-i="1"] .qlbl'), "Qté / kit");
+    assert.equal(await page.textContent('.trow[data-i="1"] .qlbl'), "Qté / groupe");
     assert.equal(await page.isVisible('.trow[data-i="1"] [data-fp="mode"]'), false);
     assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="qty"]'), "2");
-    assert.equal(await page.textContent('[data-kit="k1"] .kit-count'), "3 pièces par kit");
+    assert.equal(await page.textContent('[data-kit="k1"] .kit-count'), "3 pièces par groupe");
     assert.equal(await page.textContent('[data-kit="k1"] .kit-info'), "");
     // remplir au maximum le dernier panneau avec des Boîtes
     await chooseFill(page, '[data-kit="k1"]', "0:last");
     await idle(page);
     const info = await page.textContent('[data-kit="k1"] .kit-info');
-    const m = info.match(/^Kits complets : (\d+) \((\d+) pièces\)$/);
+    const m = info.match(/^Groupes complets : (\d+) \((\d+) pièces\)$/);
     assert.ok(m, info);
     const n = +m[1];
     assert.ok(n >= 2, info);
@@ -2085,7 +2085,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.context().close();
   });
 
-  test("kits : « Nombre de kits » pose le nombre demandé, manque de place, nombre invalide, projet", async () => {
+  test("groupes : « Nombre de groupes » pose le nombre demandé, manque de place, nombre invalide, projet", async () => {
     const page = await open();
     await idle(page);
     const placed = () =>
@@ -2103,8 +2103,8 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await idle(page);
     // trois choix, dans l'ordre ; la case du nombre n'apparaît qu'avec « Nombre de kits »
     assert.deepEqual(await page.$$eval('[data-kit="k1"] [data-fp="mode"] option', (o) => o.map((x) => x.textContent)), [
-      "Un seul kit",
-      "Nombre de kits",
+      "Un seul groupe",
+      "Nombre de groupes",
       "Remplir au maximum"
     ]);
     assert.equal(await page.isVisible('[data-kit="k1"] [data-fp="count"]'), false);
@@ -2115,7 +2115,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), "2", "2 kits proposés d'abord");
     assert.equal(
       await page.getAttribute('[data-kit="k1"] [data-fp="count"]', "aria-label"),
-      "Nombre de kits « Boîte »"
+      "Nombre de groupes « Boîte »"
     );
     await page.fill('[data-kit="k1"] [data-fp="count"]', "7");
     await idle(page);
@@ -2123,7 +2123,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(r.c[0], 7);
     assert.equal(r.c[1], 14);
     assert.equal(r.kits.k1, 7);
-    assert.equal(await page.textContent('[data-kit="k1"] .kit-info'), "7 kits · 21 pièces");
+    assert.equal(await page.textContent('[data-kit="k1"] .kit-info'), "7 groupes · 21 pièces");
     // la quantité par kit reste celle de la pièce ; le résumé du bloc Pièces compte les exemplaires
     assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="qty"]'), "2");
     // une seule plaque en stock : pas assez de place, le nombre de kits complets et les pièces en rouge
@@ -2136,7 +2136,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(r.kits.k1, Math.min(r.c[0] || 0, Math.floor((r.c[1] || 0) / 2)));
     assert.equal(
       await page.textContent('[data-kit="k1"] .kit-info'),
-      "Kits complets : " + r.kits.k1 + " sur 400 (pas assez de place)"
+      "Groupes complets : " + r.kits.k1 + " sur 400 (pas assez de place)"
     );
     await page.waitForSelector(".trow.unplaced .unfit");
     assert.match(
@@ -2272,7 +2272,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.fill("#guideSearch", "FIGE");
     assert.deepEqual(await page.$$eval(".guide-item", (b) => b.map((x) => x.textContent.trim())), [
       "Cadenas et remplir",
-      "Kits : des objets entiers"
+      "Groupes : des objets entiers"
     ]);
     await page.fill("#guideSearch", "zzz");
     assert.equal(await page.locator(".guide-item").count(), 0);
