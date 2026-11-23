@@ -12,6 +12,7 @@ import { refreshFillPicker } from "./fill-picker.js";
 import { renderKitBox } from "./kit-box.js";
 import { refreshFoldSummaries } from "./fold-blocks.js";
 import { fillTarget } from "../placement/plan-layers.js";
+import { plannedQty } from "../project/kits.js";
 
 /* { indice de pièce : { n: exemplaires non placés, why: "size" | "stock" } } ; « size » l'emporte. */
 export function unplacedByPart(res) {
@@ -44,7 +45,7 @@ function usableAreas() {
 function reasonText(mark, part) {
   return mark.why === "size"
     ? translate("piece.tooBig", { size: usableAreas() })
-    : translate("piece.noStock", { n: mark.n, q: Math.floor(parseNumber(part.qty, 0)) });
+    : translate("piece.noStock", { n: mark.n, q: plannedQty(part) });
 }
 
 /* Repose les repères d'après le dernier calcul : après chaque calcul et chaque fois que la liste est redessinée. */

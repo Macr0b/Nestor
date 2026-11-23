@@ -7,6 +7,7 @@ import { translate } from "../i18n/i18n.js";
 import { panelList } from "../placement/origin.js";
 import { state } from "../project/state.js";
 import { parseNumber } from "../util/numbers.js";
+import { plannedQty } from "../project/kits.js";
 import { panelSizeLabel } from "./plan-summary.js";
 
 const FOLD_KEY = "nestor.folded";
@@ -57,7 +58,7 @@ function summaryOf(titleId) {
     return translate("fold.pieces", {
       n: on.length,
       q: on.reduce(function (a, t) {
-        return a + Math.max(0, Math.floor(parseNumber(t.qty, 0)));
+        return a + plannedQty(t);
       }, 0)
     });
   }

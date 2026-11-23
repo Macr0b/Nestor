@@ -2085,6 +2085,112 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.context().close();
   });
 
+  test("kits : « Nombre de kits » pose le nombre demandé, manque de place, nombre invalide, projet", async () => {
+    const page = await open();
+    await idle(page);
+    const placed = () =>
+      page.evaluate(async () => {
+        const { session } = await import("/src/session.js");
+        const c = {};
+        for (const s of session.lastResult.sheets) for (const p of s.parts) c[p.i] = (c[p.i] || 0) + 1;
+        return { c, kits: session.lastResult.kits, unplaced: session.lastResult.unplaced.length };
+      });
+    // kit « Boîte » : pièce 0 (1 par kit) et pièce 1 (2 par kit)
+    await page.fill('.trow[data-i="0"] [data-k="qty"]', "1");
+    await page.selectOption('.trow[data-i="0"] [data-k="kit"]', "+");
+    await page.keyboard.type("Boîte");
+    await page.selectOption('.trow[data-i="1"] [data-k="kit"]', "k1");
+    await idle(page);
+    // trois choix, dans l'ordre ; la case du nombre n'apparaît qu'avec « Nombre de kits »
+    assert.deepEqual(await page.$$eval('[data-kit="k1"] [data-fp="mode"] option', (o) => o.map((x) => x.textContent)), [
+      "Un seul kit",
+      "Nombre de kits",
+      "Remplir au maximum"
+    ]);
+    assert.equal(await page.isVisible('[data-kit="k1"] [data-fp="count"]'), false);
+    assert.equal((await placed()).c[1], 2, "un seul kit : la quantité par kit");
+    await page.selectOption('[data-kit="k1"] [data-fp="mode"]', "n");
+    assert.equal(await page.isVisible('[data-kit="k1"] [data-fp="count"]'), true);
+    assert.equal(await page.evaluate(() => document.activeElement.dataset.fp), "count");
+    assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), "2", "2 kits proposés d'abord");
+    assert.equal(
+      await page.getAttribute('[data-kit="k1"] [data-fp="count"]', "aria-label"),
+      "Nombre de kits « Boîte »"
+    );
+    await page.fill('[data-kit="k1"] [data-fp="count"]', "7");
+    await idle(page);
+    let r = await placed();
+    assert.equal(r.c[0], 7);
+    assert.equal(r.c[1], 14);
+    assert.equal(r.kits.k1, 7);
+    assert.equal(await page.textContent('[data-kit="k1"] .kit-info'), "7 kits · 21 pièces");
+    // la quantité par kit reste celle de la pièce ; le résumé du bloc Pièces compte les exemplaires
+    assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="qty"]'), "2");
+    // une seule plaque en stock : pas assez de place, le nombre de kits complets et les pièces en rouge
+    await page.fill("#pl0-q", "1");
+    await page.fill('[data-kit="k1"] [data-fp="count"]', "400");
+    await idle(page);
+    r = await placed();
+    assert.ok(r.unplaced > 0);
+    assert.ok(r.kits.k1 < 400);
+    assert.equal(r.kits.k1, Math.min(r.c[0] || 0, Math.floor((r.c[1] || 0) / 2)));
+    assert.equal(
+      await page.textContent('[data-kit="k1"] .kit-info'),
+      "Kits complets : " + r.kits.k1 + " sur 400 (pas assez de place)"
+    );
+    await page.waitForSelector(".trow.unplaced .unfit");
+    assert.match(
+      await page.textContent('.trow[data-i="1"] .unfit'),
+      / sur 800 non placée\(s\) : pas assez de panneaux/
+    );
+    await page.fill("#pl0-q", "");
+    // nombre vide, nul ou trop grand : remis au propre en quittant la case
+    for (const [typed, kept] of [
+      ["0", "1"],
+      ["-3", "1"],
+      ["999999", "5000"],
+      ["2.7", "2"]
+    ]) {
+      await page.fill('[data-kit="k1"] [data-fp="count"]', typed);
+      await page.press('[data-kit="k1"] [data-fp="count"]', "Tab");
+      assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), kept, typed);
+    }
+    await page.fill('[data-kit="k1"] [data-fp="count"]', "");
+    await page.press('[data-kit="k1"] [data-fp="count"]', "Tab");
+    assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), "1");
+    await page.fill('[data-kit="k1"] [data-fp="count"]', "3");
+    await page.press('[data-kit="k1"] [data-fp="count"]', "Tab");
+    await idle(page);
+    // projet enregistré puis rouvert : « Nombre de kits » et 3 reviennent
+    await page.click("#btnProjects");
+    await page.click("#projSave");
+    await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+    await page.click("#btnCloseProj");
+    await page.reload();
+    await idle(page);
+    await page.click("#btnProjects");
+    await page.click('#projList [data-act="open"]');
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+    await page.click("#btnCloseProj");
+    await idle(page);
+    assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="mode"]'), "n");
+    assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), "3");
+    assert.equal((await placed()).c[1], 6);
+    // retour à « Un seul kit » : la case disparaît, la quantité redevient celle d'un kit
+    await page.selectOption('[data-kit="k1"] [data-fp="mode"]', "");
+    await idle(page);
+    assert.equal(await page.isVisible('[data-kit="k1"] [data-fp="count"]'), false);
+    assert.equal((await placed()).c[1], 2);
+    assert.equal(await page.textContent('[data-kit="k1"] .kit-info'), "");
+    // retour à « Nombre de kits » : le nombre d'avant est repris
+    await page.selectOption('[data-kit="k1"] [data-fp="mode"]', "n");
+    assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), "3");
+    await idle(page);
+    assert.equal((await placed()).c[1], 6);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("blocs repliables : flèche ou titre, résumé, gardé au rechargement, Alt + clic pour tout l'onglet", async () => {
     const page = await open();
     await idle(page);

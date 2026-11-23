@@ -2,7 +2,8 @@
 /* Calcul du plan en quatre temps :
    1. panneaux figés (cadenas) : leurs pièces restent, les pièces à placer vont d'abord dans leurs trous ;
    2. le reste est placé comme d'habitude, avec le stock de panneaux restant ;
-   3. kits : pour chaque kit qui remplit un panneau, dans l'ordre, le plus possible de kits entiers ;
+   3. kits : pour chaque kit qui remplit un panneau, dans l'ordre, le plus possible de kits entiers (les kits
+      « Un seul kit » et « Nombre de kits » sont posés à l'étape 2, comme des pièces seules) ;
    4. remplissage : chaque pièce réglée sur « Remplir » occupe tout ce qui reste sur le panneau choisi. */
 
 import { applyOrigin, panelList, panelOrigin } from "./origin.js";
@@ -11,7 +12,7 @@ import { nestInPlace, nestPanelByPanel, nestWithOrigin } from "./run-nesting.js"
 import { lockedCounts, lockedPanelUse, resolvedLocks } from "../project/locks.js";
 import { scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
-import { kitOf, kitRecipe } from "../project/kits.js";
+import { kitCount, kitOf, kitRecipe, plannedQty } from "../project/kits.js";
 import { parseNumber } from "../util/numbers.js";
 
 // au plus autant de copies par remplissage (garde-fou contre une pièce minuscule sur un grand panneau)
@@ -110,7 +111,7 @@ export function computePlan() {
   var kits = fillingKits();
   var toPlace = state.types.map(function (t, i) {
     if (t.on === false || fillTarget(t) || placedByKit(t)) return 0;
-    return Math.max(0, Math.floor(parseNumber(t.qty, 0)) - counts[i]);
+    return Math.max(0, plannedQty(t) - counts[i]);
   });
   var lockedParts = counts.reduce(function (a, b) {
     return a + b;
@@ -152,6 +153,7 @@ export function computePlan() {
       };
       plan.count = count(plan);
       plan.total = plan.count + plan.unplaced.length;
+      countedKits(plan);
       return kitSheets(plan, kits, rect)
         .then(function () {
           return fillSheets(plan, rect);
@@ -161,6 +163,27 @@ export function computePlan() {
           return plan;
         });
     });
+}
+
+/* Kits posés en nombre (« Un seul kit », « Nombre de kits ») : combien sont complets après l'étape 2. */
+function countedKits(plan) {
+  var placed = state.types.map(function () {
+    return 0;
+  });
+  plan.sheets.forEach(function (s) {
+    s.parts.forEach(function (p) {
+      placed[p.i]++;
+    });
+  });
+  state.kits.forEach(function (kit) {
+    if (!kitCount(kit)) return;
+    var recipe = kitRecipe(kit),
+      complete = Infinity;
+    recipe.forEach(function (q, i) {
+      if (q > 0) complete = Math.min(complete, Math.floor(placed[i] / q));
+    });
+    if (complete !== Infinity) plan.kits[kit.id] = Math.min(complete, kitCount(kit));
+  });
 }
 
 // panneaux visés par un remplissage { row, how } : le dernier de la ligne, tous, ou un nouveau (s'il en reste en stock)

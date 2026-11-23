@@ -14,7 +14,7 @@ import { originPoint, panelList } from "../placement/origin.js";
 import { computePlan, fillTarget } from "../placement/plan-layers.js";
 import { sawCutTableHtml } from "./saw-cut-list.js";
 import { stopNesting } from "../placement/run-nesting.js";
-import { parseNumber } from "../util/numbers.js";
+import { plannedQty } from "../project/kits.js";
 import { lockCount, lockSheet, unlockSheet } from "../project/locks.js";
 import { renderLockedFields } from "./panels-editor.js";
 import { partDisplayName, scaledPart } from "../project/parts.js";
@@ -45,7 +45,7 @@ export function renderResult() {
   // pièces à placer : quantités, plus celles qui remplissent un panneau
   var parts = state.types.reduce(function (a, t) {
     if (t.on === false) return a;
-    return a + (fillTarget(t) ? 1 : Math.max(0, Math.floor(parseNumber(t.qty, 0))));
+    return a + (fillTarget(t) ? 1 : plannedQty(t));
   }, 0);
   if (
     !parts ||

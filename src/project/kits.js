@@ -1,7 +1,11 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Kits nommés : un kit = les pièces d'un même objet (« Boîte », « Étagère »…), posées en kits entiers.
-   state.kits = [{ id, name, fill: { row, how } | null }] ; une pièce appartient à un kit par type.kit = id.
-   Sans remplissage, les pièces d'un kit sont posées une fois (leur quantité), comme les autres. */
+   state.kits = [{ id, name, fill: { row, how } | null, count: nombre de kits | null }] ; une pièce appartient à
+   un kit par type.kit = id. Sans remplissage, les pièces d'un kit sont posées comme les autres : une fois leur
+   quantité (« Un seul kit »), ou leur quantité × count (« Nombre de kits »). */
+
+// au plus autant de kits demandés
+export const MAX_KITS = 5000;
 
 import { state } from "./state.js";
 
@@ -24,7 +28,7 @@ function newKitId() {
 }
 
 export function addKit(name) {
-  var kit = { id: newKitId(), name: String(name || "").slice(0, 60), fill: null };
+  var kit = { id: newKitId(), name: String(name || "").slice(0, 60), fill: null, count: null };
   state.kits.push(kit);
   return kit;
 }
@@ -37,6 +41,28 @@ export function removeKit(id) {
   state.types.forEach(function (t) {
     if (t.kit === id) delete t.kit;
   });
+}
+
+/* Nombre de kits demandé, lu dans une saisie : entier de 1 à MAX_KITS ; vide ou invalide → 1. */
+export function cleanKitCount(value) {
+  var n = Math.floor(Number(value));
+  return n >= 1 ? Math.min(n, MAX_KITS) : 1;
+}
+
+/* Kits posés comme des pièces seules : 1 (« Un seul kit ») ou le nombre demandé ; un kit qui remplit : 0. */
+export function kitCount(kit) {
+  if (kit.fill) return 0;
+  return kit.count == null ? 1 : cleanKitCount(kit.count);
+}
+
+/* Exemplaires d'une pièce à poser avant les remplissages : sa quantité, × le nombre de kits pour une pièce de
+   kit (pas de kits pour les pièces d'un kit qui remplit, pas de quantité pour une pièce en « Remplir »). */
+export function plannedQty(type) {
+  if (!type || type.on === false) return 0;
+  var q = Math.floor(Number(type.qty));
+  if (!(q > 0)) return 0;
+  var kit = kitOf(type);
+  return kit ? q * kitCount(kit) : q;
 }
 
 /* quantités d'un kit, par indice de pièce (0 pour les pièces hors du kit) */

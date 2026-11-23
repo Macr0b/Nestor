@@ -536,8 +536,15 @@ section.box.folded > :not(.fold-head):not(.fold-sum) {
   min-width: 0;
 }
 .fp[hidden],
-.fp-fill[hidden] {
+.fp-fill[hidden],
+.fp-count[hidden] {
   display: none;
+}
+/* nombre de kits : case courte, chiffres alignés */
+.fp-count input {
+  width: 6.5em;
+  padding: 6px 8px;
+  font-variant-numeric: tabular-nums;
 }
 .fp select,
 .kitsel select {
@@ -571,6 +578,7 @@ section.box.folded > :not(.fold-head):not(.fold-sum) {
 }
 .kit-top .mini {
   flex: none;
+  width: 38px;
 }
 .kit-count {
   font-size: 13px;

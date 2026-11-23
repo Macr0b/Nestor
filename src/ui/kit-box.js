@@ -1,7 +1,7 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Bloc « Kits » au-dessus de la liste : un kit = les pièces d'un même objet (Boîte, Étagère…).
-   Pour chaque kit : son nom, ses pièces par kit, « Un seul kit » ou « Remplir au maximum » tel panneau, et le
-   nombre de kits entiers posés. Les kits sont posés dans l'ordre de ce bloc. Visible dès qu'un kit existe. */
+   Pour chaque kit : son nom, ses pièces par kit, « Un seul kit », « Nombre de kits » (avec le nombre) ou
+   « Remplir au maximum » tel panneau, et le nombre de kits entiers posés. Les kits sont posés dans l'ordre de ce bloc. Visible dès qu'un kit existe. */
 
 import { translate } from "../i18n/i18n.js";
 import { addKit, kitOf, kitRecipe, removeKit } from "../project/kits.js";
@@ -9,7 +9,7 @@ import { schedulePreferencesSave } from "../project/preferences.js";
 import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { byId, escapeHtml } from "../util/dom.js";
-import { fillPickerHtml, readFillPicker, refreshFillPicker } from "./fill-picker.js";
+import { fillPickerHtml, readCount, readFillPicker, refreshFillPicker } from "./fill-picker.js";
 import { renderPartsList, scheduleCalculation } from "./parts-list.js";
 
 /* nom affiché d'un kit (n : sa place dans la liste) */
@@ -31,9 +31,13 @@ function perKit(kit) {
 
 function resultText(kit) {
   var res = session.lastResult;
-  if (!kit.fill || !res || !res.kits || res.kits[kit.id] == null) return "";
+  if ((!kit.fill && kit.count == null) || !res || !res.kits || res.kits[kit.id] == null) return "";
   var n = res.kits[kit.id];
-  return n ? translate("kit.done", { n: n, p: n * perKit(kit) }) : translate("kit.noRoom");
+  if (kit.fill) return n ? translate("kit.done", { n: n, p: n * perKit(kit) }) : translate("kit.noRoom");
+  // nombre demandé : tous complets, ou combien sur combien
+  return n >= kit.count
+    ? translate("kit.countDone", { n: n, p: n * perKit(kit) })
+    : translate("kit.countShort", { n: n, t: kit.count });
 }
 
 function kitRowHtml(kit, n) {
@@ -57,7 +61,10 @@ function kitRowHtml(kit, n) {
     '" aria-label="' +
     escapeHtml(translate("kit.del", { k: name })) +
     '">×</button></div><div class="fp" data-fp-box>' +
-    fillPickerHtml("kit-" + kit.id, kit.fill, translate("kit.one"), translate("kit.fillLbl", { k: name })) +
+    fillPickerHtml("kit-" + kit.id, kit.fill, translate("kit.one"), translate("kit.fillLbl", { k: name }), {
+      count: kit.count,
+      aria: translate("kit.countLbl", { k: name })
+    }) +
     '</div><p class="kit-info" role="status">' +
     escapeHtml(resultText(kit)) +
     "</p></div>"
@@ -90,8 +97,17 @@ export function renderKitBox() {
       }).length
     });
     el.querySelector(".kit-info").textContent = resultText(kit);
-    refreshFillPicker(el.querySelector("[data-fp-box]"), kit.fill);
+    refreshFillPicker(el.querySelector("[data-fp-box]"), kit.fill, kit.count);
   });
+}
+
+// textes lus par les lecteurs d'écran (et bulle du ×) d'une ligne de kit, au nom du kit
+function labelRow(row, name) {
+  var del = row.querySelector("[data-kit-del]");
+  del.title = translate("kit.del", { k: name });
+  del.setAttribute("aria-label", del.title);
+  row.querySelector('[data-fp="mode"]').setAttribute("aria-label", translate("kit.fillLbl", { k: name }));
+  row.querySelector('[data-fp="count"]').setAttribute("aria-label", translate("kit.countLbl", { k: name }));
 }
 
 /* place le curseur dans le nom d'un kit qu'on vient de créer */
@@ -105,19 +121,36 @@ export function bindKitBox() {
   list.addEventListener("change", function (e) {
     var kit = kitFor(e.target.closest("[data-kit]").dataset.kit);
     if (!kit || !e.target.dataset.fp) return;
-    var box = e.target.closest("[data-fp-box]");
+    var box = e.target.closest("[data-fp-box]"),
+      countInput = box.querySelector('[data-fp="count"]');
     kit.fill = readFillPicker(box);
+    kit.count = readCount(box);
     box.querySelector(".fp-fill").hidden = !kit.fill;
+    box.querySelector(".fp-count").hidden = kit.count == null;
+    // nombre corrigé à l'écran (vide ou invalide → 1, plafonné) ; en passant à « Nombre de kits », on y va
+    if (kit.count != null) countInput.value = kit.count;
+    if (e.target.dataset.fp === "mode" && kit.count != null) countInput.select();
     schedulePreferencesSave();
     scheduleCalculation();
   });
   list.addEventListener("input", function (e) {
+    // nombre de kits : recalcul pendant la frappe (le nombre est remis au propre en quittant la case)
+    if (e.target.dataset.fp === "count") {
+      var counted = kitFor(e.target.closest("[data-kit]").dataset.kit);
+      if (counted && e.target.value !== "") {
+        counted.count = readCount(e.target.closest("[data-fp-box]"));
+        schedulePreferencesSave();
+        scheduleCalculation();
+      }
+      return;
+    }
     if (!e.target.classList.contains("kit-name")) return;
     var kit = kitFor(e.target.closest("[data-kit]").dataset.kit);
     if (!kit) return;
     kit.name = e.target.value.slice(0, 60);
-    // les menus « Kit » des pièces suivent le nom
+    // les menus « Kit » des pièces et les textes lus de la ligne suivent le nom
     var n = state.kits.indexOf(kit);
+    labelRow(e.target.closest("[data-kit]"), kitName(kit, n));
     document.querySelectorAll('[data-k="kit"] option[value="' + kit.id + '"]').forEach(function (o) {
       o.textContent = kitName(kit, n);
     });

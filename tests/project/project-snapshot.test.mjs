@@ -45,8 +45,8 @@ function project() {
   p.types[0].kit = "k2";
   p.types[1].kit = "k2";
   p.kits = [
-    { id: "k1", name: "Boîte", fill: null },
-    { id: "k2", name: "Étagère", fill: { row: 0, how: "new" } }
+    { id: "k1", name: "Boîte", fill: null, count: 12 },
+    { id: "k2", name: "Étagère", fill: { row: 0, how: "new" }, count: null }
   ];
   p.rotAll = "free1";
   p.sort = "name";
@@ -62,7 +62,7 @@ describe("photo du projet", () => {
     old.types[1].kit = true;
     old.types[2].kit = "k9";
     const back = importProject(JSON.stringify(old));
-    assert.deepEqual(back.kits, [{ id: "k1", name: "", fill: { row: 0, how: "last" } }]);
+    assert.deepEqual(back.kits, [{ id: "k1", name: "", fill: { row: 0, how: "last" }, count: null }]);
     assert.equal(back.types[0].kit, "k1");
     assert.equal(back.types[1].kit, "k1");
     assert.equal(back.types[2].kit, undefined, "kit absent : pièce seule");
@@ -77,6 +77,22 @@ describe("photo du projet", () => {
     const clean = importProject(JSON.stringify(bad)).kits;
     assert.equal(clean.length, 1);
     assert.equal(clean[0].name.length, 60);
+    assert.equal(clean[0].count, null, "pas de nombre : « Un seul kit »");
+    // nombre de kits : entier de 1 à 5000, sinon « Un seul kit »
+    for (const [count, kept] of [
+      [7, 7],
+      ["7", 7],
+      [7.9, 7],
+      [0, null],
+      [-2, null],
+      [99999, 5000],
+      ["abc", null],
+      [null, null]
+    ]) {
+      const one = takeSnapshot(project(), extras);
+      one.kits = [{ id: "k1", name: "Boîte", fill: null, count }];
+      assert.equal(importProject(JSON.stringify(one)).kits[0].count, kept, String(count));
+    }
   });
 
   test("aller-retour par le fichier : rien ne se perd", () => {
