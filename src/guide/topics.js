@@ -7,7 +7,7 @@ export const GUIDE_CATEGORIES = [
   { id: "start", topics: ["start", "privacy"] },
   { id: "nest", topics: ["import", "panels", "rotation", "lock", "kit", "saw", "export"] },
   { id: "machines", topics: ["mill", "laser", "notebook"] },
-  { id: "project", topics: ["materials", "cost", "projects", "folder"] }
+  { id: "project", topics: ["materials", "cost", "projects", "folder", "profile"] }
 ];
 
 /* tab absent : la fiche désigne un élément visible depuis tous les onglets (bouton du haut) */
@@ -27,7 +27,8 @@ export const GUIDE_TOPICS = {
   materials: { steps: 4, icon: "layers", show: { tab: "tabMaterials", targets: ["#btnLibNew"] } },
   cost: { steps: 4, icon: "coin", show: { tab: "tabCost", targets: ['section[aria-labelledby="h-cost"]'] } },
   projects: { steps: 4, icon: "folder", show: { targets: ["#btnProjects"] } },
-  folder: { steps: 4, icon: "usb", show: { targets: ["#btnProjects"] } }
+  folder: { steps: 4, icon: "usb", show: { targets: ["#btnProjects"] } },
+  profile: { steps: 4, icon: "user", show: { targets: ["#btnSettings"] } }
 };
 
 /* Fiches dans l'ordre de lecture (pour « Suivant »). */

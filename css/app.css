@@ -1293,3 +1293,28 @@ section.box.folded > :not(.fold-head):not(.fold-sum) {
     grid-template-columns: 28px minmax(0, 1fr) 10px minmax(0, 1fr) 46px 42px 28px 28px;
   }
 }
+/* Mon profil (Réglages) : aperçu d'un profil avant de le charger, profil trouvé dans le dossier */
+.prof-load {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+}
+.prof-name {
+  margin: 0 0 2px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.prof-load .prof-sub {
+  margin: 0 0 8px;
+  margin-inline-start: 26px;
+}
+.prof-found {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 8px;
+  font-size: 13px;
+}

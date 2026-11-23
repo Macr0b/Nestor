@@ -25,6 +25,7 @@ const ICONS = {
   layers: '<path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/>',
   coin: '<circle cx="12" cy="12" r="8"/><path d="M15 9.5a3 3 0 1 0 0 5M8 11h5M8 13h5"/>',
   folder: '<path d="M3 6h6l2 2h10v11H3z"/>',
+  user: '<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/>',
   usb: '<path d="M7 10h10v10a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1zM9 10V3h6v7M11 6h0M13 6h0"/>'
 };
 

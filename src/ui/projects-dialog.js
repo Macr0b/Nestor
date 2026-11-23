@@ -33,6 +33,7 @@ import {
   savedFolder,
   writeFolderFile
 } from "../project/folder-store.js";
+import { profileInFolder } from "../project/profile-store.js";
 import { state } from "../project/state.js";
 import { session } from "../session.js";
 import { byId, escapeHtml } from "../util/dom.js";
@@ -165,6 +166,16 @@ function refresh() {
   byId("projNew").classList.toggle("confirm", !!(pending && pending.act === "new"));
   renderPlaceTabs();
   return Promise.all([renderList(), renderFolder()]);
+}
+
+/* Projet en cours pas encore enregistré (pour le profil Nestor), ou null. */
+export function unsavedProject() {
+  return hasChanges() ? currentSnapshot() : null;
+}
+
+/* Avant de charger un profil : le projet en cours, s'il a changé, est d'abord gardé dans « Ce navigateur ». */
+export function keepUnsavedProject() {
+  return hasChanges() ? saveToBrowser(false) : Promise.resolve();
 }
 
 /* Enregistre le projet en cours, dans l'endroit affiché (asCopy : sous un autre nom ; le projet en cours devient
@@ -371,10 +382,21 @@ function renderFolder() {
             "</button>";
           return;
         }
-        return listFolder(folder).then(function (files) {
-          list.innerHTML = files.length
-            ? files.map(folderRow).join("")
-            : '<p class="hint">' + escapeHtml(translate("proj.folderEmpty")) + "</p>";
+        return Promise.all([listFolder(folder), profileInFolder()]).then(function (got) {
+          var files = got[0],
+            found = got[1];
+          list.innerHTML =
+            (files.length
+              ? files.map(folderRow).join("")
+              : '<p class="hint">' + escapeHtml(translate("proj.folderEmpty")) + "</p>") +
+            // profil Nestor plus récent dans ce dossier (venu d'un autre ordinateur) : proposé ici aussi
+            (found
+              ? '<div class="prof-found"><span>' +
+                escapeHtml(translate("prof.found", { f: found.folder, d: formatDate(found.profile.savedAt) })) +
+                '</span> <button type="button" class="btn sm" data-act="profile">' +
+                escapeHtml(translate("prof.seeFound")) +
+                "</button></div>"
+              : "");
         });
       })
       .catch(function () {
@@ -527,6 +549,10 @@ export function bindProjectsDialog() {
         })
         .then(refresh);
     else if (button.dataset.act === "openFile") openFolderFile(button.closest(".proj-row").dataset.file);
+    else if (button.dataset.act === "profile") {
+      closeProjectsDialog();
+      document.dispatchEvent(new CustomEvent("nestor:open-profile"));
+    }
   });
   byId("projList").addEventListener("click", function (e) {
     const button = e.target.closest("[data-act]");

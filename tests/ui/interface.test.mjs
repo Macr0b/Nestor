@@ -2236,15 +2236,15 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
       "Machines",
       "Projet"
     ]);
-    assert.equal(await page.locator(".guide-item").count(), 16);
+    assert.equal(await page.locator(".guide-item").count(), 17);
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     assert.equal(await page.locator(".guide-steps li").count(), 4);
     // « Suivant » passe à la fiche d'après
-    assert.match(await page.textContent(".guide-kicker"), /1 \/ 16/);
+    assert.match(await page.textContent(".guide-kicker"), /1 \/ 17/);
     assert.equal(await page.locator('[data-pager="prev"]').count(), 0);
     await page.click('[data-pager="next"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Tes données");
-    assert.match(await page.textContent(".guide-kicker"), /2 \/ 16/);
+    assert.match(await page.textContent(".guide-kicker"), /2 \/ 17/);
     assert.equal(await page.getAttribute('[data-pager="prev"]', "aria-label"), "Précédent : Premier plan en 2 minutes");
     assert.equal(await page.getAttribute('[data-pager="next"]', "aria-label"), "Suivant : Importer des pièces");
     // flèches du clavier : fiche suivante / précédente, mais pas pendant la saisie dans la recherche
@@ -2255,9 +2255,11 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     await page.keyboard.press("ArrowLeft");
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
-    await page.click('[data-topic="folder"]');
+    await page.click('[data-topic="profile"]');
     assert.equal(await page.locator('[data-pager="next"]').count(), 0);
     await page.keyboard.press("ArrowRight");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Ton profil sur un autre ordinateur");
+    await page.click('[data-pager="prev"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Projets sur ta clé ou ton cloud");
     await page.click('[data-pager="prev"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Projets");
@@ -2278,7 +2280,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.locator(".guide-item").count(), 0);
     assert.match(await page.textContent("#guideNav"), /Aucune fiche ne parle de « zzz »/);
     await page.fill("#guideSearch", "");
-    assert.equal(await page.locator(".guide-item").count(), 16);
+    assert.equal(await page.locator(".guide-item").count(), 17);
     // Échap ferme et rend le focus au bouton Guide
     await page.keyboard.press("Escape");
     assert.equal(await page.isVisible("#guide"), false);
@@ -2327,11 +2329,23 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
   });
 });
 
+// attend qu'une condition asynchrone de la page soit vraie (waitForFunction n'attend pas une promesse)
+async function waitAsync(page, fn, timeout = 20000) {
+  const end = Date.now() + timeout;
+  while (!(await page.evaluate(fn))) {
+    if (Date.now() > end) throw new Error("délai dépassé : " + fn);
+    await page.waitForTimeout(200);
+  }
+}
+
 // Dossier factice en mémoire à la place de la fenêtre « Choisir un dossier » du système (clé USB, cloud…).
 // window.__folder.denied : autorisation à redonner ; window.__folder.lost : dossier introuvable (clé débranchée).
-function fakeFolderPicker() {
+function fakeFolderPicker(seed) {
   const files = new Map();
   let clock = Date.UTC(2026, 10, 23, 10);
+  // fichiers déjà dans le dossier (venus d'un autre ordinateur) : { nom: texte }
+  for (const [name, text] of Object.entries(seed || {}))
+    files.set(name, new File([text], name, { lastModified: clock }));
   const folder = { denied: false, lost: false, files };
   const handle = {
     kind: "directory",
@@ -2421,7 +2435,7 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   // Ctrl+S enregistre aussi dans le dossier
   await page.fill('.trow[data-i="0"] [data-k="qty"]', "7");
   await page.keyboard.press("Control+s");
-  await page.waitForFunction(async () =>
+  await waitAsync(page, async () =>
     /"qty":\s*7/.test(await window.__folder.files.get("Boîte à vin (2).nestor").text())
   );
   // la fenêtre Projets s'est ouverte pour le montrer ; rouvrir l'original : rien de changé → un seul clic
@@ -2490,6 +2504,192 @@ test("projets dans un dossier : navigateur sans choix de dossier (Safari, Firefo
   // Enregistrer va toujours dans le navigateur
   await page.click("#projSave");
   await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+  assert.deepEqual(page.errors, []);
+  await page.context().close();
+});
+
+test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, ajouté puis tout remplacé", async () => {
+  const setData = (page, data) =>
+    page.evaluate((d) => {
+      for (const [k, v] of Object.entries(d)) localStorage.setItem(k, v);
+    }, data);
+  const library = (page) =>
+    page.evaluate(() =>
+      JSON.parse(localStorage.getItem("nestor.matieres.v1") || "[]")
+        .map((m) => m.name)
+        .sort()
+    );
+  // — ordinateur A : ses matières, son carnet, un projet, un dossier choisi —
+  const a = await open();
+  await a.addInitScript(fakeFolderPicker);
+  await setData(a, {
+    "nestor.matieres.v1": JSON.stringify([{ id: "mA", name: "CP de A", thickness: 18 }]),
+    "nestor.carnet.v1": JSON.stringify([{ id: "nA", process: "other", note: "réglage de A" }]),
+    "nestor.theme": "dark"
+  });
+  await a.reload();
+  await a.waitForSelector(".sheet");
+  await idle(a);
+  await a.fill("#projName", "Boîte de A");
+  await a.click("#btnProjects");
+  await a.waitForSelector('#projTabBrowser[aria-selected="true"]');
+  await a.click("#projSave");
+  await a.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
+  await a.click("#projTabFolder");
+  await a.click("#projPick");
+  await a.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
+  await a.click("#btnCloseProj");
+  // Réglages : la case n'apparaît qu'avec un dossier choisi ; cochée, le profil est écrit tout seul
+  await a.click("#btnSettings");
+  await a.waitForSelector("#profSyncRow:not([hidden])");
+  assert.equal(await a.textContent("#profSyncLbl"), "Garder mon profil à jour dans « CLE-USB »");
+  await a.check("#profSync");
+  await a.waitForFunction(() => window.__folder.files.has("Profil Nestor.nestorprofil"));
+  await a.waitForFunction(() => /^Dernière mise à jour : /.test(document.querySelector("#profSyncMsg").textContent));
+  // le fichier de profil n'est pas un projet : pas dans la liste du dossier
+  await a.click("#btnCloseSet");
+  await a.click("#btnProjects");
+  await a.click("#projTabFolder");
+  await a.waitForSelector("#projFolderList .hint, #projFolderList .proj-row");
+  assert.equal(await a.locator('#projFolderList [data-file$=".nestorprofil"]').count(), 0);
+  assert.equal(
+    await a.locator('#projFolderList [data-act="profile"]').count(),
+    0,
+    "son propre profil n'est pas proposé"
+  );
+  await a.click("#btnCloseProj");
+  // un projet de plus (une copie) : le profil du dossier suit (empreinte changée)
+  await a.click("#btnProjects");
+  await a.click("#projTabBrowser");
+  await a.click("#projSaveCopy");
+  await a.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 2);
+  await a.click("#btnCloseProj");
+  await waitAsync(
+    a,
+    async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length === 2
+  );
+  const profileText = await a.evaluate(() => window.__folder.files.get("Profil Nestor.nestorprofil").text());
+  assert.deepEqual(a.errors, []);
+  await a.context().close();
+
+  // — ordinateur B : d'autres matières ; il choisit le même dossier —
+  const b = await open();
+  await b.addInitScript(fakeFolderPicker, { "Profil Nestor.nestorprofil": profileText });
+  await setData(b, {
+    "nestor.matieres.v1": JSON.stringify([{ id: "mB", name: "CP de B", thickness: 15 }]),
+    "nestor.theme": "light"
+  });
+  await b.reload();
+  await b.waitForSelector(".sheet");
+  await idle(b);
+  await b.click("#btnProjects");
+  await b.click("#projTabFolder");
+  await b.click("#projPick");
+  await b.waitForSelector('#projFolderList [data-act="profile"]');
+  assert.match(await b.textContent("#projFolderList .prof-found"), /Profil trouvé dans « CLE-USB » \(enregistré le /);
+  await b.click('#projFolderList [data-act="profile"]');
+  // les Réglages s'ouvrent sur l'aperçu
+  await b.waitForSelector("#settings:not([hidden]) #profPreview:not([hidden])");
+  assert.equal(await b.textContent("#profName"), "Charger « Profil Nestor.nestorprofil »");
+  assert.match(
+    await b.textContent("#profSummary"),
+    /^2 projet\(s\) · 1 matière\(s\) · 1 fiche\(s\) du carnet · 0 machine\(s\) laser · enregistré le /
+  );
+  assert.equal(await b.evaluate(() => document.activeElement.id), "profApply");
+  // « Ajouter à ce que j'ai » : l'appli se recharge, les matières sont mêlées, le thème de B reste
+  await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
+  await b.waitForSelector(".sheet");
+  await b.waitForSelector("#settings:not([hidden])");
+  assert.equal(await b.textContent("#profMsg"), "Profil chargé. 2 projet(s) ajouté(s) dans Projets → Ce navigateur.");
+  assert.deepEqual(await library(b), ["CP de A", "CP de B"]);
+  assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "light");
+  assert.equal(await b.evaluate(() => JSON.parse(localStorage.getItem("nestor.carnet.v1"))[0].note), "réglage de A");
+  // déjà chargé : plus proposé
+  await b.waitForSelector("#profFound[hidden]", { state: "attached" });
+  await b.click("#btnCloseSet");
+  await b.click("#btnProjects");
+  await b.click("#projTabBrowser");
+  await b.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 2);
+  // le même profil chargé deux fois ne double pas le projet
+  await b.click("#btnCloseProj");
+  await b.click("#btnSettings");
+  const buffer = Buffer.from(profileText);
+  await b.setInputFiles("#profFile", {
+    name: "Profil Nestor 2026-11-23.nestorprofil",
+    mimeType: "application/json",
+    buffer
+  });
+  await b.waitForSelector("#profPreview:not([hidden])");
+  assert.equal(await b.textContent("#profName"), "Charger « Profil Nestor 2026-11-23.nestorprofil »");
+  // « Tout remplacer » : second clic ; changer d'avis désarme
+  await b.check('#profPreview [value="replace"]');
+  await b.click("#profApply");
+  assert.equal(await b.textContent("#profApply"), "Confirmer : tout remplacer");
+  await b.check('#profPreview [value="add"]');
+  assert.equal(await b.textContent("#profApply"), "Charger");
+  await b.check('#profPreview [value="replace"]');
+  await b.click("#profApply");
+  await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
+  await b.waitForSelector(".sheet");
+  await b.waitForSelector("#settings:not([hidden])");
+  assert.equal(await b.textContent("#profMsg"), "Profil chargé. 0 projet(s) ajouté(s) dans Projets → Ce navigateur.");
+  assert.deepEqual(await library(b), ["CP de A"]);
+  assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "dark");
+  assert.equal(
+    await b.evaluate(() => document.documentElement.dataset.theme || getComputedStyle(document.body).colorScheme),
+    "dark"
+  );
+  // fichier qui n'est pas un profil : refusé, rien n'est changé ; Annuler referme l'aperçu
+  await b.setInputFiles("#profFile", {
+    name: "x.nestorprofil",
+    mimeType: "application/json",
+    buffer: Buffer.from('{"app":"Nestor","kind":"projet"}')
+  });
+  await b.waitForFunction(() => /n’est pas un profil Nestor/.test(document.querySelector("#profMsg").textContent));
+  assert.equal(await b.isVisible("#profPreview"), false);
+  await b.setInputFiles("#profFile", { name: "p.nestorprofil", mimeType: "application/json", buffer });
+  await b.waitForSelector("#profPreview:not([hidden])");
+  await b.click("#profCancel");
+  assert.equal(await b.isVisible("#profPreview"), false);
+  assert.deepEqual(await library(b), ["CP de A"]);
+  // « Enregistrer mon profil » avec le dossier : écrit dans le dossier (le dossier factice, lui, n'a pas survécu
+  // au rechargement : on le choisit de nouveau)
+  await b.click("#btnCloseSet");
+  await b.click("#btnProjects");
+  await b.click("#projTabFolder");
+  await b.click("#projPick");
+  await b.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
+  await b.click("#btnCloseProj");
+  await b.click("#btnSettings");
+  await b.click("#profSave");
+  await b.waitForFunction(
+    () => document.querySelector("#profMsg").textContent === "Profil enregistré dans « CLE-USB »."
+  );
+  assert.equal(
+    await b.evaluate(
+      async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length
+    ),
+    2
+  );
+  assert.deepEqual(b.errors, []);
+  await b.context().close();
+});
+
+test("profil sans choix de dossier (Safari, Firefox) : téléchargé, pas de case de mise à jour", async () => {
+  const page = await open();
+  await page.addInitScript(() => delete window.showDirectoryPicker);
+  await page.reload();
+  await page.waitForSelector(".sheet");
+  await idle(page);
+  await page.click("#btnSettings");
+  assert.equal(await page.isVisible("#profSyncRow"), false);
+  const [dl] = await Promise.all([page.waitForEvent("download"), page.click("#profSave")]);
+  assert.match(dl.suggestedFilename(), /^Profil Nestor \d{4}-\d{2}-\d{2}\.nestorprofil$/);
+  const text = await (await import("node:fs/promises")).readFile(await dl.path(), "utf8");
+  const saved = JSON.parse(text);
+  assert.equal(saved.app, "Nestor");
+  assert.equal(saved.kind, "profil");
+  assert.equal(saved.current, null, "l'exemple du premier lancement n'est pas un projet en cours");
   assert.deepEqual(page.errors, []);
   await page.context().close();
 });

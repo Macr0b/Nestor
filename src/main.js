@@ -17,7 +17,7 @@ import { bindPanelsEditor } from "./ui/panels-editor.js";
 import { bindPartsList } from "./ui/parts-list.js";
 import { renderAll } from "./ui/render-all.js";
 import { bindResultView } from "./ui/result-view.js";
-import { bindSettingsDialog } from "./ui/settings-dialog.js";
+import { bindSettingsDialog, showLoadedProfile } from "./ui/settings-dialog.js";
 import { bindProjectsDialog } from "./ui/projects-dialog.js";
 import { bindShortcuts } from "./ui/shortcuts.js";
 import { bindModalFocusTrap } from "./ui/modal.js";
@@ -65,6 +65,7 @@ async function start() {
   renderLibrary();
   refreshCostTab();
   refreshInstallButton();
+  showLoadedProfile();
   const versionLabel = document.getElementById("cartVer");
   if (versionLabel) versionLabel.textContent = APP_VERSION;
 }
