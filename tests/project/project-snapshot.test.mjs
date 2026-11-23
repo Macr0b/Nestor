@@ -40,7 +40,9 @@ function project() {
   p.types[0].scale = "50";
   p.types[1].rot = "free";
   p.types[2].on = false;
-  p.rotAll = "free";
+  p.types[3].rot = "free1";
+  p.types[0].turn = 3;
+  p.rotAll = "free1";
   p.sort = "name";
   return p;
 }
@@ -55,6 +57,9 @@ describe("photo du projet", () => {
     assert.equal(back.types[0].qty, 3);
     assert.equal(back.types[0].scale, "50");
     assert.equal(back.types[1].rot, "free");
+    assert.equal(back.types[3].rot, "free1");
+    assert.equal(back.types[0].turn, 3);
+    assert.equal(back.rotAll, "free1");
     assert.equal(back.types[2].on, false);
     assert.equal(back.types[0].nameKey, "ex.facade");
     assert.deepEqual(back.exportOptions, extras.exportOptions);

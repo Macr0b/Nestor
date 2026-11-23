@@ -7,4 +7,7 @@ export const state = createExampleProject();
 
 state.rotAll = "quarter";
 
+// remplissage par kits (pièces cochées « Kit ») : { row, how } comme « Remplir », ou null : un seul kit
+state.kitFill = null;
+
 state.sort = "file";

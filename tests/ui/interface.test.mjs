@@ -397,6 +397,14 @@ describe("Interface", { skip }, () => {
       before.slice().sort()
     );
     assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="fill"]`), "0:last");
+    // revenir à un nombre fixe : la quantité d'avant est intacte (le choix « Remplir » ne l'écrase pas)
+    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "");
+    await idle(page);
+    assert.equal(await page.inputValue(`.trow[data-i="${last}"] [data-k="qty"]`), "8");
+    const kept = await page.evaluate(async (i) => (await import("/src/project/state.js")).state.types[i].qty, last);
+    assert.equal(kept, 8);
+    await page.selectOption(`.trow[data-i="${last}"] [data-k="fill"]`, "0:last");
+    await idle(page);
     // déverrouiller : tout redevient modifiable
     await page.click('[data-lock="0"]');
     await idle(page);
@@ -1926,6 +1934,107 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.context().close();
   });
 
+  test("rotation « Libre (1°) » en plus de « Libre (5°) », pour toutes les pièces ou une seule", async () => {
+    const page = await open();
+    await idle(page);
+    assert.deepEqual(await page.$$eval("#rotAll option", (o) => o.map((x) => x.value)), [
+      "fix",
+      "quarter",
+      "free",
+      "free1"
+    ]);
+    assert.equal(await page.textContent('#rotAll option[value="free1"]'), "Libre (1°)");
+    await page.selectOption("#rotAll", "free1");
+    await idle(page);
+    const rots = await page.$$eval('[data-k="rot"]', (s) => s.map((x) => x.value));
+    assert.ok(rots.length > 0 && rots.every((v) => v === "free1"), rots.join());
+    await page.selectOption('[data-k="rot"] >> nth=0', "free");
+    await idle(page);
+    assert.equal(await page.inputValue("#rotAll"), "mixed");
+    assert.ok((await page.locator(".sheet .svgbox svg").count()) > 0);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("sens fixe : ↺ ↻ pivotent la pièce d'un quart de tour, seulement en sens fixe", async () => {
+    const page = await open();
+    await idle(page);
+    const row = page.locator(".trow").first();
+    await row.locator('[data-k="rot"]').selectOption("quarter");
+    assert.equal(await row.locator(".turn").isVisible(), false);
+    await row.locator('[data-k="rot"]').selectOption("fix");
+    assert.equal(await row.locator(".turn").isVisible(), true);
+    const size = async () => [
+      await page.locator('.trow >> nth=0 >> [data-k="sw"]').inputValue(),
+      await page.locator('.trow >> nth=0 >> [data-k="sh"]').inputValue()
+    ];
+    const [w, h] = await size();
+    await row.locator('[data-act="turnR"]').click();
+    await idle(page);
+    assert.deepEqual(await size(), [h, w]);
+    assert.equal(await page.textContent(".trow >> nth=0 >> .turn-a"), "90°");
+    assert.equal(await page.evaluate(() => document.activeElement.dataset.act), "turnR");
+    await page.keyboard.press("Enter");
+    await idle(page);
+    assert.equal(await page.textContent(".trow >> nth=0 >> .turn-a"), "180°");
+    assert.deepEqual(await size(), [w, h]);
+    await page.click('.trow >> nth=0 >> [data-act="turnL"]');
+    await page.click('.trow >> nth=0 >> [data-act="turnL"]');
+    await idle(page);
+    assert.equal(await page.locator(".trow >> nth=0 >> .turn-a").count(), 0);
+    assert.match(
+      await page.getAttribute('.trow >> nth=0 >> [data-act="turnL"]', "aria-label"),
+      /^Pivoter « .+ » d’un quart de tour à gauche$/
+    );
+    assert.ok((await page.locator(".sheet .svgbox svg").count()) > 0);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
+  test("kits : pièces cochées « Kit », le plus de kits entiers sur le panneau, rien en trop", async () => {
+    const page = await open();
+    await idle(page);
+    assert.equal(await page.isVisible("#kitBox"), false);
+    await page.fill('.trow[data-i="0"] [data-k="qty"]', "1");
+    await page.check('.trow[data-i="0"] [data-k="kit"]');
+    await page.check('.trow[data-i="1"] [data-k="kit"]');
+    await idle(page);
+    assert.equal(await page.isVisible("#kitBox"), true);
+    assert.equal(await page.textContent("#kitHead"), "Kit · pièces par kit : 3");
+    assert.equal(await page.textContent('.trow[data-i="1"] .qlbl'), "Qté / kit");
+    assert.equal(await page.isVisible('.trow[data-i="1"] [data-k="fill"]'), false);
+    // cocher la case ne change pas la quantité
+    assert.equal(await page.inputValue('.trow[data-i="1"] [data-k="qty"]'), "2");
+    assert.equal(await page.textContent("#kitInfo"), "");
+    await page.selectOption("#kitFill", "0:last");
+    await idle(page);
+    const info = await page.textContent("#kitInfo");
+    const m = info.match(/^Kits complets : (\d+) \((\d+) pièces\)$/);
+    assert.ok(m, info);
+    const n = +m[1];
+    assert.ok(n >= 2, info);
+    assert.equal(+m[2], n * 3);
+    // sur le plan : exactement n façades et 2n équerres (que des kits entiers)
+    const counts = await page.evaluate(async () => {
+      const { session } = await import("/src/session.js");
+      const c = {};
+      for (const s of session.lastResult.sheets) for (const p of s.parts) c[p.i] = (c[p.i] || 0) + 1;
+      return c;
+    });
+    assert.equal(counts[0], n);
+    assert.equal(counts[1], 2 * n);
+    assert.equal(counts[2], 4, "les autres pièces gardent leur quantité");
+    // décocher : la pièce redevient normale, le bloc reste tant qu'une pièce est dans le kit
+    await page.uncheck('.trow[data-i="0"] [data-k="kit"]');
+    await idle(page);
+    assert.equal(await page.textContent("#kitHead"), "Kit · pièces par kit : 2");
+    await page.uncheck('.trow[data-i="1"] [data-k="kit"]');
+    await idle(page);
+    assert.equal(await page.isVisible("#kitBox"), false);
+    assert.deepEqual(page.errors, []);
+    await page.context().close();
+  });
+
   test("guide : catégories, recherche, « ? » des blocs et « Me montrer »", async () => {
     const page = await open();
     await page.click("#btnGuide");
@@ -1937,15 +2046,15 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
       "Machines",
       "Projet"
     ]);
-    assert.equal(await page.locator(".guide-item").count(), 12);
+    assert.equal(await page.locator(".guide-item").count(), 14);
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     assert.equal(await page.locator(".guide-steps li").count(), 4);
     // « Suivant » passe à la fiche d'après
-    assert.match(await page.textContent(".guide-kicker"), /1 \/ 12/);
+    assert.match(await page.textContent(".guide-kicker"), /1 \/ 14/);
     assert.equal(await page.locator('[data-pager="prev"]').count(), 0);
     await page.click('[data-pager="next"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Importer des pièces");
-    assert.match(await page.textContent(".guide-kicker"), /2 \/ 12/);
+    assert.match(await page.textContent(".guide-kicker"), /2 \/ 14/);
     assert.equal(await page.getAttribute('[data-pager="prev"]', "aria-label"), "Précédent : Premier plan en 2 minutes");
     assert.equal(await page.getAttribute('[data-pager="next"]', "aria-label"), "Suivant : Panneaux et chutes");
     // flèches du clavier : fiche suivante / précédente, mais pas pendant la saisie dans la recherche
@@ -1970,13 +2079,14 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     // recherche sans accents ni majuscules, dans tout le texte des fiches
     await page.fill("#guideSearch", "FIGE");
     assert.deepEqual(await page.$$eval(".guide-item", (b) => b.map((x) => x.textContent.trim())), [
-      "Cadenas et remplir"
+      "Cadenas et remplir",
+      "Kits : des objets entiers"
     ]);
     await page.fill("#guideSearch", "zzz");
     assert.equal(await page.locator(".guide-item").count(), 0);
     assert.match(await page.textContent("#guideNav"), /Aucune fiche ne parle de « zzz »/);
     await page.fill("#guideSearch", "");
-    assert.equal(await page.locator(".guide-item").count(), 12);
+    assert.equal(await page.locator(".guide-item").count(), 14);
     // Échap ferme et rend le focus au bouton Guide
     await page.keyboard.press("Escape");
     assert.equal(await page.isVisible("#guide"), false);

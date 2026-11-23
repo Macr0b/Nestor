@@ -12,7 +12,7 @@
              fixed : panneaux déjà garnis (cadenas, remplissage) ; leurs pièces, en coordonnées du panneau (polys et
              lines relatifs au coin x,y de la pièce, polys vide = rectangle plein), sont des obstacles. Ces panneaux
              viennent en premier dans la sortie et ne reprennent pas les pièces fixes.
-             rot : 0 = sens fixe (0° ou 180°), 1 = quarts de tour, 2 = rotation libre par pas de 5°
+             rot : 0 = sens fixe (0° ou 180°), 1 = quarts de tour, 2 = rotation libre par pas de 5°, 3 = par pas de 1°
    Sortie  : { sheets:[{pi,L,W,parts:[{i,x,y,w,h,k|a,mx,my}]}], unplaced:[{i,why:"size"|"stock"}], total, count, res }
 
    Principe : chaque pièce est convertie en grille de cases (« raster ») d'environ res mm ;
@@ -35,7 +35,7 @@ export function nest(input) {
   if (
     !input._inner &&
     (input.types || []).some(function (t) {
-      return t.rot === 2 && t.on && t.qty > 0;
+      return t.rot >= 2 && t.on && t.qty > 0;
     })
   ) {
     var A = nest(Object.assign({}, input, { _inner: 1 }));
@@ -43,7 +43,7 @@ export function nest(input) {
       Object.assign({}, input, {
         _inner: 1,
         types: input.types.map(function (t) {
-          return t.rot === 2 ? Object.assign({}, t, { rot: 1 }) : t;
+          return t.rot >= 2 ? Object.assign({}, t, { rot: 1 }) : t;
         })
       })
     );
@@ -212,10 +212,11 @@ export function nest(input) {
       seen[sig] = 1;
       list.push(o);
     }
-    if (t.rot === 2) {
-      // rotation libre par pas de 5° : pièce tournée autour de l'origine puis recalée en (0,0)
-      var all = t.polys.concat(t.lines || []);
-      for (var a = 0; a < 360; a += 5) {
+    if (t.rot >= 2) {
+      // rotation libre par pas de 5° (ou 1°) : pièce tournée autour de l'origine puis recalée en (0,0)
+      var all = t.polys.concat(t.lines || []),
+        step = t.rot === 3 ? 1 : 5;
+      for (var a = 0; a < 360; a += step) {
         var c = Math.cos((a * Math.PI) / 180),
           sn = Math.sin((a * Math.PI) / 180);
         function rp(P) {

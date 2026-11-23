@@ -9,6 +9,7 @@ import { session } from "../session.js";
 import { parseNumber } from "../util/numbers.js";
 import { panelSizeLabel } from "./plan-summary.js";
 import { fillOptions } from "./parts-list.js";
+import { renderKitBox } from "./kit-box.js";
 
 /* { indice de pièce : { n: exemplaires non placés, why: "size" | "stock" } } ; « size » l'emporte. */
 export function unplacedByPart(res) {
@@ -48,6 +49,7 @@ function reasonText(mark, part) {
 export function markUnplacedParts() {
   var res = session.lastResult,
     marks = unplacedByPart(res);
+  renderKitBox();
   document.querySelectorAll("#types .trow").forEach(function (row) {
     var i = +row.dataset.i,
       mark = marks[i],

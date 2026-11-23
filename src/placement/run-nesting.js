@@ -32,7 +32,7 @@ function buildNestInput(frame, onlyPanel, quantities, used) {
         return {
           w: t.w,
           h: t.h,
-          rot: t.rot === "free" ? 2 : t.rot ? 1 : 0,
+          rot: t.rot === "free1" ? 3 : t.rot === "free" ? 2 : t.rot ? 1 : 0,
           qty: quantities ? quantities[ti] : Math.floor(parseNumber(t.qty, 0)),
           on: t.on !== false,
           polys: t.paths

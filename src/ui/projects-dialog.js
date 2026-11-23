@@ -81,6 +81,7 @@ function applySnapshot(snapshot, id) {
   state.types = snapshot.types;
   state.locks = snapshot.locks;
   state.rotAll = snapshot.rotAll;
+  state.kitFill = snapshot.kitFill;
   state.sort = snapshot.sort;
   Object.assign(exportOptions, snapshot.exportOptions);
   syncFileIds();

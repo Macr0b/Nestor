@@ -22,6 +22,7 @@ import { bindProjectsDialog } from "./ui/projects-dialog.js";
 import { bindShortcuts } from "./ui/shortcuts.js";
 import { bindModalFocusTrap } from "./ui/modal.js";
 import { bindGuide } from "./ui/guide-dialog.js";
+import { bindKitBox } from "./ui/kit-box.js";
 import { bindTabs } from "./ui/tabs.js";
 import { bindUpdates } from "./ui/updates.js";
 import { APP_VERSION } from "./version.js";
@@ -42,6 +43,7 @@ async function start() {
   bindShortcuts();
   bindModalFocusTrap();
   bindGuide();
+  bindKitBox();
   bindInstall();
   bindUpdates();
   bindMaterialsTab();

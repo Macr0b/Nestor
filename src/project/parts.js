@@ -39,11 +39,11 @@ export function scaledPart(part) {
 }
 
 export function rotationFromChoice(choice) {
-  return choice === "free" ? "free" : choice !== "fix";
+  return choice === "free" || choice === "free1" ? choice : choice !== "fix";
 }
 
 export function rotationChoice(part) {
-  return part.rot === "free" ? "free" : part.rot ? "quarter" : "fix";
+  return part.rot === "free" || part.rot === "free1" ? part.rot : part.rot ? "quarter" : "fix";
 }
 
 export function partDisplayName(part, index) {

@@ -66,7 +66,7 @@ export function loadPreferences() {
     state.sheet.mode = saved.mode === "rect" ? "rect" : "nest";
     if (saved.sort === "file" || saved.sort === "name" || saved.sort === "layer" || saved.sort === "src")
       state.sort = saved.sort;
-    if (saved.rot === "fix" || saved.rot === "quarter" || saved.rot === "free") {
+    if (["fix", "quarter", "free", "free1"].includes(saved.rot)) {
       state.rotAll = saved.rot;
       if (state.example)
         state.types.forEach(function (t) {

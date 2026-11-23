@@ -125,7 +125,7 @@ function cleanType(raw, budget) {
     layer: str(t.layer),
     ord: num(t.ord, 0, 0),
     qty: Math.floor(num(t.qty, 1, 0, 100000)),
-    rot: t.rot === "free" ? "free" : t.rot === true,
+    rot: t.rot === "free" || t.rot === "free1" ? t.rot : t.rot === true,
     w: num(t.w, 0, 0),
     h: num(t.h, 0, 0),
     paths: paths
@@ -137,6 +137,8 @@ function cleanType(raw, budget) {
   if (t.copy === true) type.copy = true;
   if (t.manual === true) type.manual = true;
   if (t.on === false) type.on = false;
+  if ([1, 2, 3].includes(t.turn)) type.turn = t.turn;
+  if (t.kit === true) type.kit = true;
   if (typeof t.scale === "number" || (typeof t.scale === "string" && t.scale.length <= 20)) type.scale = t.scale;
   if (EXAMPLE_KEYS.includes(t.nameKey)) type.nameKey = t.nameKey;
   return type;
@@ -248,7 +250,8 @@ export function cleanSnapshot(raw) {
         return cleanLock(l, panels.length || 1);
       })
       .filter(Boolean),
-    rotAll: ["fix", "quarter", "free"].includes(s.rotAll) ? s.rotAll : "quarter",
+    rotAll: ["fix", "quarter", "free", "free1"].includes(s.rotAll) ? s.rotAll : "quarter",
+    kitFill: cleanFill(s.kitFill),
     sort: ["file", "name", "layer", "src"].includes(s.sort) ? s.sort : "file",
     exportOptions: {
       includeBoard: exportOptions.includeBoard === true,
@@ -288,6 +291,7 @@ export function takeSnapshot(project, extras) {
     types: project.types,
     locks: project.locks,
     rotAll: project.rotAll,
+    kitFill: project.kitFill,
     sort: project.sort,
     exportOptions: extras.exportOptions,
     material: extras.material,

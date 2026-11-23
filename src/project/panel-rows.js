@@ -14,4 +14,10 @@ export function remapPanelRows(map) {
     if (row < 0) delete t.fill;
     else t.fill.row = row;
   });
+  // remplissage par kits : même règle
+  if (state.kitFill) {
+    var kitRow = map(state.kitFill.row);
+    if (kitRow < 0) state.kitFill = null;
+    else state.kitFill.row = kitRow;
+  }
 }

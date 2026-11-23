@@ -118,6 +118,37 @@ describe("Imbrication (nest)", () => {
       assert.deepEqual(checkSheet(s, [type(para, 6, { rot: 2 })], { margin: 5, gap: 2, tol: libre.res + 0.05 }), []);
   });
 
+  test("rotation libre par 1° : la barre en biais passe là où le pas de 5° échoue", () => {
+    // 628 × 6 dans 590 × 270 utiles : ne tient qu'entre 21° et 24° environ
+    const bar = (rot) => input([type(rect(628, 6), 1, { rot })], [{ L: 600, W: 280, qty: -1 }]);
+    assert.equal(nest(bar(2)).count, 0, "aucun multiple de 5° ne convient");
+    const res = nest(bar(3));
+    assert.equal(res.count, 1);
+    const a = res.sheets[0].parts[0].a;
+    assert.ok(Number.isInteger(a) && a % 5 !== 0, `angle ${a}`);
+    assert.deepEqual(
+      checkSheet(res.sheets[0], [type(rect(628, 6), 1, { rot: 3 })], { margin: 5, gap: 2, tol: res.res + 0.05 }),
+      []
+    );
+  });
+
+  test("rotation libre par 1° : jamais pire que le quart de tour ni que le pas de 5°", () => {
+    const para = [
+      [0, 0],
+      [120, 0],
+      [300, 180],
+      [180, 180]
+    ];
+    const run = (rot) => nest(input([type(para, 6, { rot })], [{ L: 600, W: 400, qty: -1 }]));
+    const quart = run(1),
+      cinq = run(2),
+      un = run(3);
+    assert.ok(un.sheets.length <= quart.sheets.length, `${un.sheets.length} > ${quart.sheets.length}`);
+    assert.ok(un.count >= cinq.count);
+    for (const s of un.sheets)
+      assert.deepEqual(checkSheet(s, [type(para, 6, { rot: 3 })], { margin: 5, gap: 2, tol: un.res + 0.05 }), []);
+  });
+
   test("panneaux utilisés dans l'ordre, stock respecté", () => {
     const res = nest(
       input(

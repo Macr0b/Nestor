@@ -14,6 +14,8 @@ const ICONS = {
   import: '<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',
   grid: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/>',
   lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  rotate: '<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>',
+  box: '<path d="M3 8l9-5 9 5v8l-9 5-9-5zM3 8l9 5 9-5M12 13v8"/>',
   saw: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/>',
   download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
   mill: '<path d="M10 3h4v6h-4zM11 9v8l1 3 1-3V9"/>',

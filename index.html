@@ -198,6 +198,11 @@
           <label class="f" id="scaleAllWrap"><span data-i18n="pieces.scaleAll">Échelle de toutes les pièces</span><span class="pcw"><input type="number" id="scaleAll" inputmode="decimal" min="1" step="any"><span class="u">%</span></span></label>
           <label class="f" id="sortWrap"><span data-i18n="pieces.sort">Trier par</span><select id="sortSel"></select></label>
         </div>
+        <div class="kitbox" id="kitBox" hidden>
+          <div class="phead"><p class="kit-h" id="kitHead"></p><button type="button" class="help-btn" data-guide="kit">?</button></div>
+          <label class="f"><span data-i18n="kit.fillLbl">Remplir avec des kits entiers</span><select id="kitFill"></select></label>
+          <p class="kit-info" id="kitInfo" role="status"></p>
+        </div>
         <div class="types" id="types"></div>
         <p class="hint" data-i18n="pieces.hint">Les trous et gravures restent attachés à leur pièce. Mets la quantité à 0 pour ignorer une pièce.</p>
         <p class="hint" data-i18n="pieces.keepHint">Coche « Garder le sens » pour le fil du bois, un placage ou une gravure orientée : la pièce ne sera pas tournée d’un quart de tour.</p>

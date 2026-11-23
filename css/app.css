@@ -459,6 +459,77 @@ button:focus-visible,
   height: 38px;
   flex: none;
 }
+/* Kit : bloc au-dessus de la liste, case sur chaque pièce */
+.kitbox {
+  margin: 4px 0 14px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  display: grid;
+  gap: 8px;
+}
+.kitbox[hidden] {
+  display: none;
+}
+.kit-h {
+  margin: 0;
+  font-weight: 600;
+}
+.kit-info {
+  margin: 0;
+  font-size: 13px;
+  color: var(--accent);
+}
+.kit-info:empty {
+  display: none;
+}
+.kit-info.none {
+  color: var(--muted);
+}
+.kitck {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.kitck input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.kitck:has(input:checked) {
+  color: var(--accent);
+  font-weight: 600;
+}
+/* ↺ ↻ en sens fixe */
+.turn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.turn[hidden] {
+  display: none;
+}
+.turn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.turn-a {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--accent);
+  direction: ltr;
+}
 .tline.size {
   gap: 6px 14px;
 }

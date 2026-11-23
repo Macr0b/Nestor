@@ -4,6 +4,8 @@
 import { languageLocale, translate } from "../i18n/i18n.js";
 import { resizeManualPart } from "../project/manual-parts.js";
 import { partDisplayName, partScale, rotationChoice, rotationFromChoice } from "../project/parts.js";
+import { turnPart } from "../project/turn-part.js";
+import { renderKitBox } from "./kit-box.js";
 import { schedulePreferencesSave } from "../project/preferences.js";
 import { state } from "../project/state.js";
 import { session } from "../session.js";
@@ -117,9 +119,14 @@ function panelRowLabel(row, rows) {
 /* Choix « Remplir » d'une pièce : nombre fixe, ou pour chaque ligne de panneau, remplir son dernier panneau du plan,
    tous ses panneaux, ou un nouveau. */
 export function fillOptions(type) {
+  return fillChoices(type.fill, translate("piece.fillNone"));
+}
+
+/* Options « row:how » d'un remplissage (pièce ou kits) ; noneLabel : le choix sans remplissage. */
+export function fillChoices(fill, noneLabel) {
   var rows = panelList(),
-    cur = type.fill ? type.fill.row + ":" + type.fill.how : "",
-    opts = [["", translate("piece.fillNone")]];
+    cur = fill ? fill.row + ":" + fill.how : "",
+    opts = [["", noneLabel]];
   rows.forEach(function (spec, row) {
     if (!(spec.L > 0 && spec.W > 0)) return;
     var label = panelRowLabel(row, rows);
@@ -136,7 +143,9 @@ export function fillOptions(type) {
 
 function fillSelect(type, i) {
   return (
-    '<label class="fillsel"><select id="t' +
+    '<label class="fillsel"' +
+    (type.kit ? " hidden" : "") +
+    '><select id="t' +
     i +
     '-f" data-k="fill" aria-label="' +
     escapeHtml(translate("piece.fillLbl", { n: i + 1 })) +
@@ -209,14 +218,24 @@ export function renderPartsList() {
               : "") +
             "</div>" +
             '<div class="tline"><label class="qty"' +
-            (t.fill ? " hidden" : "") +
-            ">" +
-            escapeHtml(translate("piece.qty")) +
+            (t.fill && !t.kit ? " hidden" : "") +
+            '><span class="qlbl">' +
+            escapeHtml(translate(t.kit ? "piece.qtyKit" : "piece.qty")) +
+            "</span>" +
             '<input type="number" id="t' +
             i +
             '-q" data-k="qty" inputmode="numeric" min="0" step="1" value="' +
             escapeHtml(t.qty) +
             '"></label>' +
+            '<label class="kitck"><input type="checkbox" id="t' +
+            i +
+            '-k" data-k="kit"' +
+            (t.kit ? " checked" : "") +
+            ' aria-label="' +
+            escapeHtml(translate("piece.kitLbl", { n: i + 1 })) +
+            '"><span aria-hidden="true">' +
+            escapeHtml(translate("kit.name")) +
+            "</span></label>" +
             fillSelect(t, i) +
             '<label class="rot" title="' +
             escapeHtml(translate("pieces.keepHint")) +
@@ -237,7 +256,9 @@ export function renderPartsList() {
                 "</option>"
               );
             }).join("") +
-            "</select></label></div>" +
+            "</select></label>" +
+            turnButtons(t, i) +
+            "</div>" +
             '<div class="tline size"><span class="grp"><span class="slbl">' +
             escapeHtml(translate("piece.size")) +
             "</span>" +
@@ -280,10 +301,39 @@ export function renderPartsList() {
   markUnplacedParts();
 }
 
+/* ↺ ↻ en sens fixe : pivoter la pièce d'un quart de tour ; l'angle choisi s'affiche à côté */
+function turnButtons(t, i) {
+  var name = partDisplayName(t, i);
+  function btn(act, key, d) {
+    var label = escapeHtml(translate(key, { n: name }));
+    return (
+      '<button class="mini tb" type="button" data-act="' +
+      act +
+      '" title="' +
+      label +
+      '" aria-label="' +
+      label +
+      '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' +
+      d +
+      '"/></svg></button>'
+    );
+  }
+  return (
+    '<span class="turn"' +
+    (rotationChoice(t) === "fix" ? "" : " hidden") +
+    ">" +
+    btn("turnL", "piece.turnLeft", "M9 4L5 8l4 4M5 8h9a5 5 0 0 1 0 10h-3") +
+    btn("turnR", "piece.turnRight", "M15 4l4 4-4 4M19 8h-9a5 5 0 0 0 0 10h3") +
+    (t.turn ? '<span class="turn-a">' + t.turn * 90 + "°</span>" : "") +
+    "</span>"
+  );
+}
+
 const ROTATION_CHOICES = [
   ["fix", "piece.rotFix"],
   ["quarter", "piece.rotQuarter"],
-  ["free", "piece.rotFree"]
+  ["free", "piece.rotFree"],
+  ["free1", "piece.rotFree1"]
 ];
 
 function renderRotationMenu() {
@@ -366,7 +416,8 @@ export function bindPartsList() {
     if (!row) return;
     var t = state.types[+row.dataset.i],
       k = e.target.dataset.k;
-    if (!t || !k || k === "on" || k === "rot") return;
+    // cases et listes : traitées à l'événement « change »
+    if (!t || !k || k === "on" || k === "rot" || k === "kit" || k === "fill") return;
     // pièce sur un panneau figé : changer sa taille, ou descendre sous le nombre figé, demande de déverrouiller
     var i = +row.dataset.i,
       shrinks = k === "qty" && e.target.value !== "" && parseNumber(e.target.value, 0) < lockedCounts()[i];
@@ -411,8 +462,19 @@ export function bindPartsList() {
       row.querySelector("label.qty").hidden = !!t.fill;
       schedulePreferencesSave();
       scheduleCalculation();
+    } else if (k === "kit") {
+      // pièce d'un kit : sa quantité est « par kit », son propre « Remplir » ne compte plus
+      t.kit = e.target.checked;
+      if (!t.kit) delete t.kit;
+      row.querySelector(".qlbl").textContent = translate(t.kit ? "piece.qtyKit" : "piece.qty");
+      row.querySelector("label.qty").hidden = !!(t.fill && !t.kit);
+      row.querySelector("label.fillsel").hidden = !!t.kit;
+      renderKitBox();
+      schedulePreferencesSave();
+      scheduleCalculation();
     } else if (k === "rot") {
       t.rot = rotationFromChoice(e.target.value);
+      row.querySelector(".turn").hidden = rotationChoice(t) !== "fix";
       renderRotationMenu();
       schedulePreferencesSave();
       scheduleCalculation();
@@ -446,12 +508,20 @@ export function bindPartsList() {
       // la copie est une autre pièce : pas le même identifiant (cadenas)
       delete c.uid;
       state.types.splice(i + 1, 0, c);
+    } else if (b.dataset.act === "turnL" || b.dataset.act === "turnR") {
+      if (!allowChangeOf([i])) return;
+      turnPart(t, b.dataset.act === "turnR" ? 1 : -1);
     } else if (b.dataset.act === "del" && (t.copy || t.manual)) {
       if (!allowChangeOf([i])) return;
       state.types.splice(i, 1);
     } else return;
     session.lastResult = null;
     renderPartsList();
+    // après un quart de tour, le focus reste sur le même bouton (on peut cliquer plusieurs fois)
+    var again =
+      b.dataset.act.startsWith("turn") &&
+      byId("types").querySelector('.trow[data-i="' + i + '"] [data-act="' + b.dataset.act + '"]');
+    if (again) again.focus();
     schedulePreferencesSave();
     scheduleCalculation();
   });

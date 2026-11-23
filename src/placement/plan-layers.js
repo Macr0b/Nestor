@@ -1,8 +1,9 @@
 /* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* Calcul du plan en trois temps :
+/* Calcul du plan en quatre temps :
    1. panneaux figés (cadenas) : leurs pièces restent, les pièces à placer vont d'abord dans leurs trous ;
    2. le reste est placé comme d'habitude, avec le stock de panneaux restant ;
-   3. remplissage : chaque pièce réglée sur « Remplir » occupe tout ce qui reste sur le panneau choisi. */
+   3. kits : le plus possible de kits entiers (toutes les pièces cochées « Kit », dans leurs quantités) ;
+   4. remplissage : chaque pièce réglée sur « Remplir » occupe tout ce qui reste sur le panneau choisi. */
 
 import { applyOrigin, panelList, panelOrigin } from "./origin.js";
 import { freeRectangles, packRectangles } from "./rectangles.js";
@@ -17,8 +18,22 @@ const MAX_FILL = 5000;
 
 /* Réglage « Remplir » d'une pièce : { row: ligne de panneau, how: "last" | "all" | "new" }, ou null. */
 export function fillTarget(type) {
-  var f = type && type.on !== false && type.fill;
+  var f = type && type.on !== false && !inKit(type) && type.fill;
+  return validFill(f);
+}
+
+function validFill(f) {
   return f && f.row >= 0 && ["last", "all", "new"].includes(f.how) ? f : null;
+}
+
+// pièce cochée « Kit » (et active)
+export function inKit(type) {
+  return !!(type && type.on !== false && type.kit);
+}
+
+/* Remplissage par kits : { row, how }, ou null (les pièces du kit sont alors posées une fois, comme les autres). */
+export function kitTarget() {
+  return state.types.some(inKit) ? validFill(state.kitFill) : null;
 }
 
 function count(res) {
@@ -83,8 +98,9 @@ export function computePlan() {
     counts = lockedCounts(),
     used = lockedPanelUse();
   // pièces encore à placer : quantité moins celles déjà figées ; celles qui remplissent passent à la fin
+  var kits = kitTarget();
   var toPlace = state.types.map(function (t, i) {
-    if (t.on === false || fillTarget(t)) return 0;
+    if (t.on === false || fillTarget(t) || (kits && inKit(t))) return 0;
     return Math.max(0, Math.floor(parseNumber(t.qty, 0)) - counts[i]);
   });
   var lockedParts = counts.reduce(function (a, b) {
@@ -121,15 +137,125 @@ export function computePlan() {
         sheets: lockedSheets.concat(main.sheets),
         unplaced: main.unplaced,
         res: main.res,
-        filled: {}
+        filled: {},
+        kits: kits ? 0 : null
       };
       plan.count = count(plan);
       plan.total = plan.count + plan.unplaced.length;
-      return fillSheets(plan, rect).then(function () {
-        plan.lockedParts = lockedParts;
-        return plan;
+      return kitSheets(plan, kits, rect)
+        .then(function () {
+          return fillSheets(plan, rect);
+        })
+        .then(function () {
+          plan.lockedParts = lockedParts;
+          return plan;
+        });
+    });
+}
+
+// panneaux visés par un remplissage { row, how } : le dernier de la ligne, tous, ou un nouveau (s'il en reste en stock)
+function targetSheets(plan, target) {
+  var spec = panelList()[target.row];
+  if (!spec || !(spec.L > 0 && spec.W > 0)) return [];
+  var ofRow = plan.sheets.filter(function (s) {
+      return s.pi === target.row;
+    }),
+    sheets = target.how === "all" ? ofRow : target.how === "last" && ofRow.length ? ofRow.slice(-1) : [];
+  if (sheets.length) return sheets;
+  if (spec.qty >= 0 && ofRow.length >= spec.qty) return [];
+  return [{ pi: target.row, L: spec.L, W: spec.W, o: panelOrigin(target.row), parts: [], fresh: true }];
+}
+
+// pose des pièces ajoutées sur un panneau ; un panneau neuf n'entre dans le plan que s'il a reçu quelque chose
+function addToSheet(plan, sheet, added) {
+  if (!added.length) return;
+  sheet.parts = sheet.parts.concat(added);
+  if (sheet.fresh) {
+    delete sheet.fresh;
+    plan.sheets.push(sheet);
+  }
+  plan.count += added.length;
+  plan.total += added.length;
+}
+
+/* Kits : sur chaque panneau visé, le plus grand nombre de kits entiers. Un essai demande n kits ; on ne garde que
+   les kits complets posés (les pièces en trop sont retirées), puis on redemande un kit de plus tant que ça passe. */
+function kitSheets(plan, target, rect) {
+  if (!target) return Promise.resolve();
+  var recipe = state.types.map(function (t) {
+    return inKit(t) ? Math.max(0, Math.floor(parseNumber(t.qty, 0))) : 0;
+  });
+  if (
+    !recipe.some(function (q) {
+      return q > 0;
+    })
+  )
+    return Promise.resolve();
+  var chain = Promise.resolve();
+  targetSheets(plan, target).forEach(function (sheet) {
+    chain = chain.then(function () {
+      return bestKits(sheet, recipe, rect).then(function (best) {
+        addToSheet(plan, sheet, best.parts);
+        plan.kits += best.n;
       });
     });
+  });
+  return chain;
+}
+
+// kits entiers dans un essai : on garde, pour chaque pièce, recette × n exemplaires (les premiers posés)
+function completeKits(parts, recipe) {
+  var placed = recipe.map(function () {
+    return 0;
+  });
+  parts.forEach(function (p) {
+    placed[p.i]++;
+  });
+  var n = Infinity;
+  recipe.forEach(function (q, i) {
+    if (q > 0) n = Math.min(n, Math.floor(placed[i] / q));
+  });
+  if (!isFinite(n)) n = 0;
+  var left = recipe.map(function (q) {
+    return q * n;
+  });
+  return {
+    n: n,
+    parts: parts.filter(function (p) {
+      return left[p.i]-- > 0;
+    })
+  };
+}
+
+function bestKits(sheet, recipe, rect) {
+  var margin = parseNumber(state.sheet.margin, 0),
+    room = Math.max(0, sheet.L - 2 * margin) * Math.max(0, sheet.W - 2 * margin),
+    kitArea = recipe.reduce(function (a, q, i) {
+      var part = scaledPart(state.types[i]);
+      return a + q * part.w * part.h;
+    }, 0),
+    upper = Math.min(MAX_FILL, Math.ceil(room / Math.max(1, kitArea)) + 1),
+    best = { n: 0, parts: [] };
+  function attempt(n) {
+    var qty = recipe.map(function (q) {
+      return q * n;
+    });
+    return inPlace([sheet], qty, rect).then(function (r) {
+      return completeKits(r.sheets[0] ? r.sheets[0].parts : [], recipe);
+    });
+  }
+  // 1er essai : autant de kits que la surface le permet ; puis un de plus que le meilleur, tant que ça progresse
+  function grow(n, tries) {
+    if (n > upper || tries > 40) return Promise.resolve(best);
+    return attempt(n).then(function (got) {
+      if (got.n > best.n) best = got;
+      return got.n >= n ? grow(n + 1, tries + 1) : best.n + 1 === n ? best : grow(best.n + 1, tries + 1);
+    });
+  }
+  return attempt(upper).then(function (got) {
+    if (got.n > best.n) best = got;
+    return best.n >= upper ? best : grow(best.n + 1, 0);
+  });
 }
 
 /* Remplissage, pièce par pièce dans l'ordre de la liste, sur la ligne de panneau choisie : son dernier panneau du
@@ -140,19 +266,8 @@ function fillSheets(plan, rect) {
     var target = fillTarget(t);
     if (!target) return;
     chain = chain.then(function () {
-      var spec = panelList()[target.row];
-      if (!spec || !(spec.L > 0 && spec.W > 0)) return;
-      var ofRow = plan.sheets.filter(function (s) {
-          return s.pi === target.row;
-        }),
-        sheets = target.how === "all" ? ofRow : target.how === "last" && ofRow.length ? ofRow.slice(-1) : [];
-      if (!sheets.length) {
-        // nouveau panneau de cette ligne, s'il en reste en stock
-        if (spec.qty >= 0 && ofRow.length >= spec.qty) return;
-        sheets = [{ pi: target.row, L: spec.L, W: spec.W, o: panelOrigin(target.row), parts: [], fresh: true }];
-      }
       var inner = Promise.resolve();
-      sheets.forEach(function (sheet) {
+      targetSheets(plan, target).forEach(function (sheet) {
         inner = inner.then(function () {
           return fillOne(plan, sheet, t, i, rect);
         });
@@ -175,14 +290,7 @@ function fillOne(plan, sheet, t, i, rect) {
     });
   return inPlace([sheet], only, rect).then(function (r) {
     var added = r.sheets[0] ? r.sheets[0].parts : [];
-    if (!added.length) return;
-    sheet.parts = sheet.parts.concat(added);
-    if (sheet.fresh) {
-      delete sheet.fresh;
-      plan.sheets.push(sheet);
-    }
-    plan.filled[i] = (plan.filled[i] || 0) + added.length;
-    plan.count += added.length;
-    plan.total += added.length;
+    if (added.length) plan.filled[i] = (plan.filled[i] || 0) + added.length;
+    addToSheet(plan, sheet, added);
   });
 }

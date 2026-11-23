@@ -5,7 +5,7 @@
 
 export const GUIDE_CATEGORIES = [
   { id: "start", topics: ["start"] },
-  { id: "nest", topics: ["import", "panels", "lock", "saw", "export"] },
+  { id: "nest", topics: ["import", "panels", "rotation", "lock", "kit", "saw", "export"] },
   { id: "machines", topics: ["mill", "laser", "notebook"] },
   { id: "project", topics: ["materials", "cost", "projects"] }
 ];
@@ -15,6 +15,8 @@ export const GUIDE_TOPICS = {
   start: { steps: 4, icon: "play", show: { tab: "tabNest", targets: ["#drop"] } },
   import: { steps: 4, icon: "import", show: { tab: "tabNest", targets: ["#drop"] } },
   panels: { steps: 4, icon: "grid", show: { tab: "tabNest", targets: ["#panelRows"] } },
+  rotation: { steps: 4, icon: "rotate", show: { tab: "tabNest", targets: ['[data-k="rot"]', "#rotAll"] } },
+  kit: { steps: 4, icon: "box", show: { tab: "tabNest", targets: ["#kitBox", '[data-k="kit"]'] } },
   lock: { steps: 4, icon: "lock", show: { tab: "tabNest", targets: ['[data-lock="0"]', "#result"] } },
   saw: { steps: 4, icon: "saw", show: { tab: "tabNest", targets: ["#sMode"] } },
   export: { steps: 4, icon: "download", show: { tab: "tabNest", targets: [".dl", "#result"] } },
