@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} piezas que colocar: puede tardar un rato.",
   "news.121": "Las cantidades ya no se limitan a 500, las piezas demasiado grandes se indican al momento y aparece un botón Cancelar durante un cálculo largo.",
+  "news.199": "Guía: al pie de cada ficha, la ficha anterior y la siguiente; las flechas ← → del teclado también pasan de una a otra. La posición de la ficha («4 / 12») aparece junto a su categoría.",
   "news.198": "Nuevo botón «Guía» arriba: 12 fichas cortas por categoría, de la importación al coste, con un buscador y «Muéstramelo en la app» para encontrar el sitio correcto. El «?» junto al título de un bloque abre su ficha.",
   "news.197": "Los tableros se numeran cuando hay varios, con una flechita para darles nombre. «Llenar» apunta ahora a una fila de tablero (su número o su nombre): llenar su último tablero del plan, todos sus tableros o uno nuevo. Proyectos: un proyecto guardado con un archivo importado antes de la 1.9.6 vuelve a abrirse, y abrir un proyecto ya no falla cuando el plan anterior tenía más piezas.",
   "news.196": "Candado: cada tablero del plan se puede fijar; sus piezas ya no se mueven y las nuevas (otro archivo, más cantidad) van primero a sus huecos. Llenar: una pieza puede llenar todo lo que queda en el tablero elegido o en uno nuevo. Proyectos: un proyecto con un archivo importado vuelve a abrirse.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "En «Proyectos guardados», «Abrir» recupera un proyecto tal como lo dejaste.",
   "guide.projects.s3": "«Exportar el archivo» da un archivo .nestor, para abrirlo en otro ordenador con «Importar un archivo».",
   "guide.projects.s4": "«Nuevo proyecto» empieza de cero; Nestor te avisa si el proyecto actual no está guardado.",
-  "guide.projects.tip": "Los proyectos se guardan en este navegador: exporta el archivo para tener una copia en otro sitio."
+  "guide.projects.tip": "Los proyectos se guardan en este navegador: exporta el archivo para tener una copia en otro sitio.",
+  "guide.prev": "Anterior: {t}"
 }

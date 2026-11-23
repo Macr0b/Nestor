@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.199": "Guide: längst ner i varje ämne det föregående och nästa; piltangenterna ← → bläddrar också. Ämnets position (”4 / 12”) visas bredvid kategorin.",
   "news.198": "Ny knapp ”Guide” högst upp: 12 korta ämnen per kategori, från import till kostnad, med sökning och ”Visa mig i appen” för att hitta rätt ställe. ”?” bredvid ett blocks rubrik öppnar dess ämne.",
   "news.197": "Skivor numreras när det finns flera, med en liten pil för att ge dem ett namn. ”Fyll” riktar sig nu mot en skivrad (nummer eller namn): fyll dess sista skiva i planen, alla dess skivor eller en ny. Projekt: ett projekt sparat med en importerad fil före 1.9.6 går att öppna igen, och att öppna ett projekt misslyckas inte längre när den visade planen hade fler delar.",
   "news.196": "Lås: varje skiva i planen kan låsas; dess delar flyttas inte mer och nya delar (en annan fil, ett högre antal) går först i dess hål. Fyll: en del kan fylla allt som är kvar på den valda skivan eller en ny. Projekt: ett projekt med en importerad fil går att öppna igen.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Under ”Sparade projekt” tar ”Öppna” fram ett projekt precis som du lämnade det.",
   "guide.projects.s3": "”Exportera filen” ger en .nestor-fil som du öppnar på en annan dator med ”Importera en fil”.",
   "guide.projects.s4": "”Nytt projekt” börjar om från början; Nestor varnar dig om det aktuella projektet inte är sparat.",
-  "guide.projects.tip": "Projekten sparas i den här webbläsaren: exportera filen för att ha en kopia någon annanstans."
+  "guide.projects.tip": "Projekten sparas i den här webbläsaren: exportera filen för att ha en kopia någon annanstans.",
+  "guide.prev": "Föregående: {t}"
 }

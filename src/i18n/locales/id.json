@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.199": "Panduan: di bawah tiap topik ada topik sebelumnya dan berikutnya; tombol panah ← → di keyboard juga berpindah topik. Posisi topik (“4 / 12”) tampil di samping kategorinya.",
   "news.198": "Tombol baru “Panduan” di atas: 12 topik singkat per kategori, dari impor hingga biaya, dengan pencarian dan “Tunjukkan di aplikasi” untuk menemukan tempat yang tepat. “?” di samping judul sebuah blok membuka topiknya.",
   "news.197": "Papan diberi nomor jika ada lebih dari satu, dengan panah kecil untuk memberi nama. “Isi” kini menuju baris papan (nomor atau nama): isi papan terakhirnya di rencana, semua papannya, atau papan baru. Proyek: proyek yang disimpan dengan berkas impor sebelum 1.9.6 bisa dibuka lagi, dan membuka proyek tidak lagi gagal saat rencana sebelumnya punya lebih banyak komponen.",
   "news.196": "Kunci: setiap papan dalam rencana dapat dikunci; komponennya tidak bergeser lagi, dan komponen baru (berkas lain, jumlah lebih banyak) masuk dulu ke celahnya. Isi: sebuah komponen dapat mengisi semua sisa ruang di papan yang dipilih atau papan baru. Proyek: proyek dengan berkas impor bisa dibuka lagi.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Di “Proyek tersimpan”, “Buka” memulihkan proyek persis seperti saat kamu meninggalkannya.",
   "guide.projects.s3": "“Ekspor berkas” menghasilkan file .nestor untuk dibuka di komputer lain dengan “Impor berkas”.",
   "guide.projects.s4": "“Proyek baru” memulai dari nol; Nestor memperingatkan jika proyek saat ini belum disimpan.",
-  "guide.projects.tip": "Proyek disimpan di browser ini: ekspor file-nya agar punya salinan di tempat lain."
+  "guide.projects.tip": "Proyek disimpan di browser ini: ekspor file-nya agar punya salinan di tempat lain.",
+  "guide.prev": "Sebelumnya: {t}"
 }

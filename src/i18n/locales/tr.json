@@ -188,6 +188,7 @@
   "calc.cancelled": "Hesaplama iptal edildi.",
   "calc.many": "Yerleştirilecek {n} parça var: bu biraz sürebilir.",
   "news.121": "Miktarlar artık 500 ile sınırlı değil, fazla büyük parçalar hemen bildiriliyor ve uzun hesaplamalarda bir İptal düğmesi çıkıyor.",
+  "news.199": "Rehber: her konunun altında önceki ve sonraki konu; klavyedeki ← → okları da konular arasında geçiş yapar. Konunun sırası (“4 / 12”) kategorisinin yanında görünür.",
   "news.198": "Üstte yeni “Rehber” düğmesi: içe aktarmadan maliyete kadar kategoriye göre 12 kısa konu, arama ve doğru yeri bulmak için “Uygulamada göster”. Bir bloğun başlığının yanındaki “?” onun konusunu açar.",
   "news.197": "Birden fazla levha olduğunda levhalar numaralanır ve küçük bir okla onlara ad verebilirsin. “Doldur” artık bir levha satırını hedefliyor (numarası ya da adı): plandaki son levhasını, tüm levhalarını ya da yeni bir levhayı doldur. Projeler: 1.9.6’dan önce içe aktarılmış dosyayla kaydedilen proje yeniden açılıyor ve önceki planda daha fazla parça olduğunda proje açmak artık başarısız olmuyor.",
   "news.196": "Kilit: plandaki her levha sabitlenebilir; parçaları artık yer değiştirmez ve yeni parçalar (başka bir dosya, daha fazla miktar) önce boşluklarına gider. Doldur: bir parça seçilen ya da yeni levhada kalan her yeri doldurabilir. Projeler: içe aktarılmış dosyalı bir proje yeniden açılıyor.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "“Kayıtlı projeler” bölümünde “Aç” bir projeyi tam bıraktığın gibi geri getirir.",
   "guide.projects.s3": "“Dosyayı dışa aktar” başka bir bilgisayarda “Dosya içe aktar” ile açılacak bir .nestor dosyası verir.",
   "guide.projects.s4": "“Yeni proje” sıfırdan başlar; geçerli proje kaydedilmemişse Nestor seni uyarır.",
-  "guide.projects.tip": "Projeler bu tarayıcıda saklanır: başka bir yerde kopyan olsun diye dosyayı dışa aktar."
+  "guide.projects.tip": "Projeler bu tarayıcıda saklanır: başka bir yerde kopyan olsun diye dosyayı dışa aktar.",
+  "guide.prev": "Önceki: {t}"
 }

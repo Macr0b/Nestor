@@ -188,6 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
+  "news.199": "Guide: at the bottom of each topic, the previous and next topics; the ← → arrow keys also move from one topic to the next. The topic’s position (“4 / 12”) is shown next to its category.",
   "news.198": "New “Guide” button at the top: 12 short topics by category, from importing to cost, with a search and “Show me in the app” to find the right place. The “?” next to a block’s title opens its topic.",
   "news.197": "Sheets are numbered when there are several, with a small arrow to give them a name. “Fill” now targets a sheet row (its number or name): fill its last sheet in the plan, all its sheets, or a new one. Projects: a project saved with an imported file before 1.9.6 opens again, and opening a project no longer fails when the plan shown before had more parts.",
   "news.196": "Lock: each sheet of the plan can be locked; its parts no longer move, and new parts (another file, a higher quantity) go into its gaps first. Fill: a part can fill everything left on the chosen sheet, or a new sheet. Projects: a project with an imported file opens again.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "In “Saved projects”, “Open” brings back a project exactly as you left it.",
   "guide.projects.s3": "“Export the file” gives a .nestor file, to reopen on another computer with “Import a file”.",
   "guide.projects.s4": "“New project” starts from scratch; Nestor warns you if the current project isn’t saved.",
-  "guide.projects.tip": "Projects are kept in this browser: export the file to keep a copy elsewhere."
+  "guide.projects.tip": "Projects are kept in this browser: export the file to keep a copy elsewhere.",
+  "guide.prev": "Previous: {t}"
 }

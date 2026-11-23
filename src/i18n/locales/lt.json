@@ -188,6 +188,7 @@
   "calc.cancelled": "Skaičiavimas atšauktas.",
   "calc.many": "Reikia išdėstyti {n} detalių: tai gali užtrukti.",
   "news.121": "Kiekiai nebėra apriboti 500, per didelės detalės pažymimos iš karto, o ilgo skaičiavimo metu atsiranda mygtukas Atšaukti.",
+  "news.199": "Vadovas: kiekvienos temos apačioje – ankstesnė ir kita tema; rodyklių klavišai ← → taip pat perjungia temas. Temos vieta („4 / 12“) rodoma šalia kategorijos.",
   "news.198": "Naujas mygtukas „Vadovas“ viršuje: 12 trumpų temų pagal kategorijas, nuo importo iki kainos, su paieška ir „Parodyk programėlėje“, kad rastum reikiamą vietą. „?“ šalia bloko pavadinimo atidaro jo temą.",
   "news.197": "Plokštės numeruojamos, kai jų yra kelios, o maža rodykle joms galima duoti pavadinimą. „Užpildyti“ dabar taiko į plokštės eilutę (numerį ar pavadinimą): užpildyti jos paskutinę plokštę plane, visas jos plokštes arba naują. Projektai: projektas, išsaugotas su importuotu failu prieš 1.9.6, vėl atsidaro, o projekto atidarymas nebenutrūksta, kai ankstesniame plane buvo daugiau detalių.",
   "news.196": "Spyna: kiekvieną plano plokštę galima užfiksuoti; jos detalės nebejuda, o naujos (kitas failas, didesnis kiekis) pirmiausia eina į jos tarpus. Užpildyti: detalė gali užpildyti viską, kas liko pasirinktoje ar naujoje plokštėje. Projektai: projektas su importuotu failu vėl atsidaro.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Skiltyje „Išsaugoti projektai“ mygtukas „Atidaryti“ atkuria projektą tiksliai tokį, kokį palikai.",
   "guide.projects.s3": "„Eksportuoti failą“ pateikia .nestor failą, kurį kitame kompiuteryje atidarysi su „Importuoti failą“.",
   "guide.projects.s4": "„Naujas projektas“ pradeda nuo nulio; Nestor perspėja, jei dabartinis projektas neišsaugotas.",
-  "guide.projects.tip": "Projektai saugomi šioje naršyklėje: eksportuok failą, kad turėtum kopiją kitur."
+  "guide.projects.tip": "Projektai saugomi šioje naršyklėje: eksportuok failą, kad turėtum kopiją kitur.",
+  "guide.prev": "Ankstesnė: {t}"
 }

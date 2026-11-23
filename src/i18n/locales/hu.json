@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.199": "Útmutató: minden téma alján az előző és a következő téma; a ← → nyílbillentyűk is lapoznak. A téma helye („4 / 12”) a kategória mellett látszik.",
   "news.198": "Új „Útmutató” gomb felül: 12 rövid téma kategóriák szerint, az importálástól a költségig, kereséssel és a „Mutasd meg az alkalmazásban” gombbal, ami a megfelelő helyre visz. Egy blokk címe melletti „?” megnyitja a témáját.",
   "news.197": "A táblák számozva vannak, ha több van, és egy kis nyíllal nevet adhatsz nekik. A „Kitöltés” most egy táblasorra mutat (szám vagy név): a terv utolsó ilyen tábláját, az összeset vagy egy újat tölti ki. Projektek: az 1.9.6 előtt importált fájllal mentett projekt ismét megnyílik, és a megnyitás már nem hiúsul meg, ha az előző terv több alkatrészt tartalmazott.",
   "news.196": "Lakat: a terv minden táblája rögzíthető; az alkatrészei nem mozdulnak, az újak (másik fájl, nagyobb mennyiség) először a réseibe kerülnek. Kitöltés: egy alkatrész kitöltheti a választott vagy egy új táblán maradt teljes helyet. Projektek: az importált fájlt tartalmazó projekt ismét megnyílik.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Itt: „Mentett projektek” a(z) „Megnyitás” pontosan úgy hozza vissza a projektet, ahogy hagytad.",
   "guide.projects.s3": "A(z) „Fájl exportálása” egy .nestor fájlt ad, amelyet egy másik gépen ezzel nyitsz meg: „Fájl importálása”.",
   "guide.projects.s4": "A(z) „Új projekt” elölről kezd; a Nestor figyelmeztet, ha az aktuális projekt nincs mentve.",
-  "guide.projects.tip": "A projektek ebben a böngészőben tárolódnak: exportáld a fájlt, hogy máshol is legyen másolatod."
+  "guide.projects.tip": "A projektek ebben a böngészőben tárolódnak: exportáld a fájlt, hogy máshol is legyen másolatod.",
+  "guide.prev": "Előző: {t}"
 }

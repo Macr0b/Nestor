@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.199": "Guia: no fim de cada ficha, a anterior e a próxima; as setas ← → do teclado também passam de uma ficha para outra. A posição da ficha (“4 / 12”) aparece ao lado da categoria.",
   "news.198": "Novo botão “Guia” no alto: 12 fichas curtas por categoria, da importação ao custo, com busca e “Mostrar no app” para achar o lugar certo. O “?” ao lado do título de um bloco abre a ficha dele.",
   "news.197": "As chapas são numeradas quando há várias, com uma pequena seta para lhes dar nome. «Encher» aponta agora para uma linha de chapa (número ou nome): encher a sua última chapa do plano, todas as suas chapas ou uma nova. Projetos: um projeto guardado com um ficheiro importado antes da 1.9.6 volta a abrir, e abrir um projeto já não falha quando o plano anterior tinha mais peças.",
   "news.196": "Cadeado: cada chapa do plano pode ser fixada; as suas peças deixam de se mover e as novas (outro ficheiro, mais quantidade) vão primeiro para os seus buracos. Encher: uma peça pode encher tudo o que resta na chapa escolhida ou numa nova. Projetos: um projeto com um ficheiro importado volta a abrir.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Em “Projetos guardados”, “Abrir” retoma um projeto exatamente como você o deixou.",
   "guide.projects.s3": "“Exportar o ficheiro” gera um arquivo .nestor, para reabrir em outro computador com “Importar um ficheiro”.",
   "guide.projects.s4": "“Novo projeto” começa do zero; o Nestor avisa se o projeto atual não estiver salvo.",
-  "guide.projects.tip": "Os projetos ficam guardados neste navegador: exporte o arquivo para ter uma cópia em outro lugar."
+  "guide.projects.tip": "Os projetos ficam guardados neste navegador: exporte o arquivo para ter uma cópia em outro lugar.",
+  "guide.prev": "Anterior: {t}"
 }

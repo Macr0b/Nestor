@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.199": "Udhëzues: në fund të çdo teme, tema e mëparshme dhe e radhës; edhe shigjetat ← → të tastierës kalojnë nga njëra te tjetra. Pozicioni i temës (“4 / 12”) shfaqet pranë kategorisë.",
   "news.198": "Buton i ri “Udhëzues” lart: 12 tema të shkurtra sipas kategorive, nga importimi te kostoja, me kërkim dhe “Ma trego në aplikacion” për të gjetur vendin e duhur. “?” pranë titullit të një blloku hap temën e tij.",
   "news.197": "Panelet numërohen kur janë disa, me një shigjetë të vogël për t’u dhënë emër. “Mbush” tani synon një rresht paneli (numrin ose emrin): mbush panelin e tij të fundit në plan, të gjitha panelet e tij ose një të ri. Projektet: një projekt i ruajtur me skedar të importuar para 1.9.6 hapet sërish, dhe hapja e një projekti nuk dështon më kur plani i mëparshëm kishte më shumë pjesë.",
   "news.196": "Dryni: çdo panel i planit mund të fiksohet; pjesët e tij nuk lëvizin më dhe të rejat (një skedar tjetër, sasi më e madhe) shkojnë së pari në boshllëqet e tij. Mbush: një pjesë mund të mbushë gjithçka që mbetet në panelin e zgjedhur ose në një të ri. Projektet: një projekt me skedar të importuar hapet sërish.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Te “Projektet e ruajtura”, “Hap” e rikthen projektin saktësisht siç e le.",
   "guide.projects.s3": "“Eksporto skedarin” jep një skedar .nestor, për ta rihapur në një kompjuter tjetër me “Importo një skedar”.",
   "guide.projects.s4": "“Projekt i ri” nis nga e para; Nestor të paralajmëron nëse projekti aktual nuk është ruajtur.",
-  "guide.projects.tip": "Projektet ruhen në këtë shfletues: eksporto skedarin që të kesh një kopje diku tjetër."
+  "guide.projects.tip": "Projektet ruhen në këtë shfletues: eksporto skedarin që të kesh një kopje diku tjetër.",
+  "guide.prev": "E mëparshmja: {t}"
 }

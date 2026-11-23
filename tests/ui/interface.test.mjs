@@ -1941,8 +1941,31 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     assert.equal(await page.locator(".guide-steps li").count(), 4);
     // « Suivant » passe à la fiche d'après
-    await page.click("#guideTopic [data-topic]");
+    assert.match(await page.textContent(".guide-kicker"), /1 \/ 12/);
+    assert.equal(await page.locator('[data-pager="prev"]').count(), 0);
+    await page.click('[data-pager="next"]');
     assert.equal(await page.textContent("#guideTopicTitle"), "Importer des pièces");
+    assert.match(await page.textContent(".guide-kicker"), /2 \/ 12/);
+    assert.equal(await page.getAttribute('[data-pager="prev"]', "aria-label"), "Précédent : Premier plan en 2 minutes");
+    assert.equal(await page.getAttribute('[data-pager="next"]', "aria-label"), "Suivant : Panneaux et chutes");
+    // flèches du clavier : fiche suivante / précédente, mais pas pendant la saisie dans la recherche
+    await page.keyboard.press("ArrowRight");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Panneaux et chutes");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
+    await page.keyboard.press("ArrowLeft");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
+    await page.click('[data-topic="projects"]');
+    assert.equal(await page.locator('[data-pager="next"]').count(), 0);
+    await page.keyboard.press("ArrowRight");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Projets");
+    await page.click('[data-pager="prev"]');
+    assert.equal(await page.textContent("#guideTopicTitle"), "Coût du plan");
+    await page.focus("#guideSearch");
+    await page.keyboard.press("ArrowRight");
+    assert.equal(await page.textContent("#guideTopicTitle"), "Coût du plan");
+    await page.click('[data-topic="import"]');
     assert.equal(await page.getAttribute('[data-topic="import"]', "aria-current"), "page");
     // recherche sans accents ni majuscules, dans tout le texte des fiches
     await page.fill("#guideSearch", "FIGE");

@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.199": "Guia: al peu de cada fitxa, l’anterior i la següent; les fletxes ← → del teclat també passen d’una fitxa a l’altra. La posició de la fitxa («4 / 12») surt al costat de la categoria.",
   "news.198": "Nou botó «Guia» a dalt: 12 fitxes curtes per categoria, de la importació al cost, amb cercador i «Mostra-m’ho a l’app» per trobar el lloc correcte. El «?» al costat del títol d’un bloc obre la seva fitxa.",
   "news.197": "Els taulers es numeren quan n’hi ha diversos, amb una fletxeta per donar-los nom. «Omplir» apunta ara a una fila de tauler (número o nom): omplir-ne l’últim tauler del pla, tots o un de nou. Projectes: un projecte desat amb un fitxer importat abans de la 1.9.6 es torna a obrir, i obrir un projecte ja no falla quan el pla anterior tenia més peces.",
   "news.196": "Cadenat: cada tauler del pla es pot fixar; les seves peces ja no es mouen i les noves (un altre fitxer, més quantitat) van primer als seus forats. Omplir: una peça pot omplir tot el que queda al tauler triat o en un de nou. Projectes: un projecte amb un fitxer importat es torna a obrir.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "A «Projectes desats», «Obrir» recupera un projecte tal com el vas deixar.",
   "guide.projects.s3": "«Exportar el fitxer» dona un fitxer .nestor, per obrir-lo en un altre ordinador amb «Importar un fitxer».",
   "guide.projects.s4": "«Projecte nou» comença de zero; Nestor t’avisa si el projecte actual no està desat.",
-  "guide.projects.tip": "Els projectes es guarden en aquest navegador: exporta el fitxer per tenir-ne una còpia en un altre lloc."
+  "guide.projects.tip": "Els projectes es guarden en aquest navegador: exporta el fitxer per tenir-ne una còpia en un altre lloc.",
+  "guide.prev": "Anterior: {t}"
 }

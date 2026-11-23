@@ -188,6 +188,7 @@
   "calc.cancelled": "Il-kalkolu ġie kkanċellat.",
   "calc.many": "{n} biċċiet x’tqiegħed: jista’ jieħu ftit ħin.",
   "news.121": "Il-kwantitajiet m’għadhomx limitati għal 500, il-biċċiet kbar wisq jiġu indikati mill-ewwel, u buttuna Ikkanċella tidher waqt kalkolu twil.",
+  "news.199": "Gwida: fil-qiegħ ta’ kull suġġett, dak ta’ qabel u dak ta’ wara; il-vleġeġ ← → tat-tastiera wkoll jgħadduk minn wieħed għall-ieħor. Il-pożizzjoni tas-suġġett (“4 / 12”) tidher ħdejn il-kategorija.",
   "news.198": "Buttuna ġdida “Gwida” fuq: 12-il suġġett qasir skont il-kategorija, mill-importazzjoni sal-ispiża, b’tfittxija u “Urini fl-app” biex issib il-post it-tajjeb. Il-“?” ħdejn it-titlu ta’ blokk jiftaħ is-suġġett tiegħu.",
   "news.197": "Il-pannelli jiġu nnumerati meta jkunu aktar minn wieħed, bi vleġġa żgħira biex tagħtihom isem. “Imla” issa jimmira ringiela ta’ pannell (numru jew isem): imla l-aħħar pannell tagħha fil-pjan, il-pannelli kollha tagħha jew wieħed ġdid. Proġetti: proġett issejvjat b’fajl importat qabel 1.9.6 jerġa’ jinfetaħ, u l-ftuħ ta’ proġett ma jibqax ifalli meta l-pjan ta’ qabel kellu aktar biċċiet.",
   "news.196": "Katnazz: kull pannell tal-pjan jista’ jitwaħħal; il-biċċiet tiegħu ma jiċċaqilqux aktar u l-ġodda (fajl ieħor, kwantità akbar) imorru l-ewwel fit-toqob tiegħu. Imla: biċċa tista’ timla dak kollu li jifdal fuq il-pannell magħżul jew fuq wieħed ġdid. Proġetti: proġett b’fajl importat jerġa’ jinfetaħ.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "F’“Proġetti ssejvjati”, “Iftaħ” iġib lura proġett eżatt kif ħallejtu.",
   "guide.projects.s3": "“Esporta l-fajl” jagħti fajl .nestor, biex tiftħu fuq kompjuter ieħor b’“Importa fajl”.",
   "guide.projects.s4": "“Proġett ġdid” jibda mill-ġdid; Nestor iwissik jekk il-proġett attwali mhux issejvjat.",
-  "guide.projects.tip": "Il-proġetti jinżammu f’dan il-browser: esporta l-fajl biex ikollok kopja x’imkien ieħor."
+  "guide.projects.tip": "Il-proġetti jinżammu f’dan il-browser: esporta l-fajl biex ikollok kopja x’imkien ieħor.",
+  "guide.prev": "Ta’ qabel: {t}"
 }

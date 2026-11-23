@@ -91,13 +91,17 @@ function renderTopic() {
       return c.topics.includes(current);
     }),
     order = topicOrder(),
-    next = order[order.indexOf(current) + 1],
+    pos = order.indexOf(current),
     steps = [];
   for (var k = 1; k <= t.steps; k++)
     steps.push("<li>" + escapeHtml(translate("guide." + current + ".s" + k)) + "</li>");
   byId("guideTopic").innerHTML =
     '<p class="guide-kicker">' +
     escapeHtml(translate("guide.cat." + cat.id)) +
+    " · " +
+    (pos + 1) +
+    " / " +
+    order.length +
     '</p><h3 id="guideTopicTitle" tabindex="-1">' +
     escapeHtml(topicTitle(current)) +
     '</h3><p class="guide-intro">' +
@@ -108,19 +112,50 @@ function renderTopic() {
     escapeHtml(translate("guide.tip")) +
     "</b> " +
     escapeHtml(translate("guide." + current + ".tip")) +
-    '</p><div class="row"><button type="button" class="btn primary" data-show="' +
+    '</p><p><button type="button" class="btn primary" data-show="' +
     current +
     '">' +
     escapeHtml(translate("guide.show")) +
-    "</button>" +
-    (next
-      ? '<button type="button" class="btn" data-topic="' +
-        next +
-        '">' +
-        escapeHtml(translate("guide.next", { t: topicTitle(next) })) +
-        "</button>"
-      : "") +
-    "</div>";
+    '</button></p><nav class="guide-pager">' +
+    pagerButton(order[pos - 1], "prev") +
+    pagerButton(order[pos + 1], "next") +
+    "</nav>";
+}
+
+/* Bouton « fiche précédente / suivante » : le titre de la fiche, avec une flèche du bon côté. */
+function pagerButton(id, dir) {
+  if (!id) return "<span></span>";
+  var arrow =
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' +
+      (dir === "prev" ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6") +
+      '"/></svg>',
+    title = escapeHtml(topicTitle(id));
+  return (
+    '<button type="button" class="btn guide-' +
+    dir +
+    '" data-topic="' +
+    id +
+    '" data-pager="' +
+    dir +
+    '" aria-label="' +
+    escapeHtml(translate("guide." + dir, { t: topicTitle(id) })) +
+    '">' +
+    (dir === "prev" ? arrow + "<span>" + title + "</span>" : "<span>" + title + "</span>" + arrow) +
+    "</button>"
+  );
+}
+
+/* Flèches du clavier : fiche voisine (sens inversé en écriture de droite à gauche). */
+function stepTopic(e) {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+  if (e.target.closest("input, select, textarea")) return;
+  var back = (e.key === "ArrowLeft") !== (document.documentElement.dir === "rtl"),
+    order = topicOrder(),
+    id = order[order.indexOf(current) + (back ? -1 : 1)];
+  if (!id) return;
+  e.preventDefault();
+  showTopic(id);
 }
 
 function render() {
@@ -191,7 +226,9 @@ export function bindGuide() {
     renderNav();
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !byId("guide").hidden) closeGuide();
+    if (byId("guide").hidden) return;
+    if (e.key === "Escape") return closeGuide();
+    stepTopic(e);
   });
   // « ? » des blocs : la fiche qui en parle
   document.addEventListener("click", function (e) {

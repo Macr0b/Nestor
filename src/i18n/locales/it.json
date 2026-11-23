@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.199": "Guida: in fondo a ogni scheda, la precedente e la successiva; anche le frecce ← → della tastiera passano da una scheda all’altra. La posizione della scheda («4 / 12») compare accanto alla sua categoria.",
   "news.198": "Nuovo pulsante «Guida» in alto: 12 schede brevi per categoria, dall’importazione al costo, con una ricerca e «Mostramelo nell’app» per trovare il punto giusto. Il «?» accanto al titolo di un blocco apre la sua scheda.",
   "news.197": "I pannelli sono numerati quando sono più d’uno, con una piccola freccia per dar loro un nome. «Riempi» ora punta a una riga di pannello (numero o nome): riempire il suo ultimo pannello del piano, tutti i suoi pannelli o uno nuovo. Progetti: un progetto salvato con un file importato prima della 1.9.6 si riapre, e aprire un progetto non fallisce più quando il piano mostrato prima aveva più pezzi.",
   "news.196": "Lucchetto: ogni pannello del piano può essere bloccato; i suoi pezzi non si spostano più e quelli nuovi (un altro file, una quantità maggiore) vanno prima nei suoi vuoti. Riempi: un pezzo può riempire tutto ciò che resta sul pannello scelto o su uno nuovo. Progetti: un progetto con un file importato si riapre di nuovo.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "In «Progetti salvati», «Apri» riprende un progetto esattamente come l’hai lasciato.",
   "guide.projects.s3": "«Esporta il file» dà un file .nestor, da riaprire su un altro computer con «Importa un file».",
   "guide.projects.s4": "«Nuovo progetto» riparte da zero; Nestor ti avvisa se il progetto in corso non è salvato.",
-  "guide.projects.tip": "I progetti sono conservati in questo browser: esporta il file per averne una copia altrove."
+  "guide.projects.tip": "I progetti sono conservati in questo browser: esporta il file per averne una copia altrove.",
+  "guide.prev": "Precedente: {t}"
 }

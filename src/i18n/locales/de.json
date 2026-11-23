@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.199": "Anleitung: unten in jedem Thema das vorige und das nächste Thema; auch die Pfeiltasten ← → blättern weiter. Die Position des Themas („4 / 12“) steht neben seiner Kategorie.",
   "news.198": "Neuer Knopf „Anleitung“ oben: 12 kurze Themen nach Kategorie, vom Import bis zu den Kosten, mit Suche und „In der App zeigen“, um die richtige Stelle zu finden. Das „?“ neben dem Titel eines Blocks öffnet sein Thema.",
   "news.197": "Platten werden nummeriert, wenn es mehrere gibt, mit einem kleinen Pfeil, um ihnen einen Namen zu geben. „Füllen“ zielt jetzt auf eine Plattenzeile (Nummer oder Name): ihre letzte Platte im Plan, alle ihre Platten oder eine neue füllen. Projekte: Ein vor 1.9.6 mit importierter Datei gespeichertes Projekt öffnet sich wieder, und das Öffnen eines Projekts scheitert nicht mehr, wenn der vorher angezeigte Plan mehr Teile hatte.",
   "news.196": "Fixieren: Jede Platte des Plans lässt sich fixieren; ihre Teile bewegen sich nicht mehr, und neue Teile (eine weitere Datei, eine höhere Menge) kommen zuerst in ihre Lücken. Füllen: Ein Teil kann alles füllen, was auf der gewählten Platte oder einer neuen Platte frei ist. Projekte: Ein Projekt mit importierter Datei lässt sich wieder öffnen.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Unter „Gespeicherte Projekte“ holt „Öffnen“ ein Projekt genau so zurück, wie du es verlassen hast.",
   "guide.projects.s3": "„Datei exportieren“ liefert eine .nestor-Datei, die du auf einem anderen Computer mit „Datei importieren“ wieder öffnest.",
   "guide.projects.s4": "„Neues Projekt“ beginnt von vorn; Nestor warnt dich, wenn das aktuelle Projekt nicht gespeichert ist.",
-  "guide.projects.tip": "Projekte werden in diesem Browser gespeichert: Exportiere die Datei, um anderswo eine Kopie zu haben."
+  "guide.projects.tip": "Projekte werden in diesem Browser gespeichert: Exportiere die Datei, um anderswo eine Kopie zu haben.",
+  "guide.prev": "Zurück: {t}"
 }

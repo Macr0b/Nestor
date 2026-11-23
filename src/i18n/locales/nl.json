@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.199": "Gids: onderaan elk onderwerp het vorige en het volgende; ook de pijltjestoetsen ← → bladeren verder. De positie van het onderwerp (‘4 / 12’) staat naast de categorie.",
   "news.198": "Nieuwe knop ‘Gids’ bovenaan: 12 korte onderwerpen per categorie, van importeren tot kosten, met zoeken en ‘Laat het zien in de app’ om de juiste plek te vinden. Het ‘?’ naast de titel van een blok opent zijn onderwerp.",
   "news.197": "Platen worden genummerd als er meerdere zijn, met een pijltje om ze een naam te geven. ‘Vullen’ richt zich nu op een plaatregel (nummer of naam): de laatste plaat ervan in het plan, al haar platen of een nieuwe vullen. Projecten: een project dat vóór 1.9.6 met een geïmporteerd bestand is opgeslagen, opent weer, en een project openen mislukt niet meer als het vorige plan meer onderdelen had.",
   "news.196": "Slot: elke plaat van het plan kan vastgezet worden; de onderdelen bewegen niet meer en nieuwe onderdelen (een ander bestand, een groter aantal) gaan eerst in de gaten. Vullen: een onderdeel kan alles vullen wat op de gekozen plaat of een nieuwe plaat over is. Projecten: een project met een geïmporteerd bestand opent weer.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Bij ‘Opgeslagen projecten’ haalt ‘Openen’ een project terug precies zoals je het achterliet.",
   "guide.projects.s3": "‘Bestand exporteren’ geeft een .nestor-bestand, dat je op een andere computer opent met ‘Bestand importeren’.",
   "guide.projects.s4": "‘Nieuw project’ begint opnieuw; Nestor waarschuwt je als het huidige project niet bewaard is.",
-  "guide.projects.tip": "Projecten worden in deze browser bewaard: exporteer het bestand om ergens anders een kopie te hebben."
+  "guide.projects.tip": "Projecten worden in deze browser bewaard: exporteer het bestand om ergens anders een kopie te hebben.",
+  "guide.prev": "Vorige: {t}"
 }

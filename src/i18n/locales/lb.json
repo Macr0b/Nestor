@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung ofgebrach.",
   "calc.many": "{n} Deeler ze placéieren: dat ka laang daueren.",
   "news.121": "D’Quantitéite sinn net méi op 500 limitéiert, ze grouss Deeler ginn direkt gemellt, an e Knäppchen Ofbriechen erschéngt bei laange Berechnungen.",
+  "news.199": "Guide: ënnen an all Thema dat viregt an dat nächst; och d’Feiltasten ← → bliederen. D’Positioun vum Thema („4 / 12“) steet nieft senger Kategorie.",
   "news.198": "Neie Knäppchen „Guide“ uewen: 12 kuerz Themen no Kategorie, vum Import bis bei d’Käschten, mat enger Sich an „Weis et mir an der App“, fir déi richteg Plaz ze fannen. Den „?“ nieft dem Titel vun engem Block mécht säin Thema op.",
   "news.197": "Placke ginn nummeréiert, wa vill do sinn, mat engem klenge Feil fir hinnen en Numm ze ginn. „Fëllen“ zielt elo op eng Plackenzeil (Nummer oder Numm): hir lescht Plack am Plang, all hir Placken oder eng nei fëllen. Projeten: e Projet, deen viru 1.9.6 mat engem importéierte Fichier gespäichert gouf, geet erëm op, an e Projet opzemaachen hält net méi, wann de Plang virdrun méi Deeler hat.",
   "news.196": "Schlass: all Plack vum Plang kann fixéiert ginn; hir Deeler beweegen sech net méi, an nei Deeler (en anere Fichier, eng méi grouss Unzuel) ginn als éischt an hir Lächer. Fëllen: en Deel kann alles fëllen, wat op der gewielter oder enger neier Plack iwwreg ass. Projeten: e Projet mat engem importéierte Fichier geet erëm op.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Ënner „Gespäichert Projeten“ bréngt „Opmaachen“ e Projet genee esou zréck, wéi s du e gelooss hues.",
   "guide.projects.s3": "„Fichier exportéieren“ gëtt e .nestor-Fichier, deen s du op engem anere Computer mat „Fichier importéieren“ opmaachs.",
   "guide.projects.s4": "„Neit Projet“ fänkt vu vir un; Nestor warnt dech, wann den aktuelle Projet net gespäichert ass.",
-  "guide.projects.tip": "D’Projete ginn an dësem Browser gespäichert: exportéier de Fichier, fir anerwäerts eng Kopie ze hunn."
+  "guide.projects.tip": "D’Projete ginn an dësem Browser gespäichert: exportéier de Fichier, fir anerwäerts eng Kopie ze hunn.",
+  "guide.prev": "Zréck: {t}"
 }

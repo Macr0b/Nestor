@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tijekom dugog izračuna pojavljuje se gumb Odustani.",
+  "news.199": "Vodič: na dnu svake teme prethodna i sljedeća tema; strelice ← → na tipkovnici također prebacuju. Položaj teme („4 / 12”) prikazan je uz kategoriju.",
   "news.198": "Novi gumb „Vodič” na vrhu: 12 kratkih tema po kategorijama, od uvoza do troška, s pretraživanjem i „Pokaži mi u aplikaciji” za pronalazak pravog mjesta. „?” pokraj naslova bloka otvara njegovu temu.",
   "news.197": "Ploče su numerirane kad ih ima više, s malom strelicom za davanje naziva. „Ispuni” sada cilja redak ploče (broj ili naziv): ispuni njezinu zadnju ploču u planu, sve njezine ploče ili novu. Projekti: projekt spremljen s uvezenom datotekom prije 1.9.6 ponovno se otvara, a otvaranje projekta više ne ne uspijeva kad je prethodni plan imao više dijelova.",
   "news.196": "Lokot: svaka se ploča plana može zaključati; njezini se dijelovi više ne pomiču, a novi dijelovi (druga datoteka, veća količina) idu prvo u njezine rupe. Ispuni: dio može ispuniti sve što ostaje na odabranoj ili novoj ploči. Projekti: projekt s uvezenom datotekom ponovno se otvara.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "U „Spremljeni projekti” gumb „Otvori” vraća projekt točno onakav kakav si ga ostavio.",
   "guide.projects.s3": "„Izvezi datoteku” daje datoteku .nestor koju na drugom računalu otvaraš s „Uvezi datoteku”.",
   "guide.projects.s4": "„Novi projekt” počinje ispočetka; Nestor te upozorava ako trenutačni projekt nije spremljen.",
-  "guide.projects.tip": "Projekti se čuvaju u ovom pregledniku: izvezi datoteku da imaš kopiju negdje drugdje."
+  "guide.projects.tip": "Projekti se čuvaju u ovom pregledniku: izvezi datoteku da imaš kopiju negdje drugdje.",
+  "guide.prev": "Prethodna: {t}"
 }

@@ -188,6 +188,7 @@
   "calc.cancelled": "Arvutus tühistati.",
   "calc.many": "{n} detaili paigutamiseks: see võib aega võtta.",
   "news.121": "Kogused pole enam 500-ga piiratud, liiga suured detailid märgitakse kohe ja pika arvutuse ajal ilmub nupp Tühista.",
+  "news.199": "Juhend: iga teema all eelmine ja järgmine teema; ka nooleklahvid ← → liiguvad teemalt teemale. Teema asukoht („4 / 12“) on kategooria kõrval.",
   "news.198": "Uus nupp „Juhend“ üleval: 12 lühikest teemat kategooriate kaupa, impordist kuludeni, otsingu ja nupuga „Näita rakenduses“, et leida õige koht. „?“ ploki pealkirja kõrval avab selle teema.",
   "news.197": "Plaadid on nummerdatud, kui neid on mitu, ja väikese noolega saab neile nime anda. „Täida“ sihib nüüd plaadirida (numbrit või nime): täida selle viimane plaat plaanis, kõik selle plaadid või uus. Projektid: enne 1.9.6 imporditud failiga salvestatud projekt avaneb jälle ja projekti avamine ei ebaõnnestu enam, kui eelmises plaanis oli rohkem detaile.",
   "news.196": "Lukk: plaani iga plaadi saab lukustada; selle detailid enam ei liigu ja uued detailid (teine fail, suurem kogus) lähevad esmalt selle tühimikesse. Täida: detail võib täita kõik, mis valitud või uuel plaadil alles on. Projektid: imporditud failiga projekt avaneb jälle.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Jaotises „Salvestatud projektid“ toob „Ava“ projekti tagasi täpselt sellisena, nagu selle jätsid.",
   "guide.projects.s3": "„Ekspordi fail“ annab .nestor-faili, mille avad teises arvutis nupuga „Impordi fail“.",
   "guide.projects.s4": "„Uus projekt“ alustab nullist; Nestor hoiatab, kui praegune projekt pole salvestatud.",
-  "guide.projects.tip": "Projektid hoitakse selles brauseris: ekspordi fail, et koopia oleks mujal ka."
+  "guide.projects.tip": "Projektid hoitakse selles brauseris: ekspordi fail, et koopia oleks mujal ka.",
+  "guide.prev": "Eelmine: {t}"
 }

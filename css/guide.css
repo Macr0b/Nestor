@@ -197,3 +197,41 @@
     display: inline-flex;
   }
 }
+/* fiche précédente / suivante */
+.guide-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.guide-pager .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 48%;
+}
+.guide-pager .guide-next {
+  margin-inline-start: auto;
+  text-align: end;
+}
+.guide-pager span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.guide-pager svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+[dir="rtl"] .guide-pager svg {
+  transform: scaleX(-1);
+}

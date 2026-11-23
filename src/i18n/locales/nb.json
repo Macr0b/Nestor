@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.199": "Guide: nederst i hvert emne det forrige og det neste; piltastene ← → blar også. Emnets plassering («4 / 12») vises ved kategorien.",
   "news.198": "Ny knapp «Guide» øverst: 12 korte emner etter kategori, fra import til kostnad, med søk og «Vis meg i appen» for å finne riktig sted. «?» ved tittelen på en blokk åpner emnet.",
   "news.197": "Plater nummereres når det er flere, med en liten pil for å gi dem et navn. «Fyll» gjelder nå en platelinje (nummer eller navn): fyll dens siste plate i planen, alle platene eller en ny. Prosjekter: et prosjekt lagret med en importert fil før 1.9.6 åpnes igjen, og åpning av et prosjekt feiler ikke lenger når planen som ble vist hadde flere deler.",
   "news.196": "Lås: hver plate i planen kan låses; delene flytter seg ikke lenger, og nye deler (en annen fil, et høyere antall) går først i hullene. Fyll: en del kan fylle alt som er igjen på valgt plate eller en ny. Prosjekter: et prosjekt med en importert fil kan åpnes igjen.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Under «Lagrede prosjekter» henter «Åpne» et prosjekt fram akkurat slik du forlot det.",
   "guide.projects.s3": "«Eksporter filen» gir en .nestor-fil som du åpner på en annen datamaskin med «Importer en fil».",
   "guide.projects.s4": "«Nytt prosjekt» starter på nytt; Nestor varsler deg hvis det gjeldende prosjektet ikke er lagret.",
-  "guide.projects.tip": "Prosjektene lagres i denne nettleseren: eksporter filen for å ha en kopi et annet sted."
+  "guide.projects.tip": "Prosjektene lagres i denne nettleseren: eksporter filen for å ha en kopi et annet sted.",
+  "guide.prev": "Forrige: {t}"
 }

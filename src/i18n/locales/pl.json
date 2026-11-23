@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.199": "Przewodnik: na dole każdego tematu poprzedni i następny; strzałki ← → na klawiaturze też przełączają tematy. Pozycja tematu („4 / 12”) jest obok jego kategorii.",
   "news.198": "Nowy przycisk „Przewodnik” u góry: 12 krótkich tematów według kategorii, od importu po koszt, z wyszukiwaniem i „Pokaż mi w aplikacji”, by znaleźć właściwe miejsce. „?” obok tytułu bloku otwiera jego temat.",
   "news.197": "Płyty są numerowane, gdy jest ich kilka, z małą strzałką do nadania nazwy. „Wypełnij” wskazuje teraz wiersz płyty (numer lub nazwę): wypełnij jej ostatnią płytę w planie, wszystkie jej płyty albo nową. Projekty: projekt zapisany z zaimportowanym plikiem przed 1.9.6 znów się otwiera, a otwieranie projektu nie zawodzi, gdy poprzedni plan miał więcej elementów.",
   "news.196": "Kłódka: każdą płytę planu można zablokować; jej elementy już się nie przesuwają, a nowe (inny plik, większa ilość) trafiają najpierw w jej luki. Wypełnij: element może wypełnić całe wolne miejsce na wybranej lub nowej płycie. Projekty: projekt z zaimportowanym plikiem znów się otwiera.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "W „Zapisane projekty” przycisk „Otwórz” przywraca projekt dokładnie w takim stanie, w jakim go zostawiłeś.",
   "guide.projects.s3": "„Eksportuj plik” daje plik .nestor, który otworzysz na innym komputerze przez „Importuj plik”.",
   "guide.projects.s4": "„Nowy projekt” zaczyna od zera; Nestor ostrzeże cię, jeśli bieżący projekt nie jest zapisany.",
-  "guide.projects.tip": "Projekty są przechowywane w tej przeglądarce: wyeksportuj plik, żeby mieć kopię gdzie indziej."
+  "guide.projects.tip": "Projekty są przechowywane w tej przeglądarce: wyeksportuj plik, żeby mieć kopię gdzie indziej.",
+  "guide.prev": "Wstecz: {t}"
 }

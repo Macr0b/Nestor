@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušený.",
   "calc.many": "{n} dielov na rozmiestnenie: môže to chvíľu trvať.",
   "news.121": "Množstvá už nie sú obmedzené na 500, príliš veľké diely sa ohlásia hneď a pri dlhom výpočte sa objaví tlačidlo Zrušiť.",
+  "news.199": "Sprievodca: dole v každej téme predchádzajúca a ďalšia téma; šípky ← → na klávesnici tiež prepínajú. Pozícia témy („4 / 12“) je pri jej kategórii.",
   "news.198": "Nové tlačidlo „Sprievodca“ hore: 12 krátkych tém podľa kategórií, od importu po náklady, s hľadaním a „Ukáž mi to v aplikácii“, ktoré nájde správne miesto. „?“ pri názve bloku otvorí jeho tému.",
   "news.197": "Dosky sa číslujú, keď ich je viac, a malou šípkou im možno dať názov. „Vyplniť“ teraz mieri na riadok dosky (číslo alebo názov): vyplniť jej poslednú dosku v pláne, všetky jej dosky alebo novú. Projekty: projekt uložený s importovaným súborom pred 1.9.6 sa opäť otvorí a otvorenie projektu už nezlyhá, keď mal predchádzajúci plán viac dielcov.",
   "news.196": "Zámok: každú dosku plánu možno zamknúť; jej dielce sa už nehýbu a nové dielce (ďalší súbor, vyšší počet) idú najprv do jej medzier. Vyplniť: dielec môže vyplniť všetko, čo zostáva na zvolenej alebo novej doske. Projekty: projekt s importovaným súborom sa opäť otvorí.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "V „Uložené projekty“ vráti „Otvoriť“ projekt presne tak, ako si ho nechal.",
   "guide.projects.s3": "„Exportovať súbor“ vytvorí súbor .nestor, ktorý na inom počítači otvoríš cez „Importovať súbor“.",
   "guide.projects.s4": "„Nový projekt“ začne od nuly; Nestor ťa upozorní, ak aktuálny projekt nie je uložený.",
-  "guide.projects.tip": "Projekty sa ukladajú v tomto prehliadači: exportuj súbor, aby si mal kópiu inde."
+  "guide.projects.tip": "Projekty sa ukladajú v tomto prehliadači: exportuj súbor, aby si mal kópiu inde.",
+  "guide.prev": "Predchádzajúca: {t}"
 }

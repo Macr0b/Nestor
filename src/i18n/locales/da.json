@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
+  "news.199": "Guide: nederst i hvert emne det forrige og det næste; piletasterne ← → skifter også emne. Emnets placering (“4 / 12”) vises ved kategorien.",
   "news.198": "Ny knap “Guide” øverst: 12 korte emner efter kategori, fra import til pris, med søgning og “Vis mig det i appen” for at finde det rette sted. “?” ved en bloks titel åbner dens emne.",
   "news.197": "Plader nummereres, når der er flere, med en lille pil til at give dem et navn. „Fyld“ rammer nu en pladelinje (nummer eller navn): fyld dens sidste plade i planen, alle dens plader eller en ny. Projekter: et projekt gemt med en importeret fil før 1.9.6 åbner igen, og åbning af et projekt fejler ikke længere, når den viste plan havde flere dele.",
   "news.196": "Lås: hver plade i planen kan låses; dens dele flytter sig ikke mere, og nye dele (en anden fil, et højere antal) går først i dens huller. Fyld: en del kan fylde alt, hvad der er tilbage på den valgte plade eller en ny. Projekter: et projekt med en importeret fil kan åbnes igen.",
@@ -786,5 +787,6 @@
   "guide.projects.s2": "Under “Gemte projekter” henter “Åbn” et projekt frem præcis, som du forlod det.",
   "guide.projects.s3": "“Eksportér filen” giver en .nestor-fil, som du åbner på en anden computer med “Importér en fil”.",
   "guide.projects.s4": "“Nyt projekt” starter forfra; Nestor advarer dig, hvis det aktuelle projekt ikke er gemt.",
-  "guide.projects.tip": "Projekterne gemmes i denne browser: eksportér filen for at have en kopi et andet sted."
+  "guide.projects.tip": "Projekterne gemmes i denne browser: eksportér filen for at have en kopi et andet sted.",
+  "guide.prev": "Forrige: {t}"
 }
