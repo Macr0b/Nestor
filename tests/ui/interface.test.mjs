@@ -1931,8 +1931,13 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.click("#btnGuide");
     assert.equal(await page.isVisible("#guide"), true);
     assert.equal(await page.evaluate(() => document.activeElement.id), "guideSearch");
-    assert.deepEqual(await page.$$eval(".guide-cat", (h) => h.map((x) => x.textContent)), ["Démarrer", "Imbrication"]);
-    assert.equal(await page.locator(".guide-item").count(), 4);
+    assert.deepEqual(await page.$$eval(".guide-cat", (h) => h.map((x) => x.textContent)), [
+      "Démarrer",
+      "Imbrication",
+      "Machines",
+      "Projet"
+    ]);
+    assert.equal(await page.locator(".guide-item").count(), 12);
     assert.equal(await page.textContent("#guideTopicTitle"), "Premier plan en 2 minutes");
     assert.equal(await page.locator(".guide-steps li").count(), 4);
     // « Suivant » passe à la fiche d'après
@@ -1948,7 +1953,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.locator(".guide-item").count(), 0);
     assert.match(await page.textContent("#guideNav"), /Aucune fiche ne parle de « zzz »/);
     await page.fill("#guideSearch", "");
-    assert.equal(await page.locator(".guide-item").count(), 4);
+    assert.equal(await page.locator(".guide-item").count(), 12);
     // Échap ferme et rend le focus au bouton Guide
     await page.keyboard.press("Escape");
     assert.equal(await page.isVisible("#guide"), false);
@@ -1967,6 +1972,22 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(await page.getAttribute("#tabNest", "aria-selected"), "true");
     assert.equal(await page.locator("#panelRows.guide-flash").count(), 1);
     assert.equal(await page.evaluate(() => !!document.activeElement.closest("#panelRows")), true);
+    // « ? » d'un autre onglet, et une fiche qui désigne un bouton du haut sans changer d'onglet
+    await page.click("#tabLaser");
+    await page.click('[data-guide="laser"]');
+    assert.equal(await page.textContent("#guideTopicTitle"), "Réglages laser");
+    await page.click('[data-topic="projects"]');
+    await page.click('[data-show="projects"]');
+    assert.equal(await page.getAttribute("#tabLaser", "aria-selected"), "true");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "btnProjects");
+    // chaque fiche a son texte dans la langue (pas de clé brute affichée)
+    await page.click("#btnGuide");
+    for (const id of await page.$$eval(".guide-item", (b) => b.map((x) => x.dataset.topic))) {
+      await page.click(`[data-topic="${id}"]`);
+      assert.doesNotMatch(await page.textContent("#guideTopic"), /guide\./);
+      assert.equal(await page.locator(".guide-steps li").count(), 4);
+    }
+    await page.keyboard.press("Escape");
     // téléphone : la liste, puis la fiche avec un retour
     await page.setViewportSize({ width: 390, height: 844 });
     await page.click("#btnGuide");

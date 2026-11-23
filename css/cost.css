@@ -26,7 +26,7 @@
   padding-top: 12px;
   border-top: 1px solid var(--line);
 }
-.ct-page h2 + .ct-grp {
+.ct-page .phead + .ct-grp {
   border-top: 0;
   padding-top: 0;
 }

@@ -22,7 +22,7 @@
   padding-top: 12px;
   border-top: 1px solid var(--line);
 }
-.mill-form h2 + .mill-grp {
+.mill-form .phead + .mill-grp {
   border-top: 0;
   padding-top: 0;
 }

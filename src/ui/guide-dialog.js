@@ -13,7 +13,15 @@ const ICONS = {
   play: '<path d="M8 5v14l11-7z"/>',
   import: '<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',
   grid: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/>',
-  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  saw: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/>',
+  download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  mill: '<path d="M10 3h4v6h-4zM11 9v8l1 3 1-3V9"/>',
+  laser: '<path d="M12 3v9M8 3h8M12 15v2M9 20l3-3 3 3M6 14l2-1M18 14l-2-1"/>',
+  book: '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/>',
+  layers: '<path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/>',
+  coin: '<circle cx="12" cy="12" r="8"/><path d="M15 9.5a3 3 0 1 0 0 5M8 11h5M8 13h5"/>',
+  folder: '<path d="M3 6h6l2 2h10v11H3z"/>'
 };
 
 let current = "start";
@@ -145,7 +153,7 @@ function showTopic(id) {
 function showInApp(id) {
   var show = GUIDE_TOPICS[id].show;
   closeGuide();
-  selectTab(byId(show.tab));
+  if (show.tab) selectTab(byId(show.tab));
   var target = show.targets
     .map(function (sel) {
       return document.querySelector(sel);
