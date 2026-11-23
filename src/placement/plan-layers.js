@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Calcul du plan en quatre temps :
    1. panneaux figés (cadenas) : leurs pièces restent, les pièces à placer vont d'abord dans leurs trous ;
    2. le reste est placé comme d'habitude, avec le stock de panneaux restant ;

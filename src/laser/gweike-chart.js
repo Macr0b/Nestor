@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Vitesses de découpe publiées par GWK Laser (Gweike) pour ses lasers CO2 de 40 à 150 W, en mm/s, à 90 % de
    puissance, issues de leurs essais de production. Vitesse « Best » (bord propre), et non « High » (la plus
    rapide qui traverse, bord plus brut). Là où la page se contredit (bois 10 mm : « Best » plus rapide que « High »),

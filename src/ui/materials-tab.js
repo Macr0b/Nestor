@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Onglet Matières : bibliothèque des panneaux achetés (ajout, modification, suppression, sauvegarde et import)
    et menus « Matière » des autres onglets. La matière du projet est partagée par src/library/library-store.js. */
 

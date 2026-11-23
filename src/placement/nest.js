@@ -1,8 +1,8 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Imbrication selon la forme réelle des pièces. Fonction autonome (aucune dépendance) : elle est envoyée
    telle quelle dans un Web Worker pour calculer sans bloquer la page. */
 
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Imbrication selon la forme (« nesting »).
    Cette fonction doit rester autonome : elle est recopiée telle quelle dans un Web Worker (via nest.toString()),
    elle ne peut donc utiliser ni Geo, ni le DOM, ni aucune variable extérieure.

@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Kits nommés dans un projet enregistré : relecture prudente et conversion des projets de la 1.9.9. */
 
 /* Kits d'un projet relu : noms courts, identifiants uniques, nombre de kits entier (1 à 5000) ou null ;

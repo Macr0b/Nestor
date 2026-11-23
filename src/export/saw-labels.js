@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Place des numéros de coupe à la scie : chaque pastille se pose sur son trait, à l'endroit qui couvre le moins les
    pièces et les autres pastilles (dans la chute ou l'espace entre pièces), et au plus près du milieu du trait.
    Les pastilles sont posées dans l'ordre des coupes ; chacune évite celles déjà posées. */

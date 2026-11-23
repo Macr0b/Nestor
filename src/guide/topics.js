@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Fiches du guide, rangées par catégorie. Les textes sont dans les fichiers de langue :
    guide.<id>.title, .intro, .s1 à .sN (étapes), .tip. show : l'onglet et l'élément que « Me montrer » désigne
    (le premier sélecteur trouvé et visible). */

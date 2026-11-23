@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Calcul des réglages de fraisage : rotation de la broche, avance, profondeur et nombre de passes.
    Méthode :
      rotation = 1000 × vitesse de coupe / (π × diamètre), ramenée dans les limites de la broche ;

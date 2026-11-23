@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Onglet Coût : coût de revient du dernier plan calculé (matière, chute, machine), réparti sur les pièces.
    Le calcul est dans src/library/plan-cost.js ; la matière et son prix viennent de la bibliothèque (onglet Matières). */
 

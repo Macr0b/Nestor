@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Guide : catégories à gauche, fiche à droite (à quoi ça sert, étapes, bon à savoir), recherche, « Me montrer
    dans l'appli » et boutons « ? » des blocs qui ouvrent la fiche qui en parle. */
 

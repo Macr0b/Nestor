@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Tableaux de vitesses de découpe publiés par puissance de tube (Thunder Laser, GWK…) mis sous la même forme que les
    livrets Trotec : un « livret » par puissance, vitesse en mm/s, à la puissance indiquée par la source. */
 

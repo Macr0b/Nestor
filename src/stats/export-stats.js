@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Compteur anonyme d'exports : à chaque plan téléchargé, un message { e: "export", f: format, v: version } part vers
    le compteur de Nestor. Rien d'autre : ni fichier, ni pièce, ni nom de projet, ni cookie, ni identifiant.
    Seul le site officiel envoie (une copie installée ailleurs, ou la version dans Claude, n'envoie rien) ; l'envoi

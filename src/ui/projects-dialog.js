@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Fenêtre Projets : enregistrer le projet en cours (pièces, panneaux, matière, réglages de fraisage, de laser
    et de coût), en ouvrir un autre, en partir d'un nouveau, l'exporter dans un fichier ou en importer un.
    Ouvrir ou repartir de zéro demande un second clic quand le projet en cours a changé depuis son

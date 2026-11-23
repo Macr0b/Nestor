@@ -2,7 +2,7 @@
 
 ## Français
 
-Le nom **« Nestor »** (comme nom de ce logiciel), le logo (le N en pièces de bois) et le mot « Nestor » dessiné en pièces découpées appartiennent à Macr0b. Ils **ne sont pas couverts** par la licence du code (fichier `LICENSE`).
+Le nom **« Nestor »** (comme nom de ce logiciel), le logo (le N en pièces de bois) et le mot « Nestor » dessiné en pièces découpées appartiennent à Robin Philippe (Macr0b). Ils **ne sont pas couverts** par la licence du code (fichier `LICENSE`).
 
 Ce qui est permis sans demander :
 
@@ -20,7 +20,7 @@ Fichiers concernés : `icons/`, le titre dessiné dans `index.html`, et toute au
 
 ## English
 
-The name **"Nestor"** (as the name of this software), the logo (the N made of wooden parts) and the "Nestor" wordmark drawn as cut parts belong to Macr0b. They are **not covered** by the code license (`LICENSE` file).
+The name **"Nestor"** (as the name of this software), the logo (the N made of wooden parts) and the "Nestor" wordmark drawn as cut parts belong to Robin Philippe (Macr0b). They are **not covered** by the code license (`LICENSE` file).
 
 Allowed without asking:
 

@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Projets enregistrés sur l'appareil, dans la base du navigateur (IndexedDB : assez de place pour les fichiers
    importés). Deux tiroirs : la liste (nom, date, résumé) et le contenu, lu seulement à l'ouverture. */
 

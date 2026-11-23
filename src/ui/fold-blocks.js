@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Blocs repliables : une flèche devant le titre de chaque bloc (et un clic sur le titre) plie ou déplie le bloc.
    Plié, il ne reste que le titre et une ligne qui le résume. Ce qui est plié est gardé dans ce navigateur.
    Alt + clic plie ou déplie tous les blocs de l'onglet. */

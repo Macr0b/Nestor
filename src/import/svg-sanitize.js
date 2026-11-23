@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Nettoyage SVG par liste blanche : seuls les éléments et attributs utiles à la géométrie sont recopiés.
    Les blocs <style> sont lus comme des données et jamais insérés dans la page. */
 

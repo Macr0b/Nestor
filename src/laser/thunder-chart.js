@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Vitesses de découpe publiées par Thunder Laser pour ses lasers CO2 à tube de verre, par puissance de tube
    (40, 60, 80, 100 et 130 W), en mm/s, puissance au maximum. Ce sont des vitesses maximales en ligne droite :
    la tête ralentit dans les courbes et les angles. Une puissance absente veut dire « gravure seulement ».

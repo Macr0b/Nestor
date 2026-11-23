@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Quart de tour de la pièce elle-même (sens fixe) : dir = 1 dans le sens des aiguilles d'une montre, -1 dans l'autre.
    Le dessin tourne pour de bon (calcul, vignette, taille, exports) ; turn garde l'angle pour l'afficher. */
 export function turnPart(part, dir) {

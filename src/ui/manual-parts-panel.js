@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* « Saisir à la main » : ajout de pièces rectangulaires (nom, longueur, largeur, quantité, sens fixe), une par une
    ou collées depuis un tableur. Elles rejoignent la liste des pièces, où elles se modifient comme les autres. */
 

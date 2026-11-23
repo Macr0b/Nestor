@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Onglet Carnet : liste des réglages éprouvés (recherche, filtre), formulaire d'ajout et de modification,
    sauvegarde et import d'un fichier, lien avec l'onglet Fraisage. Les fiches sont gardées par src/notebook/notebook-store.js. */
 

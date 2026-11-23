@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Origine de chaque panneau (9 positions) : repère de calcul (le problème est retourné pour que l'origine
    tombe sur le bord gauche), puis retour au repère du panneau et calage du groupe de pièces contre l'origine. */
 

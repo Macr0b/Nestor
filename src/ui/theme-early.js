@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Thème clair ou sombre, appliqué avant le premier affichage (script classique chargé dans <head>, sans module),
    pour éviter un éclair de la mauvaise couleur au démarrage.
    Choix gardé sur l'appareil : "auto" (suit l'appareil), "light" ou "dark".

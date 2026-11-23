@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Coupes de chutes : traits droits qui séparent les pièces placées du reste du panneau, pour récupérer des
    chutes rectangulaires. Chaque trait va d'un bord à l'autre de la zone qu'il coupe (faisable à la scie) et passe
    à « gap » mm des pièces les plus proches.

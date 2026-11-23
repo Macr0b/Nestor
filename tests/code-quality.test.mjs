@@ -12,7 +12,11 @@ const sources = readdirSync(join(ROOT, "src"), { recursive: true })
 test("chaque fichier de code commence par la licence puis une description de son rôle", () => {
   for (const { name, text } of sources) {
     const lines = text.split("\n");
-    assert.match(lines[0], /^\/\* Nestor — Copyright 2026 Macr0b — PolyForm Perimeter/, `${name} : licence absente`);
+    assert.match(
+      lines[0],
+      /^\/\* Nestor — Copyright 2026 Robin Philippe \(Macr0b\) — PolyForm Perimeter/,
+      `${name} : licence absente`
+    );
     assert.match(lines[1], /^\/\* \S/, `${name} : description du rôle du fichier absente`);
   }
 });
