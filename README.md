@@ -28,13 +28,13 @@ Nestor est distribué sous la licence **PolyForm Perimeter 1.0.1**, voir [LICENS
 Tout le monde peut l'utiliser gratuitement, y compris pour un travail professionnel, lire le code et le modifier pour son propre usage. Il est interdit de proposer à d'autres un produit qui fait concurrence à Nestor (revente, service payant, copie rebaptisée…), même gratuit.
 Les versions 1.0.0 à 1.1.2 ont été publiées sous AGPL-3.0-or-later et le restent.
 Le nom « Nestor » et ses logos ne sont pas couverts par la licence : voir [TRADEMARK.md](TRADEMARK.md).
-**Licence commerciale** : pour faire ce que la licence ne permet pas (livrer Nestor avec une machine, l'intégrer à un autre logiciel, une version à votre nom…), une licence payante peut être accordée au cas par cas. Pour en parler : [ouvrir une demande sur GitHub](https://github.com/Macr0b/Nestor/issues/new?title=Licence%20commerciale) (une adresse e-mail viendra).
+**Licence commerciale** : pour faire ce que la licence ne permet pas (une version à vos couleurs ou à votre nom, Nestor livré avec une machine, intégré à un autre logiciel…), une licence payante peut être accordée au cas par cas. Pour en parler : [ouvrir une demande sur GitHub](https://github.com/Macr0b/Nestor/issues/new?title=Licence%20commerciale) (une adresse e-mail viendra).
 
 Nestor is distributed under the **PolyForm Perimeter License 1.0.1**, see [LICENSE](LICENSE).
 Anyone may use it for free, including for professional work, read the code and modify it for their own use. Providing to others any product that competes with Nestor (resale, paid service, renamed copy…) is not allowed, even free of charge.
 Versions 1.0.0 to 1.1.2 were released under AGPL-3.0-or-later and remain so.
 The "Nestor" name and logos are not covered by the license: see [TRADEMARK.md](TRADEMARK.md).
-**Commercial license**: to do what the license does not allow (shipping Nestor with a machine, building it into another product, a version under your own name…), a paid license can be granted case by case. To discuss it: [open a request on GitHub](https://github.com/Macr0b/Nestor/issues/new?title=Commercial%20license) (an e-mail address will follow).
+**Commercial license**: to do what the license does not allow (a version in your colors or under your name, Nestor shipped with a machine, built into another product…), a paid license can be granted case by case. To discuss it: [open a request on GitHub](https://github.com/Macr0b/Nestor/issues/new?title=Commercial%20license) (an e-mail address will follow).
 
 Composants tiers / Third-party components:
 - `vendor/pdfjs/` — PDF.js 6.5.438 (legacy build), Mozilla, Apache License 2.0 (`vendor/pdfjs/LICENSE`)
