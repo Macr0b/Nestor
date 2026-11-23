@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Bloc « Kits » au-dessus de la liste : un kit = les pièces d'un même objet (Boîte, Étagère…).
    Pour chaque kit : son nom, ses pièces par kit, « Un seul kit », « Nombre de kits » (avec le nombre) ou
    « Remplir au maximum » tel panneau, et le nombre de kits entiers posés. Les kits sont posés dans l'ordre de ce bloc. Visible dès qu'un kit existe. */

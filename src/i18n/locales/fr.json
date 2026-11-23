@@ -188,7 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
-  "news.1101": "Les kits s’appellent maintenant des groupes. Nouveau choix « Nombre de groupes » pour poser exactement le nombre voulu ; s’il manque de la place, Nestor dit combien sont complets.",
+  "news.1101": "Les kits s’appellent maintenant des groupes. Nouveau choix « Nombre de groupes » pour poser exactement le nombre voulu ; s’il manque de la place, Nestor dit combien sont complets. Licence Nestor 1.0 : toujours gratuite pour tous, mais une version à d’autres couleurs ou sous un autre nom demande une licence commerciale.",
   "news.1100": "Projets dans ton dossier : clé USB, iCloud, Dropbox… (Chrome et Edge sur ordinateur). Plusieurs kits, chacun avec son nom. « Remplir au maximum » plus clair. Blocs repliables avec un résumé. Compteur anonyme des exports, à couper dans les Réglages.",
   "news.199": "Kits : coche « Kit » sur les pièces d’un même objet, et Nestor remplit un panneau avec le plus possible d’objets entiers. En sens fixe, ↺ et ↻ pivotent une pièce d’un quart de tour. Nouvelle rotation « Libre (1°) ». Guide : fiche précédente et suivante, flèches ← →, deux nouvelles fiches.",
   "news.198": "Nouveau bouton « Guide » en haut : 12 fiches courtes rangées par catégorie, de l’import au coût, avec une recherche et « Me montrer dans l’appli » pour trouver le bon endroit. Le « ? » à côté du titre d’un bloc ouvre sa fiche.",

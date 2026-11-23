@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Point d'entrée : branche chaque partie de l'interface, puis démarre (langue, réglages mémorisés, premier
    calcul). */
 

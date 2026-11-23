@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Carnet de réglages : les réglages éprouvés (fraisage, laser, autre), gardés sur l'appareil.
    Chaque fiche est vérifiée champ par champ à la lecture et à l'import : un fichier abîmé ou trafiqué
    ne peut ni planter l'appli ni glisser autre chose que du texte et des nombres. Longueurs en mm, avances en mm/min. */

@@ -188,7 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
-  "news.1101": "Kits are now called groups. New “Number of groups” choice to place exactly the number you want; if room runs out, Nestor tells you how many are complete.",
+  "news.1101": "Kits are now called groups. New “Number of groups” choice to place exactly the number you want; if room runs out, Nestor tells you how many are complete. Nestor License 1.0: still free for everyone, but a version in other colors or under another name needs a commercial license.",
   "news.1100": "Projects in your own folder: USB stick, iCloud, Dropbox… (Chrome and Edge on a computer). Several kits, each with its own name. Clearer “Fill as much as possible”. Collapsible blocks with a summary. Anonymous export counter, can be turned off in Settings.",
   "news.199": "Kits: tick “Kit” on the parts of one object, and Nestor fills a sheet with as many whole objects as possible. In fixed direction, ↺ and ↻ turn a part a quarter turn. New “Free (1°)” rotation. Guide: previous and next topic, ← → keys, two new topics.",
   "news.198": "New “Guide” button at the top: 12 short topics by category, from importing to cost, with a search and “Show me in the app” to find the right place. The “?” next to a block’s title opens its topic.",

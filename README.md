@@ -24,13 +24,13 @@ Plain JavaScript modules, no build step: `src/` (one folder per area: `import/`,
 
 Copyright 2026 Robin Philippe (Macr0b)
 
-Nestor est distribué sous la licence **PolyForm Perimeter 1.0.1**, voir [LICENSE](LICENSE).
+Nestor est distribué sous la **licence Nestor 1.0** : la licence PolyForm Perimeter 1.0.1, plus une restriction (pas de version à d'autres couleurs ou sous un autre nom, même pour un usage interne), voir [LICENSE](LICENSE).
 Tout le monde peut l'utiliser gratuitement, y compris pour un travail professionnel, lire le code et le modifier pour son propre usage. Il est interdit de proposer à d'autres un produit qui fait concurrence à Nestor (revente, service payant, copie rebaptisée…), même gratuit.
 Les versions 1.0.0 à 1.1.2 ont été publiées sous AGPL-3.0-or-later et le restent.
 Le nom « Nestor » et ses logos ne sont pas couverts par la licence : voir [TRADEMARK.md](TRADEMARK.md).
 **Licence commerciale** : pour faire ce que la licence ne permet pas (une version à vos couleurs ou à votre nom, Nestor livré avec une machine, intégré à un autre logiciel…), une licence payante peut être accordée au cas par cas. Pour en parler : [ouvrir une demande sur GitHub](https://github.com/Macr0b/Nestor/issues/new?title=Licence%20commerciale) (une adresse e-mail viendra).
 
-Nestor is distributed under the **PolyForm Perimeter License 1.0.1**, see [LICENSE](LICENSE).
+Nestor is distributed under the **Nestor License 1.0**: the PolyForm Perimeter License 1.0.1 plus one restriction (no version in other colors or under another name, even for internal use), see [LICENSE](LICENSE).
 Anyone may use it for free, including for professional work, read the code and modify it for their own use. Providing to others any product that competes with Nestor (resale, paid service, renamed copy…) is not allowed, even free of charge.
 Versions 1.0.0 to 1.1.2 were released under AGPL-3.0-or-later and remain so.
 The "Nestor" name and logos are not covered by the license: see [TRADEMARK.md](TRADEMARK.md).
@@ -39,3 +39,4 @@ The "Nestor" name and logos are not covered by the license: see [TRADEMARK.md](T
 Composants tiers / Third-party components:
 - `vendor/pdfjs/` — PDF.js 6.5.438 (legacy build), Mozilla, Apache License 2.0 (`vendor/pdfjs/LICENSE`)
 - `fonts/` — Barlow, Barlow Condensed, IBM Plex Mono, SIL Open Font License 1.1 (`fonts/OFL-*.txt`)
+- `vendor/fzstd/` — fzstd 0.1.1, MIT License

@@ -188,7 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
-  "news.1101": "A készletek neve mostantól csoport. Új választás, „Csoportok száma”, pontosan a kívánt szám elhelyezéséhez; ha nincs elég hely, a Nestor megmondja, hány teljes.",
+  "news.1101": "A készletek neve mostantól csoport. Új választás, „Csoportok száma”, pontosan a kívánt szám elhelyezéséhez; ha nincs elég hely, a Nestor megmondja, hány teljes. Nestor-licenc 1.0: továbbra is mindenkinek ingyenes, de más színekkel vagy más néven készült változathoz kereskedelmi licenc kell.",
   "news.1100": "Projektek saját mappában: USB-kulcs, iCloud, Dropbox… (Chrome és Edge számítógépen). Több készlet, mindegyik saját névvel. Érthetőbb „Kitöltés a lehető legjobban”. Becsukható blokkok összefoglalóval. Névtelen exportszámláló, a Beállításokban kikapcsolható.",
   "news.199": "Készletek: jelöld be a „Készlet” mezőt egy tárgy alkatrészeinél, és a Nestor a lehető legtöbb teljes tárggyal tölti ki a lapot. Rögzített iránynál a ↺ és a ↻ negyed fordulattal forgat. Új forgatás: „Szabad (1°)”. Útmutató: előző és következő téma, ← → nyilak, két új téma.",
   "news.198": "Új „Útmutató” gomb felül: 12 rövid téma kategóriák szerint, az importálástól a költségig, kereséssel és a „Mutasd meg az alkalmazásban” gombbal, ami a megfelelő helyre visz. Egy blokk címe melletti „?” megnyitja a témáját.",

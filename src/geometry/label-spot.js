@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Emplacement d'un texte dans une pièce : le point de matière le plus éloigné de tous les traits (hors des
    trous et des creux), et la plus grande taille de texte qui y tient. */
 

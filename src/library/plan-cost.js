@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Coût de revient d'un plan : matière (panneaux utilisés), part perdue en chute, temps machine, réparti sur les pièces
    au prorata de leur surface. C'est une estimation : elle dépend des prix saisis et du temps de découpe estimé. */
 

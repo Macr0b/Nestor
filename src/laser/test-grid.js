@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Grille de test laser : 4 puissances × 4 vitesses autour du point de départ, une couleur par case (16 au plus,
    comme la palette des logiciels laser), puissances et vitesses écrites au trait sur un calque à part. */
 

@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Sources des valeurs laser indicatives : livrets Trotec (puissance et vitesse en %), tableau Thunder Laser
    (vitesse maximale en mm/s, puissance au maximum) et tableau GWK (vitesse pour un bord propre en mm/s, à 90 %).
    Chaque matière vient d'une seule source. « chart » : tableau par puissance de tube, où une puissance absente veut

@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Estimation du temps de découpe d'un plan : longueur des contours extérieurs × nombre de passes ÷ avance.
    C'est une estimation : ni les déplacements à vide, ni les plongées, ni les trous et traits intérieurs. */
 

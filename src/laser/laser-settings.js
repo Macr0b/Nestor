@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Point de départ laser pour une machine donnée, tiré des livrets Trotec (60, 80 et 120 W).
    Même puissance qu'un livret : valeurs publiées telles quelles. Autre puissance : on garde l'énergie déposée
    par millimètre (puissance × % / vitesse), interpolée entre les livrets voisins. Autre épaisseur : vitesse

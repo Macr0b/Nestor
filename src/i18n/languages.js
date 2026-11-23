@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Langues de l'interface : code, nom affiché, sens d'écriture (dir), réglages régionaux pour les nombres et les dates
    (locale). Les textes de chaque langue sont dans locales/<code>.json (mêmes clés partout, vérifié par les tests).
    Pour ajouter une langue : une ligne ici, un fichier dans locales/, et le fichier dans la liste de sw.js. */

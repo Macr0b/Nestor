@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Longueurs à l'écran, dans les unités choisies (mm ou pouces) et la langue en cours : affichage et champs de saisie.
    Les valeurs gardées par l'appli restent en mm (voir src/util/units.js). */
 

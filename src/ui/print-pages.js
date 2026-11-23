@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Pages du PDF à imprimer, dessinées dans la langue de l'appli : un panneau par page (plan numéroté, cotes,
    zéro machine, liste de ses pièces) et, pour le plan entier, une page de résumé avant les panneaux.
    A4 en métrique, Letter en impérial ; la liste longue continue sur les pages suivantes. */

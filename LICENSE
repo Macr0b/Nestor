@@ -1,3 +1,13 @@
+# Nestor License 1.0
+
+The Nestor License 1.0 is the PolyForm Perimeter License 1.0.1 below, unchanged, with one additional restriction
+written at the end of this file.
+
+La licence Nestor 1.0, c'est la licence PolyForm Perimeter 1.0.1 ci-dessous, inchangée, avec une restriction
+supplémentaire écrite à la fin de ce fichier.
+
+---
+
 # PolyForm Perimeter License 1.0.1
 
 <https://polyformproject.org/licenses/perimeter/1.0.1>
@@ -75,3 +85,13 @@ A **product** can be a good or service, or a combination of them.
 Required Notice: Copyright 2026 Robin Philippe (Macr0b) (https://github.com/Macr0b/Nestor)
 
 The name "Nestor" and the Nestor logos are not licensed under these terms. See TRADEMARK.md.
+
+## Additional Restriction / Restriction supplémentaire
+
+You may not change the software's name, logos, colors or visual identity, or present it as anyone else's software,
+even for use only within your company, without a separate commercial license from the licensor. This restriction is
+one of the conditions of your license under these terms.
+
+Il est interdit, même pour un usage interne à votre entreprise, de changer le nom, les logos, les couleurs ou
+l'identité visuelle du logiciel, ou de le présenter comme le logiciel de quelqu'un d'autre, sans une licence
+commerciale distincte accordée par le titulaire. Cette restriction fait partie des conditions de votre licence.

@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Panneaux figés (cadenas) : leurs pièces ne bougent plus, les nouvelles vont dans leurs trous. Chaque pièce figée
    est repérée par l'identifiant stable de son type (uid), qui survit aux ajouts et retraits de fichiers. */
 

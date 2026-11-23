@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Pièces saisies à la main : rectangles de longueur × largeur, et lignes collées depuis un tableur.
    La longueur suit la flèche ↑ des panneaux (hauteur de la pièce), la largeur la flèche → (sa largeur). */
 

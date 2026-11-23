@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Valeurs de départ publiées par Trotec (« Book of Parameters », CO2, lentille 2 pouces, air assist, table
    grille aluminium), pour trois puissances. Puissance et vitesse en % de la machine, fréquence en Hz (découpe)
    ou PPI (gravure). Recopiées telles que publiées, sans correction : ce sont des points de départ à tester.

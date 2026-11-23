@@ -14,7 +14,7 @@ test("chaque fichier de code commence par la licence puis une description de son
     const lines = text.split("\n");
     assert.match(
       lines[0],
-      /^\/\* Nestor — Copyright 2026 Robin Philippe \(Macr0b\) — PolyForm Perimeter/,
+      /^\/\* Nestor — Copyright 2026 Robin Philippe \(Macr0b\) — Licence Nestor 1\.0 \(voir LICENSE\)/,
       `${name} : licence absente`
     );
     assert.match(lines[1], /^\/\* \S/, `${name} : description du rôle du fichier absente`);

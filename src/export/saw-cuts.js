@@ -1,4 +1,4 @@
-/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — PolyForm Perimeter 1.0.1 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
+/* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Ordre des coupes à la scie (méthode Rectangles) : on coupe le panneau d'un bord à l'autre entre les pièces,
    puis chaque morceau de la même façon, jusqu'à ce que chaque morceau ne porte plus qu'une pièce, qu'on détoure.
    Chaque coupe traverse tout le morceau qu'elle coupe (faisable à la scie à panneaux ou sur table).
