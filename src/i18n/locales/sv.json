@@ -188,6 +188,7 @@
   "calc.cancelled": "Beräkningen avbröts.",
   "calc.many": "{n} detaljer att placera: det kan ta en stund.",
   "news.121": "Antal begränsas inte längre till 500, för stora detaljer anges direkt och en Avbryt-knapp visas under långa beräkningar.",
+  "news.1101": "Kit: nytt val ”Antal kit” för att lägga exakt det antal kit du vill; saknas plats säger Nestor hur många som är hela.",
   "news.1100": "Projekt i din egen mapp: USB-minne, iCloud, Dropbox… (Chrome och Edge på dator). Flera kit, vart och ett med eget namn. Tydligare ”Fyll så mycket som möjligt”. Hopfällbara block med sammanfattning. Anonym exporträknare, kan stängas av i Inställningar.",
   "news.199": "Kit: kryssa i ”Kit” på delarna till ett föremål, så fyller Nestor en skiva med så många hela föremål som möjligt. I fast riktning vrider ↺ och ↻ en del ett kvarts varv. Ny rotation ”Fri (1°)”. Guide: föregående och nästa ämne, piltangenterna ← →, två nya ämnen.",
   "news.198": "Ny knapp ”Guide” högst upp: 12 korta ämnen per kategori, från import till kostnad, med sökning och ”Visa mig i appen” för att hitta rätt ställe. ”?” bredvid ett blocks rubrik öppnar dess ämne.",

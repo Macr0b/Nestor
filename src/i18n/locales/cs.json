@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
+  "news.1101": "Sady: nová volba „Počet sad“ pro položení přesně tolika sad, kolik chceš; když chybí místo, Nestor řekne, kolik je celých.",
   "news.1100": "Projekty ve vlastní složce: flash disk, iCloud, Dropbox… (Chrome a Edge na počítači). Více sad, každá s vlastním názvem. Jasnější „Vyplnit co nejvíc“. Sbalitelné bloky se shrnutím. Anonymní počítadlo exportů, lze vypnout v Nastavení.",
   "news.199": "Sady: zaškrtni „Sada“ u dílů jednoho předmětu a Nestor vyplní desku co nejvíce celými předměty. V pevném směru otočí ↺ a ↻ díl o čtvrt otáčky. Nové otáčení „Volně (1°)“. Průvodce: předchozí a další téma, šipky ← →, dvě nová témata.",
   "news.198": "Nové tlačítko „Průvodce“ nahoře: 12 krátkých témat podle kategorií, od importu po náklady, s hledáním a „Ukaž mi to v aplikaci“, které najde správné místo. „?“ vedle názvu bloku otevře jeho téma.",

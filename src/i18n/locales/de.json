@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.1101": "Kits: neue Wahl „Anzahl Kits“, um genau die gewünschte Zahl Kits zu legen; fehlt Platz, sagt Nestor, wie viele komplett sind.",
   "news.1100": "Projekte in deinem eigenen Ordner: USB-Stick, iCloud, Dropbox… (Chrome und Edge am Computer). Mehrere Kits, jedes mit eigenem Namen. Klareres „So viel wie möglich füllen“. Einklappbare Blöcke mit Zusammenfassung. Anonymer Export-Zähler, in den Einstellungen abschaltbar.",
   "news.199": "Kits: Hake „Kit“ bei den Teilen eines Objekts an, und Nestor füllt eine Platte mit möglichst vielen ganzen Objekten. In fester Richtung drehen ↺ und ↻ ein Teil um eine Vierteldrehung. Neue Drehung „Frei (1°)“. Anleitung: voriges und nächstes Thema, Pfeiltasten ← →, zwei neue Themen.",
   "news.198": "Neuer Knopf „Anleitung“ oben: 12 kurze Themen nach Kategorie, vom Import bis zu den Kosten, mit Suche und „In der App zeigen“, um die richtige Stelle zu finden. Das „?“ neben dem Titel eines Blocks öffnet sein Thema.",

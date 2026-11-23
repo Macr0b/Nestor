@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.1101": "Sarjat: uusi valinta ”Sarjojen määrä” juuri haluamasi sarjamäärän sijoittamiseen; jos tila loppuu, Nestor kertoo, montako on täysiä.",
   "news.1100": "Projektit omassa kansiossasi: USB-tikku, iCloud, Dropbox… (Chrome ja Edge tietokoneella). Useita sarjoja, kullakin oma nimi. Selkeämpi ”Täytä mahdollisimman paljon”. Kokoontaitettavat lohkot yhteenvedolla. Nimetön vientien laskuri, kytkettävissä pois asetuksista.",
   "news.199": "Sarjat: rastita ”Sarja” yhden esineen osiin, niin Nestor täyttää levyn mahdollisimman monella kokonaisella esineellä. Kiinteässä suunnassa ↺ ja ↻ kääntävät osaa neljänneskierroksen. Uusi kierto ”Vapaa (1°)”. Opas: edellinen ja seuraava aihe, nuolinäppäimet ← →, kaksi uutta aihetta.",
   "news.198": "Uusi ”Opas”-painike ylhäällä: 12 lyhyttä aihetta luokittain tuonnista kustannuksiin, haku ja ”Näytä sovelluksessa”, joka vie oikeaan kohtaan. Lohkon otsikon vieressä oleva ”?” avaa sen aiheen.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.1101": "Kit: pilihan baru “Jumlah kit” untuk meletakkan jumlah kit persis yang diinginkan; jika ruang kurang, Nestor memberi tahu berapa yang lengkap.",
   "news.1100": "Proyek di folder milikmu: flashdisk, iCloud, Dropbox… (Chrome dan Edge di komputer). Beberapa kit, masing-masing dengan namanya. “Isi sebanyak mungkin” lebih jelas. Blok yang bisa dilipat dengan ringkasan. Penghitung ekspor anonim, bisa dimatikan di Pengaturan.",
   "news.199": "Kit: centang “Kit” pada komponen satu benda, dan Nestor mengisi papan dengan sebanyak mungkin benda utuh. Pada arah tetap, ↺ dan ↻ memutar komponen seperempat putaran. Rotasi baru “Bebas (1°)”. Panduan: topik sebelumnya dan berikutnya, tombol panah ← →, dua topik baru.",
   "news.198": "Tombol baru “Panduan” di atas: 12 topik singkat per kategori, dari impor hingga biaya, dengan pencarian dan “Tunjukkan di aplikasi” untuk menemukan tempat yang tepat. “?” di samping judul sebuah blok membuka topiknya.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.1101": "Sett: nytt valg «Antall sett» for å legge nøyaktig det antallet sett du vil; mangler det plass, sier Nestor hvor mange som er hele.",
   "news.1100": "Prosjekter i din egen mappe: minnepinne, iCloud, Dropbox… (Chrome og Edge på datamaskin). Flere sett, hvert med eget navn. Tydeligere «Fyll mest mulig». Sammenleggbare blokker med sammendrag. Anonym eksportteller, kan slås av i Innstillinger.",
   "news.199": "Sett: kryss av for «Sett» på delene til én gjenstand, og Nestor fyller en plate med flest mulig hele gjenstander. I fast retning dreier ↺ og ↻ en del en kvart omdreining. Ny rotasjon «Fri (1°)». Guide: forrige og neste emne, piltastene ← →, to nye emner.",
   "news.198": "Ny knapp «Guide» øverst: 12 korte emner etter kategori, fra import til kostnad, med søk og «Vis meg i appen» for å finne riktig sted. «?» ved tittelen på en blokk åpner emnet.",

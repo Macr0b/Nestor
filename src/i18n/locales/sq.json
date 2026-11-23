@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.1101": "Komplete: zgjedhje e re “Numri i kompleteve” për të vendosur saktësisht numrin e kompleteve që do; nëse s’ka vend, Nestor tregon sa janë të plota.",
   "news.1100": "Projekte në dosjen tënde: USB, iCloud, Dropbox… (Chrome dhe Edge në kompjuter). Disa komplete, secili me emrin e vet. “Mbush sa maksimum” më i qartë. Blloqe që palosen me përmbledhje. Numërues anonim i eksporteve, çaktivizohet te Cilësimet.",
   "news.199": "Komplete: shëno “Komplet” te pjesët e një objekti dhe Nestor mbush një pllakë me sa më shumë objekte të plota. Në drejtim të fiksuar, ↺ dhe ↻ rrotullojnë një pjesë një çerek xhiro. Rrotullim i ri “I lirë (1°)”. Udhëzues: tema e mëparshme dhe e radhës, shigjetat ← →, dy tema të reja.",
   "news.198": "Buton i ri “Udhëzues” lart: 12 tema të shkurtra sipas kategorive, nga importimi te kostoja, me kërkim dhe “Ma trego në aplikacion” për të gjetur vendin e duhur. “?” pranë titullit të një blloku hap temën e tij.",

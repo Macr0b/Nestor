@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.1101": "Zestawy: nowy wybór „Liczba zestawów”, aby ułożyć dokładnie tyle zestawów, ile chcesz; gdy brak miejsca, Nestor mówi, ile jest pełnych.",
   "news.1100": "Projekty we własnym folderze: pendrive, iCloud, Dropbox… (Chrome i Edge na komputerze). Kilka zestawów, każdy z własną nazwą. Czytelniejsze „Wypełnij maksymalnie”. Zwijane bloki z podsumowaniem. Anonimowy licznik eksportów, do wyłączenia w Ustawieniach.",
   "news.199": "Zestawy: zaznacz „Zestaw” przy elementach jednego przedmiotu, a Nestor wypełni płytę jak największą liczbą całych przedmiotów. W stałym kierunku ↺ i ↻ obracają element o ćwierć obrotu. Nowy obrót „Dowolny (1°)”. Przewodnik: poprzedni i następny temat, strzałki ← →, dwa nowe tematy.",
   "news.198": "Nowy przycisk „Przewodnik” u góry: 12 krótkich tematów według kategorii, od importu po koszt, z wyszukiwaniem i „Pokaż mi w aplikacji”, by znaleźć właściwe miejsce. „?” obok tytułu bloku otwiera jego temat.",

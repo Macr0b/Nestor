@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.1101": "Kit: nuova scelta «Numero di kit» per posare esattamente i kit che vuoi; se manca spazio, Nestor dice quanti sono completi.",
   "news.1100": "Progetti nella tua cartella: chiavetta USB, iCloud, Dropbox… (Chrome ed Edge su computer). Più kit, ognuno con il suo nome. «Riempi al massimo» più chiaro. Blocchi richiudibili con riepilogo. Contatore anonimo delle esportazioni, disattivabile nelle Impostazioni.",
   "news.199": "Kit: spunta «Kit» sui pezzi di uno stesso oggetto e Nestor riempie un pannello con il massimo di oggetti interi. In verso fisso, ↺ e ↻ ruotano un pezzo di un quarto di giro. Nuova rotazione «Libera (1°)». Guida: scheda precedente e successiva, frecce ← →, due schede nuove.",
   "news.198": "Nuovo pulsante «Guida» in alto: 12 schede brevi per categoria, dall’importazione al costo, con una ricerca e «Mostramelo nell’app» per trovare il punto giusto. Il «?» accanto al titolo di un blocco apre la sua scheda.",

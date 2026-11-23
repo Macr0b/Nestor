@@ -188,6 +188,7 @@
   "calc.cancelled": "Cálculo cancelado.",
   "calc.many": "{n} peças para posicionar: isso pode demorar.",
   "news.121": "As quantidades não são mais limitadas a 500, peças grandes demais são indicadas na hora e um botão Cancelar aparece durante um cálculo longo.",
+  "news.1101": "Kits: nova opção “Número de kits” para colocar exatamente os kits que quiser; se faltar espaço, o Nestor diz quantos estão completos.",
   "news.1100": "Projetos na sua própria pasta: pen USB, iCloud, Dropbox… (Chrome e Edge no computador). Vários kits, cada um com o seu nome. “Encher ao máximo” mais claro. Blocos recolhíveis com resumo. Contador anónimo de exportações, desativável nas Definições.",
   "news.199": "Kits: marque “Kit” nas peças de um mesmo objeto e o Nestor enche uma chapa com o máximo de objetos inteiros. Em sentido fixo, ↺ e ↻ giram uma peça um quarto de volta. Nova rotação “Livre (1°)”. Guia: ficha anterior e próxima, setas ← →, duas fichas novas.",
   "news.198": "Novo botão “Guia” no alto: 12 fichas curtas por categoria, da importação ao custo, com busca e “Mostrar no app” para achar o lugar certo. O “?” ao lado do título de um bloco abre a ficha dele.",

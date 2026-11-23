@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun preklican.",
   "calc.many": "{n} delov za razporeditev: to lahko traja.",
   "news.121": "Količine niso več omejene na 500, preveliki deli so takoj označeni, med dolgim izračunom pa se pojavi gumb Prekliči.",
+  "news.1101": "Kompleti: nova izbira »Število kompletov« za postavitev točno želenega števila kompletov; če zmanjka prostora, Nestor pove, koliko je celih.",
   "news.1100": "Projekti v tvoji mapi: USB-ključ, iCloud, Dropbox … (Chrome in Edge na računalniku). Več kompletov, vsak s svojim imenom. Jasnejše »Zapolni čim več«. Zložljivi bloki s povzetkom. Anonimni števec izvozov, izklopljiv v Nastavitvah.",
   "news.199": "Kompleti: označi »Komplet« pri kosih enega predmeta in Nestor zapolni ploščo s čim več celimi predmeti. V fiksni smeri ↺ in ↻ zavrtita kos za četrt obrata. Novo vrtenje »Prosto (1°)«. Vodnik: prejšnja in naslednja tema, puščici ← →, dve novi temi.",
   "news.198": "Nov gumb »Vodnik« zgoraj: 12 kratkih tem po kategorijah, od uvoza do stroškov, z iskanjem in »Pokaži mi v aplikaciji«, ki najde pravo mesto. »?« ob naslovu bloka odpre njegovo temo.",
