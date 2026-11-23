@@ -2264,6 +2264,14 @@ function fakeFolderPicker() {
   window.showDirectoryPicker = async () => handle;
 }
 
+// attend que le texte d'un élément corresponde (la fenêtre Projets se redessine après des lectures asynchrones)
+async function waitText(page, selector, re) {
+  await page.waitForFunction(
+    ([sel, src, flags]) => new RegExp(src, flags).test(document.querySelector(sel)?.textContent || ""),
+    [selector, re.source, re.flags]
+  );
+}
+
 test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débranchée, autorisation", async () => {
   const page = await open();
   await page.addInitScript(fakeFolderPicker);
@@ -2273,25 +2281,25 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await page.fill("#projName", "Boîte / à vin");
   await page.click("#btnProjects");
   // aucun dossier encore : on reste sur « Ce navigateur », l'onglet « Mon dossier » invite à en choisir un
-  assert.equal(await page.getAttribute("#projTabBrowser", "aria-selected"), "true");
+  await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
   await page.click("#projTabFolder");
-  assert.match(await page.textContent("#projFolderList"), /Choisis le dossier/);
-  assert.equal(await page.isVisible("#projForget"), false);
+  await waitText(page, "#projFolderList", /Choisis le dossier/);
+  await page.waitForSelector("#projForget", { state: "hidden" });
   await page.click("#projPick");
   await page.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
-  assert.match(await page.textContent("#projFolderList"), /Pas encore de projet/);
-  assert.equal(await page.textContent("#projPick"), "Changer de dossier");
+  await waitText(page, "#projFolderList", /Pas encore de projet/);
+  await waitText(page, "#projPick", /^Changer de dossier$/);
   // Enregistrer écrit « Boîte à vin.nestor » (caractère interdit retiré) dans le dossier, pas dans le navigateur
   await page.click("#projSave");
   await page.waitForFunction(() => /Enregistré dans « CLE-USB »/.test(document.querySelector("#projMsg").textContent));
-  assert.match(await page.textContent("#projMsg"), /Boîte à vin\.nestor/);
+  await waitText(page, "#projMsg", /Boîte à vin\.nestor/);
   assert.deepEqual(await page.evaluate(() => [...window.__folder.files.keys()]), ["Boîte à vin.nestor"]);
-  assert.match(await page.textContent("#projFolderList"), /Boîte à vin.*en cours/);
+  await waitText(page, "#projFolderList", /Boîte à vin.*en cours/);
   await page.click("#projTabBrowser");
-  assert.match(await page.textContent("#projList"), /Aucun projet/);
+  await waitText(page, "#projList", /Aucun projet/);
   await page.click("#projTabFolder");
   // seuls les .nestor sont listés (ni la photo, ni le sous-dossier)
-  assert.equal(await page.locator("#projFolderList .proj-row").count(), 1);
+  await page.waitForFunction(() => document.querySelectorAll("#projFolderList .proj-row").length === 1);
   // Enregistrer à nouveau remplace le même fichier ; une copie prend un nom libre
   await page.click("#projSave");
   await page.waitForFunction(() => /Enregistré/.test(document.querySelector("#projMsg").textContent));
@@ -2302,7 +2310,7 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
     "Boîte à vin.nestor"
   ]);
   // plus récent d'abord ; la copie est le projet en cours
-  assert.match(await page.textContent("#projFolderList .proj-row"), /Boîte à vin \(2\).*en cours/);
+  await waitText(page, "#projFolderList .proj-row", /Boîte à vin \(2\).*en cours/);
   await page.click("#btnCloseProj");
   // Ctrl+S enregistre aussi dans le dossier
   await page.fill('.trow[data-i="0"] [data-k="qty"]', "7");
@@ -2316,7 +2324,7 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await original.click();
   await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
   assert.notEqual(await page.inputValue('.trow[data-i="0"] [data-k="qty"]'), "7");
-  assert.match(await page.textContent("#projFolderList"), /Boîte à vin.*en cours/);
+  await waitText(page, "#projFolderList", /Boîte à vin.*en cours/);
   // projet modifié : ouvrir demande un second clic
   await page.click("#btnCloseProj");
   await page.fill("#projName", "Changé");
@@ -2336,7 +2344,7 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await page.evaluate(() => (window.__folder.lost = true));
   await page.click("#projTabBrowser");
   await page.click("#projTabFolder");
-  assert.match(await page.textContent("#projFolderList"), /introuvable \(clé débranchée/);
+  await waitText(page, "#projFolderList", /introuvable \(clé débranchée/);
   await page.click("#projSave");
   await page.waitForFunction(() => /n’a pas pu être lu ou écrit/.test(document.querySelector("#projMsg").textContent));
   // l'endroit choisi est gardé : à la réouverture, « Ce navigateur » reste affiché s'il était le dernier
@@ -2347,17 +2355,17 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   // flèches entre les onglets
   await page.focus("#projTabBrowser");
   await page.keyboard.press("ArrowLeft");
-  assert.equal(await page.getAttribute("#projTabFolder", "aria-selected"), "true");
+  await page.waitForSelector('#projTabFolder[aria-selected="true"]');
   // Oublier ce dossier
   await page.evaluate(() => (window.__folder.lost = false));
   await page.click("#projForget");
   await page.waitForFunction(() => /Choisis le dossier/.test(document.querySelector("#projFolderList").textContent));
-  assert.equal(await page.textContent("#projFolderLbl"), "Mon dossier");
+  await waitText(page, "#projFolderLbl", /^Mon dossier$/);
   // Enregistrer sur « Mon dossier » sans dossier : la fenêtre de choix s'ouvre, puis le fichier est écrit
   await page.evaluate(() => window.__folder.files.clear());
   await page.click("#projSave");
   await page.waitForFunction(() => window.__folder.files.size === 1);
-  assert.match(await page.textContent("#projTabFolder"), /CLE-USB/);
+  await waitText(page, "#projTabFolder", /CLE-USB/);
   assert.deepEqual(page.errors, []);
   await page.context().close();
 });
@@ -2371,8 +2379,8 @@ test("projets dans un dossier : navigateur sans choix de dossier (Safari, Firefo
   await page.click("#btnProjects");
   await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
   await page.click("#projTabFolder");
-  assert.match(await page.textContent("#projFolderHint"), /ne permet pas de choisir un dossier/);
-  assert.equal(await page.isVisible("#projPick"), false);
+  await waitText(page, "#projFolderHint", /ne permet pas de choisir un dossier/);
+  await page.waitForSelector("#projPick", { state: "hidden" });
   // Enregistrer va toujours dans le navigateur
   await page.click("#projSave");
   await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
