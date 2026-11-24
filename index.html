@@ -636,8 +636,11 @@
       <h2 data-i18n="prof.title">Mon profil</h2>
       <p class="hint" data-i18n="prof.hint">Tout ce que tu as rangé dans Nestor, en un seul fichier : projets, matières, carnet, réglages laser, fraisage, coût et affichage.</p>
       <div class="row"><button class="btn" id="profSave" type="button" data-i18n="prof.save">Enregistrer mon profil</button><button class="btn" id="profLoad" type="button" data-i18n="prof.load">Charger un profil</button><input type="file" id="profFile" accept=".nestorprofil,application/json" hidden></div>
-      <label class="dlopt" id="profSyncRow" hidden><input type="checkbox" id="profSync"> <span id="profSyncLbl"></span></label>
-      <p class="hint" id="profSyncMsg"></p>
+      <div class="prof-where" id="profWhereRow" hidden><span id="profWhere"></span> <button class="btn sm" id="profPick" type="button"></button></div>
+      <label class="dlopt" id="profAutoRow" hidden><input type="checkbox" id="profAuto"> <span data-i18n="prof.auto">Sauvegarde automatique toutes les 5 minutes (3 fichiers)</span></label>
+      <p class="hint" id="profAutoMsg"></p>
+      <button class="btn sm" id="profAllow" type="button" hidden></button>
+      <p class="hint" id="profNoFolder" data-i18n="prof.noFolder" hidden>Ce navigateur ne peut pas retenir de dossier : le profil est téléchargé, sans sauvegarde automatique.</p>
       <div class="prof-found" id="profFound" hidden><span id="profFoundTxt"></span> <button class="btn sm" id="profFoundBtn" type="button" data-i18n="prof.seeFound">Voir ce profil</button></div>
       <div class="prof-load" id="profPreview" hidden>
         <p class="prof-name" id="profName"></p>
@@ -646,6 +649,7 @@
         <p class="hint prof-sub" data-i18n="prof.addHint">Rien n’est effacé : matières, fiches du carnet, machines et matières laser s’ajoutent (même identifiant : celle du profil la remplace). Tes autres réglages restent.</p>
         <label class="dlopt"><input type="radio" name="profMode" value="replace"> <span data-i18n="prof.replace">Tout remplacer</span></label>
         <p class="hint prof-sub" data-i18n="prof.replaceHint">Tous les réglages, matières et le carnet deviennent ceux du profil. Tes projets sont gardés, ceux du profil s’ajoutent.</p>
+        <label class="dlopt" id="profAdoptRow" hidden><input type="checkbox" id="profAdopt" checked> <span id="profAdoptLbl"></span></label>
         <div class="row"><button class="btn" id="profCancel" type="button" data-i18n="prof.cancel">Annuler</button><button class="btn primary" id="profApply" type="button" data-i18n="prof.apply">Charger</button></div>
       </div>
       <p class="hint" id="profMsg" role="status"></p>

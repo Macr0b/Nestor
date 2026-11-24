@@ -1,19 +1,23 @@
 /* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* « Mon profil » dans les Réglages : enregistrer tout ce que l'usager a rangé dans Nestor en un fichier, le
-   recharger (aperçu puis « Ajouter » ou « Tout remplacer »), et le tenir à jour dans le dossier choisi. */
+/* « Mon profil » dans les Réglages : enregistrer tout ce que l'usager a rangé dans Nestor, dans un dossier qu'il
+   choisit et que Nestor retient (3 fichiers tournants, sauvegarde automatique toutes les 5 minutes), ou en
+   téléchargement là où le navigateur ne sait pas retenir un dossier ; le recharger (aperçu puis « Ajouter » ou
+   « Tout remplacer »). */
 
 import { saveFile } from "../export/export-files.js";
 import { languageLocale, translate } from "../i18n/i18n.js";
-import { folderPermission, folderSupported, savedFolder, writeFolderFile } from "../project/folder-store.js";
+import { folderSupported, pickFolder, rememberFolder, savedFolder } from "../project/folder-store.js";
 import { datedProfileName, PROFILE_FILE, profileSummary, readProfile } from "../project/profile-data.js";
 import {
   applyProfile,
-  onProfileSync,
+  autoBackupOn,
+  backupFolder,
+  backupProfile,
+  onAutoBackup,
   profileInFolder,
-  profileSyncOn,
   profileText,
-  setProfileSync,
-  startProfileSync
+  setAutoBackup,
+  startAutoBackup
 } from "../project/profile-store.js";
 import { byId } from "../util/dom.js";
 import { keepUnsavedProject, unsavedProject } from "./projects-dialog.js";
@@ -21,7 +25,7 @@ import { keepUnsavedProject, unsavedProject } from "./projects-dialog.js";
 // message à montrer après le rechargement qui suit un profil chargé
 const LOADED_KEY = "nestor.profil-charge";
 
-// profil relu en attente de « Charger » : { profile, name } ; mode « replace » armé (second clic)
+// profil relu en attente de « Charger » : { profile, name, handle (dossier où il a été trouvé) } ; second clic armé
 let pending = null;
 let replaceArmed = false;
 
@@ -33,35 +37,69 @@ function formatDate(time) {
   return new Date(time).toLocaleString(languageLocale(), { dateStyle: "medium", timeStyle: "short" });
 }
 
-/* Enregistrer : dans le dossier choisi s'il y en a un (le même fichier que la mise à jour automatique), sinon
-   un fichier téléchargé, daté. */
+/* Dossier des sauvegardes choisi (la fenêtre s'ouvre sur celui des projets s'il y en a un) ; null si annulé. */
+async function chooseBackupFolder() {
+  var projects = await savedFolder("projects");
+  return pickFolder("profile", projects || undefined);
+}
+
+// état d'une sauvegarde, sous la case « automatique » (ou le bouton pour redonner l'autorisation)
+function showBackupState(result) {
+  var allow = byId("profAllow");
+  allow.hidden = result.state !== "denied";
+  if (result.state === "denied") allow.textContent = translate("prof.allow", { f: result.folder });
+  var key = { written: "prof.syncDone", failed: "prof.syncFailed" }[result.state];
+  if (key) byId("profAutoMsg").textContent = translate(key, { d: result.savedAt ? formatDate(result.savedAt) : "" });
+  else if (result.state === "denied") byId("profAutoMsg").textContent = "";
+}
+
+/* Enregistrer : dans le dossier des sauvegardes (à choisir la première fois), sinon un fichier téléchargé, daté. */
 async function saveProfile() {
   message("");
   try {
-    var text = await profileText(unsavedProject()),
-      folder = folderSupported() ? await savedFolder() : null;
-    if (folder && (await folderPermission(folder, true)) === "granted") {
-      await writeFolderFile(folder, PROFILE_FILE, text);
-      return message(translate("prof.savedFolder", { f: folder.name }));
+    if (!folderSupported()) {
+      var name = datedProfileName(Date.now());
+      await saveFile(name, new Blob([await profileText(unsavedProject())], { type: "application/json" }));
+      return message(translate("dl.done", { f: name }));
     }
-    var name = datedProfileName(Date.now());
-    await saveFile(name, new Blob([text], { type: "application/json" }));
-    message(translate("dl.done", { f: name }));
+    if (!(await backupFolder()) && !(await chooseBackupFolder())) return renderBackup();
+    var result = await backupProfile(unsavedProject(), true);
+    await renderBackup();
+    showBackupState(result);
+    if (result.state === "written") message(translate("prof.savedFolder", { f: result.folder }));
+    else if (result.state === "same") message(translate("prof.same", { f: result.folder }));
+    else if (result.state === "failed") message(translate("prof.saveFailed"));
   } catch (err) {
     if (err && err.name === "AbortError") return;
     message(translate("prof.saveFailed"));
   }
 }
 
-function showPreview(profile, name) {
-  var s = profileSummary(profile);
-  pending = { profile: profile, name: name };
+async function changeFolder() {
+  try {
+    if (!(await chooseBackupFolder())) return;
+    await renderBackup();
+    startAutoBackup(unsavedProject);
+  } catch (e) {
+    message(translate("prof.saveFailed"));
+  }
+}
+
+async function showPreview(profile, name, handle) {
+  var s = profileSummary(profile),
+    current = await backupFolder();
+  pending = { profile: profile, name: name, handle: handle || null };
   replaceArmed = false;
   byId("profName").textContent = translate("prof.loadName", { f: name });
   byId("profSummary").textContent =
     translate("prof.summary", { p: s.projects, m: s.materials, n: s.notes, l: s.machines }) +
     (profile.savedAt ? " · " + translate("prof.when", { d: formatDate(profile.savedAt) }) : "");
   byId("profPreview").querySelector('[value="add"]').checked = true;
+  // trouvé dans un dossier qui n'est pas encore celui des sauvegardes : proposer d'y continuer
+  var adopt = !!handle && !(current && current.name === handle.name);
+  byId("profAdoptRow").hidden = !adopt;
+  byId("profAdopt").checked = true;
+  if (adopt) byId("profAdoptLbl").textContent = translate("prof.adopt", { f: handle.name });
   byId("profApply").textContent = translate("prof.apply");
   byId("profApply").classList.remove("confirm");
   byId("profPreview").hidden = false;
@@ -80,7 +118,7 @@ function loadFile(file) {
   return file
     .text()
     .then(function (text) {
-      showPreview(readProfile(text), file.name);
+      return showPreview(readProfile(text), file.name, null);
     })
     .catch(function () {
       hidePreview();
@@ -100,6 +138,8 @@ async function applyPending() {
   }
   try {
     await keepUnsavedProject();
+    if (pending.handle && !byId("profAdoptRow").hidden && byId("profAdopt").checked)
+      await rememberFolder(pending.handle, "profile");
     var added = await applyProfile(pending.profile, mode);
     try {
       sessionStorage.setItem(LOADED_KEY, String(added));
@@ -111,17 +151,22 @@ async function applyPending() {
   }
 }
 
-/* Case « Garder mon profil à jour » : seulement avec un dossier choisi. */
-async function renderSync() {
-  var folder = folderSupported() ? await savedFolder() : null;
-  byId("profSyncRow").hidden = !folder;
+/* Dossier des sauvegardes, case « automatique », profil trouvé ailleurs. */
+async function renderBackup() {
+  var supported = folderSupported(),
+    folder = await backupFolder();
+  byId("profNoFolder").hidden = supported;
+  byId("profWhereRow").hidden = !supported;
+  byId("profAutoRow").hidden = !folder;
   if (!folder) {
-    byId("profSyncMsg").textContent = "";
-    return;
+    byId("profAutoMsg").textContent = "";
+    byId("profAllow").hidden = true;
   }
-  byId("profSyncLbl").textContent = translate("prof.sync", { f: folder.name });
-  byId("profSync").checked = profileSyncOn();
-  if (!profileSyncOn()) byId("profSyncMsg").textContent = "";
+  if (supported) {
+    byId("profWhere").textContent = folder ? translate("prof.where", { f: folder.name }) : translate("prof.whereNone");
+    byId("profPick").textContent = translate(folder ? "prof.change" : "prof.pick");
+  }
+  byId("profAuto").checked = autoBackupOn();
   var found = await profileInFolder();
   byId("profFound").hidden = !found || !!pending;
   if (found)
@@ -131,25 +176,21 @@ async function renderSync() {
     });
 }
 
-function showSyncState(result) {
-  if (!profileSyncOn()) return;
-  var key = {
-    written: "prof.syncDone",
-    denied: "prof.syncDenied",
-    failed: "prof.syncFailed"
-  }[result.state];
-  if (key) byId("profSyncMsg").textContent = translate(key, { d: result.savedAt ? formatDate(result.savedAt) : "" });
-}
-
 /* À l'ouverture des Réglages. */
 export function refreshProfilePanel() {
   if (!pending) message(byId("profMsg").dataset.keep ? byId("profMsg").textContent : "");
   delete byId("profMsg").dataset.keep;
-  return renderSync();
+  return renderBackup();
+}
+
+async function showFound() {
+  var found = await profileInFolder();
+  if (found) await showPreview(found.profile, PROFILE_FILE, found.handle);
 }
 
 export function bindProfilePanel() {
   byId("profSave").addEventListener("click", saveProfile);
+  byId("profPick").addEventListener("click", changeFolder);
   byId("profLoad").addEventListener("click", function () {
     byId("profFile").click();
   });
@@ -160,29 +201,28 @@ export function bindProfilePanel() {
   });
   byId("profCancel").addEventListener("click", function () {
     hidePreview();
-    renderSync();
+    renderBackup();
   });
   byId("profApply").addEventListener("click", applyPending);
-  byId("profPreview").addEventListener("change", function () {
+  byId("profPreview").addEventListener("change", function (e) {
+    if (e.target.name !== "profMode") return;
     replaceArmed = false;
     byId("profApply").textContent = translate("prof.apply");
     byId("profApply").classList.remove("confirm");
   });
-  byId("profFoundBtn").addEventListener("click", async function () {
-    var found = await profileInFolder();
-    if (found) showPreview(found.profile, PROFILE_FILE);
-  });
-  byId("profSync").addEventListener("change", function () {
-    setProfileSync(this.checked, unsavedProject);
-    byId("profSyncMsg").textContent = "";
-  });
+  byId("profFoundBtn").addEventListener("click", showFound);
   // « Voir ce profil » depuis Projets → Mon dossier : les Réglages s'ouvrent sur l'aperçu
-  document.addEventListener("nestor:open-profile", async function () {
-    var found = await profileInFolder();
-    if (found) showPreview(found.profile, PROFILE_FILE);
+  document.addEventListener("nestor:open-profile", showFound);
+  byId("profAuto").addEventListener("change", function () {
+    setAutoBackup(this.checked, unsavedProject);
+    if (!this.checked) byId("profAutoMsg").textContent = "";
   });
-  onProfileSync(showSyncState);
-  startProfileSync(unsavedProject);
+  // autorisation à redonner (nouvelle visite) : demandée au clic, puis la sauvegarde reprend
+  byId("profAllow").addEventListener("click", function () {
+    backupProfile(unsavedProject(), true).then(showBackupState);
+  });
+  onAutoBackup(showBackupState);
+  startAutoBackup(unsavedProject);
 }
 
 /* Après un profil chargé (l'appli vient d'être rechargée) : rend le message à montrer, ou "". */

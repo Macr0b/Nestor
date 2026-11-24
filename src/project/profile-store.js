@@ -1,21 +1,22 @@
 /* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
 /* Profil Nestor, côté appareil : lire tout ce qui est gardé dans ce navigateur (réglages, projets), écrire un
-   profil relu, et le tenir à jour dans le dossier choisi (Mon dossier) si l'usager le veut. */
+   profil relu, et le sauvegarder dans un dossier choisi par l'usager (3 fichiers tournants, toutes les 5 minutes). */
 
 import { APP_VERSION } from "../version.js";
 import { folderPermission, folderSupported, readFolderFile, savedFolder, writeFolderFile } from "./folder-store.js";
-import { buildProfile, PROFILE_FILE, PROFILE_KEYS, readProfile, settingsToWrite } from "./profile-data.js";
+import {
+  BACKUP_FILES,
+  buildProfile,
+  PROFILE_FILE,
+  PROFILE_KEYS,
+  readProfile,
+  settingsToWrite
+} from "./profile-data.js";
 import { listProjects, newProjectId, readProject, storeProject } from "./projects-store.js";
 import { snapshotSummary } from "./project-snapshot.js";
 
-const SYNC_KEY = "nestor.profil-sync";
 // date du dernier profil écrit ou chargé ici : un profil plus récent dans le dossier vient d'ailleurs
 const SEEN_KEY = "nestor.profil-vu";
-const SYNC_EVERY = 10000;
-
-let syncTimer = null;
-let lastSignature = "";
-let syncListener = null;
 
 function getItem(key) {
   try {
@@ -85,101 +86,141 @@ export async function applyProfile(profile, mode) {
   return added;
 }
 
-/* — Tenu à jour dans le dossier choisi —————————————————————————————————————————————————————————— */
+/* — Sauvegardes dans un dossier choisi : 3 fichiers, toutes les 5 minutes —————————————————————————— */
 
-export function profileSyncOn() {
-  return getItem(SYNC_KEY) === "on";
+const AUTO_KEY = "nestor.profil-auto";
+// empreinte de la dernière sauvegarde écrite : rien n'est réécrit (ni décalé) tant que rien ne change
+const LAST_KEY = "nestor.profil-empreinte";
+const BACKUP_EVERY = 5 * 60 * 1000;
+
+let backupTimer = null;
+let backupListener = null;
+let backupRunning = null;
+
+/* Dossier des sauvegardes du profil, ou null. */
+export function backupFolder() {
+  return folderSupported() ? savedFolder("profile") : Promise.resolve(null);
 }
 
-export function setProfileSync(on, getCurrent) {
-  setItem(SYNC_KEY, on ? "on" : "off");
-  lastSignature = "";
-  if (on) startProfileSync(getCurrent);
-  else stopProfileSync();
+/* Sauvegarde automatique : cochée par défaut dès qu'un dossier est choisi. */
+export function autoBackupOn() {
+  return getItem(AUTO_KEY) !== "off";
 }
 
-// empreinte courte de ce qui serait écrit : on n'écrit que si quelque chose a changé
+export function setAutoBackup(on, getCurrent) {
+  setItem(AUTO_KEY, on ? "on" : "off");
+  startAutoBackup(getCurrent);
+}
+
+// empreinte courte de ce qui serait écrit
 function signature(text) {
   var h = 5381;
   for (var i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) | 0;
   return text.length + ":" + h;
 }
 
-/* Écrit le profil dans le dossier choisi s'il a changé. Rend { state } : « written », « same », « nofolder »,
-   « denied » (autorisation à redonner) ou « failed ». */
-export async function syncProfile(current) {
-  if (!folderSupported()) return { state: "nofolder" };
-  var folder = await savedFolder();
+// empreinte légère (réglages, liste des projets, projet en cours) : les projets ne sont relus que si besoin
+async function cheapSignature(current) {
+  var list = await listProjects().catch(function () {
+    return [];
+  });
+  return signature(
+    JSON.stringify(readSettings()) +
+      JSON.stringify(
+        list.map(function (e) {
+          return [e.id, e.savedAt];
+        })
+      ) +
+      (current ? JSON.stringify(current) : "")
+  );
+}
+
+async function readOrNull(folder, name) {
+  try {
+    return await readFolderFile(folder, name);
+  } catch (e) {
+    return null;
+  }
+}
+
+/* Écrit le profil en tête des 3 fichiers du dossier : l'ancien 2 devient le 3, l'ancien plus récent le 2. */
+async function rotateAndWrite(folder, text) {
+  var newest = await readOrNull(folder, BACKUP_FILES[0]),
+    second = await readOrNull(folder, BACKUP_FILES[1]);
+  if (second != null) await writeFolderFile(folder, BACKUP_FILES[2], second);
+  if (newest != null) await writeFolderFile(folder, BACKUP_FILES[1], newest);
+  await writeFolderFile(folder, BACKUP_FILES[0], text);
+}
+
+/* Sauvegarde du profil dans son dossier, si quelque chose a changé. Rend { state } : « written », « same »,
+   « nofolder », « denied » (autorisation à redonner ; ask : la demander) ou « failed ». */
+export function backupProfile(current, ask) {
+  // une sauvegarde à la fois : une lente ne doit pas décaler les fichiers en même temps qu'une autre
+  var run = (backupRunning || Promise.resolve()).then(function () {
+    return backupNow(current, ask);
+  });
+  backupRunning = run.catch(function () {});
+  return run;
+}
+
+async function backupNow(current, ask) {
+  var folder = await backupFolder();
   if (!folder) return { state: "nofolder" };
   try {
-    if ((await folderPermission(folder, false)) !== "granted") return { state: "denied" };
-    // empreinte légère (réglages, liste des projets, projet en cours) : les projets ne sont relus que si besoin
-    var list = await listProjects().catch(function () {
-      return [];
-    });
-    var sig = signature(
-      JSON.stringify(readSettings()) +
-        JSON.stringify(
-          list.map(function (e) {
-            return [e.id, e.savedAt];
-          })
-        ) +
-        (current ? JSON.stringify(current) : "")
-    );
-    if (sig === lastSignature) return { state: "same" };
+    if ((await folderPermission(folder, ask)) !== "granted") return { state: "denied", folder: folder.name };
+    var sig = await cheapSignature(current);
+    if (sig === getItem(LAST_KEY) && (await readOrNull(folder, BACKUP_FILES[0])) != null)
+      return { state: "same", folder: folder.name };
     var text = await profileText(current);
-    await writeFolderFile(folder, PROFILE_FILE, text);
-    lastSignature = sig;
+    await rotateAndWrite(folder, text);
+    setItem(LAST_KEY, sig);
     var savedAt = JSON.parse(text).savedAt;
     setItem(SEEN_KEY, String(savedAt));
     return { state: "written", savedAt: savedAt, folder: folder.name };
   } catch (e) {
-    return { state: "failed" };
+    return { state: "failed", folder: folder.name };
   }
 }
 
-export function startProfileSync(getCurrent) {
-  stopProfileSync();
-  if (!profileSyncOn()) return;
-  // un passage à la fois : un passage lent ne doit pas réécrire un profil plus ancien par-dessus un plus récent
-  var running = false;
+/* Sauvegarde automatique (toutes les 5 minutes, et une fois tout de suite) si elle est cochée et qu'un dossier
+   est choisi. L'autorisation n'est jamais demandée ici : sans elle, l'état « denied » est signalé. */
+export function startAutoBackup(getCurrent) {
+  stopAutoBackup();
+  if (!autoBackupOn() || !folderSupported()) return;
   function tick() {
-    if (running) return;
-    running = true;
-    syncProfile(getCurrent())
-      .then(function (result) {
-        if (syncListener) syncListener(result);
-      })
-      .finally(function () {
-        running = false;
-      });
+    backupProfile(getCurrent(), false).then(function (result) {
+      if (backupListener && result.state !== "nofolder") backupListener(result);
+    });
   }
   tick();
-  syncTimer = setInterval(tick, SYNC_EVERY);
+  backupTimer = setInterval(tick, BACKUP_EVERY);
 }
 
-export function stopProfileSync() {
-  clearInterval(syncTimer);
-  syncTimer = null;
+function stopAutoBackup() {
+  clearInterval(backupTimer);
+  backupTimer = null;
 }
 
-/* Appelé après chaque passage de la mise à jour automatique (pour afficher son état). */
-export function onProfileSync(listener) {
-  syncListener = listener;
+/* Appelé après chaque sauvegarde automatique (pour afficher son état). */
+export function onAutoBackup(listener) {
+  backupListener = listener;
 }
 
-/* Profil trouvé dans le dossier choisi, plus récent que le dernier écrit ou chargé ici : { profile, folder }
-   ou null. */
+/* Profil plus récent que le dernier écrit ou chargé ici, trouvé dans le dossier des projets ou celui des
+   sauvegardes : { profile, folder, handle } ou null. */
 export async function profileInFolder() {
   if (!folderSupported()) return null;
-  var folder = await savedFolder();
-  if (!folder) return null;
-  try {
-    if ((await folderPermission(folder, false)) !== "granted") return null;
-    var profile = readProfile(await readFolderFile(folder, PROFILE_FILE));
-    var seen = Number(getItem(SEEN_KEY)) || 0;
-    return profile.savedAt > seen ? { profile: profile, folder: folder.name } : null;
-  } catch (e) {
-    return null;
+  var seen = Number(getItem(SEEN_KEY)) || 0,
+    best = null;
+  for (var slot of ["profile", "projects"]) {
+    var folder = await savedFolder(slot);
+    if (!folder) continue;
+    try {
+      if ((await folderPermission(folder, false)) !== "granted") continue;
+      var profile = readProfile(await readFolderFile(folder, PROFILE_FILE));
+      if (profile.savedAt > seen && (!best || profile.savedAt > best.profile.savedAt))
+        best = { profile: profile, folder: folder.name, handle: folder };
+    } catch (e) {}
   }
+  return best;
 }

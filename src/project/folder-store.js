@@ -6,8 +6,10 @@
 const DB_NAME = "nestor-dossier";
 const EXT = ".nestor";
 
-// dossier retenu pour cette visite (aussi quand le navigateur ne sait pas le garder d'une visite à l'autre)
-let remembered = null;
+/* Deux dossiers retenus, chacun sous son nom : "projects" (Mon dossier, les projets) et "profile" (sauvegardes du
+   profil Nestor). */
+// dossiers retenus pour cette visite (aussi quand le navigateur ne sait pas les garder d'une visite à l'autre)
+const remembered = {};
 
 /* Choix d'un dossier possible ? (pas dans une page incluse dans une autre, comme la version Claude : le navigateur
    l'y refuse) */
@@ -54,17 +56,18 @@ function stored(mode, work) {
   });
 }
 
-/* Dossier retenu, ou null. */
-export function savedFolder() {
-  if (remembered) return Promise.resolve(remembered);
+/* Dossier retenu, ou null. slot : "projects" (par défaut) ou "profile". */
+export function savedFolder(slot) {
+  slot = slot || "projects";
+  if (remembered[slot]) return Promise.resolve(remembered[slot]);
   return stored("readonly", function (store, done) {
-    var request = store.get("projects");
+    var request = store.get(slot);
     request.onsuccess = function () {
       done(request.result || null);
     };
   })
     .then(function (handle) {
-      remembered = handle;
+      remembered[slot] = handle;
       return handle;
     })
     .catch(function () {
@@ -72,20 +75,29 @@ export function savedFolder() {
     });
 }
 
-function keepFolder(handle) {
-  remembered = handle;
+function keepFolder(handle, slot) {
+  remembered[slot] = handle;
   return stored("readwrite", function (store) {
-    if (handle) store.put(handle, "projects");
-    else store.delete("projects");
+    if (handle) store.put(handle, slot);
+    else store.delete(slot);
   }).catch(function () {});
 }
 
-/* Fenêtre du système pour choisir un dossier ; rend le dossier choisi (null si l'usager annule). */
-export function pickFolder() {
+/* Retient un dossier déjà ouvert (par exemple celui où un profil a été trouvé). */
+export function rememberFolder(handle, slot) {
+  return keepFolder(handle, slot || "projects");
+}
+
+/* Fenêtre du système pour choisir un dossier ; rend le dossier choisi (null si l'usager annule). startIn : dossier
+   où la fenêtre s'ouvre. */
+export function pickFolder(slot, startIn) {
+  slot = slot || "projects";
+  var options = { id: "nestor-" + slot, mode: "readwrite" };
+  if (startIn) options.startIn = startIn;
   return window
-    .showDirectoryPicker({ id: "nestor-projets", mode: "readwrite" })
+    .showDirectoryPicker(options)
     .then(function (handle) {
-      return keepFolder(handle).then(function () {
+      return keepFolder(handle, slot).then(function () {
         return handle;
       });
     })
@@ -95,8 +107,8 @@ export function pickFolder() {
     });
 }
 
-export function forgetFolder() {
-  return keepFolder(null);
+export function forgetFolder(slot) {
+  return keepFolder(null, slot || "projects");
 }
 
 /* Autorisation d'écrire dans le dossier : « granted », « prompt » ou « denied ». ask : la demander (après un clic). */

@@ -1318,3 +1318,14 @@ section.box.folded > :not(.fold-head):not(.fold-sum) {
   margin-top: 8px;
   font-size: 13px;
 }
+.prof-where {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+}
+#profAllow {
+  margin: 0 0 8px;
+}

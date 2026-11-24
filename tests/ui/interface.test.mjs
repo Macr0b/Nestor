@@ -2508,7 +2508,7 @@ test("projets dans un dossier : navigateur sans choix de dossier (Safari, Firefo
   await page.context().close();
 });
 
-test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, ajouté puis tout remplacé", async () => {
+test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, autre ordinateur, ajouter puis tout remplacer", async () => {
   const setData = (page, data) =>
     page.evaluate((d) => {
       for (const [k, v] of Object.entries(d)) localStorage.setItem(k, v);
@@ -2519,8 +2519,33 @@ test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, 
         .map((m) => m.name)
         .sort()
     );
-  // — ordinateur A : ses matières, son carnet, un projet, un dossier choisi —
+  // nombre de projets dans chacune des 3 sauvegardes (null : fichier absent)
+  const backups = (page) =>
+    page.evaluate(async () => {
+      const out = [];
+      for (const name of [
+        "Profil Nestor.nestorprofil",
+        "Profil Nestor (sauvegarde 2).nestorprofil",
+        "Profil Nestor (sauvegarde 3).nestorprofil"
+      ]) {
+        const f = window.__folder.files.get(name);
+        out.push(f ? JSON.parse(await f.text()).projects.length : null);
+      }
+      return out;
+    });
+  const saveCopy = async (page) => {
+    await page.click("#btnCloseSet");
+    await page.click("#btnProjects");
+    await page.click("#projTabBrowser");
+    const before = await page.locator("#projList .proj-row").count();
+    await page.click("#projSaveCopy");
+    await page.waitForFunction((n) => document.querySelectorAll("#projList .proj-row").length === n, before + 1);
+    await page.click("#btnCloseProj");
+    await page.click("#btnSettings");
+  };
+  // — ordinateur A —
   const a = await open();
+  await a.clock.install();
   await a.addInitScript(fakeFolderPicker);
   await setData(a, {
     "nestor.matieres.v1": JSON.stringify([{ id: "mA", name: "CP de A", thickness: 18 }]),
@@ -2535,21 +2560,78 @@ test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, 
   await a.waitForSelector('#projTabBrowser[aria-selected="true"]');
   await a.click("#projSave");
   await a.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
-  await a.click("#projTabFolder");
-  await a.click("#projPick");
-  await a.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
   await a.click("#btnCloseProj");
-  // Réglages : la case n'apparaît qu'avec un dossier choisi ; cochée, le profil est écrit tout seul
+  // pas encore de dossier : la case « automatique » n'apparaît pas
   await a.click("#btnSettings");
-  await a.waitForSelector("#profSyncRow:not([hidden])");
-  assert.equal(await a.textContent("#profSyncLbl"), "Garder mon profil à jour dans « CLE-USB »");
-  await a.check("#profSync");
-  await a.waitForFunction(() => window.__folder.files.has("Profil Nestor.nestorprofil"));
-  await a.waitForFunction(() => /^Dernière mise à jour : /.test(document.querySelector("#profSyncMsg").textContent));
-  // le fichier de profil n'est pas un projet : pas dans la liste du dossier
+  await a.waitForFunction(
+    () => document.querySelector("#profWhere").textContent === "Pas encore de dossier de sauvegarde."
+  );
+  assert.equal(await a.textContent("#profPick"), "Choisir un dossier");
+  assert.equal(await a.isVisible("#profAutoRow"), false);
+  assert.equal(await a.isVisible("#profNoFolder"), false);
+  // premier « Enregistrer » : choix du dossier, puis un seul fichier
+  await a.click("#profSave");
+  await a.waitForFunction(
+    () => document.querySelector("#profMsg").textContent === "Profil enregistré dans « CLE-USB »."
+  );
+  assert.equal(await a.textContent("#profWhere"), "Dossier de sauvegarde : CLE-USB");
+  assert.equal(await a.textContent("#profPick"), "Changer");
+  assert.equal(await a.isChecked("#profAuto"), true, "automatique coché par défaut");
+  assert.match(await a.textContent("#profAutoMsg"), /^Dernière sauvegarde : /);
+  assert.deepEqual(await backups(a), [1, null, null]);
+  // rien n'a changé : pas de nouvelle sauvegarde, les fichiers ne tournent pas
+  await a.click("#profSave");
+  await a.waitForFunction(() => /déjà à jour dans « CLE-USB »/.test(document.querySelector("#profMsg").textContent));
+  await a.clock.runFor(5 * 60 * 1000);
+  assert.deepEqual(await backups(a), [1, null, null]);
+  // un projet de plus : sauvegarde au bout de 5 minutes, pas avant ; l'ancien devient la sauvegarde 2
+  await saveCopy(a);
+  await a.clock.runFor(4 * 60 * 1000);
+  assert.deepEqual(await backups(a), [1, null, null]);
+  await a.clock.runFor(60 * 1000);
+  await waitAsync(a, async () => !!window.__folder.files.get("Profil Nestor (sauvegarde 2).nestorprofil"));
+  assert.deepEqual(await backups(a), [2, 1, null]);
+  await saveCopy(a);
+  await a.clock.runFor(5 * 60 * 1000);
+  await waitAsync(a, async () => !!window.__folder.files.get("Profil Nestor (sauvegarde 3).nestorprofil"));
+  assert.deepEqual(await backups(a), [3, 2, 1]);
+  // toujours 3 fichiers : le plus ancien disparaît
+  await saveCopy(a);
+  await a.clock.runFor(5 * 60 * 1000);
+  await waitAsync(
+    a,
+    async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length === 4
+  );
+  assert.deepEqual(await backups(a), [4, 3, 2]);
+  assert.equal(
+    await a.evaluate(() => [...window.__folder.files.keys()].filter((n) => n.endsWith(".nestorprofil")).length),
+    3
+  );
+  // autorisation à redonner (nouvelle visite) : un bouton, la sauvegarde reprend au clic
+  await a.evaluate(() => (window.__folder.denied = true));
+  await saveCopy(a);
+  await a.clock.runFor(5 * 60 * 1000);
+  await a.waitForSelector("#profAllow:not([hidden])");
+  assert.equal(await a.textContent("#profAllow"), "Autoriser la sauvegarde dans « CLE-USB »");
+  assert.deepEqual(await backups(a), [4, 3, 2]);
+  await a.click("#profAllow");
+  await a.waitForSelector("#profAllow[hidden]", { state: "attached" });
+  assert.deepEqual(await backups(a), [5, 4, 3]);
+  // automatique décoché : plus rien d'écrit tout seul
+  await a.uncheck("#profAuto");
+  await saveCopy(a);
+  await a.clock.runFor(10 * 60 * 1000);
+  assert.deepEqual(await backups(a), [5, 4, 3]);
+  await a.check("#profAuto");
+  await waitAsync(
+    a,
+    async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length === 6
+  );
+  // le profil n'est pas un projet : pas dans la liste du dossier
   await a.click("#btnCloseSet");
   await a.click("#btnProjects");
   await a.click("#projTabFolder");
+  await a.click("#projPick");
   await a.waitForSelector("#projFolderList .hint, #projFolderList .proj-row");
   assert.equal(await a.locator('#projFolderList [data-file$=".nestorprofil"]').count(), 0);
   assert.equal(
@@ -2558,21 +2640,14 @@ test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, 
     "son propre profil n'est pas proposé"
   );
   await a.click("#btnCloseProj");
-  // un projet de plus (une copie) : le profil du dossier suit (empreinte changée)
-  await a.click("#btnProjects");
-  await a.click("#projTabBrowser");
-  await a.click("#projSaveCopy");
-  await a.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 2);
-  await a.click("#btnCloseProj");
-  await waitAsync(
-    a,
-    async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length === 2
-  );
   const profileText = await a.evaluate(() => window.__folder.files.get("Profil Nestor.nestorprofil").text());
+  const olderText = await a.evaluate(() =>
+    window.__folder.files.get("Profil Nestor (sauvegarde 3).nestorprofil").text()
+  );
   assert.deepEqual(a.errors, []);
   await a.context().close();
 
-  // — ordinateur B : d'autres matières ; il choisit le même dossier —
+  // — ordinateur B : d'autres matières ; il choisit le même dossier pour ses projets —
   const b = await open();
   await b.addInitScript(fakeFolderPicker, { "Profil Nestor.nestorprofil": profileText });
   await setData(b, {
@@ -2588,40 +2663,35 @@ test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, 
   await b.waitForSelector('#projFolderList [data-act="profile"]');
   assert.match(await b.textContent("#projFolderList .prof-found"), /Profil trouvé dans « CLE-USB » \(enregistré le /);
   await b.click('#projFolderList [data-act="profile"]');
-  // les Réglages s'ouvrent sur l'aperçu
+  // les Réglages s'ouvrent sur l'aperçu, avec la proposition de continuer à sauvegarder dans ce dossier
   await b.waitForSelector("#settings:not([hidden]) #profPreview:not([hidden])");
   assert.equal(await b.textContent("#profName"), "Charger « Profil Nestor.nestorprofil »");
   assert.match(
     await b.textContent("#profSummary"),
-    /^2 projet\(s\) · 1 matière\(s\) · 1 fiche\(s\) du carnet · 0 machine\(s\) laser · enregistré le /
+    /^6 projet\(s\) · 1 matière\(s\) · 1 fiche\(s\) du carnet · 0 machine\(s\) laser · enregistré le /
   );
+  assert.equal(await b.isVisible("#profAdoptRow"), true);
+  assert.equal(await b.textContent("#profAdoptLbl"), "Continuer à sauvegarder mon profil dans « CLE-USB »");
+  assert.equal(await b.isChecked("#profAdopt"), true);
   assert.equal(await b.evaluate(() => document.activeElement.id), "profApply");
   // « Ajouter à ce que j'ai » : l'appli se recharge, les matières sont mêlées, le thème de B reste
   await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
   await b.waitForSelector(".sheet");
   await b.waitForSelector("#settings:not([hidden])");
-  assert.equal(await b.textContent("#profMsg"), "Profil chargé. 2 projet(s) ajouté(s) dans Projets → Ce navigateur.");
+  assert.equal(await b.textContent("#profMsg"), "Profil chargé. 6 projet(s) ajouté(s) dans Projets → Ce navigateur.");
   assert.deepEqual(await library(b), ["CP de A", "CP de B"]);
   assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "light");
   assert.equal(await b.evaluate(() => JSON.parse(localStorage.getItem("nestor.carnet.v1"))[0].note), "réglage de A");
-  // déjà chargé : plus proposé
   await b.waitForSelector("#profFound[hidden]", { state: "attached" });
-  await b.click("#btnCloseSet");
-  await b.click("#btnProjects");
-  await b.click("#projTabBrowser");
-  await b.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 2);
-  // le même profil chargé deux fois ne double pas le projet
-  await b.click("#btnCloseProj");
-  await b.click("#btnSettings");
-  const buffer = Buffer.from(profileText);
+  // une ancienne sauvegarde (la 3) chargée par fichier : pas de proposition de dossier ; « Tout remplacer »
   await b.setInputFiles("#profFile", {
-    name: "Profil Nestor 2026-11-23.nestorprofil",
+    name: "Profil Nestor (sauvegarde 3).nestorprofil",
     mimeType: "application/json",
-    buffer
+    buffer: Buffer.from(olderText)
   });
   await b.waitForSelector("#profPreview:not([hidden])");
-  assert.equal(await b.textContent("#profName"), "Charger « Profil Nestor 2026-11-23.nestorprofil »");
-  // « Tout remplacer » : second clic ; changer d'avis désarme
+  assert.equal(await b.isVisible("#profAdoptRow"), false);
+  assert.match(await b.textContent("#profSummary"), /^4 projet\(s\)/);
   await b.check('#profPreview [value="replace"]');
   await b.click("#profApply");
   assert.equal(await b.textContent("#profApply"), "Confirmer : tout remplacer");
@@ -2632,13 +2702,10 @@ test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, 
   await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
   await b.waitForSelector(".sheet");
   await b.waitForSelector("#settings:not([hidden])");
+  // ces 4 projets sont déjà là (même nom, même date) : pas de doublon
   assert.equal(await b.textContent("#profMsg"), "Profil chargé. 0 projet(s) ajouté(s) dans Projets → Ce navigateur.");
   assert.deepEqual(await library(b), ["CP de A"]);
   assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "dark");
-  assert.equal(
-    await b.evaluate(() => document.documentElement.dataset.theme || getComputedStyle(document.body).colorScheme),
-    "dark"
-  );
   // fichier qui n'est pas un profil : refusé, rien n'est changé ; Annuler referme l'aperçu
   await b.setInputFiles("#profFile", {
     name: "x.nestorprofil",
@@ -2647,42 +2714,33 @@ test("profil : tenu à jour dans le dossier, retrouvé sur un autre ordinateur, 
   });
   await b.waitForFunction(() => /n’est pas un profil Nestor/.test(document.querySelector("#profMsg").textContent));
   assert.equal(await b.isVisible("#profPreview"), false);
-  await b.setInputFiles("#profFile", { name: "p.nestorprofil", mimeType: "application/json", buffer });
+  await b.setInputFiles("#profFile", {
+    name: "p.nestorprofil",
+    mimeType: "application/json",
+    buffer: Buffer.from(profileText)
+  });
   await b.waitForSelector("#profPreview:not([hidden])");
   await b.click("#profCancel");
   assert.equal(await b.isVisible("#profPreview"), false);
   assert.deepEqual(await library(b), ["CP de A"]);
-  // « Enregistrer mon profil » avec le dossier : écrit dans le dossier (le dossier factice, lui, n'a pas survécu
-  // au rechargement : on le choisit de nouveau)
-  await b.click("#btnCloseSet");
-  await b.click("#btnProjects");
-  await b.click("#projTabFolder");
-  await b.click("#projPick");
-  await b.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
-  await b.click("#btnCloseProj");
-  await b.click("#btnSettings");
-  await b.click("#profSave");
-  await b.waitForFunction(
-    () => document.querySelector("#profMsg").textContent === "Profil enregistré dans « CLE-USB »."
-  );
-  assert.equal(
-    await b.evaluate(
-      async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length
-    ),
-    2
-  );
+  // « Changer » : un autre dossier de sauvegarde (ici le même dossier factice, qui n'a pas survécu au rechargement)
+  await b.click("#profPick");
+  await b.waitForFunction(() => document.querySelector("#profWhere").textContent === "Dossier de sauvegarde : CLE-USB");
+  await b.waitForFunction(() => /^Dernière sauvegarde : /.test(document.querySelector("#profAutoMsg").textContent));
   assert.deepEqual(b.errors, []);
   await b.context().close();
 });
 
-test("profil sans choix de dossier (Safari, Firefox) : téléchargé, pas de case de mise à jour", async () => {
+test("profil sans choix de dossier (Safari, Firefox) : téléchargé, pas de sauvegarde automatique", async () => {
   const page = await open();
   await page.addInitScript(() => delete window.showDirectoryPicker);
   await page.reload();
   await page.waitForSelector(".sheet");
   await idle(page);
   await page.click("#btnSettings");
-  assert.equal(await page.isVisible("#profSyncRow"), false);
+  await page.waitForSelector("#profNoFolder:not([hidden])");
+  assert.equal(await page.isVisible("#profAutoRow"), false);
+  assert.equal(await page.isVisible("#profWhereRow"), false);
   const [dl] = await Promise.all([page.waitForEvent("download"), page.click("#profSave")]);
   assert.match(dl.suggestedFilename(), /^Profil Nestor \d{4}-\d{2}-\d{2}\.nestorprofil$/);
   const text = await (await import("node:fs/promises")).readFile(await dl.path(), "utf8");

@@ -7,8 +7,14 @@
 import { cleanSnapshot, MAX_PROJECT_BYTES } from "./project-snapshot.js";
 
 export const PROFILE_EXT = ".nestorprofil";
-// nom du fichier tenu à jour dans le dossier choisi
+// nom du profil le plus récent dans le dossier des sauvegardes (celui qu'on charge sur un autre ordinateur)
 export const PROFILE_FILE = "Profil Nestor" + PROFILE_EXT;
+// les 3 sauvegardes, de la plus récente à la plus ancienne
+export const BACKUP_FILES = [
+  PROFILE_FILE,
+  "Profil Nestor (sauvegarde 2)" + PROFILE_EXT,
+  "Profil Nestor (sauvegarde 3)" + PROFILE_EXT
+];
 // au plus : 300 projets, 400 Mo en tout (des projets gardent leurs fichiers importés)
 const MAX_PROJECTS = 300;
 const MAX_PROFILE_BYTES = 400 * 1024 * 1024;
