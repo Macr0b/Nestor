@@ -2569,7 +2569,8 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   assert.equal(await a.textContent("#profPick"), "Choisir un dossier");
   assert.equal(await a.isVisible("#profAutoRow"), false);
   assert.equal(await a.isVisible("#profNoFolder"), false);
-  // premier « Enregistrer » : choix du dossier, puis un seul fichier
+  // premier « Enregistrer » : choix du dossier, puis un seul fichier (réglages en attente écrits d'abord : 400 ms)
+  await a.clock.runFor(1000);
   await a.click("#profSave");
   await a.waitForFunction(
     () => document.querySelector("#profMsg").textContent === "Profil enregistré dans « CLE-USB »."
@@ -2580,6 +2581,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   assert.match(await a.textContent("#profAutoMsg"), /^Dernière sauvegarde : /);
   assert.deepEqual(await backups(a), [1, null, null]);
   // rien n'a changé : pas de nouvelle sauvegarde, les fichiers ne tournent pas
+  await a.clock.runFor(1000);
   await a.click("#profSave");
   await a.waitForFunction(() => /déjà à jour dans « CLE-USB »/.test(document.querySelector("#profMsg").textContent));
   await a.clock.runFor(5 * 60 * 1000);
