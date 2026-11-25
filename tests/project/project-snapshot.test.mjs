@@ -18,6 +18,8 @@ const extras = {
     includeBoard: true,
     offcutMode: "detail",
     partNumbers: true,
+    partNames: true,
+    pdfLayers: true,
     sawOrder: true,
     sawFirst: "across",
     sawKerf: 3.2

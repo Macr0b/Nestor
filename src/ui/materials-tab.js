@@ -52,6 +52,19 @@ function millName(id) {
   return materialById(id) ? translate("mill.mat." + id) : "";
 }
 
+// valeur du menu « Matière pour le fraisage » : matière connue, ou « fam:… » pour une dureté seule
+const FAMILY_PREFIX = "fam:";
+
+function millValue(item) {
+  return item.millFamily ? FAMILY_PREFIX + item.millFamily : item.millMaterial || "";
+}
+
+// sous le nom dans la liste : la matière connue, ou la dureté choisie
+function millHint(item) {
+  if (item.millMaterial) return millName(item.millMaterial);
+  return item.millFamily ? translate("lib.hardness", { f: translate("mill.fam." + item.millFamily) }) : "";
+}
+
 /* Nom affiché : « CP peuplier 18 mm — 2500 × 1220 ». */
 export function itemLabel(item) {
   let label = item.name || millName(item.millMaterial);
@@ -123,9 +136,7 @@ export function renderLibrary() {
         (item.id === current ? ' class="current"' : "") +
         "><td>" +
         escapeHtml(item.name || millName(item.millMaterial)) +
-        (item.name && item.millMaterial
-          ? '<div class="hint">' + escapeHtml(millName(item.millMaterial)) + "</div>"
-          : "") +
+        (item.name && millHint(item) ? '<div class="hint">' + escapeHtml(millHint(item)) + "</div>" : "") +
         (item.id === current ? '<span class="tag">' + escapeHtml(translate("lib.inProject")) + "</span>" : "") +
         '</td><td class="n">' +
         (item.thickness ? escapeHtml(showLength(item.thickness, { digits: 2 }) + unit) : "–") +
@@ -158,15 +169,32 @@ export function renderLibrary() {
   byId("libTable").innerHTML = items.length
     ? head + "<tbody>" + rows + "</tbody>"
     : '<tbody><tr><td class="nb-empty">' + escapeHtml(translate("lib.empty")) + "</td></tr></tbody>";
-  if (editing) fillMillSelect(byId("libMill"), byId("libMill").value);
+  if (editing) fillMillSelect(byId("libMill"), byId("libMill").value, true);
 }
 
-/* Liste des matières de fraisage, par famille (bibliothèque et matières laser). */
-export function fillMillSelect(select, selected) {
+/* Liste des matières de fraisage, par famille (bibliothèque et matières laser). withFamilies : en tête, les
+   duretés seules, pour une matière à soi (bibliothèque). */
+export function fillMillSelect(select, selected, withFamilies) {
   select.innerHTML =
     '<option value="">' +
     escapeHtml(translate("lib.noMill")) +
     "</option>" +
+    (withFamilies
+      ? '<optgroup label="' +
+        escapeHtml(translate("lib.ownHardness")) +
+        '">' +
+        FAMILIES.map(function (family) {
+          return (
+            '<option value="' +
+            FAMILY_PREFIX +
+            family.id +
+            '">' +
+            escapeHtml(translate("mill.fam." + family.id)) +
+            "</option>"
+          );
+        }).join("") +
+        "</optgroup>"
+      : "") +
     FAMILIES.map(function (family) {
       return (
         '<optgroup label="' +
@@ -187,7 +215,7 @@ function openForm(item) {
   editing = item;
   byId("h-libForm").textContent = translate(libraryItem(item.id) ? "lib.editTitle" : "lib.newTitle");
   byId("libName").value = item.name || "";
-  fillMillSelect(byId("libMill"), item.millMaterial);
+  fillMillSelect(byId("libMill"), millValue(item), true);
   setLengthField(byId("libThickness"), item.thickness);
   setLengthField(byId("libL"), item.L);
   setLengthField(byId("libW"), item.W);
@@ -196,6 +224,22 @@ function openForm(item) {
   byId("libFormBox").hidden = false;
   byId("pageMaterials").classList.add("editing");
   byId("libName").focus();
+}
+
+/* Supprime une matière de la bibliothèque (ici ou depuis Profil › Mes matières). */
+export function deleteLibraryItem(id) {
+  items = items.filter((other) => other.id !== id);
+  pendingDelete = "";
+  if (projectMaterialId() === id) setProjectMaterial("", "materials");
+  if (editing && editing.id === id) closeForm();
+  store();
+  renderLibrary();
+}
+
+/* Ouvre le formulaire d'une matière (depuis Profil › Mes matières ; l'onglet Matières est déjà affiché). */
+export function editLibraryItem(id) {
+  const item = libraryItem(id);
+  if (item) openForm(Object.assign({}, item));
 }
 
 function closeForm() {
@@ -240,11 +284,13 @@ export function bindMaterialsTab() {
       byId(wrong).focus();
       return;
     }
-    const price = byId("libPrice").value.trim();
+    const price = byId("libPrice").value.trim(),
+      mill = byId("libMill").value;
     const item = cleanItem({
       id: editing.id,
       name: byId("libName").value,
-      millMaterial: byId("libMill").value,
+      millMaterial: mill.startsWith(FAMILY_PREFIX) ? "" : mill,
+      millFamily: mill.startsWith(FAMILY_PREFIX) ? mill.slice(FAMILY_PREFIX.length) : "",
       thickness: readLength("libThickness"),
       L: readLength("libL"),
       W: readLength("libW"),
@@ -276,13 +322,7 @@ export function bindMaterialsTab() {
     if (act === "use") setProjectMaterial(id, "materials");
     else if (act === "edit") openForm(Object.assign({}, item));
     else if (act === "delete") pendingDelete = id;
-    else if (act === "confirm") {
-      items = items.filter((other) => other.id !== id);
-      pendingDelete = "";
-      if (projectMaterialId() === id) setProjectMaterial("", "materials");
-      if (editing && editing.id === id) closeForm();
-      store();
-    }
+    else if (act === "confirm") return deleteLibraryItem(id);
     renderLibrary();
   });
   byId("btnLibExport").addEventListener("click", function () {

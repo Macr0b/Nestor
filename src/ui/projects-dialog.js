@@ -52,8 +52,9 @@ let pending = null;
 let place = null;
 const PLACE_KEY = "nestor.projPlace";
 
+// message sous la fenêtre ouverte : Projet, ou la liste « Mes projets » du Profil
 function message(text) {
-  byId("projMsg").textContent = text;
+  byId(byId("profile").hidden ? "projMsg" : "projListMsg").textContent = text;
 }
 
 function millingForProject() {
@@ -165,7 +166,26 @@ function refresh() {
   byId("projNew").textContent = translate(pending && pending.act === "new" ? "proj.newUnsaved" : "proj.new");
   byId("projNew").classList.toggle("confirm", !!(pending && pending.act === "new"));
   renderPlaceTabs();
-  return Promise.all([renderList(), renderFolder()]);
+  return Promise.all([renderList(), renderFolder(), renderWhere()]);
+}
+
+// dans Projet : où « Enregistrer » écrit le projet
+function renderWhere() {
+  var where = byId("projWhere");
+  if (place !== "folder" || !folderSupported()) {
+    where.textContent = translate("proj.whereBrowser");
+    return Promise.resolve();
+  }
+  return savedFolder().then(function (folder) {
+    where.textContent = folder ? translate("proj.whereFolder", { f: folder.name }) : translate("proj.whereNoFolder");
+  });
+}
+
+/* À l'ouverture du Profil : la liste « Mes projets » à jour. */
+export function refreshProjectList() {
+  pending = null;
+  byId("projListMsg").textContent = "";
+  return choosePlace().then(refresh);
 }
 
 /* Projet en cours pas encore enregistré (pour le profil Nestor), ou null. */
@@ -523,8 +543,13 @@ export function bindProjectsDialog() {
   byId("projTabBrowser").addEventListener("click", function () {
     setPlace("browser");
   });
+  // vers la liste des projets, dans le Profil
+  byId("projToProfile").addEventListener("click", function () {
+    closeProjectsDialog();
+    document.dispatchEvent(new CustomEvent("nestor:open-profile-projects"));
+  });
   // flèches gauche / droite entre les deux onglets
-  byId("projects")
+  byId("profProjects")
     .querySelector(".proj-tabs")
     .addEventListener("keydown", function (e) {
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
@@ -549,10 +574,7 @@ export function bindProjectsDialog() {
         })
         .then(refresh);
     else if (button.dataset.act === "openFile") openFolderFile(button.closest(".proj-row").dataset.file);
-    else if (button.dataset.act === "profile") {
-      closeProjectsDialog();
-      document.dispatchEvent(new CustomEvent("nestor:open-profile"));
-    }
+    else if (button.dataset.act === "profile") document.dispatchEvent(new CustomEvent("nestor:open-profile"));
   });
   byId("projList").addEventListener("click", function (e) {
     const button = e.target.closest("[data-act]");

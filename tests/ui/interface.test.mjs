@@ -412,10 +412,10 @@ describe("Interface", { skip }, () => {
     await page.click("#btnCloseProj");
     await page.reload();
     await idle(page);
-    await page.click("#btnProjects");
+    await page.click("#btnProfile");
     await page.click('#projList [data-act="open"]');
-    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
-    await page.click("#btnCloseProj");
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projListMsg").textContent));
+    await page.click("#btnCloseProf");
     await idle(page);
     assert.equal(await page.getAttribute('[data-lock="0"]', "aria-pressed"), "true");
     assert.deepEqual(
@@ -503,10 +503,10 @@ describe("Interface", { skip }, () => {
     });
     await page.reload();
     await idle(page);
-    await page.click("#btnProjects");
+    await page.click("#btnProfile");
     await page.click('#projList [data-act="open"]');
-    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
-    await page.click("#btnCloseProj");
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projListMsg").textContent));
+    await page.click("#btnCloseProf");
     await page.waitForFunction((s) => document.querySelector("#fileInfo").textContent === s, summary);
     assert.match(summary, /dessin de 190 × 90/);
     assert.deepEqual(page.errors, []);
@@ -1893,13 +1893,22 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.fill("#millDiameter", "3");
     await page.click("#btnProjects");
     assert.match(await page.textContent("#projCurrent"), /non enregistré/);
+    // Projet ne montre plus la liste : le lien mène à Profil › Mes projets, focus dans la liste
+    assert.equal(await page.locator("#projects #projList").count(), 0);
+    assert.match(await page.textContent("#projWhere"), /garde le projet dans ce navigateur/);
+    await page.click("#projToProfile");
+    await page.waitForSelector("#profile:not([hidden])");
+    assert.equal(await page.isHidden("#projects"), true);
+    // le focus va dans la liste une fois celle-ci relue (lecture asynchrone)
+    await page.waitForFunction(() => document.activeElement.id === "projTabBrowser");
     await page.click('#projList [data-act="open"]');
     await page.waitForFunction(() =>
       /sans enregistrer/.test(document.querySelector('#projList [data-act="open"]').textContent)
     );
     await page.click('#projList [data-act="open"]');
-    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
-    await page.click("#btnCloseProj");
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projListMsg").textContent));
+    assert.equal(await page.textContent("#projMsg"), "", "le message reste dans la fenêtre ouverte");
+    await page.click("#btnCloseProf");
     await page.click("#tabNest");
     await idle(page);
     assert.equal(await page.inputValue("#projName"), "Étagère");
@@ -1918,25 +1927,31 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.equal(d.suggestedFilename(), "etagere.nestor");
     await page.setInputFiles("#projFile", await d.path());
     await page.waitForFunction(() => /importé et ouvert/.test(document.querySelector("#projMsg").textContent));
-    await page.waitForFunction(() => document.querySelectorAll(".proj-row").length === 2);
+    await page.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 2);
     // fichier qui n'est pas un projet : refusé sans rien casser
     const bad = join(await mkdtemp(join(tmpdir(), "nestor-")), "faux.nestor");
     await writeFile(bad, '{"app":"Autre"}');
     await page.setInputFiles("#projFile", bad);
     await page.waitForFunction(() => /pas un projet Nestor/.test(document.querySelector("#projMsg").textContent));
-    // suppression en deux clics
-    await page.click('.proj-row:last-child [data-act="delete"]');
+    // suppression en deux clics, dans Profil › Mes projets
+    await page.click("#btnCloseProj");
+    await page.click("#btnProfile");
+    await page.click('#projList .proj-row:last-child [data-act="delete"]');
     await page.waitForFunction(() =>
-      document.querySelector(".proj-row:last-child [data-act=delete]").classList.contains("confirm")
+      document.querySelector("#projList .proj-row:last-child [data-act=delete]").classList.contains("confirm")
     );
-    await page.click('.proj-row:last-child [data-act="delete"]');
-    await page.waitForFunction(() => document.querySelectorAll(".proj-row").length === 1);
+    await page.click('#projList .proj-row:last-child [data-act="delete"]');
+    await page.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 1);
+    await waitText(page, "#projListMsg", /Projet supprimé/);
+    await page.click("#btnCloseProf");
     // gardé après rechargement ; nouveau projet : l'exemple, panneaux gardés
     await page.reload();
     // le dernier onglet ouvert est gardé (Coût) : le panneau est dessiné mais caché
     await page.waitForSelector(".sheet", { state: "attached" });
+    await page.click("#btnProfile");
+    await page.waitForFunction(() => document.querySelectorAll("#projList .proj-row").length === 1);
+    await page.click("#btnCloseProf");
     await page.click("#btnProjects");
-    await page.waitForFunction(() => document.querySelectorAll(".proj-row").length === 1);
     await page.click("#projNew");
     await page.waitForFunction(() => /Nouveau projet\./.test(document.querySelector("#projMsg").textContent));
     await page.click("#btnCloseProj");
@@ -1956,7 +1971,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     test(`en-tête à ${width} px (${locale}) : logo entier, boutons à côté ou dessous sans le recouvrir`, async () => {
       const page = await open({ viewport: { width, height: 800 }, locale });
       const logo = await page.locator("header.top .wordmark").boundingBox();
-      for (const button of ["#btnProjects", "#btnSettings"]) {
+      for (const button of ["#btnGuide", "#btnProfile", "#btnProjects", "#btnSettings"]) {
         const b = await page.locator(button).boundingBox();
         const apart =
           b.x >= logo.x + logo.width ||
@@ -2005,11 +2020,13 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.keyboard.press("Control+s");
     await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
     // la liste se recharge juste après le message : on attend la ligne du projet
-    await page.waitForSelector(".proj-row", { timeout: 10000 });
-    assert.equal(await page.locator(".proj-row").count(), 1);
+    await page.waitForSelector("#projList .proj-row", { state: "attached", timeout: 10000 });
+    assert.equal(await page.locator("#projList .proj-row").count(), 1);
     await page.keyboard.press("Escape");
+    // Ctrl+O : la liste des projets, dans Profil › Mes projets
     await page.keyboard.press("Control+o");
-    assert.equal(await page.isVisible("#projects"), true);
+    await page.waitForSelector("#profile:not([hidden])");
+    await page.waitForFunction(() => document.activeElement.id === "projTabBrowser");
     await page.keyboard.press("Escape");
     // depuis les Réglages aussi
     await page.click("#btnSettings");
@@ -2133,10 +2150,10 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.click("#btnCloseProj");
     await page.reload();
     await idle(page);
-    await page.click("#btnProjects");
+    await page.click("#btnProfile");
     await page.click('#projList [data-act="open"]');
-    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
-    await page.click("#btnCloseProj");
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projListMsg").textContent));
+    await page.click("#btnCloseProf");
     await idle(page);
     assert.deepEqual(await page.$$eval("#kitList .kit-name", (i) => i.map((x) => x.value)), ["Boîte", "Étagère"]);
     assert.equal(await fillValue(page, '[data-kit="k2"]'), "0:new");
@@ -2237,10 +2254,10 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.click("#btnCloseProj");
     await page.reload();
     await idle(page);
-    await page.click("#btnProjects");
+    await page.click("#btnProfile");
     await page.click('#projList [data-act="open"]');
-    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
-    await page.click("#btnCloseProj");
+    await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projListMsg").textContent));
+    await page.click("#btnCloseProf");
     await idle(page);
     assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="mode"]'), "n");
     assert.equal(await page.inputValue('[data-kit="k1"] [data-fp="count"]'), "3");
@@ -2468,8 +2485,12 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await page.waitForSelector(".sheet");
   await idle(page);
   await page.fill("#projName", "Boîte / à vin");
+  // Projet : sans dossier, « Enregistrer » garde le projet dans le navigateur
   await page.click("#btnProjects");
-  // aucun dossier encore : on reste sur « Ce navigateur », l'onglet « Mon dossier » invite à en choisir un
+  await waitText(page, "#projWhere", /garde le projet dans ce navigateur/);
+  await page.click("#btnCloseProj");
+  // la liste est dans Profil : aucun dossier encore, on reste sur « Ce navigateur », « Mon dossier » invite à en choisir un
+  await page.click("#btnProfile");
   await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
   await page.click("#projTabFolder");
   await waitText(page, "#projFolderList", /Choisis le dossier/);
@@ -2478,17 +2499,14 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await page.waitForFunction(() => /CLE-USB/.test(document.querySelector("#projTabFolder").textContent));
   await waitText(page, "#projFolderList", /Pas encore de projet/);
   await waitText(page, "#projPick", /^Changer de dossier$/);
+  await page.click("#btnCloseProf");
   // Enregistrer écrit « Boîte à vin.nestor » (caractère interdit retiré) dans le dossier, pas dans le navigateur
+  await page.click("#btnProjects");
+  await waitText(page, "#projWhere", /dans ton dossier « CLE-USB »/);
   await page.click("#projSave");
   await page.waitForFunction(() => /Enregistré dans « CLE-USB »/.test(document.querySelector("#projMsg").textContent));
   await waitText(page, "#projMsg", /Boîte à vin\.nestor/);
   assert.deepEqual(await page.evaluate(() => [...window.__folder.files.keys()]), ["Boîte à vin.nestor"]);
-  await waitText(page, "#projFolderList", /Boîte à vin.*en cours/);
-  await page.click("#projTabBrowser");
-  await waitText(page, "#projList", /Aucun projet/);
-  await page.click("#projTabFolder");
-  // seuls les .nestor sont listés (ni la photo, ni le sous-dossier)
-  await page.waitForFunction(() => document.querySelectorAll("#projFolderList .proj-row").length === 1);
   // Enregistrer à nouveau remplace le même fichier ; une copie prend un nom libre
   await page.click("#projSave");
   await page.waitForFunction(() => /Enregistré/.test(document.querySelector("#projMsg").textContent));
@@ -2498,26 +2516,34 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
     "Boîte à vin (2).nestor",
     "Boîte à vin.nestor"
   ]);
-  // plus récent d'abord ; la copie est le projet en cours
-  await waitText(page, "#projFolderList .proj-row", /Boîte à vin \(2\).*en cours/);
   await page.click("#btnCloseProj");
-  // Ctrl+S enregistre aussi dans le dossier
+  await page.click("#btnProfile");
+  // plus récent d'abord ; la copie est le projet en cours ; seuls les .nestor sont listés (ni la photo, ni le sous-dossier)
+  await waitText(page, "#projFolderList .proj-row", /Boîte à vin \(2\).*en cours/);
+  await page.waitForFunction(() => document.querySelectorAll("#projFolderList .proj-row").length === 2);
+  await page.click("#projTabBrowser");
+  await waitText(page, "#projList", /Aucun projet/);
+  await page.click("#projTabFolder");
+  await page.click("#btnCloseProf");
+  // Ctrl+S enregistre aussi dans le dossier ; la fenêtre Projet s'ouvre pour le montrer
   await page.fill('.trow[data-i="0"] [data-k="qty"]', "7");
   await page.keyboard.press("Control+s");
   await waitAsync(page, async () =>
     /"qty":\s*7/.test(await window.__folder.files.get("Boîte à vin (2).nestor").text())
   );
-  // la fenêtre Projets s'est ouverte pour le montrer ; rouvrir l'original : rien de changé → un seul clic
   assert.equal(await page.isVisible("#projects"), true);
+  await page.click("#btnCloseProj");
+  // rouvrir l'original : rien de changé → un seul clic
+  await page.click("#btnProfile");
   const original = page.locator('#projFolderList .proj-row[data-file="Boîte à vin.nestor"] [data-act="openFile"]');
   await original.click();
-  await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projMsg").textContent));
+  await page.waitForFunction(() => /ouvert/.test(document.querySelector("#projListMsg").textContent));
   assert.notEqual(await page.inputValue('.trow[data-i="0"] [data-k="qty"]'), "7");
   await waitText(page, "#projFolderList", /Boîte à vin.*en cours/);
   // projet modifié : ouvrir demande un second clic
-  await page.click("#btnCloseProj");
+  await page.click("#btnCloseProf");
   await page.fill("#projName", "Changé");
-  await page.click("#btnProjects");
+  await page.click("#btnProfile");
   const copy = page.locator('#projFolderList .proj-row[data-file="Boîte à vin (2).nestor"] [data-act="openFile"]');
   await copy.click();
   await page.waitForFunction(() => /sans enregistrer/.test(document.querySelector("#projFolderList").textContent));
@@ -2534,12 +2560,16 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await page.click("#projTabBrowser");
   await page.click("#projTabFolder");
   await waitText(page, "#projFolderList", /introuvable \(clé débranchée/);
+  await page.click("#btnCloseProf");
+  await page.click("#btnProjects");
   await page.click("#projSave");
   await page.waitForFunction(() => /n’a pas pu être lu ou écrit/.test(document.querySelector("#projMsg").textContent));
-  // l'endroit choisi est gardé : à la réouverture, « Ce navigateur » reste affiché s'il était le dernier
-  await page.click("#projTabBrowser");
   await page.click("#btnCloseProj");
-  await page.click("#btnProjects");
+  // l'endroit choisi est gardé : à la réouverture, « Ce navigateur » reste affiché s'il était le dernier
+  await page.click("#btnProfile");
+  await page.click("#projTabBrowser");
+  await page.click("#btnCloseProf");
+  await page.click("#btnProfile");
   await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
   // flèches entre les onglets
   await page.focus("#projTabBrowser");
@@ -2550,11 +2580,103 @@ test("projets dans un dossier : choisir, enregistrer, rouvrir, copie, clé débr
   await page.click("#projForget");
   await page.waitForFunction(() => /Choisis le dossier/.test(document.querySelector("#projFolderList").textContent));
   await waitText(page, "#projFolderLbl", /^Mon dossier$/);
+  await page.click("#btnCloseProf");
   // Enregistrer sur « Mon dossier » sans dossier : la fenêtre de choix s'ouvre, puis le fichier est écrit
   await page.evaluate(() => window.__folder.files.clear());
+  await page.click("#btnProjects");
+  await waitText(page, "#projWhere", /te demandera d’abord le dossier/);
   await page.click("#projSave");
   await page.waitForFunction(() => window.__folder.files.size === 1);
-  await waitText(page, "#projTabFolder", /CLE-USB/);
+  await waitText(page, "#projWhere", /CLE-USB/);
+  assert.deepEqual(page.errors, []);
+  await page.context().close();
+});
+
+test("Profil › Mes matières : modifier dans l'onglet Matières, supprimer en deux clics ; matière à soi avec sa dureté", async () => {
+  const page = await open();
+  // une matière à soi : seulement sa dureté pour le fraisage
+  await page.click("#tabMaterials");
+  await page.click("#btnLibNew");
+  assert.equal(await page.getAttribute("#libMill optgroup", "label"), "Ma matière, selon sa dureté");
+  await page.fill("#libName", "Liège maison");
+  await page.selectOption("#libMill", "fam:soft");
+  await page.click('#libForm [type="submit"]');
+  assert.match(await page.textContent("#libTable"), /Liège maison\s*Dureté : Tendre/);
+  // relue après rechargement, puis utilisée : le fraisage prend la famille, sans matière précise
+  await page.reload();
+  await idle(page);
+  await page.click("#tabMaterials");
+  await page.click('#libTable [data-act="use"]');
+  await page.click("#tabMill");
+  assert.equal(await page.getAttribute('[data-family="soft"]', "aria-pressed"), "true");
+  assert.equal(await page.locator('[data-material][aria-pressed="true"]').count(), 0);
+  // le formulaire rouvert garde la dureté choisie
+  await page.click("#tabMaterials");
+  await page.click('#libTable [data-act="edit"]');
+  assert.equal(await page.inputValue("#libMill"), "fam:soft");
+  await page.click("#btnLibCancel");
+  // une deuxième matière, connue
+  await page.click("#btnLibNew");
+  await page.fill("#libName", "MDF 3");
+  await page.selectOption("#libMill", "mdf");
+  await page.click('#libForm [type="submit"]');
+  // Profil › Mes matières : les deux
+  await page.click("#btnProfile");
+  await page.waitForFunction(() => document.querySelectorAll("#profMaterials .proj-row").length === 2);
+  assert.match(await page.textContent("#profMaterials"), /Liège maison.*MDF 3/);
+  // Modifier : le formulaire s'ouvre dans l'onglet Matières, le Profil se ferme
+  await page.click('#profMaterials .proj-row:last-child [data-act="edit"]');
+  assert.equal(await page.isHidden("#profile"), true);
+  assert.equal(await page.getAttribute("#tabMaterials", "aria-selected"), "true");
+  assert.equal(await page.inputValue("#libName"), "MDF 3");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "libName");
+  await page.click("#btnLibCancel");
+  // Supprimer : un premier clic demande, le second supprime ; la matière du projet n'est plus choisie
+  await page.click("#btnProfile");
+  await page.click('#profMaterials .proj-row:first-child [data-act="delete"]');
+  await waitText(page, '#profMaterials .proj-row:first-child [data-act="delete"]', /Supprimer \?/);
+  await page.click('#profMaterials .proj-row:first-child [data-act="delete"]');
+  await page.waitForFunction(() => document.querySelectorAll("#profMaterials .proj-row").length === 1);
+  await waitText(page, "#profMatMsg", /Matière supprimée/);
+  assert.notEqual(await page.evaluate(() => document.activeElement), null);
+  assert.doesNotMatch(await page.textContent("#libTable"), /Liège maison/);
+  assert.equal(await page.inputValue("#nestMaterial"), "");
+  // toutes supprimées : la liste invite à en ajouter
+  await page.click('#profMaterials [data-act="delete"]');
+  await page.click('#profMaterials [data-act="delete"]');
+  await waitText(page, "#profMaterials", /Pas encore de matière/);
+  assert.deepEqual(page.errors, []);
+  await page.context().close();
+});
+
+test("graver le nom des pièces et nom du calque dans le PDF : traits en plus sur le calque des numéros, options gardées", async () => {
+  const page = await open();
+  await idle(page);
+  const numberStrokes = async () => {
+    const [d] = await Promise.all([page.waitForEvent("download"), page.click('[data-dl=dxf][data-s="0"]')]);
+    const layers = READERS.dxf(await readFile(await d.path(), "utf8"));
+    const key = Object.keys(layers).find((k) => /^Num/.test(k));
+    return key ? layers[key].length : 0;
+  };
+  await page.check("#dlNumbers");
+  const numbers = await numberStrokes();
+  assert.ok(numbers > 0);
+  await page.check("#dlNames");
+  const both = await numberStrokes();
+  assert.ok(both > numbers, `noms gravés en plus : ${both} > ${numbers}`);
+  await page.uncheck("#dlNumbers");
+  const names = await numberStrokes();
+  assert.ok(names > 0 && names < both, `noms seuls : ${names}`);
+  // PDF avec le nom du calque : il se fait sans erreur
+  await page.check("#dlPdfLayers");
+  const [pdf] = await Promise.all([page.waitForEvent("download"), page.click('[data-dl=pdf][data-s="0"]')]);
+  assert.match((await readFile(await pdf.path())).subarray(0, 5).toString(), /%PDF-/);
+  // gardées après rechargement
+  await page.reload();
+  await idle(page);
+  assert.equal(await page.isChecked("#dlNames"), true);
+  assert.equal(await page.isChecked("#dlPdfLayers"), true);
+  assert.equal(await page.isChecked("#dlNumbers"), false);
   assert.deepEqual(page.errors, []);
   await page.context().close();
 });
@@ -2565,12 +2687,18 @@ test("projets dans un dossier : navigateur sans choix de dossier (Safari, Firefo
   await page.reload();
   await page.waitForSelector(".sheet");
   await idle(page);
-  await page.click("#btnProjects");
+  await page.click("#btnProfile");
   await page.waitForSelector('#projTabBrowser[aria-selected="true"]');
   await page.click("#projTabFolder");
   await waitText(page, "#projFolderHint", /ne permet pas de choisir un dossier/);
   await page.waitForSelector("#projPick", { state: "hidden" });
+  // le profil le dit aussi, bien en vue, avec le réglage de Safari
+  await waitText(page, "#profNoFolder", /Demander pour chaque téléchargement/);
+  assert.equal(await page.isVisible("#profNoFolder"), true);
+  await page.click("#btnCloseProf");
   // Enregistrer va toujours dans le navigateur
+  await page.click("#btnProjects");
+  await waitText(page, "#projWhere", /garde le projet dans ce navigateur/);
   await page.click("#projSave");
   await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
   assert.deepEqual(page.errors, []);
@@ -2603,10 +2731,10 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
       return out;
     });
   const saveCopy = async (page) => {
-    await page.click("#btnCloseProf");
-    await page.click("#btnProjects");
     await page.click("#projTabBrowser");
     const before = await page.locator("#projList .proj-row").count();
+    await page.click("#btnCloseProf");
+    await page.click("#btnProjects");
     await page.click("#projSaveCopy");
     await page.waitForFunction((n) => document.querySelectorAll("#projList .proj-row").length === n, before + 1);
     await page.click("#btnCloseProj");
@@ -2626,7 +2754,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await idle(a);
   await a.fill("#projName", "Boîte de A");
   await a.click("#btnProjects");
-  await a.waitForSelector('#projTabBrowser[aria-selected="true"]');
+  await a.waitForSelector('#projTabBrowser[aria-selected="true"]', { state: "attached" });
   await a.click("#projSave");
   await a.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
   await a.click("#btnCloseProj");
@@ -2699,8 +2827,6 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
     async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length === 6
   );
   // le profil n'est pas un projet : pas dans la liste du dossier
-  await a.click("#btnCloseProf");
-  await a.click("#btnProjects");
   await a.click("#projTabFolder");
   await a.click("#projPick");
   await a.waitForSelector("#projFolderList .hint, #projFolderList .proj-row");
@@ -2710,7 +2836,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
     0,
     "son propre profil n'est pas proposé"
   );
-  await a.click("#btnCloseProj");
+  await a.click("#btnCloseProf");
   const profileText = await a.evaluate(() => window.__folder.files.get("Profil Nestor.nestorprofil").text());
   const olderText = await a.evaluate(() =>
     window.__folder.files.get("Profil Nestor (sauvegarde 3).nestorprofil").text()
@@ -2728,7 +2854,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await b.reload();
   await b.waitForSelector(".sheet");
   await idle(b);
-  await b.click("#btnProjects");
+  await b.click("#btnProfile");
   await b.click("#projTabFolder");
   await b.click("#projPick");
   await b.waitForSelector('#projFolderList [data-act="profile"]');
@@ -2749,7 +2875,10 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
   await b.waitForSelector(".sheet");
   await b.waitForSelector("#profile:not([hidden])");
-  assert.equal(await b.textContent("#profMsg"), "Profil chargé. 6 projet(s) ajouté(s) dans Projets → Ce navigateur.");
+  assert.equal(
+    await b.textContent("#profMsg"),
+    "Profil chargé. 6 projet(s) ajouté(s) dans « Mes projets » → « Ce navigateur »."
+  );
   assert.deepEqual(await library(b), ["CP de A", "CP de B"]);
   assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "light");
   assert.equal(await b.evaluate(() => JSON.parse(localStorage.getItem("nestor.carnet.v1"))[0].note), "réglage de A");
@@ -2774,7 +2903,10 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await b.waitForSelector(".sheet");
   await b.waitForSelector("#profile:not([hidden])");
   // ces 4 projets sont déjà là (même nom, même date) : pas de doublon
-  assert.equal(await b.textContent("#profMsg"), "Profil chargé. 0 projet(s) ajouté(s) dans Projets → Ce navigateur.");
+  assert.equal(
+    await b.textContent("#profMsg"),
+    "Profil chargé. 0 projet(s) ajouté(s) dans « Mes projets » → « Ce navigateur »."
+  );
   assert.deepEqual(await library(b), ["CP de A"]);
   assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "dark");
   // fichier qui n'est pas un profil : refusé, rien n'est changé ; Annuler referme l'aperçu

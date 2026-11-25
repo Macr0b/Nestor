@@ -3,7 +3,7 @@
    l'appareil, et la matière choisie pour le projet en cours, partagée par les onglets Imbrication, Fraisage et Coût.
    Chaque matière est vérifiée champ par champ à la lecture et à l'import. Longueurs en mm, prix dans la monnaie choisie. */
 
-import { materialById } from "../machining/materials.js";
+import { familyById, materialById } from "../machining/materials.js";
 
 const LIBRARY_KEY = "nestor.matieres.v1";
 const PROJECT_KEY = "nestor.matiere-projet";
@@ -29,11 +29,15 @@ export function cleanItem(raw) {
     id: typeof raw.id === "string" && /^[\w-]{1,40}$/.test(raw.id) ? raw.id : newItemId(),
     name: text(raw.name, 80).trim(),
     millMaterial: materialById(raw.millMaterial) ? raw.millMaterial : "",
+    // matière à soi, seulement sa dureté (famille de fraisage) : quand aucune matière connue n'est choisie
+    millFamily: "",
     thickness: positive(raw.thickness),
     L: positive(raw.L),
     W: positive(raw.W),
     price: typeof raw.price === "number" && isFinite(raw.price) && raw.price >= 0 ? raw.price : null
   };
+  if (!item.millMaterial && familyById(raw.millFamily)) item.millFamily = raw.millFamily;
+  else delete item.millFamily;
   return item.name || item.millMaterial ? item : null;
 }
 

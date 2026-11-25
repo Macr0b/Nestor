@@ -46,6 +46,11 @@ export function rotationChoice(part) {
   return part.rot === "free" || part.rot === "free1" ? part.rot : part.rot ? "quarter" : "fix";
 }
 
+/* Calque nommé dans le fichier d'origine (le calque « 0 » des DXF ne compte pas). */
+export function isNamedLayer(layer) {
+  return !!layer && layer !== "0";
+}
+
 export function partDisplayName(part, index) {
   return part.name || (part.nameKey ? translate(part.nameKey) : translate("piece.default", { n: index + 1 }));
 }

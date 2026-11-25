@@ -295,6 +295,8 @@ export function renderSheetInputs() {
   byId("sMode").value = state.sheet.mode === "rect" ? "rect" : "nest";
   byId("dlBoard").checked = exportOptions.includeBoard;
   byId("dlNumbers").checked = exportOptions.partNumbers;
+  byId("dlNames").checked = exportOptions.partNames;
+  byId("dlPdfLayers").checked = exportOptions.pdfLayers;
   byId("cutSel").value = exportOptions.offcutMode;
   byId("sawOrder").checked = exportOptions.sawOrder;
   byId("sawFirst").value = exportOptions.sawFirst || "";
@@ -480,6 +482,14 @@ export function bindPanelsEditor() {
   });
   byId("dlNumbers").addEventListener("change", function (e) {
     exportOptions.partNumbers = e.target.checked;
+    schedulePreferencesSave();
+  });
+  byId("dlNames").addEventListener("change", function (e) {
+    exportOptions.partNames = e.target.checked;
+    schedulePreferencesSave();
+  });
+  byId("dlPdfLayers").addEventListener("change", function (e) {
+    exportOptions.pdfLayers = e.target.checked;
     schedulePreferencesSave();
   });
   byId("sawOrder").addEventListener("change", function (e) {

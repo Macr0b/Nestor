@@ -3,7 +3,7 @@
 
 import { languageLocale, translate } from "../i18n/i18n.js";
 import { resizeManualPart } from "../project/manual-parts.js";
-import { partDisplayName, partScale, rotationChoice, rotationFromChoice } from "../project/parts.js";
+import { isNamedLayer, partDisplayName, partScale, rotationChoice, rotationFromChoice } from "../project/parts.js";
 import { turnPart } from "../project/turn-part.js";
 import { focusKitName, kitName, renderKitBox } from "./kit-box.js";
 import { fillPickerHtml, readFillPicker } from "./fill-picker.js";
@@ -20,10 +20,6 @@ import { byId, escapeHtml } from "../util/dom.js";
 import { parseNumber, round1, round2 } from "../util/numbers.js";
 import { lengthFieldValue } from "../util/units.js";
 import { lengthInputAttributes, readLengthField } from "./lengths.js";
-
-function isNamedLayer(layer) {
-  return !!layer && layer !== "0";
-}
 
 function hasLayers() {
   return state.types.some(function (t) {

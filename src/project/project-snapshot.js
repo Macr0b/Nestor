@@ -266,6 +266,8 @@ export function cleanSnapshot(raw) {
             ? exportOptions.offcutMode
             : "",
         partNumbers: exportOptions.partNumbers === true,
+        partNames: exportOptions.partNames === true,
+        pdfLayers: exportOptions.pdfLayers === true,
         sawOrder: exportOptions.sawOrder === true,
         sawFirst: SAW_FIRST.includes(exportOptions.sawFirst) ? exportOptions.sawFirst : "",
         sawKerf: exportOptions.sawKerf > 0 && exportOptions.sawKerf <= 50 ? exportOptions.sawKerf : ""

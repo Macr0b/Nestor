@@ -78,7 +78,7 @@
       </button>
       <button class="btn proj-btn" id="btnProjects" type="button" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <span data-i18n="proj.title">Projets</span>
+        <span data-i18n="proj.title">Projet</span>
       </button>
       <button class="icon-btn" id="btnSettings" type="button" data-i18n-aria="set.title" aria-label="Réglages">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
@@ -190,7 +190,9 @@
         </div>
         <label class="dlopt"><input type="checkbox" id="dlBoard"> <span data-i18n="dl.board">Inclure le contour du panneau dans les exports</span></label>
         <label class="dlopt"><input type="checkbox" id="dlNumbers"> <span data-i18n="dl.numbers">Graver le numéro des pièces</span></label>
-        <p class="hint" data-i18n="dl.numbersHint">Calque « Numéros » à part, en trait simple, placé dans la matière de chaque pièce. Règle ce calque en gravure dans ton logiciel de découpe.</p>
+        <label class="dlopt"><input type="checkbox" id="dlNames"> <span data-i18n="dl.names">Graver le nom des pièces (sous le numéro)</span></label>
+        <label class="dlopt"><input type="checkbox" id="dlPdfLayers"> <span data-i18n="dl.pdfLayers">Nom du calque sur chaque pièce dans le PDF</span></label>
+        <p class="hint" data-i18n="dl.numbersHint">Calque « Numéros » à part, en trait simple, dans la matière de chaque pièce ; le nom s’y grave en capitales sans accents. Règle ce calque en gravure dans ton logiciel de découpe.</p>
 
         <p class="hint" id="calcMsg"></p>
       </section>
@@ -580,14 +582,37 @@
 <div class="overlay" id="profile" hidden>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="prof-h">
     <header><h2 id="prof-h" data-i18n="prof.title">Mon profil</h2><button class="btn sm" id="btnCloseProf" type="button" data-i18n="set.close">Fermer</button></header>
+    <div class="grp" id="profProjects">
+      <h3 data-i18n="prof.projects">Mes projets</h3>
+      <div class="proj-tabs" role="tablist" data-i18n-aria="proj.listTitle">
+        <button type="button" role="tab" id="projTabFolder" aria-controls="projFolderPane" aria-selected="false" tabindex="-1"><span id="projFolderLbl" data-i18n="proj.folder">Mon dossier</span></button>
+        <button type="button" role="tab" id="projTabBrowser" aria-controls="projBrowserPane" aria-selected="true" data-i18n="proj.browser">Ce navigateur</button>
+      </div>
+      <div id="projFolderPane" role="tabpanel" aria-labelledby="projTabFolder" hidden>
+        <div class="proj-list" id="projFolderList"></div>
+        <div class="row"><button class="btn sm" id="projPick" type="button" data-i18n="proj.pick">Choisir un dossier</button><button class="btn sm" id="projForget" type="button" data-i18n="proj.forget">Oublier ce dossier</button></div>
+        <p class="hint" id="projFolderHint"></p>
+      </div>
+      <div id="projBrowserPane" role="tabpanel" aria-labelledby="projTabBrowser">
+        <div class="proj-list" id="projList"></div>
+        <p class="hint" data-i18n="proj.hint">Gardés dans ce navigateur, sur cet appareil. Pour passer à un autre ordinateur : Exporter le fichier, puis Importer un fichier.</p>
+      </div>
+      <p class="hint" id="projListMsg" aria-live="polite"></p>
+    </div>
+    <div class="grp" id="profMaterialsGrp">
+      <h3 data-i18n="prof.materials">Mes matières</h3>
+      <div class="proj-list" id="profMaterials"></div>
+      <p class="hint" id="profMatMsg" aria-live="polite"></p>
+    </div>
     <div class="grp" id="profileGrp">
+      <h3 data-i18n="prof.backup">Sauvegarde du profil</h3>
       <p class="hint" data-i18n="prof.hint">Tout ce que tu as rangé dans Nestor, en un seul fichier : projets, matières, carnet, réglages laser, fraisage, coût et affichage.</p>
-      <div class="row"><button class="btn" id="profSave" type="button" data-i18n="prof.save">Enregistrer mon profil</button><button class="btn" id="profLoad" type="button" data-i18n="prof.load">Charger un profil</button><input type="file" id="profFile" accept=".nestorprofil,application/json" hidden></div>
       <div class="prof-where" id="profWhereRow" hidden><span id="profWhere"></span> <button class="btn sm" id="profPick" type="button"></button></div>
+      <p class="prof-nofolder" id="profNoFolder" data-i18n="prof.noFolder" hidden>Ce navigateur ne laisse pas choisir de dossier : le profil va dans Téléchargements, sans sauvegarde automatique. Chrome et Edge sur ordinateur le permettent ; dans Safari, Réglages › Général › Emplacement des téléchargements › « Demander pour chaque téléchargement ».</p>
+      <div class="row"><button class="btn primary" id="profSave" type="button" data-i18n="prof.save">Enregistrer mon profil</button><button class="btn" id="profLoad" type="button" data-i18n="prof.load">Charger un profil</button><input type="file" id="profFile" accept=".nestorprofil,application/json" hidden></div>
       <label class="dlopt" id="profAutoRow" hidden><input type="checkbox" id="profAuto"> <span data-i18n="prof.auto">Sauvegarde automatique toutes les 5 minutes (3 fichiers)</span></label>
       <p class="hint" id="profAutoMsg"></p>
       <button class="btn sm" id="profAllow" type="button" hidden></button>
-      <p class="hint" id="profNoFolder" data-i18n="prof.noFolder" hidden>Ce navigateur ne peut pas retenir de dossier : le profil est téléchargé, sans sauvegarde automatique.</p>
       <div class="prof-found" id="profFound" hidden><span id="profFoundTxt"></span> <button class="btn sm" id="profFoundBtn" type="button" data-i18n="prof.seeFound">Voir ce profil</button></div>
       <div class="prof-load" id="profPreview" hidden>
         <p class="prof-name" id="profName"></p>
@@ -605,27 +630,14 @@
 </div>
 <div class="overlay" id="projects" hidden>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="proj-h">
-    <header><h2 id="proj-h" data-i18n="proj.title">Projets</h2><button class="btn sm" id="btnCloseProj" type="button" data-i18n="set.close">Fermer</button></header>
+    <header><h2 id="proj-h" data-i18n="proj.title">Projet</h2><button class="btn sm" id="btnCloseProj" type="button" data-i18n="set.close">Fermer</button></header>
     <div class="grp">
       <p class="proj-current"><span data-i18n="proj.current">Projet en cours</span> <b id="projCurrent"></b></p>
       <div class="row"><button class="btn primary" id="projSave" type="button" data-i18n="proj.save">Enregistrer</button><button class="btn" id="projSaveCopy" type="button" data-i18n="proj.saveCopy">Enregistrer une copie</button><button class="btn" id="projNew" type="button" data-i18n="proj.new">Nouveau projet</button></div>
       <div class="row"><button class="btn sm" id="projExport" type="button" data-i18n="proj.export">Exporter le fichier</button><button class="btn sm" id="projImport" type="button" data-i18n="proj.import">Importer un fichier</button><input type="file" id="projFile" accept=".nestor,.json,application/json" hidden></div>
+      <p class="hint" id="projWhere"></p>
       <p class="hint" id="projMsg" aria-live="polite"></p>
-    </div>
-    <div class="grp">
-      <div class="proj-tabs" role="tablist" data-i18n-aria="proj.listTitle">
-        <button type="button" role="tab" id="projTabFolder" aria-controls="projFolderPane" aria-selected="false" tabindex="-1"><span id="projFolderLbl" data-i18n="proj.folder">Mon dossier</span></button>
-        <button type="button" role="tab" id="projTabBrowser" aria-controls="projBrowserPane" aria-selected="true" data-i18n="proj.browser">Ce navigateur</button>
-      </div>
-      <div id="projFolderPane" role="tabpanel" aria-labelledby="projTabFolder" hidden>
-        <div class="proj-list" id="projFolderList"></div>
-        <div class="row"><button class="btn sm" id="projPick" type="button" data-i18n="proj.pick">Choisir un dossier</button><button class="btn sm" id="projForget" type="button" data-i18n="proj.forget">Oublier ce dossier</button></div>
-        <p class="hint" id="projFolderHint"></p>
-      </div>
-      <div id="projBrowserPane" role="tabpanel" aria-labelledby="projTabBrowser">
-        <div class="proj-list" id="projList"></div>
-        <p class="hint" data-i18n="proj.hint">Gardés dans ce navigateur, sur cet appareil. Pour passer à un autre ordinateur : Exporter le fichier, puis Importer un fichier.</p>
-      </div>
+      <p class="hint"><span data-i18n="proj.otherHint">Ouvrir ou supprimer un autre projet :</span> <button class="linkbtn" id="projToProfile" type="button" data-i18n="proj.toProfile">Profil › Mes projets</button></p>
     </div>
   </div>
 </div>

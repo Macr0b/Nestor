@@ -5,7 +5,8 @@
 import { exportOptions } from "./export-options.js";
 import { computeOffcutCuts } from "./offcuts.js";
 import { computeSawCuts } from "./saw-cuts.js";
-import { partNumberPaths } from "./part-numbers.js";
+import { partEngravePaths } from "./part-numbers.js";
+import { partDisplayName } from "../project/parts.js";
 import { translate } from "../i18n/i18n.js";
 import { sheetPartPaths } from "../placement/origin.js";
 import { state } from "../project/state.js";
@@ -90,10 +91,15 @@ export function exportPaths(sheet) {
   sheet.parts.forEach(function (p) {
     polys = polys.concat(sheetPartPaths(p, sheet));
   });
-  // numéros à graver : après les pièces, sur leur propre calque
-  if (exportOptions.partNumbers)
+  // numéros et noms à graver : après les pièces, sur leur propre calque
+  if (exportOptions.partNumbers || exportOptions.partNames)
     sheet.parts.forEach(function (p) {
-      polys = polys.concat(partNumberPaths(p, sheet));
+      polys = polys.concat(
+        partEngravePaths(p, sheet, {
+          number: exportOptions.partNumbers,
+          name: exportOptions.partNames ? partDisplayName(state.types[p.i], p.i) : ""
+        })
+      );
     });
   return polys;
 }

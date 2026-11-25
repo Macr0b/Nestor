@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors ligne et mises à jour.
    À chaque nouvelle version, changer VERSION ci-dessous ET APP_VERSION dans src/version.js. */
-const VERSION = "1.10.3";
+const VERSION = "1.10.4";
 const CACHE = "nestor-" + VERSION;
 const FILES = [
   "./",
@@ -91,6 +91,7 @@ const FILES = [
   "src/laser/thunder-chart.js",
   "src/laser/trotec-books.js",
   "src/text/stroke-font.js",
+  "src/text/stroke-letters.js",
   "src/geometry/label-spot.js",
   "src/export/part-numbers.js",
   "src/export/saw-cuts.js",
@@ -112,6 +113,7 @@ const FILES = [
   "src/ui/fill-picker.js",
   "src/ui/fold-blocks.js",
   "src/ui/profile-panel.js",
+  "src/ui/my-materials.js",
   "src/ui/guide-dialog.js",
   "src/ui/kit-box.js",
   "src/ui/lock-guard.js",

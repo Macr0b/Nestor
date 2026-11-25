@@ -43,7 +43,8 @@ html[lang="th"] body {
 /* en-tête : logo au centre, boutons à droite ; les côtés prennent la place des boutons (Projets + Réglages) */
 header.top {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  /* logo au centre ; si les boutons manquent de place, le logo se décale à gauche plutôt que d'être recouvert */
+  grid-template-columns: minmax(0, 1fr) auto minmax(max-content, 1fr);
   align-items: center;
   gap: 12px;
 }

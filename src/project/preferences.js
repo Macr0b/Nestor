@@ -31,6 +31,8 @@ function savePreferences() {
         sort: state.sort,
         board: exportOptions.includeBoard,
         numbers: exportOptions.partNumbers,
+        names: exportOptions.partNames,
+        pdfLayers: exportOptions.pdfLayers,
         cuts: exportOptions.offcutMode,
         saw: exportOptions.sawOrder,
         sawFirst: exportOptions.sawFirst,
@@ -59,6 +61,8 @@ export function loadPreferences() {
       });
     exportOptions.includeBoard = saved.board === true;
     exportOptions.partNumbers = saved.numbers === true;
+    exportOptions.partNames = saved.names === true;
+    exportOptions.pdfLayers = saved.pdfLayers === true;
     exportOptions.sawOrder = saved.saw === true;
     exportOptions.sawFirst = saved.sawFirst === "along" || saved.sawFirst === "across" ? saved.sawFirst : "";
     exportOptions.sawKerf = saved.kerf > 0 && saved.kerf <= 50 ? saved.kerf : "";

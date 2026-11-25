@@ -4,6 +4,7 @@
    A4 en métrique, Letter en impérial ; la liste longue continue sur les pages suivantes. */
 
 import { sheetSawCuts } from "../export/export-files.js";
+import { exportOptions } from "../export/export-options.js";
 import { partNumberSpot, partNumberText } from "../export/part-numbers.js";
 import { badgeHalfWidth, placeSawLabels } from "../export/saw-labels.js";
 import { buildPdf, mmToPt, PAPER } from "../export/pdf-writer.js";
@@ -11,7 +12,7 @@ import { labelHeight } from "../geometry/label-spot.js";
 import { translate, languageLocale, formatNumber } from "../i18n/i18n.js";
 import { projectMaterialId } from "../library/library-store.js";
 import { originPoint, sheetPartPaths } from "../placement/origin.js";
-import { partDisplayName, scaledPart } from "../project/parts.js";
+import { isNamedLayer, partDisplayName, scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
 import { isImperial } from "../util/units.js";
 import { showLength } from "./lengths.js";
@@ -204,19 +205,24 @@ function drawSheet(page, sheet, box) {
     ctx.strokeStyle = INK;
     ctx.stroke();
   });
-  // numéros au même endroit que sur l'écran et que les numéros gravés
+  // numéros au même endroit que sur l'écran et que les numéros gravés ; dessous, le nom du calque (option)
   sheet.parts.forEach(function (placed) {
     var spot = partNumberSpot(placed, sheet),
       label = partNumberText(placed);
     if (!spot) return;
     var size = Math.min(labelHeight(label, spot.radius, 0, Infinity) * 1.3 * scale, 4.5);
     if (size < 1.2) return;
-    text(ctx, label, x0 + spot.x * scale, y0 + spot.y * scale + size * 0.35, {
-      size: size,
-      bold: true,
-      family: f.display,
-      align: "center"
-    });
+    var layer = state.types[placed.i] && state.types[placed.i].layer,
+      layerSize = exportOptions.pdfLayers && isNamedLayer(layer) ? Math.max(size * 0.55, 1.1) : 0,
+      cx = x0 + spot.x * scale,
+      cy = y0 + spot.y * scale - layerSize * 0.6;
+    text(ctx, label, cx, cy + size * 0.35, { size: size, bold: true, family: f.display, align: "center" });
+    if (layerSize)
+      text(ctx, layer, cx, cy + size * 0.5 + layerSize * 1.1, {
+        size: layerSize,
+        align: "center",
+        maxWidth: 1.8 * spot.radius * scale
+      });
   });
   // coupes à la scie numérotées (option) : trait fin, puis numéro dans une petite pastille, pour garder le plan lisible
   var sawCuts = sheetSawCuts(sheet);

@@ -69,7 +69,8 @@ function run(shortcut) {
       });
       return;
     case "open":
-      openProjectsDialog();
+      // la liste des projets est dans Profil › Mes projets
+      document.dispatchEvent(new CustomEvent("nestor:open-profile-projects"));
       return;
     case "import":
       selectTab(byId("tabNest"), false);

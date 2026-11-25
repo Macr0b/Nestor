@@ -231,11 +231,12 @@ function syncProjectMaterial() {
 /* Matière du projet choisie dans un autre onglet : matière de fraisage et épaisseur reprises. */
 function applyProjectMaterial() {
   const item = libraryItem(projectMaterialId());
-  if (!item || !item.millMaterial) return;
-  input.material = item.millMaterial;
-  input.family = materialById(item.millMaterial).family;
+  if (!item || !(item.millMaterial || item.millFamily)) return;
+  // matière à soi : seulement sa dureté, sans matière précise
+  input.material = item.millMaterial || "";
+  input.family = item.millMaterial ? materialById(item.millMaterial).family : item.millFamily;
   if (item.thickness) input.thickness = item.thickness;
-  preciseOpen = true;
+  preciseOpen = !!input.material;
   fillFields();
   saveMillingInput(input);
   renderState();

@@ -46,6 +46,13 @@ describe("Bibliothèque de matières", () => {
     assert.equal(cleanItem({ millMaterial: "mdf" }).millMaterial, "mdf");
   });
 
+  test("matière à soi : sa dureté seule, gardée seulement sans matière connue et si elle existe", () => {
+    assert.equal(cleanItem({ name: "Liège maison", millFamily: "soft" }).millFamily, "soft");
+    assert.equal(cleanItem({ name: "Liège maison", millFamily: "granite" }).millFamily, undefined);
+    assert.equal(cleanItem({ name: "CP", millMaterial: "mdf", millFamily: "hard" }).millFamily, undefined);
+    assert.equal(cleanItem({ millFamily: "soft" }), null, "une dureté sans nom ne suffit pas");
+  });
+
   test("prix d'un panneau : celui de la bibliothèque à la même taille (dans les deux sens), sinon au m²", () => {
     assert.deepEqual(panelPrice(poplar, 2500, 1220), { price: 42, prorata: false });
     assert.deepEqual(panelPrice(poplar, 1220, 2500), { price: 42, prorata: false });

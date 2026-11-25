@@ -21,7 +21,8 @@ import {
 } from "../project/profile-store.js";
 import { byId } from "../util/dom.js";
 import { closeModal, openModal } from "./modal.js";
-import { keepUnsavedProject, unsavedProject } from "./projects-dialog.js";
+import { keepUnsavedProject, refreshProjectList, unsavedProject } from "./projects-dialog.js";
+import { bindMyMaterials, renderMyMaterials } from "./my-materials.js";
 
 // message à montrer après le rechargement qui suit un profil chargé
 const LOADED_KEY = "nestor.profil-charge";
@@ -177,10 +178,12 @@ async function renderBackup() {
     });
 }
 
-/* Ouvre la fenêtre « Mon profil ». */
+/* Ouvre la fenêtre « Mon profil » (déjà ouverte : elle se met à jour). */
 export function openProfileDialog() {
-  openModal("profile", byId("btnCloseProf"), byId("btnProfile"));
-  return refreshProfilePanel();
+  if (byId("profile").hidden) openModal("profile", byId("btnCloseProf"), byId("btnProfile"));
+  byId("profMatMsg").textContent = "";
+  renderMyMaterials();
+  return Promise.all([refreshProjectList(), refreshProfilePanel()]);
 }
 
 function closeProfileDialog() {
@@ -205,6 +208,7 @@ async function showFound() {
 }
 
 export function bindProfilePanel() {
+  bindMyMaterials();
   byId("btnProfile").addEventListener("click", openProfileDialog);
   byId("btnCloseProf").addEventListener("click", closeProfileDialog);
   byId("profile").addEventListener("click", function (e) {
@@ -238,6 +242,12 @@ export function bindProfilePanel() {
   // « Voir ce profil » depuis Projets → Mon dossier : la fenêtre « Mon profil » s'ouvre sur l'aperçu
   document.addEventListener("nestor:open-profile", function () {
     openProfileDialog().then(showFound);
+  });
+  // « Profil › Mes projets » depuis Projet : la liste prend le focus
+  document.addEventListener("nestor:open-profile-projects", function () {
+    openProfileDialog().then(function () {
+      byId(byId("projTabFolder").tabIndex === 0 ? "projTabFolder" : "projTabBrowser").focus();
+    });
   });
   byId("profAuto").addEventListener("change", function () {
     setAutoBackup(this.checked, unsavedProject);
