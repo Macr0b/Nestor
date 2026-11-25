@@ -80,6 +80,11 @@ header.top .topr {
     grid-column: 1;
     justify-self: center;
   }
+  /* trop étroit pour les quatre boutons : ils passent sur deux lignes, centrés */
+  header.top .topr {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 h1 {
   font-family: var(--f-display);
@@ -1221,6 +1226,17 @@ section.box.folded > :not(.fold-head):not(.fold-sum) {
 }
 .svg-piece.locked {
   opacity: 0.55;
+}
+.pnl-tag.pnl-offcut {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--muted) 10%, transparent);
+}
+.pnl-tag .linkbtn {
+  font-size: inherit;
+  text-decoration: underline;
+}
+.pnl-tag .linkbtn::before {
+  content: none;
 }
 .pnl-tag.pnl-locked {
   color: var(--muted);

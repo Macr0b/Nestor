@@ -100,6 +100,24 @@ function offcutKey(L, W) {
   return "c" + sizeKey(L, W);
 }
 
+/* Taille d'une ligne de panneau changée : le prix saisi pour l'ancienne taille la suit (s'il n'y en a pas déjà un
+   pour la nouvelle). keepOld : une autre ligne a encore l'ancienne taille, son prix reste aussi. */
+export function movePanelPrice(from, to, keepOld) {
+  let moved = false;
+  // les panneaux du plan peuvent avoir leurs côtés dans l'autre ordre que la ligne : les deux sens suivent
+  for (const key of [sizeKey, offcutKey])
+    for (const [a, b] of [
+      [key(from.L, from.W), key(to.L, to.W)],
+      [key(from.W, from.L), key(to.W, to.L)]
+    ]) {
+      if (a === b || !(settings.prices[a] >= 0) || settings.prices[b] >= 0) continue;
+      settings.prices[b] = settings.prices[a];
+      if (!keepOld) delete settings.prices[a];
+      moved = true;
+    }
+  if (moved) saveSettings();
+}
+
 function readNumber(id) {
   const raw = byId(id).value.trim().replace(",", ".");
   const value = parseFloat(raw);
@@ -138,7 +156,7 @@ function cutMinutes(result) {
   return time ? time.minutes : null;
 }
 
-/* Prix d'un panneau : celui de la bibliothèque pour la matière choisie ; une chute (ligne qui ne suit pas la matière)
+/* Prix d'un panneau : celui de la bibliothèque pour la matière choisie (ligne de la matière ou panneau acheté) ; une chute
    vaut 0 sauf prix saisi ; sans matière, le prix saisi. */
 function priceFor(L, W, offcut) {
   const item = libraryItem(projectMaterialId());

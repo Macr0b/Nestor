@@ -28,7 +28,7 @@ export const GUIDE_TOPICS = {
   cost: { steps: 4, icon: "coin", show: { tab: "tabCost", targets: ['section[aria-labelledby="h-cost"]'] } },
   projects: { steps: 4, icon: "folder", show: { targets: ["#btnProjects"] } },
   folder: { steps: 4, icon: "usb", show: { targets: ["#btnProjects"] } },
-  profile: { steps: 4, icon: "user", show: { targets: ["#btnSettings"] } }
+  profile: { steps: 4, icon: "user", show: { targets: ["#btnProfile"] } }
 };
 
 /* Fiches dans l'ordre de lecture (pour « Suivant »). */

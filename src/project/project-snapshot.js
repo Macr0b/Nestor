@@ -209,6 +209,8 @@ function cleanPanel(raw) {
   };
   if (ORIGINS.includes(p.origin)) panel.origin = p.origin;
   if (p.fromMaterial === true) panel.fromMaterial = true;
+  if (p.fromMaterial === true && p.handSized === true) panel.handSized = true;
+  if (p.bought === true) panel.bought = true;
   if (typeof p.name === "string" && p.name) panel.name = str(p.name, 60);
   return panel;
 }

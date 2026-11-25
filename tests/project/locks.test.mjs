@@ -5,6 +5,7 @@ import { state } from "../../src/project/state.js";
 import {
   lockCount,
   lockSheet,
+  relockSheet,
   lockedCounts,
   lockedPanelUse,
   locksWithTypes,
@@ -53,6 +54,29 @@ describe("cadenas", () => {
     state.types.splice(0, 1);
     assert.equal(resolvedLocks().length, 0);
     assert.equal(lockCount(), 0);
+  });
+
+  test("figer les ajouts : le cadenas reprend tout le panneau, les autres ne bougent pas ; indice inconnu ignoré", () => {
+    lockSheet({ pi: 0, L: 100, W: 50, o: "tl", parts: [placed(0, 5)] });
+    lockSheet({ pi: 0, L: 100, W: 50, o: "tl", parts: [placed(1, 5)] });
+    // le panneau 1 a reçu deux pièces dans ses trous
+    relockSheet(0, { pi: 0, L: 100, W: 50, o: "tl", parts: [placed(0, 5), placed(2, 20), placed(2, 35)] });
+    assert.equal(lockCount(), 2);
+    assert.deepEqual(lockedCounts(), [1, 1, 2]);
+    assert.deepEqual(
+      resolvedLocks()[0].parts.map((p) => [p.i, p.x]),
+      [
+        [0, 5],
+        [2, 20],
+        [2, 35]
+      ]
+    );
+    assert.deepEqual(
+      resolvedLocks()[1].parts.map((p) => p.i),
+      [1]
+    );
+    relockSheet(5, { pi: 0, L: 100, W: 50, o: "tl", parts: [] });
+    assert.equal(lockCount(), 2);
   });
 
   test("identifiants uniques, même après une copie qui l'aurait recopié", () => {

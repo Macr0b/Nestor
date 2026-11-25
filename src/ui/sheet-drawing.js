@@ -180,6 +180,8 @@ export function renderSheetSvg(resultSheet) {
         (p.locked ? " locked" : "") +
         '" stroke-width="' +
         strokeWidth +
+        // pièce posée dans un trou d'un panneau figé, pas encore figée : contour en pointillés
+        (resultSheet.locked && !p.locked ? '" stroke-dasharray="' + strokeWidth * 4 + " " + strokeWidth * 3 : "") +
         '" d="' +
         pathData(pp, true) +
         '"><title>' +

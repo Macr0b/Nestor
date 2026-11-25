@@ -37,9 +37,9 @@ function placedCopy(p) {
   return c;
 }
 
-/* Fige un panneau du dernier résultat (copie de ses pièces). */
-export function lockSheet(sheet) {
-  allLocks().push({
+// cadenas d'un panneau du dernier résultat (copie de toutes ses pièces)
+function lockOf(sheet) {
+  return {
     pi: sheet.pi,
     L: sheet.L,
     W: sheet.W,
@@ -47,7 +47,18 @@ export function lockSheet(sheet) {
     parts: sheet.parts.map(function (p) {
       return Object.assign(placedCopy(p), { uid: typeUid(state.types[p.i]) });
     })
-  });
+  };
+}
+
+/* Fige un panneau du dernier résultat (copie de ses pièces). */
+export function lockSheet(sheet) {
+  allLocks().push(lockOf(sheet));
+}
+
+/* Fige de nouveau un panneau déjà figé, avec les pièces ajoutées dans ses trous depuis (« Figer les ajouts »). */
+export function relockSheet(index, sheet) {
+  if (!allLocks()[index]) return;
+  allLocks()[index] = lockOf(sheet);
 }
 
 export function unlockSheet(index) {

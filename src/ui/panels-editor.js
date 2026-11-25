@@ -17,7 +17,16 @@ import { lengthInputAttributes, readLengthField, setLengthField, showLength } fr
 import { loadMillingInput } from "../machining/milling-store.js";
 import { onProjectMaterialChange, setProjectMaterial } from "../library/library-store.js";
 import { fillMaterialSelect, libraryItem, onLibraryChange } from "./materials-tab.js";
-import { applyMaterialFormat, insertOffcut, materialPanelIndex } from "../project/material-panels.js";
+import {
+  applyMaterialFormat,
+  insertBought,
+  insertOffcut,
+  isOffcutPanel,
+  markHandSized,
+  materialPanelIndex,
+  restoreMaterialFormat
+} from "../project/material-panels.js";
+import { movePanelPrice } from "./cost-tab.js";
 import { lockCount, panelRowLocked } from "../project/locks.js";
 import { remapPanelRows } from "../project/panel-rows.js";
 
@@ -68,6 +77,7 @@ function renderPanels() {
     numbered = ps.length > 1;
   byId("panelRows").classList.toggle("numbered", numbered);
   byId("btnAddPanel").textContent = translate(linked >= 0 ? "panel.addOffcut" : "panel.add");
+  byId("btnAddBought").hidden = linked < 0;
   byId("panels").innerHTML = ps
     .map(function (p, i) {
       // ligne d'un panneau figé : sa taille ne peut plus changer, elle ne peut ni monter ni partir
@@ -140,7 +150,7 @@ function renderPanels() {
         '" title="' +
         escapeHtml(translate("panel.remove")) +
         '">×</button>' +
-        (i === linked ? '<span class="pnl-tag">' + escapeHtml(materialTag()) + "</span>" : "") +
+        rowTag(p, i, linked) +
         (locked ? '<span class="pnl-tag pnl-locked">' + escapeHtml(translate("lock.rowHint")) + "</span>" : "") +
         rowNameCell(p, i, numbered) +
         "</div>"
@@ -154,10 +164,51 @@ function materialTag() {
   return translate("panel.fromMaterial", { m: item && item.name ? item.name : "" });
 }
 
+// étiquette sous la ligne quand une matière est choisie : sa ligne, une chute ou un panneau acheté
+function rowTag(p, i, linked) {
+  if (i === linked)
+    return (
+      '<span class="pnl-tag">' +
+      escapeHtml(materialTag()) +
+      (p.handSized
+        ? " · " +
+          escapeHtml(translate("panel.handSized")) +
+          ' <button type="button" class="linkbtn" data-act="reformat">' +
+          escapeHtml(translate("panel.reformat")) +
+          "</button>"
+        : "") +
+      "</span>"
+    );
+  if (linked < 0) return "";
+  if (p.bought) return '<span class="pnl-tag">' + escapeHtml(translate("panel.boughtTag")) + "</span>";
+  return isOffcutPanel(state.sheet.panels, i)
+    ? '<span class="pnl-tag pnl-offcut">' + escapeHtml(translate("panel.offcutTag")) + "</span>"
+    : "";
+}
+
+// taille de la ligne changée : rendue à l'appareil, l'étiquette de sa ligne suit
+function refreshRowTag(row, p, i) {
+  var tag = row.querySelector(".pnl-tag:not(.pnl-locked)"),
+    html = rowTag(p, i, materialPanelIndex(state.sheet.panels));
+  if (tag) tag.outerHTML = html;
+}
+
+// nouvelle ligne : dessinée, gardée, le curseur dans sa longueur
+function panelAdded(at) {
+  renderPanels();
+  schedulePreferencesSave();
+  scheduleCalculation();
+  var el = byId("pl" + at + "-L");
+  if (el) el.focus();
+}
+
 function followMaterial(id) {
   // la ligne qui suit la matière sert à un panneau figé : sa taille ne bouge pas, elle ne suit plus la matière
   var linked = materialPanelIndex(state.sheet.panels);
-  if (linked >= 0 && panelRowLocked(linked)) delete state.sheet.panels[linked].fromMaterial;
+  if (linked >= 0 && panelRowLocked(linked)) {
+    delete state.sheet.panels[linked].fromMaterial;
+    delete state.sheet.panels[linked].handSized;
+  }
   // une seule ligne, figée : elle garde sa taille (sinon la matière la prendrait)
   if (materialPanelIndex(state.sheet.panels) < 0 && state.sheet.panels.length === 1 && panelRowLocked(0))
     return renderPanels();
@@ -269,13 +320,20 @@ export function bindPanelsEditor() {
       // longueur dans les unités choisies, gardée en mm ; saisie en cours illisible (« 48 1/ ») : on attend
       var length = readLengthField(e.target);
       if (Number.isNaN(length)) return;
+      var before = { L: p.L, W: p.W };
       p[k] = length;
-      // taille changée à la main : la ligne ne suit plus la matière
-      if (p.fromMaterial) {
-        delete p.fromMaterial;
-        var tag = row.querySelector(".pnl-tag");
-        if (tag) tag.remove();
-        byId("btnAddPanel").textContent = translate("panel.add");
+      // le prix saisi pour l'ancienne taille suit la ligne
+      movePanelPrice(
+        before,
+        p,
+        state.sheet.panels.some(function (o) {
+          return o !== p && o.L === before.L && o.W === before.W;
+        })
+      );
+      // taille de la ligne de la matière changée à la main : elle la garde (payée au prorata)
+      if (p.fromMaterial && !p.handSized) {
+        markHandSized(p);
+        refreshRowTag(row, p, +row.dataset.i);
       }
     }
     schedulePreferencesSave();
@@ -297,6 +355,15 @@ export function bindPanelsEditor() {
     if (!b) return;
     var i = +b.closest(".pnl").dataset.i,
       ps = state.sheet.panels;
+    if (b.dataset.act === "reformat") {
+      // « Remettre le format » : la ligne reprend le format de la matière
+      if (restoreMaterialFormat(ps, libraryItem(byId("nestMaterial").value))) {
+        renderPanels();
+        schedulePreferencesSave();
+        scheduleCalculation();
+      }
+      return;
+    }
     if (b.dataset.act === "name") {
       // flèche du nom : ouvre ou ferme le champ, et y met le curseur
       if (namesOpen.has(ps[i])) namesOpen.delete(ps[i]);
@@ -329,11 +396,11 @@ export function bindPanelsEditor() {
     remapPanelRows(function (pi) {
       return pi >= at ? pi + 1 : pi;
     });
-    renderPanels();
-    schedulePreferencesSave();
-    scheduleCalculation();
-    var el = byId("pl" + at + "-L");
-    if (el) el.focus();
+    panelAdded(at);
+  });
+  // « Ajouter un panneau acheté » : même matière, payé comme elle, utilisé après sa ligne
+  byId("btnAddBought").addEventListener("click", function () {
+    panelAdded(insertBought(state.sheet.panels));
   });
   [
     ["sG", "gap"],

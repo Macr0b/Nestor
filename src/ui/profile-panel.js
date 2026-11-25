@@ -1,5 +1,5 @@
 /* Nestor — Copyright 2026 Robin Philippe (Macr0b) — Licence Nestor 1.0 (voir LICENSE). Nom et logos réservés (voir TRADEMARK.md). */
-/* « Mon profil » dans les Réglages : enregistrer tout ce que l'usager a rangé dans Nestor, dans un dossier qu'il
+/* Fenêtre « Mon profil » (bouton Profil en haut) : enregistrer tout ce que l'usager a rangé dans Nestor, dans un dossier qu'il
    choisit et que Nestor retient (3 fichiers tournants, sauvegarde automatique toutes les 5 minutes), ou en
    téléchargement là où le navigateur ne sait pas retenir un dossier ; le recharger (aperçu puis « Ajouter » ou
    « Tout remplacer »). */
@@ -20,6 +20,7 @@ import {
   startAutoBackup
 } from "../project/profile-store.js";
 import { byId } from "../util/dom.js";
+import { closeModal, openModal } from "./modal.js";
 import { keepUnsavedProject, unsavedProject } from "./projects-dialog.js";
 
 // message à montrer après le rechargement qui suit un profil chargé
@@ -176,8 +177,23 @@ async function renderBackup() {
     });
 }
 
-/* À l'ouverture des Réglages. */
-export function refreshProfilePanel() {
+/* Ouvre la fenêtre « Mon profil ». */
+export function openProfileDialog() {
+  openModal("profile", byId("btnCloseProf"), byId("btnProfile"));
+  return refreshProfilePanel();
+}
+
+function closeProfileDialog() {
+  closeModal("profile");
+}
+
+/* Au démarrage, une fois la langue chargée : un profil vient d'être chargé (l'appli a été rechargée), on le dit
+   là où il a été chargé. */
+export function showLoadedProfile() {
+  if (profileLoadedMessage()) openProfileDialog();
+}
+
+function refreshProfilePanel() {
   if (!pending) message(byId("profMsg").dataset.keep ? byId("profMsg").textContent : "");
   delete byId("profMsg").dataset.keep;
   return renderBackup();
@@ -189,6 +205,14 @@ async function showFound() {
 }
 
 export function bindProfilePanel() {
+  byId("btnProfile").addEventListener("click", openProfileDialog);
+  byId("btnCloseProf").addEventListener("click", closeProfileDialog);
+  byId("profile").addEventListener("click", function (e) {
+    if (e.target === this) closeProfileDialog();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !byId("profile").hidden) closeProfileDialog();
+  });
   byId("profSave").addEventListener("click", saveProfile);
   byId("profPick").addEventListener("click", changeFolder);
   byId("profLoad").addEventListener("click", function () {
@@ -211,8 +235,10 @@ export function bindProfilePanel() {
     byId("profApply").classList.remove("confirm");
   });
   byId("profFoundBtn").addEventListener("click", showFound);
-  // « Voir ce profil » depuis Projets → Mon dossier : les Réglages s'ouvrent sur l'aperçu
-  document.addEventListener("nestor:open-profile", showFound);
+  // « Voir ce profil » depuis Projets → Mon dossier : la fenêtre « Mon profil » s'ouvre sur l'aperçu
+  document.addEventListener("nestor:open-profile", function () {
+    openProfileDialog().then(showFound);
+  });
   byId("profAuto").addEventListener("change", function () {
     setAutoBackup(this.checked, unsavedProject);
     if (!this.checked) byId("profAutoMsg").textContent = "";
@@ -226,7 +252,7 @@ export function bindProfilePanel() {
 }
 
 /* Après un profil chargé (l'appli vient d'être rechargée) : rend le message à montrer, ou "". */
-export function profileLoadedMessage() {
+function profileLoadedMessage() {
   var added = null;
   try {
     added = sessionStorage.getItem(LOADED_KEY);

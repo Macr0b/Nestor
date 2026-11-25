@@ -72,6 +72,10 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7M8 11h7"/></svg>
         <span data-i18n="guide.btn">Guide</span>
       </button>
+      <button class="btn proj-btn" id="btnProfile" type="button" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg>
+        <span data-i18n="prof.btn">Profil</span>
+      </button>
       <button class="btn proj-btn" id="btnProjects" type="button" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
         <span data-i18n="proj.title">Projets</span>
@@ -146,7 +150,7 @@
           <div class="pnl phd" aria-hidden="true"><span class="pcol"></span><span data-i18n="panel.L">Longueur (↑)</span><span></span><span data-i18n="panel.W">Largeur (→)</span><span data-i18n="panel.qty">Stock</span><span data-i18n="origin.short">Repère</span><span></span><span></span></div>
           <div class="pnls" id="panels"></div>
         </div>
-        <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button></div>
+        <div class="row" style="align-items:center"><button class="btn sm" id="btnAddPanel" type="button" data-i18n="panel.add">+ Ajouter un panneau</button><button class="btn sm" id="btnAddBought" type="button" data-i18n="panel.addBought" hidden>+ Ajouter un panneau acheté</button></div>
         <p class="hint"><strong data-i18n="origin.title">Repère de placement (zéro machine)</strong> · <span data-i18n="origin.hint">Les pièces se regroupent à partir de ce point, et c’est le zéro des fichiers exportés.</span></p>
         <p class="hint" data-i18n="panel.hint">Les panneaux sont utilisés dans l’ordre de la liste. Stock vide = illimité.</p>
         <div class="g4">
@@ -573,6 +577,32 @@
     </div>
   </div>
 </div>
+<div class="overlay" id="profile" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="prof-h">
+    <header><h2 id="prof-h" data-i18n="prof.title">Mon profil</h2><button class="btn sm" id="btnCloseProf" type="button" data-i18n="set.close">Fermer</button></header>
+    <div class="grp" id="profileGrp">
+      <p class="hint" data-i18n="prof.hint">Tout ce que tu as rangé dans Nestor, en un seul fichier : projets, matières, carnet, réglages laser, fraisage, coût et affichage.</p>
+      <div class="row"><button class="btn" id="profSave" type="button" data-i18n="prof.save">Enregistrer mon profil</button><button class="btn" id="profLoad" type="button" data-i18n="prof.load">Charger un profil</button><input type="file" id="profFile" accept=".nestorprofil,application/json" hidden></div>
+      <div class="prof-where" id="profWhereRow" hidden><span id="profWhere"></span> <button class="btn sm" id="profPick" type="button"></button></div>
+      <label class="dlopt" id="profAutoRow" hidden><input type="checkbox" id="profAuto"> <span data-i18n="prof.auto">Sauvegarde automatique toutes les 5 minutes (3 fichiers)</span></label>
+      <p class="hint" id="profAutoMsg"></p>
+      <button class="btn sm" id="profAllow" type="button" hidden></button>
+      <p class="hint" id="profNoFolder" data-i18n="prof.noFolder" hidden>Ce navigateur ne peut pas retenir de dossier : le profil est téléchargé, sans sauvegarde automatique.</p>
+      <div class="prof-found" id="profFound" hidden><span id="profFoundTxt"></span> <button class="btn sm" id="profFoundBtn" type="button" data-i18n="prof.seeFound">Voir ce profil</button></div>
+      <div class="prof-load" id="profPreview" hidden>
+        <p class="prof-name" id="profName"></p>
+        <p class="hint" id="profSummary"></p>
+        <label class="dlopt"><input type="radio" name="profMode" value="add" checked> <span data-i18n="prof.add">Ajouter à ce que j’ai</span></label>
+        <p class="hint prof-sub" data-i18n="prof.addHint">Rien n’est effacé : matières, fiches du carnet, machines et matières laser s’ajoutent (même identifiant : celle du profil la remplace). Tes autres réglages restent.</p>
+        <label class="dlopt"><input type="radio" name="profMode" value="replace"> <span data-i18n="prof.replace">Tout remplacer</span></label>
+        <p class="hint prof-sub" data-i18n="prof.replaceHint">Tous les réglages, matières et le carnet deviennent ceux du profil. Tes projets sont gardés, ceux du profil s’ajoutent.</p>
+        <label class="dlopt" id="profAdoptRow" hidden><input type="checkbox" id="profAdopt" checked> <span id="profAdoptLbl"></span></label>
+        <div class="row"><button class="btn" id="profCancel" type="button" data-i18n="prof.cancel">Annuler</button><button class="btn primary" id="profApply" type="button" data-i18n="prof.apply">Charger</button></div>
+      </div>
+      <p class="hint" id="profMsg" role="status"></p>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="projects" hidden>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="proj-h">
     <header><h2 id="proj-h" data-i18n="proj.title">Projets</h2><button class="btn sm" id="btnCloseProj" type="button" data-i18n="set.close">Fermer</button></header>
@@ -631,28 +661,6 @@
           <option value="64">1/64 in</option>
         </select></label>
       </div>
-    </div>
-    <div class="grp" id="profileGrp">
-      <h2 data-i18n="prof.title">Mon profil</h2>
-      <p class="hint" data-i18n="prof.hint">Tout ce que tu as rangé dans Nestor, en un seul fichier : projets, matières, carnet, réglages laser, fraisage, coût et affichage.</p>
-      <div class="row"><button class="btn" id="profSave" type="button" data-i18n="prof.save">Enregistrer mon profil</button><button class="btn" id="profLoad" type="button" data-i18n="prof.load">Charger un profil</button><input type="file" id="profFile" accept=".nestorprofil,application/json" hidden></div>
-      <div class="prof-where" id="profWhereRow" hidden><span id="profWhere"></span> <button class="btn sm" id="profPick" type="button"></button></div>
-      <label class="dlopt" id="profAutoRow" hidden><input type="checkbox" id="profAuto"> <span data-i18n="prof.auto">Sauvegarde automatique toutes les 5 minutes (3 fichiers)</span></label>
-      <p class="hint" id="profAutoMsg"></p>
-      <button class="btn sm" id="profAllow" type="button" hidden></button>
-      <p class="hint" id="profNoFolder" data-i18n="prof.noFolder" hidden>Ce navigateur ne peut pas retenir de dossier : le profil est téléchargé, sans sauvegarde automatique.</p>
-      <div class="prof-found" id="profFound" hidden><span id="profFoundTxt"></span> <button class="btn sm" id="profFoundBtn" type="button" data-i18n="prof.seeFound">Voir ce profil</button></div>
-      <div class="prof-load" id="profPreview" hidden>
-        <p class="prof-name" id="profName"></p>
-        <p class="hint" id="profSummary"></p>
-        <label class="dlopt"><input type="radio" name="profMode" value="add" checked> <span data-i18n="prof.add">Ajouter à ce que j’ai</span></label>
-        <p class="hint prof-sub" data-i18n="prof.addHint">Rien n’est effacé : matières, fiches du carnet, machines et matières laser s’ajoutent (même identifiant : celle du profil la remplace). Tes autres réglages restent.</p>
-        <label class="dlopt"><input type="radio" name="profMode" value="replace"> <span data-i18n="prof.replace">Tout remplacer</span></label>
-        <p class="hint prof-sub" data-i18n="prof.replaceHint">Tous les réglages, matières et le carnet deviennent ceux du profil. Tes projets sont gardés, ceux du profil s’ajoutent.</p>
-        <label class="dlopt" id="profAdoptRow" hidden><input type="checkbox" id="profAdopt" checked> <span id="profAdoptLbl"></span></label>
-        <div class="row"><button class="btn" id="profCancel" type="button" data-i18n="prof.cancel">Annuler</button><button class="btn primary" id="profApply" type="button" data-i18n="prof.apply">Charger</button></div>
-      </div>
-      <p class="hint" id="profMsg" role="status"></p>
     </div>
     <div class="grp">
       <label class="dlopt"><input type="checkbox" id="statsChk"> <span data-i18n="set.stats">Compter mes exports, anonymement</span></label>

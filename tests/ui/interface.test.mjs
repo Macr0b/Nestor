@@ -381,7 +381,20 @@ describe("Interface", { skip }, () => {
       ps.map((p) => p.getAttribute("d"))
     );
     assert.deepEqual(after.sort(), before.slice().sort());
-    assert.ok((await page.locator(".sheet:first-of-type .svg-piece:not(.locked)").count()) > 0);
+    const added = await page.locator(".sheet:first-of-type .svg-piece:not(.locked)").count();
+    assert.ok(added > 0);
+    // pièces ajoutées dans le panneau figé : en pointillés, « Figer les N ajout(s) » les fige avec lui
+    assert.equal(await page.locator(".sheet:first-of-type .svg-piece[stroke-dasharray]").count(), added);
+    assert.equal(await page.locator(".sheet:first-of-type .svg-piece.locked[stroke-dasharray]").count(), 0);
+    assert.equal(await page.textContent('[data-relock="0"]'), `Figer les ${added} ajout(s)`);
+    await page.click('[data-relock="0"]');
+    await idle(page);
+    assert.equal(await page.locator(".sheet:first-of-type .svg-piece:not(.locked)").count(), 0);
+    assert.equal(await page.locator(".sheet:first-of-type .svg-piece[stroke-dasharray]").count(), 0);
+    assert.equal(await page.locator("[data-relock]").count(), 0);
+    assert.equal(await page.evaluate(() => document.activeElement.dataset.lock), "0");
+    assert.equal(await page.locator('[data-lock][aria-pressed="true"]').count(), 1);
+    const relocked = await shapes();
     // remplir le panneau 1 avec la dernière pièce : le nombre posé s'affiche, la quantité disparaît
     await chooseFill(page, `.trow[data-i="${last}"]`, "0:last");
     await idle(page);
@@ -407,7 +420,7 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.getAttribute('[data-lock="0"]', "aria-pressed"), "true");
     assert.deepEqual(
       (await page.$$eval(".sheet:first-of-type .svg-piece.locked", (ps) => ps.map((p) => p.getAttribute("d")))).sort(),
-      before.slice().sort()
+      relocked.slice().sort()
     );
     assert.equal(await fillValue(page, `.trow[data-i="${last}"]`), "0:last");
     // revenir à un nombre fixe : la quantité d'avant est intacte (le choix « Remplir » ne l'écrase pas)
@@ -505,6 +518,7 @@ describe("Interface", { skip }, () => {
     // fenêtres : le focus entre, Tab reste dedans, Échap le rend au bouton d'origine
     for (const [button, closeButton] of [
       ["#btnSettings", "#btnCloseSet"],
+      ["#btnProfile", "#btnCloseProf"],
       ["#btnProjects", "#btnCloseProj"]
     ]) {
       await page.click(button);
@@ -1346,13 +1360,43 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.inputValue("#nestMaterial"), ids[0]);
     await page.click("#tabNest");
     assert.equal(await page.inputValue("#pl0-W"), "1250");
-    // taille changée à la main : le panneau ne suit plus la matière, son prix se fait au prorata
+    // taille changée à la main : la ligne la garde, toujours celle de la matière, prix au prorata
     await page.fill("#pl0-W", "1220");
-    assert.equal(await page.locator(".pnl-tag").count(), 0);
-    assert.equal(await page.textContent("#btnAddPanel"), "+ Ajouter un panneau");
+    assert.match(
+      await page.textContent('.pnl[data-i="0"] .pnl-tag'),
+      /Format de la matière : CP bouleau.* · taille changée à la main \(prix au prorata\) Remettre le format/
+    );
+    assert.equal(await page.textContent("#btnAddPanel"), "+ Ajouter une chute");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "pl0-W", "saisie gardée");
     await idle(page);
     await page.click("#tabCost");
     assert.match(await page.textContent("#costPanelsHint"), /prorata/);
+    // la matière choisie de nouveau ne reprend pas la taille, même après un rechargement
+    await page.reload();
+    await idle(page);
+    await page.click("#tabNest");
+    await page.selectOption("#nestMaterial", "");
+    await page.selectOption("#nestMaterial", ids[0]);
+    assert.equal(
+      await page.inputValue("#pl0-W"),
+      "1250",
+      "sans matière, la ligne ne suit plus : elle reprend le format"
+    );
+    await page.fill("#pl0-L", "2000");
+    await page.selectOption("#nestMaterial", ids[1]);
+    assert.deepEqual([await page.inputValue("#pl0-L"), await page.inputValue("#pl0-W")], ["2000", "1250"]);
+    await page.reload();
+    await idle(page);
+    await page.click("#tabNest");
+    assert.equal(await page.inputValue("#pl0-L"), "2000");
+    assert.match(await page.textContent('.pnl[data-i="0"] .pnl-tag'), /CP peuplier.* · taille changée à la main/);
+    // « Remettre le format » : la ligne reprend le format de la matière
+    await page.click('.pnl[data-i="0"] [data-act="reformat"]');
+    assert.deepEqual([await page.inputValue("#pl0-L"), await page.inputValue("#pl0-W")], ["2500", "1220"]);
+    assert.doesNotMatch(await page.textContent('.pnl[data-i="0"] .pnl-tag'), /à la main/);
+    await page.selectOption("#nestMaterial", ids[0]);
+    assert.equal(await page.inputValue("#pl0-W"), "1250");
+    await idle(page);
     // Fraisage → MDF, absent de la bibliothèque : plus de matière, prix à la main
     await page.click("#tabMill");
     await page.click("[data-material=mdf]");
@@ -1361,6 +1405,15 @@ describe("Interface", { skip }, () => {
     await page.fill("#costPanels input", "20");
     assert.match(await page.textContent("#costResult .big"), /20,00\s?€/);
     assert.equal(await page.evaluate(() => document.activeElement.matches("#costPanels input")), true, "saisie gardée");
+    // taille du panneau changée ensuite (chiffre par chiffre) : le prix saisi la suit
+    await page.click("#tabNest");
+    await page.fill("#pl0-L", "");
+    await page.locator("#pl0-L").pressSequentially("2440");
+    await idle(page);
+    await page.click("#tabCost");
+    assert.match(await page.textContent("#costPanels"), /1\s?250 × 2\s?440|2\s?440 × 1\s?250/);
+    assert.equal(await page.inputValue("#costPanels input"), "20");
+    assert.match(await page.textContent("#costResult .big"), /20,00\s?€/);
     // machine (temps de découpe) et main-d'œuvre (temps de préparation), chacun son taux
     await page.fill("#costRate", "60");
     await page.fill("#costPrep", "30");
@@ -1704,6 +1757,8 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await idle(page);
     assert.equal(await page.inputValue("#pl0-q"), "1");
     assert.equal(await page.locator('.pnl[data-i="1"] .pnl-tag').count(), 1);
+    assert.equal(await page.textContent('.pnl[data-i="0"] .pnl-tag'), "Chute : gratuite, sauf prix saisi dans Coût");
+    assert.ok(await page.isVisible("#btnAddBought"));
     // la chute est utilisée d'abord : elle est dans le coût, à 0
     await page.click("#tabCost");
     assert.match(await page.textContent("#costPanels"), /Chute 500 × 400\smm · 1 utilisée\(s\)/);
@@ -1714,6 +1769,20 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     const after = await page.textContent("#costResult .big b");
     const money = (t) => parseFloat(t.replace(/[^\d,]/g, "").replace(",", "."));
     assert.ok(Math.abs(money(after) - money(before) - 5) < 0.01, `${before} → ${after}`);
+    // panneau acheté : après la matière, payé comme elle (au prorata pour une autre taille)
+    await page.click("#tabNest");
+    await page.fill("#pl0-q", "0");
+    await page.fill("#pl1-q", "0");
+    await page.click("#btnAddBought");
+    assert.equal(await page.evaluate(() => document.activeElement.id), "pl2-L");
+    assert.equal(await page.textContent('.pnl[data-i="2"] .pnl-tag'), "Panneau acheté, payé comme la matière");
+    await page.fill("#pl2-L", "500");
+    await idle(page);
+    await page.click("#tabCost");
+    const bought = await page.textContent("#costPanels");
+    assert.match(bought, /Panneau (500 × 600|600 × 500)\s?mm · \d+ utilisé\(s\)\s*15,00\s?€/);
+    assert.equal(await page.locator('#costPanels input[data-size="500x600"]').count(), 0);
+    await page.click("#tabNest");
     // un DXF par panneau, d'un coup
     await page.click("#tabNest");
     const sheets = await page.locator(".sheet").count();
@@ -2534,14 +2603,14 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
       return out;
     });
   const saveCopy = async (page) => {
-    await page.click("#btnCloseSet");
+    await page.click("#btnCloseProf");
     await page.click("#btnProjects");
     await page.click("#projTabBrowser");
     const before = await page.locator("#projList .proj-row").count();
     await page.click("#projSaveCopy");
     await page.waitForFunction((n) => document.querySelectorAll("#projList .proj-row").length === n, before + 1);
     await page.click("#btnCloseProj");
-    await page.click("#btnSettings");
+    await page.click("#btnProfile");
   };
   // — ordinateur A —
   const a = await open();
@@ -2562,7 +2631,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await a.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
   await a.click("#btnCloseProj");
   // pas encore de dossier : la case « automatique » n'apparaît pas
-  await a.click("#btnSettings");
+  await a.click("#btnProfile");
   await a.waitForFunction(
     () => document.querySelector("#profWhere").textContent === "Pas encore de dossier de sauvegarde."
   );
@@ -2630,7 +2699,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
     async () => JSON.parse(await window.__folder.files.get("Profil Nestor.nestorprofil").text()).projects.length === 6
   );
   // le profil n'est pas un projet : pas dans la liste du dossier
-  await a.click("#btnCloseSet");
+  await a.click("#btnCloseProf");
   await a.click("#btnProjects");
   await a.click("#projTabFolder");
   await a.click("#projPick");
@@ -2665,8 +2734,8 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await b.waitForSelector('#projFolderList [data-act="profile"]');
   assert.match(await b.textContent("#projFolderList .prof-found"), /Profil trouvé dans « CLE-USB » \(enregistré le /);
   await b.click('#projFolderList [data-act="profile"]');
-  // les Réglages s'ouvrent sur l'aperçu, avec la proposition de continuer à sauvegarder dans ce dossier
-  await b.waitForSelector("#settings:not([hidden]) #profPreview:not([hidden])");
+  // la fenêtre « Mon profil » s'ouvre sur l'aperçu, avec la proposition de continuer à sauvegarder dans ce dossier
+  await b.waitForSelector("#profile:not([hidden]) #profPreview:not([hidden])");
   assert.equal(await b.textContent("#profName"), "Charger « Profil Nestor.nestorprofil »");
   assert.match(
     await b.textContent("#profSummary"),
@@ -2679,7 +2748,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   // « Ajouter à ce que j'ai » : l'appli se recharge, les matières sont mêlées, le thème de B reste
   await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
   await b.waitForSelector(".sheet");
-  await b.waitForSelector("#settings:not([hidden])");
+  await b.waitForSelector("#profile:not([hidden])");
   assert.equal(await b.textContent("#profMsg"), "Profil chargé. 6 projet(s) ajouté(s) dans Projets → Ce navigateur.");
   assert.deepEqual(await library(b), ["CP de A", "CP de B"]);
   assert.equal(await b.evaluate(() => localStorage.getItem("nestor.theme")), "light");
@@ -2703,7 +2772,7 @@ test("profil : dossier de sauvegarde retenu, 3 fichiers toutes les 5 minutes, au
   await b.click("#profApply");
   await Promise.all([b.waitForEvent("load"), b.click("#profApply")]);
   await b.waitForSelector(".sheet");
-  await b.waitForSelector("#settings:not([hidden])");
+  await b.waitForSelector("#profile:not([hidden])");
   // ces 4 projets sont déjà là (même nom, même date) : pas de doublon
   assert.equal(await b.textContent("#profMsg"), "Profil chargé. 0 projet(s) ajouté(s) dans Projets → Ce navigateur.");
   assert.deepEqual(await library(b), ["CP de A"]);
@@ -2739,7 +2808,7 @@ test("profil sans choix de dossier (Safari, Firefox) : téléchargé, pas de sau
   await page.reload();
   await page.waitForSelector(".sheet");
   await idle(page);
-  await page.click("#btnSettings");
+  await page.click("#btnProfile");
   await page.waitForSelector("#profNoFolder:not([hidden])");
   assert.equal(await page.isVisible("#profAutoRow"), false);
   assert.equal(await page.isVisible("#profWhereRow"), false);

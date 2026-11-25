@@ -3,9 +3,12 @@ import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import {
   applyMaterialFormat,
+  insertBought,
   insertOffcut,
   isOffcutPanel,
-  materialPanelIndex
+  markHandSized,
+  materialPanelIndex,
+  restoreMaterialFormat
 } from "../../src/project/material-panels.js";
 import { cleanSnapshot } from "../../src/project/project-snapshot.js";
 
@@ -61,21 +64,65 @@ describe("format de la matière sur les panneaux", () => {
     assert.equal(isOffcutPanel(panels, 9), false);
   });
 
+  test("taille changée à la main : gardée même si la matière est choisie de nouveau ; « Remettre le format »", () => {
+    const panels = [{ L: 2000, W: 1000, qty: "", fromMaterial: true }];
+    panels[0].L = 1500;
+    markHandSized(panels[0]);
+    assert.equal(applyMaterialFormat(panels, CP), false);
+    assert.equal(applyMaterialFormat(panels, MDF), false);
+    assert.deepEqual(panels, [{ L: 1500, W: 1000, qty: "", fromMaterial: true, handSized: true }]);
+    assert.equal(isOffcutPanel(panels, 0), false, "toujours la ligne de la matière, pas une chute");
+    // le format revient, la ligne suit de nouveau la matière
+    assert.equal(restoreMaterialFormat(panels, MDF), true);
+    assert.deepEqual(panels, [{ L: 2800, W: 2070, qty: "", fromMaterial: true }]);
+    assert.equal(restoreMaterialFormat(panels, MDF), false);
+    // une ligne qui ne suit pas la matière n'est pas marquée
+    const loose = { L: 600, W: 400, qty: "" };
+    markHandSized(loose);
+    assert.equal(loose.handSized, undefined);
+    // plus de matière : plus de lien ni de marque
+    markHandSized(panels[0]);
+    applyMaterialFormat(panels, null);
+    assert.deepEqual(panels, [{ L: 2800, W: 2070, qty: "" }]);
+  });
+
+  test("panneau acheté : après la ligne de la matière, même format, stock illimité, pas une chute", () => {
+    const panels = [
+      { L: 500, W: 400, qty: 1 },
+      { L: 2000, W: 1000, qty: "", origin: "bl", fromMaterial: true }
+    ];
+    assert.equal(insertBought(panels), 2);
+    assert.deepEqual(panels[2], { L: 2000, W: 1000, qty: "", origin: "bl", bought: true });
+    assert.deepEqual(
+      [0, 1, 2].map((i) => isOffcutPanel(panels, i)),
+      [true, false, false]
+    );
+    // une chute ajoutée ensuite passe toujours devant la ligne de la matière
+    assert.equal(insertOffcut(panels), 1);
+    assert.equal(materialPanelIndex(panels), 2);
+    assert.equal(panels[3].bought, true);
+  });
+
   test("le lien est gardé dans un projet, et seulement s'il vaut true", () => {
     const snap = cleanSnapshot({
       app: "Nestor",
       kind: "projet",
       sheet: {
         panels: [
-          { L: 800, W: 600, qty: 1, fromMaterial: "oui" },
-          { L: 2000, W: 1000, qty: "", fromMaterial: true }
+          { L: 800, W: 600, qty: 1, fromMaterial: "oui", handSized: true, bought: "oui" },
+          { L: 2000, W: 1000, qty: "", fromMaterial: true, handSized: true },
+          { L: 2000, W: 1000, qty: "", bought: true }
         ]
       },
       types: []
     });
     assert.deepEqual(
-      snap.sheet.panels.map((p) => p.fromMaterial),
-      [undefined, true]
+      snap.sheet.panels.map((p) => [p.fromMaterial, p.handSized, p.bought]),
+      [
+        [undefined, undefined, undefined],
+        [true, true, undefined],
+        [undefined, undefined, true]
+      ]
     );
   });
 });

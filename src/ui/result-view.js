@@ -15,7 +15,7 @@ import { computePlan, fillTarget } from "../placement/plan-layers.js";
 import { sawCutTableHtml } from "./saw-cut-list.js";
 import { stopNesting } from "../placement/run-nesting.js";
 import { plannedQty } from "../project/kits.js";
-import { lockCount, lockSheet, unlockSheet } from "../project/locks.js";
+import { lockCount, lockSheet, relockSheet, unlockSheet } from "../project/locks.js";
 import { renderLockedFields } from "./panels-editor.js";
 import { partDisplayName, scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
@@ -98,7 +98,34 @@ const LOCK_ICON =
 const OPEN_ICON =
   '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 5.8-1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 
+// pièces posées dans les trous d'un panneau figé, pas encore figées
+function addedParts(sheet) {
+  return sheet.locked
+    ? sheet.parts.filter(function (p) {
+        return !p.locked;
+      }).length
+    : 0;
+}
+
 function lockButton(sheet, si) {
+  var added = addedParts(sheet);
+  return (
+    lockToggle(sheet, si) +
+    (added
+      ? ' <button type="button" class="btn sm lockbtn relock" data-relock="' +
+        si +
+        '" title="' +
+        escapeHtml(translate("lock.relockTitle")) +
+        '">' +
+        LOCK_ICON +
+        "<span>" +
+        escapeHtml(translate("lock.relock", { n: added })) +
+        "</span></button>"
+      : "")
+  );
+}
+
+function lockToggle(sheet, si) {
   return (
     ' <button type="button" class="btn sm lockbtn" data-lock="' +
     si +
@@ -296,6 +323,18 @@ function toggleLock(si) {
   renderResult();
 }
 
+/* « Figer les ajouts » : le panneau figé l'est de nouveau, avec les pièces posées dans ses trous. */
+function relock(si) {
+  var sheet = session.lastResult && session.lastResult.sheets[si];
+  if (!sheet || !sheet.locked) return;
+  relockSheet(si, sheet);
+  sheet.parts.forEach(function (p) {
+    p.locked = true;
+  });
+  focusLockAfterDraw = si;
+  renderResult();
+}
+
 /* Fichier SVG ou DXF d'un panneau du dernier plan : { name, blob }. */
 function sheetFile(si, kind, projectSlug) {
   var s = session.lastResult.sheets[si],
@@ -343,6 +382,8 @@ export function bindResultView() {
     if (link) return showPartRow(+link.dataset.part);
     var lock = e.target.closest("[data-lock]");
     if (lock) return toggleLock(+lock.dataset.lock);
+    var again = e.target.closest("[data-relock]");
+    if (again) return relock(+again.dataset.relock);
     var b = e.target.closest("[data-dl]");
     if (!b || !session.lastResult) return;
     var kind = b.dataset.dl,

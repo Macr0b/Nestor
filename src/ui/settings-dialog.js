@@ -14,17 +14,9 @@ import { byId } from "../util/dom.js";
 import { lengthUnits, setLengthUnits } from "../util/units.js";
 import { closeModal, openModal } from "./modal.js";
 import { setStatsEnabled, statsEnabled } from "../stats/export-stats.js";
-import { bindProfilePanel, profileLoadedMessage, refreshProfilePanel } from "./profile-panel.js";
-
-/* Au démarrage, une fois la langue chargée : un profil vient d'être chargé (l'appli a été rechargée), on le dit
-   là où il a été chargé. */
-export function showLoadedProfile() {
-  if (profileLoadedMessage()) openSettings();
-}
 
 function openSettings() {
   openModal("settings", byId("btnCloseSet"), byId("btnSettings"));
-  refreshProfilePanel();
 }
 
 function closeSettings() {
@@ -58,8 +50,6 @@ function changeUnits() {
 
 export function bindSettingsDialog() {
   byId("btnSettings").addEventListener("click", openSettings);
-  bindProfilePanel();
-  document.addEventListener("nestor:open-profile", openSettings);
   byId("btnCloseSet").addEventListener("click", closeSettings);
   byId("btnBug").addEventListener("click", function () {
     this.href = bugReportUrl();
