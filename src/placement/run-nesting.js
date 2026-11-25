@@ -2,7 +2,16 @@
 /* Lancement du calcul en arrière-plan (Web Worker), annulation, et choix du meilleur résultat. */
 
 import { nest } from "./nest.js";
-import { applyOrigin, nestingFrame, panelList, panelOrigin, sheetPartPaths, toFramePart } from "./origin.js";
+import {
+  applyOrigin,
+  nestingFrame,
+  panelList,
+  panelOrigin,
+  sheetPartPaths,
+  toFramePart,
+  toFramePoint,
+  toPanelPlacement
+} from "./origin.js";
 import { scaledPart } from "../project/parts.js";
 import { state } from "../project/state.js";
 import { parseNumber } from "../util/numbers.js";
@@ -175,14 +184,18 @@ export function nestPanelByPanel(panels, quantities, used) {
   return step();
 }
 
-// repère « sur place » : celui du panneau, sans transposer ni regrouper les pièces
-const IN_PLACE = { tr: false, fx: false, fy: false, o: "tl", geo: true };
-
-/* Pièces d'un panneau posé, en obstacles pour le moteur : leurs tracés en coordonnées du panneau, relatifs au coin
-   de leur encombrement. */
-function obstacles(sheet) {
+/* Pièces d'un panneau posé, en obstacles pour le moteur : leurs tracés dans le repère de calcul frame, relatifs au
+   coin de leur encombrement. */
+function obstacles(sheet, frame) {
   return sheet.parts.map(function (p) {
-    var paths = sheetPartPaths(p, sheet),
+    var paths = sheetPartPaths(p, sheet).map(function (q) {
+        return {
+          closed: q.closed,
+          pts: q.pts.map(function (v) {
+            return toFramePoint(v, frame, sheet.L, sheet.W);
+          })
+        };
+      }),
       x0 = Infinity,
       y0 = Infinity,
       x1 = -Infinity,
@@ -221,26 +234,52 @@ function obstacles(sheet) {
 }
 
 /* Place des pièces sur des panneaux déjà garnis (panneaux figés, remplissage) sans bouger ce qui y est : les
-   nouvelles pièces vont dans les trous. sheets : [{pi, L, W, parts}] ; quantities : pièces à placer par type.
-   Rend le résultat du moteur, ses panneaux dans l'ordre de sheets. */
+   nouvelles pièces vont dans les trous, au plus près du repère actuel de leur ligne de panneaux (même un panneau
+   figé avant un changement de repère). sheets : [{pi, L, W, parts}] ; quantities : pièces à placer par type.
+   Rend { sheets, res } : ses panneaux dans l'ordre de sheets. */
 export function nestInPlace(sheets, quantities) {
-  var input = buildNestInput(IN_PLACE, null, quantities);
-  input.anchor = null;
-  input.panels.forEach(function (p) {
-    p.qty = 0;
+  var left = quantities.slice(),
+    out = sheets.map(function (s) {
+      return { pi: s.pi, L: s.L, W: s.W, parts: [] };
+    }),
+    res = 0,
+    rows = [];
+  sheets.forEach(function (s) {
+    if (rows.indexOf(s.pi) < 0) rows.push(s.pi);
   });
-  input.fixed = sheets.map(function (s) {
-    return { pi: s.pi, parts: obstacles(s) };
-  });
-  return runNesting(input).then(function (res) {
-    res.sheets.forEach(function (s) {
-      s.parts.forEach(function (p) {
-        p.raw = { x: p.x, y: p.y, w: p.w, h: p.h, Ln: s.L, Wn: s.W };
-        p.f = IN_PLACE;
-        p.dx = 0;
-        p.dy = 0;
-      });
+  // une ligne de panneaux après l'autre : chacune a son repère
+  function step(r) {
+    if (r >= rows.length) return Promise.resolve({ sheets: out, res: res });
+    var pi = rows[r],
+      mine = sheets
+        .map(function (s, k) {
+          return k;
+        })
+        .filter(function (k) {
+          return sheets[k].pi === pi;
+        }),
+      first = sheets[mine[0]],
+      frame = nestingFrame(first.L, first.W, panelOrigin(pi)),
+      input = buildNestInput(frame, null, left);
+    input.panels.forEach(function (p) {
+      p.qty = 0;
     });
-    return res;
-  });
+    input.fixed = mine.map(function (k) {
+      return { pi: pi, parts: obstacles(sheets[k], frame) };
+    });
+    return runNesting(input).then(function (got) {
+      got.sheets.forEach(function (gs, j) {
+        var k = mine[j];
+        if (k == null) return;
+        gs.parts.forEach(function (p) {
+          toPanelPlacement(p, frame, gs.L, gs.W);
+          left[p.i]--;
+          out[k].parts.push(p);
+        });
+      });
+      res = Math.max(res, got.res || 0);
+      return step(r + 1);
+    });
+  }
+  return step(0);
 }

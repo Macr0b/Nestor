@@ -6,7 +6,7 @@
       « Un seul kit » et « Nombre de kits » sont posés à l'étape 2, comme des pièces seules) ;
    4. remplissage : chaque pièce réglée sur « Remplir » occupe tout ce qui reste sur le panneau choisi. */
 
-import { applyOrigin, panelList, panelOrigin } from "./origin.js";
+import { applyOrigin, panelList, panelOrigin, toFrameBox } from "./origin.js";
 import { freeRectangles, packRectangles } from "./rectangles.js";
 import { nestInPlace, nestPanelByPanel, nestWithOrigin } from "./run-nesting.js";
 import { lockedCounts, lockedPanelUse, resolvedLocks } from "../project/locks.js";
@@ -82,15 +82,22 @@ function inPlace(sheets, quantities, rect) {
       panels: panelList().map(function (p) {
         return Object.assign({}, p, { qty: 0 });
       }),
+      // chaque panneau vu depuis le repère actuel de sa ligne (retourné), pour remplir d'abord près de l'origine
       fixed: sheets.map(function (s) {
-        return { pi: s.pi, L: s.L, W: s.W, free: freeRectangles(s.L, s.W, s.parts, gap, margin) };
+        var f = flipOf(s.pi),
+          boxes = s.parts.map(function (p) {
+            return toFrameBox(p, f, s.L, s.W);
+          });
+        return { pi: s.pi, L: s.L, W: s.W, free: freeRectangles(s.L, s.W, boxes, gap, margin) };
       })
     },
     types
   );
-  // repère « sur place » : les pièces restent où elles sont posées
-  res.sheets.forEach(function (s) {
+  // retour au repère du panneau : les pièces gardent leur orientation, seul l'encombrement est retourné
+  res.sheets.forEach(function (s, k) {
+    var f = flipOf(sheets[k].pi);
     s.parts.forEach(function (p) {
+      Object.assign(p, toFrameBox(p, f, s.L, s.W));
       p.raw = { x: p.x, y: p.y, w: p.w, h: p.h, Ln: s.L, Wn: s.W };
       p.f = { tr: false, fx: false, fy: false, o: "tl", geo: false };
       p.dx = 0;
@@ -98,6 +105,12 @@ function inPlace(sheets, quantities, rect) {
     });
   });
   return Promise.resolve(res);
+}
+
+// méthode Rectangles : le panneau retourné pour que l'origine de sa ligne tombe en haut à gauche (comme rectanglePlan)
+function flipOf(pi) {
+  var o = panelOrigin(pi);
+  return { tr: false, fx: o[1] === "r", fy: o[0] === "b" };
 }
 
 /* Calcule le plan. Rend { sheets, unplaced, count, total, res, filled: {indice de type: copies} } ;
@@ -117,7 +130,8 @@ export function computePlan() {
     return a + b;
   }, 0);
   var lockedSheets = locks.map(function (l) {
-    return { pi: l.pi, L: l.L, W: l.W, o: l.o, locked: true, parts: l.parts };
+    // le repère est celui de la ligne aujourd'hui (zéro des exports, ajouts) ; les pièces figées ne bougent pas
+    return { pi: l.pi, L: l.L, W: l.W, o: panelOrigin(l.pi), locked: true, parts: l.parts };
   });
   var holes = locks.length ? inPlace(lockedSheets, toPlace, rect) : Promise.resolve(null);
   return holes

@@ -90,6 +90,45 @@ export function toFramePart(part, frame) {
   return m;
 }
 
+/* Pièce posée dans le repère de calcul f (panneau de Ln × Wn dans ce repère) : ramenée au repère du panneau, la
+   pose de calcul gardée dans raw pour retrouver ses tracés. */
+export function toPanelPlacement(p, f, Ln, Wn) {
+  p.raw = { x: p.x, y: p.y, w: p.w, h: p.h, Ln: Ln, Wn: Wn };
+  p.f = f;
+  var x = f.fx ? Ln - p.x - p.w : p.x,
+    y = f.fy ? Wn - p.y - p.h : p.y;
+  if (f.tr) {
+    p.x = y;
+    p.y = x;
+    var w = p.w;
+    p.w = p.h;
+    p.h = w;
+  } else {
+    p.x = x;
+    p.y = y;
+  }
+  p.dx = 0;
+  p.dy = 0;
+}
+
+/* Encombrement en coordonnées du panneau (L × W) vers le repère de calcul f : l'inverse de toPanelPlacement. */
+export function toFrameBox(box, f, L, W) {
+  var x = f.tr ? box.y : box.x,
+    y = f.tr ? box.x : box.y,
+    w = f.tr ? box.h : box.w,
+    h = f.tr ? box.w : box.h,
+    Ln = f.tr ? W : L,
+    Wn = f.tr ? L : W;
+  return { x: f.fx ? Ln - x - w : x, y: f.fy ? Wn - y - h : y, w: w, h: h };
+}
+
+/* Point en coordonnées du panneau vers le repère de calcul f. */
+export function toFramePoint(v, f, L, W) {
+  var x = f.tr ? v[1] : v[0],
+    y = f.tr ? v[0] : v[1];
+  return [f.fx ? (f.tr ? W : L) - x : x, f.fy ? (f.tr ? L : W) - y : y];
+}
+
 // ramène la mise en page au repère du panneau, puis centre le groupe si l'origine est au milieu d'un bord ou au centre
 export function applyOrigin(res, fOf) {
   var edgeMargin = parseNumber(state.sheet.margin, 0);
@@ -104,22 +143,7 @@ export function applyOrigin(res, fOf) {
       s.W = Ln;
     }
     s.parts.forEach(function (p) {
-      p.raw = { x: p.x, y: p.y, w: p.w, h: p.h, Ln: Ln, Wn: Wn };
-      p.f = f;
-      var x = f.fx ? Ln - p.x - p.w : p.x,
-        y = f.fy ? Wn - p.y - p.h : p.y;
-      if (f.tr) {
-        p.x = y;
-        p.y = x;
-        var w = p.w;
-        p.w = p.h;
-        p.h = w;
-      } else {
-        p.x = x;
-        p.y = y;
-      }
-      p.dx = 0;
-      p.dy = 0;
+      toPanelPlacement(p, f, Ln, Wn);
     });
     // le groupe de pièces est calé contre l'origine (ou centré) : utile quand le calcul est parti d'un autre coin
     if (s.parts.length) {

@@ -5,14 +5,15 @@
    classes de dureté Brinell des bois (A : 10 à 20 N/mm², B : 20 à 30, C : 30 à 40, D : plus de 40). */
 
 /* Réglages de chaque famille, du plus tendre au plus dur.
-   chipDivisor : copeau par dent = diamètre / diviseur.
+   chipDivisor : copeau par dent = diamètre / diviseur ; le copeau le plus fin de la fourchette d'id-conception.fr
+   (tendre 1/50 à 1/100, intermédiaire 1/100 à 1/150, dur 1/200 à 1/250 ; très tendre : 1/25 seul).
    depthFactor : profondeur de passe = diamètre × facteur.
    cuttingSpeed : vitesse de coupe visée (m/min), qui donne la rotation de la broche. */
 export const FAMILIES = [
   { id: "verySoft", chipDivisor: 25, depthFactor: 2, cuttingSpeed: 400 },
-  { id: "soft", chipDivisor: 75, depthFactor: 1, cuttingSpeed: 350 },
-  { id: "medium", chipDivisor: 100, depthFactor: 0.5, cuttingSpeed: 300 },
-  { id: "hard", chipDivisor: 200, depthFactor: 0.2, cuttingSpeed: 200 }
+  { id: "soft", chipDivisor: 100, depthFactor: 1, cuttingSpeed: 350 },
+  { id: "medium", chipDivisor: 150, depthFactor: 0.5, cuttingSpeed: 300 },
+  { id: "hard", chipDivisor: 250, depthFactor: 0.2, cuttingSpeed: 200 }
 ];
 
 /* Matières précises : famille, densité moyenne (kg/m³) et classe de dureté Brinell des bois massifs quand

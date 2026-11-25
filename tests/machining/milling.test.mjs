@@ -13,8 +13,20 @@ describe("Réglages de fraisage (millingSettings)", () => {
   test("exemple de cncfraises.fr : aluminium, fraise 1 dent de 3 mm → 21 200 tr/min", () => {
     const r = millingSettings(base({ family: "hard", diameter: 3, flutes: 1, spindleMax: 30000 }));
     assert.equal(r.rpm, 21200);
-    assert.equal(r.feed, Math.round((21200 * 1 * (3 / 200)) / 10) * 10);
+    assert.equal(r.feed, Math.round((21200 * 1 * (3 / 250)) / 10) * 10);
     assert.deepEqual(r.notes, []);
+  });
+
+  test("copeau le plus fin conseillé par id-conception.fr : fraise de 8 mm, 2 dents", () => {
+    const at = (family) => millingSettings(base({ family, diameter: 8, flutes: 2, spindleMax: 30000, feedMax: 0 }));
+    // tendre : Ø / 100 → 0,08 mm, 13 900 tr/min → 2 220 mm/min
+    assert.deepEqual([at("soft").chipLoad, at("soft").rpm, at("soft").feed], [0.08, 13900, 2220]);
+    // très tendre Ø / 25, intermédiaire Ø / 150, dur Ø / 250
+    assert.deepEqual(
+      ["verySoft", "medium", "hard"].map((f) => at(f).chipDivisor),
+      [25, 150, 250]
+    );
+    assert.equal(at("medium").feed, Math.round((11900 * 2 * (8 / 150)) / 10) * 10);
   });
 
   test("avance = rotation × dents × copeau (Ø / diviseur de la famille)", () => {

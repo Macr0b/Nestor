@@ -1040,7 +1040,7 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.isVisible("#pageNest"), false, "l'imbrication est cachée");
     assert.equal(await page.getAttribute("#tabMill", "aria-selected"), "true");
     // valeurs de départ : fraise Ø 6 à 2 dents, famille intermédiaire, 18 mm en ébauche
-    assert.deepEqual((await digits("#millValues b")).slice(0, 3), ["15900", "1910", "3"]);
+    assert.deepEqual((await digits("#millValues b")).slice(0, 3), ["15900", "1270", "3"]);
     // passe maximale (fraise et matière), puis passes à faire : l'épaisseur en passes égales
     assert.deepEqual(await page.$$eval("#millValues small", (v) => v.slice(2).map((x) => x.textContent)), [
       "Passe maximale",
