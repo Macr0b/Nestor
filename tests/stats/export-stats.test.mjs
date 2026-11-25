@@ -1,7 +1,7 @@
 // Envoi du compteur d'exports depuis Nestor : message et conditions d'envoi. Lancement : npm test
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { exportMessage, mayCount, EXPORT_KINDS } from "../../src/stats/export-stats.js";
+import { exportMessage, mayCount, readTotal, EXPORT_KINDS } from "../../src/stats/export-stats.js";
 import { readExportMessage, ALLOWED_ORIGINS, EXPORT_KINDS as COUNTED } from "../../stats/worker.js";
 
 describe("Envoi du compteur d'exports", () => {
@@ -17,6 +17,13 @@ describe("Envoi du compteur d'exports", () => {
   test("Nestor et le compteur sont d'accord sur les formats et les sites officiels", () => {
     assert.deepEqual(EXPORT_KINDS, COUNTED);
     for (const origin of ALLOWED_ORIGINS) assert.equal(mayCount(origin, true, true), true);
+  });
+
+  test("total lu : seulement un entier positif", () => {
+    assert.equal(readTotal({ n: 56 }), 56);
+    assert.equal(readTotal({ n: 0 }), 0);
+    for (const bad of [null, {}, { n: -1 }, { n: 1.5 }, { n: "56" }, { n: null }, []])
+      assert.equal(readTotal(bad), null);
   });
 
   test("rien n'est envoyé ailleurs que sur le site officiel, ni si l'usager l'a coupé, ni hors ligne", () => {

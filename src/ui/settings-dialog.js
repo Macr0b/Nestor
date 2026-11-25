@@ -14,6 +14,7 @@ import { byId } from "../util/dom.js";
 import { lengthUnits, setLengthUnits } from "../util/units.js";
 import { closeModal, openModal } from "./modal.js";
 import { setStatsEnabled, statsEnabled } from "../stats/export-stats.js";
+import { renderExportTotal } from "./export-total.js";
 
 function openSettings() {
   openModal("settings", byId("btnCloseSet"), byId("btnSettings"));
@@ -32,6 +33,7 @@ function refreshAll() {
   renderLibrary();
   refreshCostTab();
   refreshInstallButton();
+  renderExportTotal();
 }
 
 function showUnitsChoice() {
@@ -76,6 +78,7 @@ export function bindSettingsDialog() {
   statsCheck.checked = statsEnabled();
   statsCheck.addEventListener("change", function () {
     setStatsEnabled(statsCheck.checked);
+    renderExportTotal();
   });
   showUnitsChoice();
   byId("unitsSel").addEventListener("change", changeUnits);

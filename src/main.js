@@ -19,6 +19,7 @@ import { renderAll } from "./ui/render-all.js";
 import { bindResultView } from "./ui/result-view.js";
 import { bindSettingsDialog } from "./ui/settings-dialog.js";
 import { bindProfilePanel, showLoadedProfile } from "./ui/profile-panel.js";
+import { loadExportTotal } from "./ui/export-total.js";
 import { bindProjectsDialog } from "./ui/projects-dialog.js";
 import { bindShortcuts } from "./ui/shortcuts.js";
 import { bindModalFocusTrap } from "./ui/modal.js";
@@ -70,6 +71,7 @@ async function start() {
   showLoadedProfile();
   const versionLabel = document.getElementById("cartVer");
   if (versionLabel) versionLabel.textContent = APP_VERSION;
+  loadExportTotal();
 }
 
 start();

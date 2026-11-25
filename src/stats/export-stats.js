@@ -38,6 +38,12 @@ export function setStatsEnabled(on) {
   } catch (e) {}
 }
 
+/* Total de tout le monde lu dans la réponse du compteur (GET), ou null s'il n'est pas un entier positif. */
+export function readTotal(data) {
+  var n = data && data.n;
+  return Number.isInteger(n) && n >= 0 ? n : null;
+}
+
 /* Compte un export (sans attendre de réponse, sans jamais bloquer ni signaler d'erreur). */
 export function countExport(kind) {
   try {

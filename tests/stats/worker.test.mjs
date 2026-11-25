@@ -23,6 +23,10 @@ function fakeDb() {
         },
         async all() {
           return { results: [...rows.values()].sort((a, b) => (a.day + a.kind).localeCompare(b.day + b.kind)) };
+        },
+        async first() {
+          assert.match(sql, /^SELECT COALESCE\(SUM\(n\), 0\) AS n FROM counts$/);
+          return { n: [...rows.values()].reduce((sum, r) => sum + r.n, 0) };
         }
       };
     }
@@ -69,9 +73,35 @@ describe("Compteur des exports", () => {
     ])
       assert.equal((await send(env, bad)).status, 400, bad.slice(0, 40));
     assert.equal((await send(env, ok, undefined, { "Content-Length": "5000" })).status, 413);
-    const get = await handleRequest(new Request("https://stats.nestor.rophistudio.fr/e"), env, { now: NOW });
-    assert.equal(get.status, 405);
+    const put = await handleRequest(new Request("https://stats.nestor.rophistudio.fr/e", { method: "PUT" }), env, {
+      now: NOW
+    });
+    assert.equal(put.status, 405);
     assert.equal(env.DB.rows.size, 0);
+  });
+
+  test("total public (GET /e) : seulement le nombre, pour le site officiel, gardé 5 minutes", async () => {
+    const env = { DB: fakeDb() };
+    const total = (origin) =>
+      handleRequest(
+        new Request("https://stats.nestor.rophistudio.fr/e", { headers: origin ? { Origin: origin } : {} }),
+        env,
+        { now: NOW }
+      );
+    let r = await total("https://macr0b.github.io");
+    assert.equal(r.status, 200);
+    assert.deepEqual(await r.json(), { n: 0 });
+    const ok = JSON.stringify({ e: "export", f: "dxf", v: "1.10.6" });
+    await send(env, ok);
+    await send(env, ok);
+    await send(env, JSON.stringify({ e: "export", f: "pdf", v: "1.10.5" }));
+    r = await total("https://nestor.rophistudio.fr");
+    assert.deepEqual(await r.json(), { n: 3 }, "rien d'autre que le total");
+    assert.equal(r.headers.get("Access-Control-Allow-Origin"), "https://nestor.rophistudio.fr");
+    assert.equal(r.headers.get("Cache-Control"), "public, max-age=300");
+    assert.equal(r.headers.get("Vary"), "Origin");
+    for (const origin of [null, "https://exemple.github.io", "https://claude.ai"])
+      assert.equal((await total(origin)).status, 403, String(origin));
   });
 
   test("lecture des message : seuls les cinq exports du plan et une version x.y.z", () => {

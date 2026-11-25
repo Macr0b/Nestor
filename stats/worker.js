@@ -3,7 +3,7 @@
 
    Sommaire
    1. Réglages : sites autorisés, formats comptés, limites
-   2. Réception d'un export (POST /e) : vérifié, puis +1 dans la base
+   2. Réception d'un export (POST /e) : vérifié, puis +1 dans la base ; total public (GET /e), seul chiffre public
    3. Lecture des stats (/, /counts.csv) : réservée au propriétaire (Cloudflare Access)
    4. Page de stats (HTML sans script)
    5. Aiguillage des requêtes
@@ -66,6 +66,22 @@ async function receiveExport(request, env, now) {
     .bind(dayOf(now), message.kind, message.version)
     .run();
   return new Response(null, { status: 204, headers: cors });
+}
+
+/* Total de tous les exports, pour la ligne « N nestorisations » en bas de l'appli : le seul chiffre public, sans
+   détail (ni jour, ni format, ni version). Seul le site officiel le demande ; gardé 5 minutes en cache. */
+async function readTotal(request, env) {
+  var origin = request.headers.get("Origin");
+  if (!ALLOWED_ORIGINS.includes(origin)) return textResponse(403, "origine refusée");
+  var row = await env.DB.prepare("SELECT COALESCE(SUM(n), 0) AS n FROM counts").first();
+  return new Response(JSON.stringify({ n: Number((row && row.n) || 0) }), {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=300",
+      "Access-Control-Allow-Origin": origin,
+      Vary: "Origin"
+    }
+  });
 }
 
 // 3. Lecture réservée au propriétaire ---------------------------------------------------------------------------------
@@ -277,7 +293,8 @@ export async function handleRequest(request, env, deps) {
   var path = new URL(request.url).pathname;
   if (path === "/e") {
     if (request.method === "POST") return receiveExport(request, env, now);
-    return textResponse(405, "méthode refusée", { Allow: "POST" });
+    if (request.method === "GET") return readTotal(request, env);
+    return textResponse(405, "méthode refusée", { Allow: "GET, POST" });
   }
   if ((path === "/" || path === "/counts.csv") && request.method === "GET")
     return readStats(request, env, fetchKeys, Math.floor(now.getTime() / 1000));

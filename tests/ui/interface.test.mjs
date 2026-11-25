@@ -2685,6 +2685,83 @@ test("graver le nom des pièces et nom du calque dans le PDF : traits en plus su
   await page.context().close();
 });
 
+test("nestorisations : le total s'affiche au-dessus du cartouche, seulement sur le site officiel et si le comptage est activé", async () => {
+  // le site officiel simulé : ses fichiers servis depuis la copie locale, le compteur répond 1234
+  const ctx = await browser.newContext({
+    locale: "fr-FR",
+    viewport: { width: 1280, height: 900 },
+    serviceWorkers: "block"
+  });
+  let asked = 0,
+    total = 1234;
+  await ctx.route("https://macr0b.github.io/Nestor/**", async (route) => {
+    const path = new URL(route.request().url()).pathname.replace(/^\/Nestor\//, "");
+    const r = await fetch(base + path);
+    await route.fulfill({
+      status: r.status,
+      headers: Object.fromEntries(r.headers),
+      body: Buffer.from(await r.arrayBuffer())
+    });
+  });
+  await ctx.route("https://stats.nestor.rophistudio.fr/**", async (route) => {
+    if (route.request().method() === "GET") asked++;
+    await route.fulfill({
+      status: 200,
+      headers: { "Access-Control-Allow-Origin": "https://macr0b.github.io", "Content-Type": "application/json" },
+      body: JSON.stringify({ n: total })
+    });
+  });
+  const page = await ctx.newPage();
+  page.errors = [];
+  page.on("pageerror", (e) => page.errors.push(e.message));
+  await page.goto("https://macr0b.github.io/Nestor/");
+  await page.waitForSelector(".sheet", { timeout: 20000 });
+  await waitText(page, "#exportTotal", /^1\s?234 nestorisations, et ça continue$/);
+  assert.equal(asked, 1);
+  // la ligne est juste au-dessus du cartouche, hors de lui
+  assert.equal(
+    await page.evaluate(() => document.getElementById("exportTotal").nextElementSibling.className),
+    "cartouche"
+  );
+  // la langue change : la ligne suit
+  await page.click("#btnSettings");
+  await page.selectOption("#langSel", "en");
+  await waitText(page, "#exportTotal", /^1,234 nestorisations, and counting$/);
+  // comptage coupé : la ligne disparaît, et au prochain chargement le total n'est plus demandé
+  await page.uncheck("#statsChk");
+  assert.equal(await page.isHidden("#exportTotal"), true);
+  await page.reload();
+  await page.waitForSelector(".sheet", { timeout: 20000 });
+  await page.waitForTimeout(500);
+  assert.equal(asked, 1);
+  assert.equal(await page.isHidden("#exportTotal"), true);
+  // comptage rallumé, un seul export au total : singulier ; zéro : pas de ligne
+  await page.evaluate(() => localStorage.removeItem("nestor.stats"));
+  total = 1;
+  await page.reload();
+  await waitText(page, "#exportTotal", /^1 nestorisation, and counting$/);
+  total = 0;
+  await page.reload();
+  await page.waitForSelector(".sheet", { timeout: 20000 });
+  await page.waitForTimeout(500);
+  assert.equal(await page.isHidden("#exportTotal"), true);
+  assert.deepEqual(page.errors, []);
+  await ctx.close();
+  // ailleurs que sur le site officiel (copie locale) : rien n'est demandé, pas de ligne
+  const local = await open();
+  let localAsked = 0;
+  await local.context().route("https://stats.nestor.rophistudio.fr/**", (route) => {
+    localAsked++;
+    return route.abort();
+  });
+  await local.reload();
+  await local.waitForSelector(".sheet", { timeout: 20000 });
+  await local.waitForTimeout(500);
+  assert.equal(localAsked, 0);
+  assert.equal(await local.isHidden("#exportTotal"), true);
+  await local.context().close();
+});
+
 test("projets dans un dossier : navigateur sans choix de dossier (Safari, Firefox) → Exporter / Importer", async () => {
   const page = await open();
   await page.addInitScript(() => delete window.showDirectoryPicker);
