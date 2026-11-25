@@ -10,23 +10,31 @@ import { FAMILIES, MATERIALS, familyById } from "../../src/machining/materials.j
 const base = (over) => Object.assign({}, DEFAULT_MILLING, over);
 
 describe("Réglages de fraisage (millingSettings)", () => {
-  test("exemple de cncfraises.fr : aluminium, fraise 1 dent de 3 mm → 21 200 tr/min", () => {
+  test("aluminium, fraise 1 dent de 3 mm : vitesse de coupe réduite comme le tendre → 15 200 tr/min", () => {
     const r = millingSettings(base({ family: "hard", diameter: 3, flutes: 1, spindleMax: 30000 }));
-    assert.equal(r.rpm, 21200);
-    assert.equal(r.feed, Math.round((21200 * 1 * (3 / 250)) / 10) * 10);
+    assert.equal(r.rpm, 15200);
+    assert.equal(r.feed, Math.round(15200 * 1 * (3 / 225)));
     assert.deepEqual(r.notes, []);
   });
 
-  test("copeau le plus fin conseillé par id-conception.fr : fraise de 8 mm, 2 dents", () => {
-    const at = (family) => millingSettings(base({ family, diameter: 8, flutes: 2, spindleMax: 30000, feedMax: 0 }));
-    // tendre : Ø / 100 → 0,08 mm, 13 900 tr/min → 2 220 mm/min
-    assert.deepEqual([at("soft").chipLoad, at("soft").rpm, at("soft").feed], [0.08, 13900, 2220]);
-    // très tendre Ø / 25, intermédiaire Ø / 150, dur Ø / 250
+  test("calculateur d'id-conception.fr : tendre, fraise de 8 mm à 2 dents → 10 000 tr/min et 2 133 mm/min", () => {
+    const at = (family) =>
+      millingSettings(base({ family, diameter: 8, flutes: 2, spindleMin: 0, spindleMax: 30000, feedMax: 0 }));
+    assert.deepEqual([at("soft").rpm, at("soft").feed], [10000, 2133]);
+    assert.ok(Math.abs(at("soft").chipLoad - 8 / 75) < 1e-12);
+    // les autres : milieu de la fourchette d'id-conception.fr, même réduction de la vitesse de coupe
     assert.deepEqual(
       ["verySoft", "medium", "hard"].map((f) => at(f).chipDivisor),
-      [25, 150, 250]
+      [25, 125, 225]
     );
-    assert.equal(at("medium").feed, Math.round((11900 * 2 * (8 / 150)) / 10) * 10);
+    assert.deepEqual(
+      ["verySoft", "medium", "hard"].map((f) => [at(f).rpm, at(f).feed]),
+      [
+        [11400, 7296],
+        [8600, 1101],
+        [5700, 405]
+      ]
+    );
   });
 
   test("avance = rotation × dents × copeau (Ø / diviseur de la famille)", () => {

@@ -1040,7 +1040,7 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.isVisible("#pageNest"), false, "l'imbrication est cachée");
     assert.equal(await page.getAttribute("#tabMill", "aria-selected"), "true");
     // valeurs de départ : fraise Ø 6 à 2 dents, famille intermédiaire, 18 mm en ébauche
-    assert.deepEqual((await digits("#millValues b")).slice(0, 3), ["15900", "1270", "3"]);
+    assert.deepEqual((await digits("#millValues b")).slice(0, 3), ["11400", "1094", "3"]);
     // passe maximale (fraise et matière), puis passes à faire : l'épaisseur en passes égales
     assert.deepEqual(await page.$$eval("#millValues small", (v) => v.slice(2).map((x) => x.textContent)), [
       "Passe maximale",
@@ -1057,7 +1057,7 @@ describe("Interface", { skip }, () => {
     assert.match(await page.textContent("#millPassPlan"), /^19 mm ÷ passe max 3 mm → 7 passes égales de 2,71 mm\./);
     await page.fill("#millThickness", "18");
     // petite fraise : la broche plafonne, l'avance suit et un message l'explique
-    await page.fill("#millDiameter", "3");
+    await page.fill("#millDiameter", "2");
     assert.equal((await digits("#millValues b"))[0], "24000");
     assert.match(await page.textContent("#millNotes"), /24\s?000 tr\/min/);
     // type de fraise en cartes : la 1 dent met le nombre de dents à 1
@@ -1226,7 +1226,7 @@ describe("Interface", { skip }, () => {
     assert.equal(await page.getAttribute("#tabNotebook", "aria-selected"), "true");
     assert.equal(await page.isVisible("#nbFormBox"), true);
     assert.equal(await page.inputValue("#nbMaterial"), "Intermédiaire");
-    assert.equal(await page.inputValue("#nbRpm"), "15900");
+    assert.equal(await page.inputValue("#nbRpm"), "11400");
     assert.equal(await page.inputValue("#nbDepth"), "3");
     assert.equal(await page.inputValue("#nbMillPasses"), "6");
     await page.fill("#nbMachine", "CNC atelier");
@@ -1236,7 +1236,7 @@ describe("Interface", { skip }, () => {
     assert.equal(await cards(), 1);
     assert.equal(await page.locator("#nbList img").count(), 0, "la note reste du texte");
     assert.match(await page.textContent("#nbList"), /Contreplaqué bouleau · 18 mm/);
-    assert.match(await page.textContent("#nbList"), /15\s?900 tr\/min/);
+    assert.match(await page.textContent("#nbList"), /11\s?400 tr\/min/);
     // fiche laser à la main
     await page.click("#btnNbNew");
     await page.click('#nbProcess [data-process="laser"]');
@@ -1461,7 +1461,7 @@ describe("Interface", { skip }, () => {
     await page.click("#tabMill");
     const millText = await page.textContent("#pageMill");
     assert.doesNotMatch(millText, /Hélice|Ébauche|Réglages conseillés|tr\/min/, "onglet Fraisage traduit");
-    assert.match(await page.textContent("#millValues b >> nth=0"), /^15\.900$/, "nombres à l'allemande");
+    assert.match(await page.textContent("#millValues b >> nth=0"), /^11\.400$/, "nombres à l'allemande");
     await page.click("#tabNest");
     await page.reload();
     await page.waitForSelector(".sheet");

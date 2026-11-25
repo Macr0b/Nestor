@@ -4,16 +4,19 @@
    Sources : id-conception.fr (copeau et passe selon le diamètre de la fraise), cncfraises.fr (vitesse de coupe),
    classes de dureté Brinell des bois (A : 10 à 20 N/mm², B : 20 à 30, C : 30 à 40, D : plus de 40). */
 
-/* Réglages de chaque famille, du plus tendre au plus dur.
-   chipDivisor : copeau par dent = diamètre / diviseur ; le copeau le plus fin de la fourchette d'id-conception.fr
-   (tendre 1/50 à 1/100, intermédiaire 1/100 à 1/150, dur 1/200 à 1/250 ; très tendre : 1/25 seul).
+/* Réglages de chaque famille, du plus tendre au plus dur, calés sur le calculateur d'id-conception.fr : en tendre,
+   fraise de 8 à 2 dents → 10 000 tr/min et 2 133 mm/min (copeau Ø/75, vitesse de coupe 251 m/min).
+   chipDivisor : copeau par dent = diamètre / diviseur ; le milieu de la fourchette d'id-conception.fr, comme son
+   calculateur en tendre (tendre 1/50 à 1/100 → 75, intermédiaire 1/100 à 1/150 → 125, dur 1/200 à 1/250 → 225 ;
+   très tendre : 1/25 seul).
    depthFactor : profondeur de passe = diamètre × facteur.
-   cuttingSpeed : vitesse de coupe visée (m/min), qui donne la rotation de la broche. */
+   cuttingSpeed : vitesse de coupe visée (m/min), qui donne la rotation de la broche ; celle de cncfraises.fr
+   (400, 350, 300, 200) réduite pour toutes du même facteur que le tendre (350 → 251, × 0,717). */
 export const FAMILIES = [
-  { id: "verySoft", chipDivisor: 25, depthFactor: 2, cuttingSpeed: 400 },
-  { id: "soft", chipDivisor: 100, depthFactor: 1, cuttingSpeed: 350 },
-  { id: "medium", chipDivisor: 150, depthFactor: 0.5, cuttingSpeed: 300 },
-  { id: "hard", chipDivisor: 250, depthFactor: 0.2, cuttingSpeed: 200 }
+  { id: "verySoft", chipDivisor: 25, depthFactor: 2, cuttingSpeed: 287 },
+  { id: "soft", chipDivisor: 75, depthFactor: 1, cuttingSpeed: 251 },
+  { id: "medium", chipDivisor: 125, depthFactor: 0.5, cuttingSpeed: 215 },
+  { id: "hard", chipDivisor: 225, depthFactor: 0.2, cuttingSpeed: 143 }
 ];
 
 /* Matières précises : famille, densité moyenne (kg/m³) et classe de dureté Brinell des bois massifs quand

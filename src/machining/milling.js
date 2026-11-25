@@ -96,7 +96,8 @@ export function millingSettings(input) {
       notes.push({ key: "mill.noteThinChip", n: input.feedMax });
     }
   }
-  feed = Math.max(10, Math.min(roundTo(feed, 10), positive(input.feedMax) ? input.feedMax : Infinity));
+  // au mm/min près, comme le calculateur d'id-conception.fr
+  feed = Math.max(10, Math.min(Math.round(feed), positive(input.feedMax) ? input.feedMax : Infinity));
 
   const depthFactor = family.depthFactor;
   let depth = diameter * depthFactor;
