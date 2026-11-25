@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcolo annullato.",
   "calc.many": "{n} pezzi da posizionare: può richiedere tempo.",
   "news.121": "Le quantità non sono più limitate a 500, i pezzi troppo grandi vengono segnalati subito e durante un calcolo lungo compare il pulsante Annulla.",
+  "news.1105": "Fresatura allineata al calcolatore di id-conception.fr: materiale tenero, fresa da 8 mm a 2 taglienti, 10 000 giri/min e 2 133 mm/min; le altre famiglie seguono la stessa regola. Pannello bloccato: dopo aver spostato l’origine, i pezzi aggiunti partono dalla nuova origine, che diventa anche lo zero degli export.",
   "news.1104": "«Progetto» in alto serve ormai solo al progetto in corso; l’elenco dei progetti passa in «Profilo» → «I miei progetti», con «I miei materiali» per modificarli o eliminarli. La cartella di backup del profilo è mostrata prima di salvare. Materiale tuo: scegli solo la sua durezza per la fresatura. Novità: incidere il nome dei pezzi, e il nome del livello sui pezzi nel PDF.",
   "news.1103": "Pulsante «Profilo» in alto, accanto a «Progetti». Pannelli bloccati: «Blocca gli aggiunti». Costo: il prezzo inserito segue la misura del pannello, una misura cambiata a mano resta, e nuovo pulsante «Aggiungi un pannello acquistato».",
   "news.1102": "Il mio profilo: scegli la cartella di backup, Nestor la ricorda e salva da solo ogni 5 minuti, tenendo le ultime 3 versioni.",

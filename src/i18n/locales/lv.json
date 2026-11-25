@@ -188,6 +188,7 @@
   "calc.cancelled": "Aprēķins atcelts.",
   "calc.many": "Jāizvieto {n} detaļas: tas var aizņemt laiku.",
   "news.121": "Daudzumi vairs nav ierobežoti līdz 500, pārāk lielas detaļas tiek norādītas uzreiz, un ilga aprēķina laikā parādās poga Atcelt.",
+  "news.1105": "Frēzēšana pielāgota id-conception.fr kalkulatoram: mīksts materiāls, 8 mm frēze ar 2 asmeņiem, 10 000 apgr./min un 2 133 mm/min; pārējās grupas ievēro to pašu likumu. Nofiksēta plātne: pēc sākumpunkta pārvietošanas pievienotās detaļas sākas no jaunā sākumpunkta, kas kļūst arī par eksportu nulli.",
   "news.1104": "“Projekts” augšā tagad ir tikai pašreizējam projektam; projektu saraksts pāriet uz “Profils” → “Mani projekti”, ar “Mani materiāli” to mainīšanai vai dzēšanai. Profila dublējuma mape redzama pirms saglabāšanas. Savs materiāls: izvēlies frēzēšanai tikai tā cietību. Jaunums: detaļu nosaukumu gravēšana un slāņa nosaukums uz detaļām PDF failā.",
   "news.1103": "Poga “Profils” augšā, blakus “Projekti”. Nofiksētas plātnes: “Nofiksēt pievienotās”. Izmaksas: ierakstītā cena seko plātnes izmēram, ar roku mainīts izmērs saglabājas, un jauna poga “Pievienot nopirktu plātni”.",
   "news.1102": "Mans profils: izvēlies kopiju mapi, Nestor to atceras un pats saglabā ik pēc 5 minūtēm, paturot 3 pēdējās versijas.",

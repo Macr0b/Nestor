@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun otkazan.",
   "calc.many": "{n} dijelova za raspored: to može potrajati.",
   "news.121": "Količine više nisu ograničene na 500, preveliki dijelovi odmah se označavaju, a tijekom dugog izračuna pojavljuje se gumb Odustani.",
+  "news.1105": "Glodanje usklađeno s kalkulatorom id-conception.fr: mekani materijal, glodalo od 8 mm s 2 oštrice, 10 000 o/min i 2 133 mm/min; ostale skupine slijede isto pravilo. Zaključana ploča: nakon pomicanja ishodišta dodani dijelovi kreću od novog ishodišta, koje postaje i nula izvoza.",
   "news.1104": "„Projekt” gore sada služi samo trenutnom projektu; popis projekata seli se u „Profil” → „Moji projekti”, uz „Moji materijali” za izmjenu ili brisanje. Mapa sigurnosne kopije profila vidi se prije spremanja. Vlastiti materijal: za glodanje odaberi samo tvrdoću. Novo: graviranje naziva dijelova i naziv sloja na dijelovima u PDF-u.",
   "news.1103": "Gumb „Profil” gore, uz „Projekti”. Zaključane ploče: „Zaključaj dodane”. Trošak: upisana cijena prati veličinu ploče, ručno promijenjena veličina ostaje, i novi gumb „Dodaj kupljenu ploču”.",
   "news.1102": "Moj profil: odaberi mapu za kopije, Nestor je pamti i sam sprema svakih 5 minuta, čuvajući zadnje 3 verzije.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul annulé.",
   "calc.many": "{n} pièces à placer : ça peut prendre du temps.",
   "news.121": "Les quantités ne sont plus plafonnées à 500, les pièces trop grandes sont signalées tout de suite, et un bouton Annuler apparaît pendant un long calcul.",
+  "news.1105": "Fraisage calé sur le calculateur d’id-conception.fr : en tendre, fraise de 8 à 2 dents, 10 000 tr/min et 2 133 mm/min ; les autres familles suivent la même règle. Panneau figé : après un changement de repère, les pièces ajoutées partent du nouveau repère, qui devient aussi le zéro des exports.",
   "news.1104": "« Projet » en haut ne sert plus qu’au projet en cours ; la liste des projets passe dans « Profil » → « Mes projets », avec « Mes matières » pour les modifier ou les supprimer. Le dossier de sauvegarde du profil s’affiche avant d’enregistrer. Matière à toi : choisis seulement sa dureté pour le fraisage. Nouveau : graver le nom des pièces, et le nom du calque sur les pièces dans le PDF.",
   "news.1103": "Bouton « Profil » en haut, à côté de « Projets ». Panneaux figés : « Figer les ajouts ». Coût : le prix saisi suit la taille du panneau, une taille changée à la main est gardée, et nouveau bouton « Ajouter un panneau acheté ».",
   "news.1102": "Mon profil : choisis le dossier de sauvegarde, Nestor s’en souvient et sauvegarde tout seul toutes les 5 minutes, en gardant les 3 dernières versions.",

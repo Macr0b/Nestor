@@ -188,6 +188,7 @@
   "calc.cancelled": "Výpočet zrušen.",
   "calc.many": "{n} dílů k rozmístění: může to chvíli trvat.",
   "news.121": "Množství už nejsou omezena na 500, příliš velké díly se ohlásí hned a při dlouhém výpočtu se objeví tlačítko Zrušit.",
+  "news.1105": "Frézování sladěné s kalkulačkou id-conception.fr: měkký materiál, fréza 8 mm se 2 břity, 10 000 ot./min a 2 133 mm/min; ostatní skupiny se řídí stejným pravidlem. Zamčená deska: po přesunutí počátku vycházejí přidané díly z nového počátku, který je i nulou exportů.",
   "news.1104": "„Projekt“ nahoře teď slouží jen aktuálnímu projektu; seznam projektů se stěhuje do „Profil“ → „Moje projekty“, spolu s „Moje materiály“ pro úpravy a mazání. Složka zálohy profilu je vidět před uložením. Vlastní materiál: pro frézování zvol jen jeho tvrdost. Novinka: gravírování názvů dílů a název vrstvy na dílech v PDF.",
   "news.1103": "Tlačítko „Profil“ nahoře vedle „Projekty“. Zamčené desky: „Zamknout přidané“. Náklady: zadaná cena se drží rozměru desky, ručně změněný rozměr zůstane, a nové tlačítko „Přidat koupenou desku“.",
   "news.1102": "Můj profil: vyber složku záloh, Nestor si ji zapamatuje a sám zálohuje každých 5 minut, s posledními 3 verzemi.",

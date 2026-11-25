@@ -188,6 +188,7 @@
   "calc.cancelled": "Càlcul cancel·lat.",
   "calc.many": "{n} peces per col·locar: pot trigar una estona.",
   "news.121": "Les quantitats ja no es limiten a 500, les peces massa grans s’indiquen de seguida i apareix un botó Cancel·la durant un càlcul llarg.",
+  "news.1105": "Fresat ajustat a la calculadora d’id-conception.fr: material tou, fresa de 8 mm de 2 talls, 10 000 rpm i 2 133 mm/min; les altres famílies segueixen la mateixa regla. Tauler fixat: després de moure l’origen, les peces afegides parteixen del nou origen, que també esdevé el zero de les exportacions.",
   "news.1104": "«Projecte» a dalt ara només serveix per al projecte actual; la llista de projectes passa a «Perfil» → «Els meus projectes», amb «Els meus materials» per modificar-los o suprimir-los. La carpeta de còpia del perfil es mostra abans de desar. Material propi: tria només la seva duresa per al fresat. Novetat: gravar el nom de les peces, i el nom de la capa a les peces del PDF.",
   "news.1103": "Botó «Perfil» a dalt, al costat de «Projectes». Taulers fixats: «Fixa les afegides». Cost: el preu escrit segueix la mida del tauler, una mida canviada a mà es manté, i nou botó «Afegeix un tauler comprat».",
   "news.1102": "El meu perfil: tria la carpeta de còpies, Nestor la recorda i desa sol cada 5 minuts, conservant les 3 últimes versions.",

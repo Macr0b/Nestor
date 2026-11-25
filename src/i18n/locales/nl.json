@@ -188,6 +188,7 @@
   "calc.cancelled": "Berekening geannuleerd.",
   "calc.many": "{n} onderdelen te plaatsen: dit kan even duren.",
   "news.121": "Aantallen zijn niet meer beperkt tot 500, te grote onderdelen worden meteen gemeld en tijdens een lange berekening verschijnt een knop Annuleren.",
+  "news.1105": "Frezen afgestemd op de rekenhulp van id-conception.fr: zacht materiaal, frees van 8 mm met 2 snijkanten, 10 000 tpm en 2 133 mm/min; de andere families volgen dezelfde regel. Vaste plaat: na het verplaatsen van de oorsprong vertrekken toegevoegde onderdelen vanaf de nieuwe oorsprong, die ook het nulpunt van de exports wordt.",
   "news.1104": "‘Project’ bovenaan is nu alleen nog voor het huidige project; de projectlijst verhuist naar ‘Profiel’ → ‘Mijn projecten’, met ‘Mijn materialen’ om te wijzigen of te verwijderen. De back-upmap van het profiel staat zichtbaar vóór het opslaan. Eigen materiaal: kies alleen de hardheid voor het frezen. Nieuw: onderdeelnamen graveren, en de laagnaam op onderdelen in de pdf.",
   "news.1103": "Knop ‘Profiel’ bovenaan, naast ‘Projecten’. Vaste platen: ‘Toevoegingen vastzetten’. Kosten: een ingevulde prijs volgt de plaatmaat, een met de hand gewijzigde maat blijft, en nieuwe knop ‘Gekochte plaat toevoegen’.",
   "news.1102": "Mijn profiel: kies de back-upmap, Nestor onthoudt hem en maakt elke 5 minuten zelf een back-up, met de laatste 3 versies.",

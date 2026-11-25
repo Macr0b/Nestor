@@ -188,6 +188,7 @@
   "calc.cancelled": "Calculation cancelled.",
   "calc.many": "{n} parts to place: this may take a while.",
   "news.121": "Quantities are no longer capped at 500, oversized parts are reported right away, and a Cancel button appears during a long calculation.",
+  "news.1105": "Milling matched to the id-conception.fr calculator: soft material, 8 mm 2-flute cutter, 10,000 rpm and 2,133 mm/min; the other families follow the same rule. Locked sheet: after moving the origin, added parts start from the new origin, which also becomes the zero of the exports.",
   "news.1104": "“Project” at the top is now only for the current project; the project list moves to “Profile” → “My projects”, with “My materials” to edit or delete them. The profile backup folder is shown before saving. Your own material: just choose its hardness for milling. New: engrave part names, and the layer name on parts in the PDF.",
   "news.1103": "“Profile” button at the top, next to “Projects”. Locked sheets: “Lock the additions”. Cost: an entered price follows the sheet size, a size changed by hand is kept, and new “Add a bought sheet” button.",
   "news.1102": "My profile: choose the backup folder, Nestor remembers it and backs up by itself every 5 minutes, keeping the last 3 versions.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er annulleret.",
   "calc.many": "{n} emner at placere: det kan tage et stykke tid.",
   "news.121": "Antal er ikke længere begrænset til 500, for store emner meldes med det samme, og en Annullér-knap vises under lange beregninger.",
+  "news.1105": "Fræsning tilpasset id-conception.fr’s beregner: blødt materiale, 8 mm fræser med 2 skær, 10 000 o/min og 2 133 mm/min; de andre familier følger samme regel. Låst plade: når nulpunktet flyttes, starter tilføjede emner fra det nye nulpunkt, som også bliver eksporternes nulpunkt.",
   "news.1104": "“Projekt” øverst er nu kun til det aktuelle projekt; projektlisten flytter til “Profil” → “Mine projekter”, med “Mine materialer” til at ændre eller slette dem. Profilens backupmappe vises, før du gemmer. Eget materiale: vælg kun dets hårdhed til fræsning. Nyt: gravér emnernes navne, og lagnavnet på emnerne i PDF’en.",
   "news.1103": "Knappen “Profil” øverst, ved siden af “Projekter”. Låste plader: “Lås de tilføjede”. Omkostninger: en indtastet pris følger pladens størrelse, en størrelse ændret i hånden bevares, og ny knap “Tilføj en købt plade”.",
   "news.1102": "Min profil: vælg backupmappen, Nestor husker den og tager selv backup hvert 5. minut og gemmer de 3 seneste versioner.",

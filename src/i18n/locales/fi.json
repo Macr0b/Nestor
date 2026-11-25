@@ -188,6 +188,7 @@
   "calc.cancelled": "Laskenta peruttu.",
   "calc.many": "{n} osaa sijoitettavana: tämä voi kestää hetken.",
   "news.121": "Määriä ei enää rajoiteta 500:aan, liian suuret osat ilmoitetaan heti, ja pitkän laskennan aikana näkyy Peruuta-painike.",
+  "news.1105": "Jyrsintä sovitettu id-conception.fr:n laskuriin: pehmeä materiaali, 8 mm:n 2-teräinen jyrsin, 10 000 r/min ja 2 133 mm/min; muut ryhmät noudattavat samaa sääntöä. Lukittu levy: origon siirron jälkeen lisätyt osat lähtevät uudesta origosta, josta tulee myös vientien nollapiste.",
   "news.1104": "”Projekti” ylhäällä on nyt vain nykyistä projektia varten; projektilista siirtyy kohtaan ”Profiili” → ”Omat projektit”, ja ”Omat materiaalit” muokkaamista tai poistamista varten. Profiilin varmuuskopiokansio näkyy ennen tallennusta. Oma materiaali: valitse jyrsintään vain sen kovuus. Uutta: osien nimien kaiverrus ja tason nimi osissa PDF:ssä.",
   "news.1103": "”Profiili”-painike ylhäällä, ”Projektit”-painikkeen vieressä. Lukitut levyt: ”Lukitse lisätyt”. Kustannus: syötetty hinta seuraa levyn kokoa, käsin muutettu koko säilyy, ja uusi painike ”Lisää ostettu levy”.",
   "news.1102": "Oma profiili: valitse varmuuskopiokansio, Nestor muistaa sen ja varmuuskopioi itse 5 minuutin välein, 3 viimeisintä versiota säilyttäen.",

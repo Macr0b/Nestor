@@ -188,6 +188,7 @@
   "calc.cancelled": "Calcul anulat.",
   "calc.many": "{n} piese de așezat: poate dura ceva timp.",
   "news.121": "Cantitățile nu mai sunt limitate la 500, piesele prea mari sunt semnalate imediat, iar în timpul unui calcul lung apare butonul Anulează.",
+  "news.1105": "Frezare aliniată la calculatorul id-conception.fr: material moale, freză de 8 mm cu 2 tăișuri, 10 000 rpm și 2 133 mm/min; celelalte familii urmează aceeași regulă. Placă fixată: după mutarea originii, piesele adăugate pornesc din noua origine, care devine și zero-ul exporturilor.",
   "news.1104": "„Proiect” de sus servește acum doar proiectului curent; lista proiectelor trece în „Profil” → „Proiectele mele”, cu „Materialele mele” pentru a le modifica sau șterge. Dosarul de copie al profilului apare înainte de salvare. Material propriu: alege doar duritatea pentru frezare. Nou: gravarea numelui pieselor și numele stratului pe piese în PDF.",
   "news.1103": "Butonul „Profil” sus, lângă „Proiecte”. Plăci fixate: „Fixează adăugatele”. Cost: prețul scris urmează mărimea plăcii, o mărime schimbată de mână rămâne, și buton nou „Adaugă o placă cumpărată”.",
   "news.1102": "Profilul meu: alege dosarul de copii, Nestor îl ține minte și salvează singur la fiecare 5 minute, păstrând ultimele 3 versiuni.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Llogaritja u anulua.",
   "calc.many": "{n} pjesë për t’u vendosur: mund të zgjasë pak.",
   "news.121": "Sasitë nuk kufizohen më në 500, pjesët shumë të mëdha sinjalizohen menjëherë dhe gjatë një llogaritjeje të gjatë shfaqet butoni Anulo.",
+  "news.1105": "Frezimi përputhet me kalkulatorin e id-conception.fr: material i butë, frezë 8 mm me 2 tehe, 10 000 rrot/min dhe 2 133 mm/min; familjet e tjera ndjekin të njëjtin rregull. Pllakë e fiksuar: pasi zhvendoset origjina, pjesët e shtuara nisen nga origjina e re, e cila bëhet edhe zeroja e eksporteve.",
   "news.1104": "“Projekt” lart tani shërben vetëm për projektin aktual; lista e projekteve kalon te “Profili” → “Projektet e mia”, me “Materialet e mia” për t’i ndryshuar ose fshirë. Dosja e kopjes së profilit shfaqet para ruajtjes. Material yti: zgjidh vetëm fortësinë për frezimin. E re: grave emrin e pjesëve, dhe emrin e shtresës mbi pjesët në PDF.",
   "news.1103": "Butoni “Profili” lart, pranë “Projektet”. Pllaka të fiksuara: “Fikso të shtuarat”. Kosto: çmimi i shkruar ndjek madhësinë e pllakës, madhësia e ndryshuar me dorë ruhet, dhe buton i ri “Shto një pllakë të blerë”.",
   "news.1102": "Profili im: zgjidh dosjen e kopjeve, Nestor e mban mend dhe ruan vetë çdo 5 minuta, duke mbajtur 3 versionet e fundit.",

@@ -188,6 +188,7 @@
   "calc.cancelled": "Berechnung abgebrochen.",
   "calc.many": "{n} Teile zu platzieren: das kann dauern.",
   "news.121": "Mengen sind nicht mehr auf 500 begrenzt, zu große Teile werden sofort gemeldet, und bei langen Berechnungen erscheint eine Abbrechen-Schaltfläche.",
+  "news.1105": "Fräsen an den Rechner von id-conception.fr angepasst: weiches Material, 8-mm-Fräser mit 2 Schneiden, 10 000 U/min und 2 133 mm/min; die anderen Familien folgen derselben Regel. Fixierte Platte: Nach dem Verschieben des Ursprungs gehen ergänzte Teile vom neuen Ursprung aus, der auch der Nullpunkt der Exporte wird.",
   "news.1104": "„Projekt“ oben dient nur noch dem aktuellen Projekt; die Projektliste wandert nach „Profil“ → „Meine Projekte“, mit „Meine Materialien“ zum Ändern oder Löschen. Der Sicherungsordner des Profils wird vor dem Speichern angezeigt. Eigenes Material: wähle nur seine Härte zum Fräsen. Neu: Teilenamen gravieren und den Ebenennamen auf den Teilen im PDF.",
   "news.1103": "Schaltfläche „Profil“ oben, neben „Projekte“. Fixierte Platten: „Ergänzungen fixieren“. Kosten: ein eingetragener Preis folgt der Plattengröße, eine von Hand geänderte Größe bleibt, und neue Schaltfläche „Gekaufte Platte hinzufügen“.",
   "news.1102": "Mein Profil: Sicherungsordner wählen, Nestor merkt ihn sich und sichert alle 5 Minuten selbst, die letzten 3 Versionen bleiben erhalten.",

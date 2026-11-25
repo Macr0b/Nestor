@@ -188,6 +188,7 @@
   "calc.cancelled": "Beregningen er avbrutt.",
   "calc.many": "{n} deler å plassere: dette kan ta litt tid.",
   "news.121": "Antall er ikke lenger begrenset til 500, for store deler meldes med en gang, og en Avbryt-knapp vises under lange beregninger.",
+  "news.1105": "Fresing tilpasset kalkulatoren til id-conception.fr: mykt materiale, 8 mm fres med 2 skjær, 10 000 o/min og 2 133 mm/min; de andre familiene følger samme regel. Låst plate: etter at origo er flyttet, starter tilføyde deler fra det nye origo, som også blir nullpunktet for eksportene.",
   "news.1104": "«Prosjekt» øverst er nå bare for det gjeldende prosjektet; prosjektlisten flytter til «Profil» → «Mine prosjekter», med «Mine materialer» for å endre eller slette dem. Profilens sikkerhetskopimappe vises før du lagrer. Eget materiale: velg bare hardheten for fresing. Nytt: gravér navnet på delene, og lagnavnet på delene i PDF-en.",
   "news.1103": "Knappen «Profil» øverst, ved siden av «Prosjekter». Låste plater: «Lås de tilføyde». Kostnad: en innskrevet pris følger platestørrelsen, en størrelse endret for hånd beholdes, og ny knapp «Legg til en kjøpt plate».",
   "news.1102": "Min profil: velg sikkerhetskopimappen, Nestor husker den og tar kopi selv hvert 5. minutt, med de 3 siste versjonene.",

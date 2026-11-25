@@ -188,6 +188,7 @@
   "calc.cancelled": "Számítás megszakítva.",
   "calc.many": "{n} alkatrész elhelyezése: ez eltarthat egy ideig.",
   "news.121": "A darabszám már nincs 500-ra korlátozva, a túl nagy alkatrészeket azonnal jelzi, és hosszú számításnál megjelenik a Mégse gomb.",
+  "news.1105": "Marás az id-conception.fr kalkulátorához igazítva: puha anyag, 8 mm-es 2 élű maró, 10 000 ford./perc és 2 133 mm/perc; a többi csoport ugyanazt a szabályt követi. Rögzített lap: a kezdőpont áthelyezése után a hozzáadott alkatrészek az új kezdőponttól indulnak, ami az exportok nullpontja is lesz.",
   "news.1104": "A fenti „Projekt” most már csak az aktuális projektre szolgál; a projektlista átkerül ide: „Profil” → „Projektjeim”, a „Anyagaim” résszel együtt a módosításhoz vagy törléshez. A profil mentési mappája mentés előtt látszik. Saját anyag: marásnál elég a keménységét választani. Új: alkatrésznevek gravírozása, és a réteg neve az alkatrészeken a PDF-ben.",
   "news.1103": "„Profil” gomb fent, a „Projektek” mellett. Rögzített lapok: „Hozzáadottak rögzítése”. Költség: a megadott ár követi a lap méretét, a kézzel módosított méret megmarad, és új „Vásárolt lap hozzáadása” gomb.",
   "news.1102": "Saját profil: válaszd ki a mentési mappát, a Nestor megjegyzi, és 5 percenként magától ment, megőrizve az utolsó 3 változatot.",

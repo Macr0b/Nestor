@@ -188,6 +188,7 @@
   "calc.cancelled": "Izračun preklican.",
   "calc.many": "{n} delov za razporeditev: to lahko traja.",
   "news.121": "Količine niso več omejene na 500, preveliki deli so takoj označeni, med dolgim izračunom pa se pojavi gumb Prekliči.",
+  "news.1105": "Rezkanje usklajeno s kalkulatorjem id-conception.fr: mehak material, 8 mm rezkar z 2 reziloma, 10 000 vrt./min in 2 133 mm/min; druge skupine sledijo istemu pravilu. Zaklenjena plošča: po premiku izhodišča dodani kosi začnejo pri novem izhodišču, ki postane tudi ničla izvozov.",
   "news.1104": "»Projekt« zgoraj je zdaj samo za trenutni projekt; seznam projektov se seli v »Profil« → »Moji projekti«, z »Moji materiali« za spreminjanje ali brisanje. Mapa varnostne kopije profila je vidna pred shranjevanjem. Lasten material: za rezkanje izberi samo njegovo trdoto. Novo: graviranje imen kosov in ime plasti na kosih v PDF.",
   "news.1103": "Gumb »Profil« zgoraj, ob »Projekti«. Zaklenjene plošče: »Zakleni dodane«. Stroški: vpisana cena sledi velikosti plošče, ročno spremenjena velikost ostane, in nov gumb »Dodaj kupljeno ploščo«.",
   "news.1102": "Moj profil: izberi mapo za kopije, Nestor si jo zapomni in sam shranjuje vsakih 5 minut, z zadnjimi 3 različicami.",

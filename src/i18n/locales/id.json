@@ -188,6 +188,7 @@
   "calc.cancelled": "Perhitungan dibatalkan.",
   "calc.many": "{n} komponen untuk ditata: ini bisa memakan waktu.",
   "news.121": "Jumlah tidak lagi dibatasi 500, komponen yang terlalu besar langsung ditandai, dan tombol Batal muncul saat perhitungan lama.",
+  "news.1105": "Frais disesuaikan dengan kalkulator id-conception.fr: bahan lunak, mata frais 8 mm 2 sisi potong, 10 000 rpm dan 2 133 mm/menit; kelompok lain mengikuti aturan yang sama. Lembaran terkunci: setelah titik asal dipindah, potongan tambahan dimulai dari titik asal baru, yang juga menjadi nol ekspor.",
   "news.1104": "“Proyek” di atas kini hanya untuk proyek yang sedang dibuka; daftar proyek pindah ke “Profil” → “Proyekku”, bersama “Bahanku” untuk mengubah atau menghapus. Folder cadangan profil terlihat sebelum menyimpan. Bahanmu sendiri: pilih saja kekerasannya untuk frais. Baru: ukir nama potongan, dan nama lapisan pada potongan di PDF.",
   "news.1103": "Tombol “Profil” di atas, di samping “Proyek”. Lembaran terkunci: “Kunci tambahan”. Biaya: harga yang diisi mengikuti ukuran lembaran, ukuran yang diubah manual tetap, dan tombol baru “Tambah lembaran yang dibeli”.",
   "news.1102": "Profil saya: pilih folder cadangan, Nestor mengingatnya dan mencadangkan sendiri setiap 5 menit, menyimpan 3 versi terakhir.",

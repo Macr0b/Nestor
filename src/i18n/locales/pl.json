@@ -188,6 +188,7 @@
   "calc.cancelled": "Obliczenia anulowane.",
   "calc.many": "{n} elementów do rozmieszczenia: to może potrwać.",
   "news.121": "Ilości nie są już ograniczone do 500, zbyt duże elementy są zgłaszane od razu, a podczas długich obliczeń pojawia się przycisk Anuluj.",
+  "news.1105": "Frezowanie dopasowane do kalkulatora id-conception.fr: miękki materiał, frez 8 mm z 2 ostrzami, 10 000 obr./min i 2 133 mm/min; pozostałe grupy stosują tę samą zasadę. Zablokowana płyta: po przesunięciu punktu odniesienia dodane elementy zaczynają się od nowego punktu, który staje się też zerem eksportów.",
   "news.1104": "„Projekt” u góry służy teraz tylko bieżącemu projektowi; lista projektów przenosi się do „Profil” → „Moje projekty”, razem z „Moje materiały” do zmiany lub usuwania. Folder kopii profilu widać przed zapisem. Własny materiał: wybierz tylko jego twardość do frezowania. Nowość: grawerowanie nazw elementów i nazwa warstwy na elementach w PDF.",
   "news.1103": "Przycisk „Profil” u góry, obok „Projekty”. Zablokowane płyty: „Zablokuj dodane”. Koszt: wpisana cena podąża za rozmiarem płyty, rozmiar zmieniony ręcznie zostaje, i nowy przycisk „Dodaj kupioną płytę”.",
   "news.1102": "Mój profil: wybierz folder kopii, Nestor go zapamięta i sam zapisuje co 5 minut, zachowując 3 ostatnie wersje.",
