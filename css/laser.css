@@ -40,9 +40,6 @@
   color: var(--muted);
   margin: 0;
 }
-.lz-links a {
-  color: var(--accent);
-}
 .lz-mat-actions,
 .lz-own {
   display: flex;

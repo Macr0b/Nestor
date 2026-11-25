@@ -1532,13 +1532,13 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.fill("#lzThickness", "3");
     // 120 W : valeurs publiées (chêne 3 mm : 100 % et 0,6 %)
     assert.deepEqual((await lzValues(page)).slice(0, 2), ["100", "0,6"]);
-    assert.match(await page.textContent("#lzSource"), /publiées par Trotec pour 120 W/);
+    assert.match(await page.textContent("#lzSource"), /Valeurs du livret de fabricant pour 120 W/);
     // 60 W : autre livret
     await page.selectOption("#lzMachine", { label: "Speedy 360 — 60 W" });
     assert.deepEqual((await lzValues(page)).slice(0, 2), ["100", "0,2"]);
     // 100 W sans livret : estimation signalée
     await addMachine(page, "Atelier", 100, true);
-    assert.match(await page.textContent("#lzSource"), /Estimation à partir du livret Trotec/);
+    assert.match(await page.textContent("#lzSource"), /Estimation à partir du livret \d+ W/);
     // machine non Trotec : vitesse en mm/s
     await addMachine(page, "Chinoise", 80, false);
     assert.match(await page.textContent("#lzValues"), /mm\/s/);
@@ -1620,7 +1620,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.selectOption("#lzMaterial", "birchPly");
     await page.fill("#lzThickness", "3.2");
     const source = () => page.textContent("#lzSource");
-    assert.match(await source(), /publiées par Thunder Laser pour un tube de 60 W/);
+    assert.match(await source(), /Valeurs du tableau en ligne droite pour un tube de 60 W/);
     assert.match(await source(), /ligne droite/);
     assert.match(await source(), /Valeurs indicatives/);
     assert.deepEqual((await lzValues(page)).slice(0, 3), ["100", "1,4", "–"]);
@@ -1648,7 +1648,7 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     assert.ok(await page.isVisible("#lzResetValues"));
     // ailleurs que 3,2 mm : la référence publiée passe avant l'estimation depuis tes valeurs
     await page.fill("#lzThickness", "6.4");
-    assert.match(await source(), /Thunder Laser/);
+    assert.match(await source(), /tableau en ligne droite/);
     await page.fill("#lzThickness", "3.2");
     await page.click("#lzResetValues");
     assert.deepEqual((await lzValues(page)).slice(0, 2), ["100", "1,4"]);
@@ -1697,7 +1697,10 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.selectOption("#lzMaterial", "gwkMdf");
     await page.fill("#lzThickness", "5");
     assert.deepEqual((await lzValues(page)).slice(0, 2), ["90", "0,23"]);
-    assert.match(await source(), /GWK Laser pour un tube de 60 W : 90 % de puissance/);
+    assert.match(
+      await source(),
+      /Valeurs du tableau à 90 % de puissance pour un tube de 60 W, vitesse pour un bord propre/
+    );
     assert.ok(await page.isHidden("#lzMatEdit"));
     assert.deepEqual(page.errors, []);
     await page.context().close();
@@ -1883,7 +1886,8 @@ describe("Interface : laser, PDF, projets, raccourcis", { skip }, () => {
     await page.click("#btnProjects");
     await page.click("#projSave");
     await page.waitForFunction(() => document.querySelector("#projMsg").textContent === "Projet enregistré.");
-    assert.match(await page.textContent("#projList"), /Étagère.*en cours/);
+    // la liste (dans Profil) se relit après l’enregistrement : on attend qu’elle soit à jour
+    await waitText(page, "#projList", /Étagère.*en cours/);
     await page.click("#btnCloseProj");
     // le projet change : ouvrir demande un second clic
     await page.fill("#projName", "Autre chose");
